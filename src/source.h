@@ -34,7 +34,7 @@
 #include <vtkVertexGlyphFilter.h>
 
 
-using namespace std;
+//sing namespace std;
 
 class source {
 protected:

@@ -60,14 +60,14 @@ void viewerWidget::setViewerWidget(vtkSmartPointer<vtkImageData> image, QString 
 	renderer->AddViewProp(cornerAnnotation);*/
 
 	vtkSmartPointer<vtkImageSliceMapper> imageSliceMapper = vtkSmartPointer<vtkImageSliceMapper>::New();
-	imageSliceMapper->SetInputData(image);
+	//imageSliceMapper->SetInputData(image);
 	imageSliceMapper->BorderOn(); // This line tells the mapper to draw the full border pixels.
-	vtkSmartPointer<vtkImageSlice> imageSlice = vtkSmartPointer<vtkImageSlice>::New();
-	imageSlice->SetMapper(imageSliceMapper);
-	imageSlice->GetProperty()->SetInterpolationTypeToNearest();
+	// vtkSmartPointer<vtkImageSlice> imageSlice = vtkSmartPointer<vtkImageSlice>::New();
+	// imageSlice->SetMapper(imageSliceMapper);
+	// imageSlice->GetProperty()->SetInterpolationTypeToNearest();
 
 	vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
-	renderer->AddViewProp(imageSlice);
+	//renderer->AddViewProp(imageSlice);
 	renderer->ResetCamera();
 
 // 	vtkSmartPointer<vtkRenderWindow> renderWindow = vtkSmartPointer<vtkRenderWindow>::New();

@@ -31,9 +31,9 @@ void source::load(QString path)
 	// cout << fileType.toStdString();
 	// width and height
 	width = file[1].toInt();
-	cout << width;
+	//cout << width;
 	height = file[2].toInt();
-	cout << height;
+	//cout << height;
 	if (file[3].contains(".pgm", Qt::CaseSensitive)) {
 		fileName = file[3];
 		maxCol = file[4].toInt();
@@ -250,7 +250,10 @@ void source::setPoints() {
 		{
 			unsigned char* pixel = static_cast<unsigned char*>(image->GetScalarPointer(i, j, 0));
 			pixel[0] = (unsigned char)data[j * width + i];
+			std::cout << data[j * width + i] << " ";
 		}
+		
+		std::cout << endl;
 	}
 
 	image->Modified();

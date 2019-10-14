@@ -61,6 +61,26 @@ bool bioData::QScrollAreaEventFilter(QObject * obj, QEvent * event)
 
 void bioData::visualize()
 {
+
+
+	vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
+	// qW->SetRenderWindow(renderWindow);
+	w->getQVTKwidget()->SetRenderWindow(renderWindow);
+
+	vtkSmartPointer<vtkImageSliceMapper> imageSliceMapper = vtkSmartPointer<vtkImageSliceMapper>::New();
+	imageSliceMapper->SetInputData(fTmp->getData());
+	imageSliceMapper->BorderOn(); // This line tells the mapper to draw the full border pixels.
+	vtkSmartPointer<vtkImageSlice> imageSlice = vtkSmartPointer<vtkImageSlice>::New();
+	imageSlice->SetMapper(imageSliceMapper);
+	imageSlice->GetProperty()->SetInterpolationTypeToNearest();
+
+	vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
+	renderer->AddViewProp(imageSlice);
+	renderer->ResetCamera();
+
+	// qW->GetRenderWindow()->AddRenderer(renderer);
+	w->getQVTKwidget()->GetRenderWindow()->AddRenderer(renderer);
+
 	// metoda, ktora obsluzi vsetko co sa tyka kreslenia na plochu
 	/*vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
 	w->getQVTKwidget()->SetRenderWindow(renderWindow);
@@ -117,6 +137,17 @@ void bioData::actionOpenFile()
 	//w->setViewerWidget(fTmp->getPolyData(colorComboBox->currentIndex()), fName);
 	w->setScrollArea();
 
+	//w = new viewerWidget();
+	//vytvorenie scroll area a pridanie Widgetu
+	QScrollArea* scrollArea = new QScrollArea;
+	scrollArea->setObjectName("QScrollArea");
+	scrollArea->setWidget(w);
+	scrollArea->setBackgroundRole(QPalette::Light);
+	scrollArea->setWidgetResizable(false);
+	scrollArea->installEventFilter(this);
+	scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
 	//vytvorenie vnutornych layoutov 
 	QHBoxLayout* hLayout = new QHBoxLayout;
 	QVBoxLayout* vLayout = new QVBoxLayout;
@@ -143,54 +174,9 @@ void bioData::actionOpenFile()
 
 	//fTmp->scale(scaleSpinBox_z->value());
 	std::cout << "data v biodata.cpp" << fTmp->getData()->GetNumberOfPoints() << std::endl;
-	w->setViewerWidget(fTmp->getData(), fTmp->getFileName(fName));
+	// w->setViewerWidget(fTmp->getData(), fTmp->getFileName(fName));
 	visualize();
 }
-
-/*void bioData::actionOpenFile()
-{
-	_vViewerWidget->setScrollArea();
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Portable Graymap (*.pgm)"));
-	_vData->load(fileName);
-	//_vViewerWidget->setViewerWidget();
-	//_vData->setPoints();
-	//_vViewerWidget->setViewerWidget();
-
-	//QGridLayout* gridLayout = new QGridLayout;
-
-	//gridLayout->addWidget(_vViewerWidget->getScrollArea());
-
-	// cout << fileName.toStdString() << endl;
-	// QFile inputFile(fileName);
-	// inputFile.open(QIODevice::ReadOnly);
-	// if (!inputFile.isOpen())
-	// {
-	//	return;
-	// }
-	// p2
-	// QString wholeFile = inputFile.readAll();
-	// cout << wholeFile.toStdString();
-	// width & height
-	/*QString line = inputFile.readLine();
-	// cout << line.toStdString();
-	QStringList prop = line.split(' ');
-	// cout << prop.length();
-	int width = prop[1].toInt();
-	int heigth = prop[2].toInt();
-	QString col = inputFile.readLine();
-	int colMax = col.toInt();
-
-	QStringList split;
-	for (int i = 0; i < width; i++) {
-		line = inputFile.readLine();
-		split = line.split(' ', QString::SkipEmptyParts);
-		for (int j = 0; j < width; j++) {
-			//cout << split[j].toInt() << " ";
-		}
-		//cout << endl;
-	}*/
-
-// }
 
 void bioData::actionClose()
 {
@@ -201,108 +187,3 @@ void bioData::actionClose()
 		_tabs->removeTab(_index);
 	}
 }
-
-/*void bioData::scaleClicked()
-{
-	QMessageBox mbox;
-	mbox.setText("Scale factor: " + QString::number(scaleSpinBox_z->value()));
-	mbox.exec();
-
-	fTmp->scale(scaleSpinBox_z->value());
-	visualize();
-}*/
-
-/*void bioData::colorClicked()
-{
-	QMessageBox mbox;
-	mbox.setText("Index zvolenej palety: " + QString::number(colorComboBox->currentIndex())); //pripomienka! -> indexy prvkov ComboBoxu su pravdaze cislovane od 0
-	mbox.exec();
-}
-
-void bioData::createScaleGroupBox()
-{
-	scaleGroupBox = new QGroupBox(tr("Scale"));
-
-	//vytvorenie spin boxov a zadanie ich zakladnych vlastnosti
-	QLabel *Label_x = new QLabel(tr("x"));
-	Label_x->setAlignment(Qt::AlignHCenter);
-	scaleSpinBox_x = new QDoubleSpinBox;
-	scaleSpinBox_x->setRange(-100.0, 100.0);
-	scaleSpinBox_x->setSingleStep(1.0);
-	scaleSpinBox_x->setValue(1.0);
-
-	QLabel *Label_y = new QLabel(tr("y"));
-	Label_y->setAlignment(Qt::AlignHCenter);
-	scaleSpinBox_y = new QDoubleSpinBox;
-	scaleSpinBox_y->setRange(-100.0, 100.0);
-	scaleSpinBox_y->setSingleStep(1.0);
-	scaleSpinBox_y->setValue(1.0);
-
-	QLabel *Label_z = new QLabel(tr("z"));
-	Label_z->setAlignment(Qt::AlignHCenter);
-	scaleSpinBox_z = new QDoubleSpinBox;
-	scaleSpinBox_z->setRange(-100.0, 100.0);
-	scaleSpinBox_z->setSingleStep(1.0);
-	scaleSpinBox_z->setValue(10.0);
-
-	//vytvorim button na spustenie skalovania
-	scalePushButton = new QPushButton;
-	scalePushButton->setText("OK");
-
-	//vytvorim layout a pridam do neho spin boxy
-	QHBoxLayout *scaleLayout = new QHBoxLayout;
-	scaleLayout->addWidget(Label_x);
-	scaleLayout->addWidget(scaleSpinBox_x);
-	scaleLayout->addWidget(Label_y);
-	scaleLayout->addWidget(scaleSpinBox_y);
-	scaleLayout->addWidget(Label_z);
-	scaleLayout->addWidget(scaleSpinBox_z);
-	scaleLayout->addWidget(scalePushButton);
-
-	//pridam layout do group boxu
-	scaleGroupBox->setLayout(scaleLayout);
-
-}*/
-
-/*void bioData::createColorGroupBox()
-{
-	colorGroupBox = new QGroupBox(tr("Color"));
-
-	QLabel *Min = new QLabel(tr("Min"));
-	Min->setAlignment(Qt::AlignHCenter);
-	colorSpinBox_min = new QDoubleSpinBox;
-	colorSpinBox_min->setRange(-100.0, 100.0);
-	colorSpinBox_min->setSingleStep(1.0);
-	colorSpinBox_min->setValue(1.0);
-
-	QLabel *Max = new QLabel(tr("Max"));
-	Max->setAlignment(Qt::AlignHCenter);
-	colorSpinBox_max = new QDoubleSpinBox;
-	colorSpinBox_max->setRange(-100.0, 100.0);
-	colorSpinBox_max->setSingleStep(1.0);
-	colorSpinBox_max->setValue(1.0);
-
-	QLabel *Palette = new QLabel(tr("Color palette"));
-	Palette->setAlignment(Qt::AlignHCenter);
-	colorComboBox = new QComboBox;
-	colorComboBox->addItem("default");
-	colorComboBox->addItem("1");
-	colorComboBox->addItem("2");
-	colorComboBox->addItem("3");
-	colorComboBox->addItem("4");
-	colorComboBox->setCurrentIndex(0);
-
-	colorPushButton = new QPushButton;
-	colorPushButton->setText("OK");
-
-	QGridLayout *colorLayout = new QGridLayout;
-	colorLayout->addWidget(Palette);
-	colorLayout->addWidget(colorComboBox);
-	colorLayout->addWidget(Min);
-	colorLayout->addWidget(colorSpinBox_min);
-	colorLayout->addWidget(Max);
-	colorLayout->addWidget(colorSpinBox_max);
-	colorLayout->addWidget(colorPushButton);
-
-	colorGroupBox->setLayout(colorLayout);
-}*/
