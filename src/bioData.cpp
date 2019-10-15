@@ -124,7 +124,7 @@ void bioData::actionOpenFile()
 	if (filePath.isEmpty()) {
 		return;
 	}
-	//grdSource *fTmp = static_cast<grdSource*>(_file);
+
 	fTmp = new source;
 	fTmp->load(filePath);
 	fTmp->setPoints();
