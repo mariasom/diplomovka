@@ -38,11 +38,14 @@
 
 class source {
 protected:
-	QVector<int> data;
+	QVector<unsigned char> data;
 	QString fileName = " ";
 	int width = 0;
 	int height = 0;
 	int maxCol;
+	bool binary = false;
+	qint64 sLength = 0;
+	qint64 sSize = 0;
 	QStringList file;
 	vtkSmartPointer<vtkPoints> points;
 	vtkSmartPointer<vtkPolyData> polydata;
@@ -56,8 +59,8 @@ public:
 	source();
 	~source();
 	void load(QString path);
-	//void readAscii(QStringList file);
-	//void readBinary(QStringList file);
+	void readAscii(QString path);
+	void readBinary(QString path);
 	QString getFileName(QString path);
 	//vtkSmartPointer<vtkImageMapToColors> setPoints();
 	void setPoints();

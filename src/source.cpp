@@ -16,6 +16,9 @@ source::~source()
 
 void source::load(QString path) 
 {
+
+	sLength = 0;
+	bool ok;
 	QFile inputFile(path);
 	inputFile.open(QIODevice::ReadOnly);
 	if (!inputFile.isOpen())
@@ -23,49 +26,100 @@ void source::load(QString path)
 		return;
 	}
 	// read whole file
-	QString wholeFile = inputFile.readAll();
-	inputFile.close();
-	file = wholeFile.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+	QTextStream stream(&inputFile);
+	QString line;
+	//inputFile.close();
+	//file = wholeFile.split(QRegExp("\\s+"), QString::SkipEmptyParts);
 
 	// load header
-	QString fileType = file[0];
-	// width and height
-	width = file[1].toInt();
-	height = file[2].toInt();
+	QString fileType = stream.readLine();
+	sLength = fileType.length();
+	sSize = fileType.size();
 
-	if (file[3].contains(".pgm", Qt::CaseSensitive)) {
-		fileName = file[3];
-		maxCol = file[4].toInt();
-		// remove header
-		for (int i = 0; i <= 4; i++) {
-			file.removeAt(0);
-		}
+	// width and height
+	line = stream.readLine();
+	sLength += line.length();
+	sSize += line.size();
+	QStringList sList = line.split(' ', QString::SkipEmptyParts);
+	width = sList[0].toInt();
+	height = sList[1].toInt();
+
+	line = stream.readLine();
+	sLength += line.length();
+	sSize += line.size();
+	std::cout << sLength << std::endl;
+	if (!line.contains(".pgm", Qt::CaseSensitive)) {
+		fileName = getFileName(path);
+		maxCol = line.toInt();	
 	}
 	else {
-		fileName = getFileName(path);
-		maxCol = file[3].toInt();
-		for (int i = 0; i <= 3; i++) {
-			file.removeAt(0);
-		}
-
-		data.resize(file.length());
-		for (int i = 0; i < file.length(); i++) {
-			data[i] = file[i].toInt();
-		}
+		fileName = line;
+		sLength += fileName.length();
+		line = stream.readLine();
+		maxCol = line.toInt();
+		sLength += fileName.length();
+		std::cout << sLength << std::endl;
 	}
+	inputFile.close();
 
-	// urcime typ pgm
-	/*if (fileType.contains("P2", Qt::CaseSensitive)) {
-//		cout << "ascii file loading..." << endl;
-//		readAscii(file);
+	data.resize(file.length());
+	// urcime typ pgm a podla toho priradim hodnoty
+	if (fileType.contains("P2", Qt::CaseSensitive)) {
+		std::cout << "ascii file loading..." << std::endl;
+		readAscii(path);
 	}
 	else if (fileType.contains("P5", Qt::CaseSensitive)) {
-//		readBinary(file);
-//		cout << "binary file loading..." << endl;
+		cout << "binary file loading..." << endl;
+		binary = true;
+		readBinary(path);
 	}
 	else
-		return;*/
+		return;
+
+}
+
+void source::readAscii(QString path) {
+
+	QFile file(path);
+	file.open(QIODevice::ReadOnly);
+	if (!file.isOpen())
+	{
+		return;
+	}
+	QTextStream input(&file);
+
+	input.seek(sLength);
+	QString wholeFile = input.readAll();
+	QStringList splt = wholeFile.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+
+	data.resize(splt.length());
+	std::cout << splt.length() << std::endl;
+	for (int i = 0; i < splt.length(); i++) {
+		data[i] = (unsigned char)splt[i].toInt();
+	}
 	
+	file.close();
+}
+
+void source::readBinary(QString path) {
+	QFile file(path);
+	file.open(QIODevice::ReadOnly);
+	if (!file.isOpen())
+	{
+		return;
+	}
+	QTextStream input(&file);
+
+	std::cout << sLength << std::endl;
+	QVector<unsigned char> u;
+	input.seek(sLength);
+	QByteArray bytes = file.read(width * height * sizeof(unsigned char));
+	u.resize(bytes.size());
+	std::memcpy(u.data(), bytes.constData(), bytes.size());
+	data = u;
+	data.reserve(width*height);
+
+	file.close();
 }
 
 QString source::getFileName(QString path) {
@@ -81,13 +135,13 @@ void source::setPoints() {
 	image->SetOrigin(.5, .5, 0);
 	image->AllocateScalars(VTK_UNSIGNED_CHAR, 1);
 
-	for (int j = 0; j < height; j++)
+	for (int j = 0; j < width; j++)
 	{
-		for (int i = 0; i < width; i++)
+		for (int i = 0; i < height; i++)
 		{
 			unsigned char* pixel = static_cast<unsigned char*>(image->GetScalarPointer(i, j, 0));
 			pixel[0] = (unsigned char)data[j * width + i];
-			std::cout << data[j * width + i] << " ";
+			// std::cout << data[j * width + i] << " ";
 		}
 		
 		std::cout << endl;
