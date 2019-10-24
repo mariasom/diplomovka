@@ -79,7 +79,7 @@ void source::load(QString path)
 }
 
 void source::readAscii(QString path) {
-
+	
 	QFile file(path);
 	file.open(QIODevice::ReadOnly);
 	if (!file.isOpen())
@@ -87,7 +87,6 @@ void source::readAscii(QString path) {
 		return;
 	}
 	QTextStream input(&file);
-
 	input.seek(sLength);
 	QString wholeFile = input.readAll();
 	QStringList splt = wholeFile.split(QRegExp("\\s+"), QString::SkipEmptyParts);
@@ -97,7 +96,7 @@ void source::readAscii(QString path) {
 	for (int i = 0; i < splt.length(); i++) {
 		data[i] = (unsigned char)splt[i].toInt();
 	}
-	
+	  
 	file.close();
 }
 

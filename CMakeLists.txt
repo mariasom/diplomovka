@@ -11,8 +11,10 @@ find_package(VTK COMPONENTS
   
   vtkCommonColor
   vtkCommonCore
+  vtkCommonDataModel
   vtkFiltersSources
   vtkInteractionStyle
+  vtkInteractionImage
   vtkRenderingContextOpenGL2
   vtkRenderingCore
   vtkRenderingFreeType

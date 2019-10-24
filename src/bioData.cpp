@@ -61,33 +61,13 @@ bool bioData::QScrollAreaEventFilter(QObject * obj, QEvent * event)
 
 void bioData::visualize()
 {
-
-
 	vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
 	// qW->SetRenderWindow(renderWindow);
 	w->getQVTKwidget()->SetRenderWindow(renderWindow);
 
-	vtkSmartPointer<vtkImageSliceMapper> imageSliceMapper = vtkSmartPointer<vtkImageSliceMapper>::New();
-	imageSliceMapper->SetInputData(fTmp->getData());
-	imageSliceMapper->BorderOn(); // This line tells the mapper to draw the full border pixels.
-	vtkSmartPointer<vtkImageSlice> imageSlice = vtkSmartPointer<vtkImageSlice>::New();
-	imageSlice->SetMapper(imageSliceMapper);
-	imageSlice->GetProperty()->SetInterpolationTypeToNearest();
-
-	vtkSmartPointer<vtkRenderer> renderer = vtkSmartPointer<vtkRenderer>::New();
-	renderer->AddViewProp(imageSlice);
-	renderer->ResetCamera();
-
-	// qW->GetRenderWindow()->AddRenderer(renderer);
-	w->getQVTKwidget()->GetRenderWindow()->AddRenderer(renderer);
-
-	// metoda, ktora obsluzi vsetko co sa tyka kreslenia na plochu
-	/*vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
-	w->getQVTKwidget()->SetRenderWindow(renderWindow);
-
-	vtkSmartPointer<vtkPolyDataMapper> mapper =
-		vtkSmartPointer<vtkPolyDataMapper>::New();
-	mapper->SetInputData(fTmp->getPolyData(colorComboBox->currentIndex()));
+	vtkSmartPointer<vtkDataSetMapper> mapper =
+		vtkSmartPointer<vtkDataSetMapper>::New();
+	mapper->SetInputData(fTmp->getData());
 
 	vtkSmartPointer<vtkActor> actor =
 		vtkSmartPointer<vtkActor>::New();
@@ -95,26 +75,17 @@ void bioData::visualize()
 
 	vtkSmartPointer<vtkRenderer> renderer =
 		vtkSmartPointer<vtkRenderer>::New();
-
+	
+	renderWindow->AddRenderer(renderer);
 	renderer->AddActor(actor);
 	renderer->SetBackground(1, 1, 1);
+	renderer->ResetCamera();
 
-	//filename annotation
-	QByteArray bname = fName.toLocal8Bit();
-	vtkSmartPointer<vtkCornerAnnotation> cornerAnnotation =
-		vtkSmartPointer<vtkCornerAnnotation>::New();
-	cornerAnnotation->SetLinearFontScaleFactor(2);
-	cornerAnnotation->SetNonlinearFontScaleFactor(1);
-	cornerAnnotation->SetMaximumFontSize(20);
-	//cornerAnnotation->SetText(0, "lower left");
-	//cornerAnnotation->SetText(1, "lower right");
-	cornerAnnotation->SetText(2,bname.data());
-	//cornerAnnotation->SetText(3, "upper right");
-	cornerAnnotation->GetTextProperty()->SetColor(0, 0, 0);
-	renderer->AddViewProp(cornerAnnotation);
-
-	// VTK/Qt wedded
-	w->getQVTKwidget()->GetRenderWindow()->AddRenderer(renderer);*/
+	vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
+		vtkSmartPointer<vtkRenderWindowInteractor>::New();
+	renderWindowInteractor->SetRenderWindow(renderWindow);
+	renderWindow->Render();
+	renderWindowInteractor->Start();
 }
 
 void bioData::actionOpenFile()

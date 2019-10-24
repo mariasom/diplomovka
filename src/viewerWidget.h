@@ -16,6 +16,8 @@
 #include <vtkImageSlice.h>
 #include <vtkImageProperty.h>
 #include <vtkImageMapper.h>
+#include <vtkImageViewer2.h>
+#include <vtkDataSetMapper.h>
 
 class viewerWidget : public QWidget {
 	Q_OBJECT
