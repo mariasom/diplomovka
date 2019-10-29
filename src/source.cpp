@@ -5,7 +5,7 @@ source::source() {
 	polydata = vtkSmartPointer<vtkPolyData>::New();
 	colors = vtkSmartPointer<vtkUnsignedCharArray>::New();
 	colorLookupTable = vtkSmartPointer<vtkLookupTable>::New();
-	image = vtkSmartPointer<vtkImageData>::New();
+	//image = vtkSmartPointer<vtkImageData>::New();
 }
 
 source::~source()
@@ -62,7 +62,7 @@ void source::load(QString path)
 	}
 	inputFile.close();
 
-	data.resize(file.length());
+	//data.resize(file.length());
 	// urcime typ pgm a podla toho priradim hodnoty
 	if (fileType.contains("P2", Qt::CaseSensitive)) {
 		std::cout << "ascii file loading..." << std::endl;
@@ -115,9 +115,9 @@ void source::readBinary(QString path) {
 	QByteArray bytes = file.read(width * height * sizeof(unsigned char));
 	u.resize(bytes.size());
 	std::memcpy(u.data(), bytes.constData(), bytes.size());
-	data = u;
 	data.reserve(width*height);
-
+	data = u;
+	
 	file.close();
 }
 
@@ -130,10 +130,47 @@ QString source::getFileName(QString path) {
 }
 
 void source::setPoints() {
-	image->SetDimensions(width, height, 1);
+
+	points->SetNumberOfPoints(width*height);
+	for (int j = 0; j < height; j++)
+		for (int i = 0; i < width; i++) {
+			points->SetPoint(j * width + i, i, j,0);
+		}
+
+	vtkSmartPointer<vtkPolyData> pointsPolydata =
+		vtkSmartPointer<vtkPolyData>::New();
+
+	pointsPolydata->SetPoints(points);
+
+	vtkSmartPointer<vtkVertexGlyphFilter> vertexFilter =
+		vtkSmartPointer<vtkVertexGlyphFilter>::New();
+	vertexFilter->SetInputData(pointsPolydata);
+	vertexFilter->Update();
+
+	polydata->ShallowCopy(vertexFilter->GetOutput());
+
+	vtkSmartPointer<vtkUnsignedCharArray> color =
+		vtkSmartPointer<vtkUnsignedCharArray>::New();
+	color->SetNumberOfValues(width*height);
+
+	for (int j = 0; j < width; j++)
+	{
+		for (int i = 0; i < height; i++)
+		{
+			 color->SetValue(j * width + i,(unsigned char)data[j * width + i]);
+			 std::cout << color->GetValue(j * width + i) << " ";
+		}
+		std::cout << std::endl;
+	}
+	
+	polydata->GetPointData()->SetScalars(color);
+	polydata->Modified();
+
+	/*image->SetDimensions(width, height, 1);
 	image->SetOrigin(.5, .5, 0);
 	image->AllocateScalars(VTK_UNSIGNED_CHAR, 1);
 
+	
 	for (int j = 0; j < width; j++)
 	{
 		for (int i = 0; i < height; i++)
@@ -146,5 +183,5 @@ void source::setPoints() {
 		std::cout << endl;
 	}
 
-	image->Modified();
+	image->Modified();*/
 }

@@ -22,8 +22,8 @@ public slots:
 	virtual void slotExit();
 	void actionOpenFile();
 	void actionClose();
-	//void scaleClicked();
-	//void colorClicked();
+	void actionpgm();
+	void actionAdvanced();
 
 private:
 	//void createScaleGroupBox();

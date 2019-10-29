@@ -6,11 +6,8 @@ bioData::bioData() {
 	this->ui->setupUi(this);
 
 	// plocha pre taby
-	_tabs = new QTabWidget();
+	//_tabs = new QTabWidget();
 	static_cast<QGridLayout*>(ui->centralwidget->layout())->addWidget(_tabs, 0, 0);
-
-	// Set up action signals and slots
-	// connect(this->ui->actionExit, SIGNAL(triggered()), this, SLOT(slotExit()));
 }
 
 /*bioData::bioData() {
@@ -27,11 +24,6 @@ bioData::bioData() {
 	VerticalScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
 }*/
-
-void bioData::slotExit()
-{
-	qApp->exit();
-}
 
 bool bioData::eventFilter(QObject * obj, QEvent * event)
 {
@@ -59,39 +51,55 @@ bool bioData::QScrollAreaEventFilter(QObject * obj, QEvent * event)
 	return false;
 }
 
+void bioData::slotExit()
+{
+	qApp->exit();
+}
+
+void bioData::actionClose()
+{
+	qApp->exit();
+}
+
 void bioData::visualize()
 {
 	vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
 	// qW->SetRenderWindow(renderWindow);
 	w->getQVTKwidget()->SetRenderWindow(renderWindow);
 
-	vtkSmartPointer<vtkDataSetMapper> mapper =
-		vtkSmartPointer<vtkDataSetMapper>::New();
+	std::cout << fTmp->getData()->GetCellData() << std::endl;
+	vtkSmartPointer<vtkPolyDataMapper> mapper =
+		vtkSmartPointer<vtkPolyDataMapper>::New();
 	mapper->SetInputData(fTmp->getData());
+	std::cout << "data v biodata.cpp" << fTmp->getData()->GetNumberOfPoints() << std::endl;
 
 	vtkSmartPointer<vtkActor> actor =
 		vtkSmartPointer<vtkActor>::New();
 	actor->SetMapper(mapper);
+	actor->GetProperty()->SetPointSize(10);
 
 	vtkSmartPointer<vtkRenderer> renderer =
 		vtkSmartPointer<vtkRenderer>::New();
 	
 	renderWindow->AddRenderer(renderer);
 	renderer->AddActor(actor);
-	renderer->SetBackground(1, 1, 1);
+	renderer->SetBackground(1, 0, 1);
 	renderer->ResetCamera();
 
-	vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
+	w->getQVTKwidget()->GetRenderWindow()->AddRenderer(renderer);
+
+	/*vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
 		vtkSmartPointer<vtkRenderWindowInteractor>::New();
 	renderWindowInteractor->SetRenderWindow(renderWindow);
 	renderWindow->Render();
-	renderWindowInteractor->Start();
+	renderWindowInteractor->Start();*/
 }
 
 void bioData::actionOpenFile()
 {
 	// nacitanie suboru
 	QString filePath = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Portable Graymap (*.pgm)"));
+	
 	if (filePath.isEmpty()) {
 		return;
 	}
@@ -144,17 +152,16 @@ void bioData::actionOpenFile()
 	//connect(this->colorPushButton, SIGNAL(clicked()), this, SLOT(colorClicked()));
 
 	//fTmp->scale(scaleSpinBox_z->value());
-	std::cout << "data v biodata.cpp" << fTmp->getData()->GetNumberOfPoints() << std::endl;
 	// w->setViewerWidget(fTmp->getData(), fTmp->getFileName(fName));
 	visualize();
 }
 
-void bioData::actionClose()
-{
-	// vymaze aktualny tab			DOROBIT: dealokaciu seckiho co bolo v tom tabe
-	if (_index >= 0)
-	{
-		_index = _tabs->currentIndex();
-		_tabs->removeTab(_index);
-	}
+// save pgm file
+void bioData::actionpgm() {
+	
+	
+}
+
+void bioData::actionAdvanced() {
+
 }

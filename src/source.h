@@ -11,7 +11,7 @@
 #include <vtkSmartPointer.h>
 #include <vtkPoints.h>
 #include <vtkPointData.h>
-// #include <vtkPoints2D.h>
+//#include <vtkPoints2D.h>
 #include <vtkPolyData.h>
 #include <vtkColorTransferFunction.h>
 #include <vtkImageMapToColors.h>
@@ -32,6 +32,8 @@
 #include <vtkImageViewer2.h>
 #include <vtkNamedColors.h>
 #include <vtkVertexGlyphFilter.h>
+#include <vtkDoubleArray.h>
+#include <vtkProperty.h>
 
 
 //sing namespace std;
@@ -52,7 +54,7 @@ protected:
 	vtkSmartPointer<vtkUnsignedCharArray> colors;
 	vtkSmartPointer<vtkImageMapToColors> scalarValuesToColors;
 	vtkSmartPointer<vtkLookupTable> colorLookupTable;
-	vtkSmartPointer<vtkImageData> image;
+	//vtkSmartPointer<vtkImageData> image;
 
 
 public:
@@ -64,6 +66,7 @@ public:
 	QString getFileName(QString path);
 	//vtkSmartPointer<vtkImageMapToColors> setPoints();
 	void setPoints();
-	vtkSmartPointer<vtkImageData> getData() { return image; };
+	//vtkSmartPointer<vtkImageData> getData() { return image; };
+	vtkSmartPointer<vtkPolyData> getData() { return polydata; };
 
 };
