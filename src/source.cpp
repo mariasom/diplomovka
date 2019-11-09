@@ -2,10 +2,10 @@
 
 source::source() {
 	points = vtkSmartPointer<vtkPoints>::New();
-	polydata = vtkSmartPointer<vtkPolyData>::New();
+	//polydata = vtkSmartPointer<vtkPolyData>::New();
 	colors = vtkSmartPointer<vtkUnsignedCharArray>::New();
 	colorLookupTable = vtkSmartPointer<vtkLookupTable>::New();
-	//image = vtkSmartPointer<vtkImageData>::New();
+	image = vtkSmartPointer<vtkImageData>::New();
 }
 
 source::~source()
@@ -131,7 +131,9 @@ QString source::getFileName(QString path) {
 
 void source::setPoints() {
 
-	points->SetNumberOfPoints(width*height);
+	// cez body
+
+	/*points->SetNumberOfPoints(width*height);
 	for (int j = 0; j < height; j++)
 		for (int i = 0; i < width; i++) {
 			points->SetPoint(j * width + i, i, j,0);
@@ -164,12 +166,11 @@ void source::setPoints() {
 	}
 	
 	polydata->GetPointData()->SetScalars(color);
-	polydata->Modified();
+	polydata->Modified();*/
 
-	/*image->SetDimensions(width, height, 1);
+	image->SetDimensions(width, height, 1);
 	image->SetOrigin(.5, .5, 0);
 	image->AllocateScalars(VTK_UNSIGNED_CHAR, 1);
-
 	
 	for (int j = 0; j < width; j++)
 	{
@@ -183,5 +184,5 @@ void source::setPoints() {
 		std::cout << endl;
 	}
 
-	image->Modified();*/
+	image->Modified();
 }

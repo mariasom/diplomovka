@@ -18,6 +18,10 @@
 #include <vtkImageMapper.h>
 #include <vtkImageViewer2.h>
 #include <vtkDataSetMapper.h>
+#include <vtkImageReslice.h>
+#include <vtkImageInterpolator.h>
+#include <vtkImageData.h>
+
 
 class viewerWidget : public QWidget {
 	Q_OBJECT

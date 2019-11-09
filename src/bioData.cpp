@@ -63,7 +63,7 @@ void bioData::actionClose()
 
 void bioData::visualize()
 {
-	vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
+	/*vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
 	// qW->SetRenderWindow(renderWindow);
 	w->getQVTKwidget()->SetRenderWindow(renderWindow);
 
@@ -86,7 +86,43 @@ void bioData::visualize()
 	renderer->SetBackground(1, 0, 1);
 	renderer->ResetCamera();
 
-	w->getQVTKwidget()->GetRenderWindow()->AddRenderer(renderer);
+	w->getQVTKwidget()->GetRenderWindow()->AddRenderer(renderer);*/
+
+	vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
+	// qW->SetRenderWindow(renderWindow);
+	w->getQVTKwidget()->SetRenderWindow(renderWindow);
+
+	vtkSmartPointer<vtkImageReslice> reslice = vtkSmartPointer<vtkImageReslice>::New();
+	reslice->SetInputData(fTmp->getData());
+	//reslice->SetOutputSpacing(0);
+	reslice->SetInterpolate(0);
+	reslice->Update();
+	//std::cout << reslice->GetInformation();
+	//
+
+	vtkSmartPointer<vtkDataSetMapper> mapper =
+		vtkSmartPointer<vtkDataSetMapper>::New();
+	//mapper->InterpolateScalarsBeforeMappingOn();
+	mapper->SetInputData(reslice->GetOutput());
+	
+
+	vtkSmartPointer<vtkActor> actor =
+		vtkSmartPointer<vtkActor>::New();
+	actor->SetMapper(mapper);
+
+	vtkSmartPointer<vtkRenderer> renderer =
+		vtkSmartPointer<vtkRenderer>::New();
+
+	renderWindow->AddRenderer(renderer);
+	renderer->AddActor(actor);
+	renderer->SetBackground(1, 1, 1);
+	renderer->ResetCamera();
+
+	vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
+		vtkSmartPointer<vtkRenderWindowInteractor>::New();
+	renderWindowInteractor->SetRenderWindow(renderWindow);
+	renderWindow->Render();
+	renderWindowInteractor->Start();
 
 	/*vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
 		vtkSmartPointer<vtkRenderWindowInteractor>::New();
@@ -152,8 +188,8 @@ void bioData::actionOpenFile()
 	//connect(this->colorPushButton, SIGNAL(clicked()), this, SLOT(colorClicked()));
 
 	//fTmp->scale(scaleSpinBox_z->value());
-	// w->setViewerWidget(fTmp->getData(), fTmp->getFileName(fName));
-	visualize();
+	w->setViewerWidget(fTmp->getData(), fTmp->getFileName(fName));
+	//visualize();
 }
 
 // save pgm file

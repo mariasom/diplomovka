@@ -34,7 +34,7 @@
 #include <vtkVertexGlyphFilter.h>
 #include <vtkDoubleArray.h>
 #include <vtkProperty.h>
-
+#include <vtkImageInterpolator.h>
 
 //sing namespace std;
 
@@ -50,11 +50,11 @@ protected:
 	qint64 sSize = 0;
 	QStringList file;
 	vtkSmartPointer<vtkPoints> points;
-	vtkSmartPointer<vtkPolyData> polydata;
+	//vtkSmartPointer<vtkPolyData> polydata;
 	vtkSmartPointer<vtkUnsignedCharArray> colors;
 	vtkSmartPointer<vtkImageMapToColors> scalarValuesToColors;
 	vtkSmartPointer<vtkLookupTable> colorLookupTable;
-	//vtkSmartPointer<vtkImageData> image;
+	vtkSmartPointer<vtkImageData> image;
 
 
 public:
@@ -66,7 +66,9 @@ public:
 	QString getFileName(QString path);
 	//vtkSmartPointer<vtkImageMapToColors> setPoints();
 	void setPoints();
-	//vtkSmartPointer<vtkImageData> getData() { return image; };
-	vtkSmartPointer<vtkPolyData> getData() { return polydata; };
+	vtkSmartPointer<vtkImageData> getData() { return image; };
+	int getWidth() { return width; };
+	int getHeight() { return height; };
+	//vtkSmartPointer<vtkPolyData> getData() { return polydata; };
 
 };
