@@ -109,7 +109,7 @@ void source::readBinary(QString path) {
 	}
 	QTextStream input(&file);
 
-	std::cout << sLength << std::endl;
+	//std::cout << sLength << std::endl;
 	QVector<unsigned char> u;
 	input.seek(sLength);
 	QByteArray bytes = file.read(width * height * sizeof(unsigned char));

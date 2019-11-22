@@ -66,6 +66,7 @@ public:
 	QString getFileName(QString path);
 	//vtkSmartPointer<vtkImageMapToColors> setPoints();
 	void setPoints();
+	QVector<unsigned char> getOrigData() { return data; };
 	vtkSmartPointer<vtkImageData> getData() { return image; };
 	int getWidth() { return width; };
 	int getHeight() { return height; };

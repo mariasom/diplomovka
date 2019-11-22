@@ -28,16 +28,25 @@ void viewerWidget::setViewerWidget(vtkSmartPointer<vtkImageData> image, QString 
 	vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
 	qW->SetRenderWindow(renderWindow);
 
-	vtkSmartPointer<vtkImageReslice> reslice = vtkSmartPointer<vtkImageReslice>::New();
-	reslice->SetInputData(image);
+	vtkSmartPointer<vtkInteractorStyleImage> imageStyle =
+		vtkSmartPointer<vtkInteractorStyleImage>::New();
+	//imageStyle->SetInteractionMode(1);
+	imageStyle->SetInteractionModeToImage2D();
+	//imageStyle->StartRotate();
+	//std::cout << imageStyle->GetInteractionMode() << std::endl;
+	qW->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
+
+	//vtkSmartPointer<vtkImageReslice> reslice = vtkSmartPointer<vtkImageReslice>::New();
+	//reslice->SetInputData(image);
 	//reslice->SetOutputSpacing(0);
-	reslice->SetInterpolate(0);
-	reslice->Update();
+	//reslice->SetInterpolate(0);
+	//reslice->Update();
 
 	vtkSmartPointer<vtkDataSetMapper> mapper =
 		vtkSmartPointer<vtkDataSetMapper>::New();
 	//mapper->InterpolateScalarsBeforeMappingOn();
-	mapper->SetInputData(reslice->GetOutput());
+	//mapper->SetInputData(reslice->GetOutput());
+	mapper->SetInputData(image);
 
 	vtkSmartPointer<vtkActor> actor =
 		vtkSmartPointer<vtkActor>::New();
