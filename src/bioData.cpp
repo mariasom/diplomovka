@@ -157,7 +157,7 @@ void bioData::visualize()
 	w->getQVTKwidget()->SetRenderWindow(renderWindow);
 
 	vtkSmartPointer<vtkImageReslice> reslice = vtkSmartPointer<vtkImageReslice>::New();
-	reslice->SetInputData(fTmp->getData());
+	reslice->SetInputData(fTmp->getImageData());
 	//reslice->SetOutputSpacing(0);
 	reslice->SetInterpolate(0);
 	reslice->Update();
@@ -206,7 +206,7 @@ void bioData::actionOpenFile()
 
 	fTmp = new source;
 	fTmp->load(filePath);
-	fTmp->setPoints();
+	fTmp->setPoints(fTmp->getOrigData());
 	// extrahovanie nazvu suboru s cesty
 	QStringList list = filePath.split('/');
 	fName = list[list.length() - 1];
@@ -270,7 +270,7 @@ void bioData::actionOpenFile()
 	//connect(this->colorPushButton, SIGNAL(clicked()), this, SLOT(colorClicked()));
 
 	//fTmp->scale(scaleSpinBox_z->value());
-	w->setViewerWidget(fTmp->getData(), fTmp->getFileName(fName));
+	w->setViewerWidget(fTmp->getImageData(), fTmp->getFileName(fName));
 	//visualize();
 }
 
@@ -440,7 +440,14 @@ void bioData::otsuClicked() {
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
 	filter.histogram();
 	filter.otsuFilter();
+	fTmp->addFiltData(filter.getFiltDat());
 
+	QString item = "otsu";
+	dataListView->addItem(item);
+//	dataListView->setCurrentRow(dataListView->count() - 1);
+	std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
+	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData()-1));
+	w->updateViewerWidget();
 }
 
 void bioData::kapuraClicked() {

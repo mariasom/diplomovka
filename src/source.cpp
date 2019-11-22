@@ -11,12 +11,11 @@ source::source() {
 source::~source()
 {
 	points->Delete();
-	data.clear();
+	dataFilt.clear();
 }
 
 void source::load(QString path) 
 {
-
 	sLength = 0;
 	bool ok;
 	QFile inputFile(path);
@@ -76,6 +75,8 @@ void source::load(QString path)
 	else
 		return;
 
+	addFiltData(data);
+	data.clear();
 }
 
 void source::readAscii(QString path) {
@@ -129,7 +130,7 @@ QString source::getFileName(QString path) {
 	return name;
 }
 
-void source::setPoints() {
+void source::setPoints(QVector<unsigned char> &setData) {
 
 	// cez body
 
@@ -177,12 +178,23 @@ void source::setPoints() {
 		for (int i = 0; i < height; i++)
 		{
 			unsigned char* pixel = static_cast<unsigned char*>(image->GetScalarPointer(i, j, 0));
-			pixel[0] = (unsigned char)data[j * width + i];
+			pixel[0] = (unsigned char)setData[j * width + i];
 			// std::cout << data[j * width + i] << " ";
 		}
 		
-		std::cout << endl;
+		//::cout << endl;
 	}
 
 	image->Modified();
+}
+
+void source::addFiltData(QVector<unsigned char> &addData)
+{
+	dataFilt.resize(dataFilt.size() + 1);
+	dataFilt[dataFilt.size() - 1] = addData;
+}
+
+void save_ascii() {
+
+
 }

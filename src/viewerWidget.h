@@ -35,10 +35,14 @@ public:
 	void setScrollArea();
 	void setViewerWidget(vtkSmartPointer<vtkImageData> image, QString fName);
 	QScrollArea *getScrollArea() { return _scrollArea; }
+	void updateViewerWidget();
 
 private:
 	QVTKOpenGLNativeWidget* qW;
 	QScrollArea* _scrollArea;
+	vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
+	vtkSmartPointer<vtkRenderer> renderer;
+	vtkSmartPointer<vtkActor> actor;
 
 	//public slots:
 

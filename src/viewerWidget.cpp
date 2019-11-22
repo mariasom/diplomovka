@@ -25,7 +25,7 @@ void viewerWidget::setScrollArea()
 
 void viewerWidget::setViewerWidget(vtkSmartPointer<vtkImageData> image, QString fName)
 {
-	vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
+	//vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
 	qW->SetRenderWindow(renderWindow);
 
 	vtkSmartPointer<vtkInteractorStyleImage> imageStyle =
@@ -48,12 +48,10 @@ void viewerWidget::setViewerWidget(vtkSmartPointer<vtkImageData> image, QString 
 	//mapper->SetInputData(reslice->GetOutput());
 	mapper->SetInputData(image);
 
-	vtkSmartPointer<vtkActor> actor =
-		vtkSmartPointer<vtkActor>::New();
+	actor = vtkSmartPointer<vtkActor>::New();
 	actor->SetMapper(mapper);
 
-	vtkSmartPointer<vtkRenderer> renderer =
-		vtkSmartPointer<vtkRenderer>::New();
+	renderer = vtkSmartPointer<vtkRenderer>::New();
 
 	renderWindow->AddRenderer(renderer);
 	renderer->AddActor(actor);
@@ -61,4 +59,13 @@ void viewerWidget::setViewerWidget(vtkSmartPointer<vtkImageData> image, QString 
 	renderer->ResetCamera();
 
 	qW->GetRenderWindow()->AddRenderer(renderer);
+}
+
+void viewerWidget::updateViewerWidget()
+{
+	renderer->GetViewProps()->RemoveAllItems();
+	renderer->AddActor(actor);
+	renderer->SetBackground(1, 1, 1);
+
+	renderWindow->Render();
 }

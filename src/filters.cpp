@@ -12,6 +12,7 @@ filters::filters(int widthOrig, int heightOrig, QVector<unsigned char> oData)
 }
 
 filters::~filters() {
+	origData.clear();
 }
 
 void filters::histogram() {
@@ -21,7 +22,7 @@ void filters::histogram() {
 		hist[i] = 0;
 
 	for (int i = 0; i < width*height; i++) {
-		hist[int(data[i])]++;
+		hist[int(origData[i])]++;
 	}
 
 	// for (int i = 0; i < 256; i++)
@@ -66,4 +67,24 @@ void filters::otsuFilter() {
 	}
 
 	std::cout << "treshold: " << threshold << std::endl;
+	
+	newData = origData;
+	for (int j = 0; j < width; j++) //vytvorenie dat
+		for (int i = 0; i < height; i++)
+			if ((int)origData[j * width + i] < threshold)
+				newData[j * width + i] = (unsigned char)0;
+			else
+				newData[j * width + i] = (unsigned char)207;
+
+	for (int j = 0; j < width-1; j++) //vytvorenie hranicnej krivky
+		for (int i = 0; i < height-1; i++)
+			if ((newData[j * width + i] == 0) && 
+				(newData[j * width + (i + 1)] == 207 || newData[j * width + (i - 1)] == 207 || newData[(j + 1) * width + i] == 207 || newData[(j - 1) * width + i] == 207))
+				newData[j * width + i] = (unsigned char)255;
+
+	for (int j = 0; j < width; j++) {
+		for (int i = 0; i < height; i++)
+			std::cout << (int)newData[j * width + i] << " ";
+		std::cout << std::endl;
+	}
 }

@@ -41,6 +41,7 @@
 class source {
 protected:
 	QVector<unsigned char> data;
+	QVector<QVector<unsigned char>> dataFilt;
 	QString fileName = " ";
 	int width = 0;
 	int height = 0;
@@ -65,11 +66,17 @@ public:
 	void readBinary(QString path);
 	QString getFileName(QString path);
 	//vtkSmartPointer<vtkImageMapToColors> setPoints();
-	void setPoints();
-	QVector<unsigned char> getOrigData() { return data; };
-	vtkSmartPointer<vtkImageData> getData() { return image; };
+	void setPoints(QVector<unsigned char> &setData);
+	QVector<unsigned char> getOrigData() { return  dataFilt.at(0); };
+	QVector<unsigned char> getFiltData(int i) { return dataFilt.at(i); };
+	vtkSmartPointer<vtkImageData> getImageData() { return image; };
 	int getWidth() { return width; };
 	int getHeight() { return height; };
 	//vtkSmartPointer<vtkPolyData> getData() { return polydata; };
+	void removeFiltData(int i) { dataFilt.remove(i); };
+	int getSizeFiltData() { return dataFilt.size(); };
+
+	void addFiltData(QVector<unsigned char> &addData);
+	void save_ascii();
 
 };
