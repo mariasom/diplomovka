@@ -181,7 +181,6 @@ void source::setPoints(QVector<unsigned char> &setData) {
 			pixel[0] = (unsigned char)setData[j * width + i];
 			// std::cout << data[j * width + i] << " ";
 		}
-		
 		//::cout << endl;
 	}
 
@@ -194,7 +193,29 @@ void source::addFiltData(QVector<unsigned char> &addData)
 	dataFilt[dataFilt.size() - 1] = addData;
 }
 
-void save_ascii() {
+void source::save_ascii(QString fileName, int index) {
 
+	QFile outputFile(fileName);
+	outputFile.open(QIODevice::WriteOnly);
+	if (!outputFile.isOpen())
+		return;
 
+	QTextStream stream(&outputFile);
+	stream << "P2" << endl;
+	stream << width << " " << height << endl;
+	stream << maxCol << endl;
+
+	//for (int j = 0; j < dataFilt.at(index).size(); j++) {
+	//	stream << dataFilt.at(index).at(j) << endl;
+	//}
+
+	for (int j = 0; j < width; j++) {
+		for (int i = 0; i < height; i++) {
+			stream << dataFilt.at(index).at(j * width + i) <<  " ";
+		}
+		stream << "\n";
+		cout << "tu  som" << endl;
+	}
+
+	outputFile.close();
 }

@@ -12,8 +12,8 @@ bioData::bioData(QWidget *parent)
 
 	//PushButton = new QPushButton;
 	//PushButton1 = new QPushButton;
-	dataUp = new QPushButton;
-	dataDown = new QPushButton;
+	//dataUp = new QPushButton;
+	//dataDown = new QPushButton;
 	otsuButton = new QPushButton;
 	kapuraButton = new QPushButton;
 	dataListView = new QListWidget;
@@ -44,8 +44,8 @@ bioData::bioData(QWidget *parent)
 	//connect(this->PushButton1, SIGNAL(clicked()), this, SLOT(pb1Clicked()));
 	connect(this->otsuButton, SIGNAL(clicked()), this, SLOT(otsuClicked()));
 	connect(this->kapuraButton, SIGNAL(clicked()), this, SLOT(kapuraClicked()));
-	connect(this->dataUp, SIGNAL(clicked()), this, SLOT(dataUpClicked()));
-	connect(this->dataDown, SIGNAL(clicked()), this, SLOT(dataDownClicked()));
+	//connect(this->dataUp, SIGNAL(clicked()), this, SLOT(dataUpClicked()));
+	//connect(this->dataDown, SIGNAL(clicked()), this, SLOT(dataDownClicked()));
 	connect(this->dataListView, SIGNAL(currentRowChanged(int)), this, SLOT(listIndexChanged(int)));
 
 
@@ -282,13 +282,10 @@ void bioData::setTabWidget() {
 
 // save pgm file
 void bioData::actionpgm() {
-	
-	
+	int i = dataListView->currentRow();
+	QString fileName1 = dataListView->item(i)->text() + ".pgm";
+	fTmp->save_ascii(fileName1, i);
 }
-
-//void bioData::actionAdvanced() {
-
-//}
 
 /*void bioData::pbClicked() {
 	QMessageBox mbox;
@@ -371,12 +368,6 @@ void bioData::actionAdvanced() {
 	}
 }
 
-void bioData::listIndexChanged(int i)
-{
-	if (i == -1)
-		return;
-}
-
 void bioData::createListGroupBox()
 {
 	listGroupBox = new QGroupBox(tr("Data"));
@@ -392,10 +383,10 @@ void bioData::createListGroupBox()
 	//dataDown->setIconSize(QSize(65, 65));
 	//dataUp->setIcon(QIcon("mckps:arrow_up.png"));
 	
-	dataUp->setText("up");
-	dataUp->setIconSize(QSize(10, 10));
-	dataDown->setText("down");
-	dataDown->setIconSize(QSize(10, 10));
+	//dataUp->setText("up");
+	//dataUp->setIconSize(QSize(10, 10));
+	//dataDown->setText("down");
+	//dataDown->setIconSize(QSize(10, 10));
 	/*viewCurrentPushButton->setText("OPEN IN NEW TAB");;
 	listDeletePushButton->setText("DELETE");;
 	listSavePushButton->setText("SAVE");
@@ -408,8 +399,8 @@ void bioData::createListGroupBox()
 	QVBoxLayout* vLayout = new QVBoxLayout;
 	listLayout->addWidget(dataListView, 0, 0, 2, 1);
 	std::cout << (qApp->applicationDirPath()).toStdString() << endl;
-	listLayout->addWidget(dataUp,0,1,1,1);
-	listLayout->addWidget(dataDown, 1, 1,1,2);
+	//listLayout->addWidget(dataUp,0,1,1,1);
+	//listLayout->addWidget(dataDown, 1, 1,1,2);
 	/*listLayout->addWidget(viewCurrentPushButton, 1, 1);
 	listLayout->addWidget(Label, 2, 0);
 	listLayout->addWidget(saveCheckbox, 2, 1);
@@ -425,15 +416,18 @@ void bioData::createFilterGB() {
 	filterGB = new QGroupBox(tr("Filters"));
 
 	QGridLayout *filterLayout = new QGridLayout;
+	QLabel *otsuLabel = new QLabel(tr("Between-class variance:"));
+	QLabel *kapurLabel = new QLabel(tr("Maximum entropy thresholding:"));
 
-	otsuButton->setText("Otsu filter");
-	filterLayout->addWidget(otsuButton, 0, 0);
-	kapuraButton->setText("Kapura filter");
-	filterLayout->addWidget(kapuraButton, 0, 1);
+	otsuButton->setText("Apply");
+	filterLayout->addWidget(otsuLabel,0,0);
+	filterLayout->addWidget(otsuButton, 0, 1);
+	kapuraButton->setText("Apply");
+	filterLayout->addWidget(kapurLabel, 1, 0);
+	filterLayout->addWidget(kapuraButton, 1, 1);
 
 	filterGB->setLayout(filterLayout);
 }
-
 
 void bioData::otsuClicked() {
 
@@ -452,4 +446,26 @@ void bioData::otsuClicked() {
 
 void bioData::kapuraClicked() {
 
+	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
+	filter.histogram();
+	filter.kapuraFilter();
+	fTmp->addFiltData(filter.getFiltDat());
+
+	QString item = "kapura";
+	dataListView->addItem(item);
+	//	dataListView->setCurrentRow(dataListView->count() - 1);
+	std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
+	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
+	w->updateViewerWidget();
 }
+
+void bioData::listIndexChanged(int i)
+{
+	if (i == -1)
+		return;
+	else {
+		fTmp->setPoints(fTmp->getFiltData(i));
+		w->updateViewerWidget();
+	}
+}
+

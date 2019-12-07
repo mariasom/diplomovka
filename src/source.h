@@ -7,6 +7,7 @@
 #include <QVector>
 #include <QList>
 #include <iostream>
+#include <fstream>
 
 #include <vtkSmartPointer.h>
 #include <vtkPoints.h>
@@ -77,6 +78,5 @@ public:
 	int getSizeFiltData() { return dataFilt.size(); };
 
 	void addFiltData(QVector<unsigned char> &addData);
-	void save_ascii();
-
+	void save_ascii(QString fileName, int index);
 };
