@@ -10,21 +10,26 @@ bioData::bioData(QWidget *parent)
 	advanced = true;
 	this->ui->actionAdvanced->setDisabled(true);
 
-	//PushButton = new QPushButton;
-	//PushButton1 = new QPushButton;
 	//dataUp = new QPushButton;
 	//dataDown = new QPushButton;
 	otsuButton = new QPushButton;
 	kapuraButton = new QPushButton;
+	boundaryButton = new QPushButton;
 	dataListView = new QListWidget;
+	useOData = new QCheckBox;
+	originalCol = new QCheckBox;
+	foregroundSB = new QSpinBox;
+	backgroundSB = new QSpinBox;
+
+	originalCol->setChecked(true);
+	originalCol->setDisabled(true);
+	useOData->setChecked(true);
+	useOData->setDisabled(true);
 
 	innerTabs = new QTabWidget();
 	QGridLayout* gridLayout1 = new QGridLayout;
 	QGridLayout* gridLayout2 = new QGridLayout;
 	//innerTabs->setWidgetResizable();
-
-	//gridLayout1->addWidget(PushButton, 1, 1);
-	//gridLayout2->addWidget(PushButton1, 1, 1);
 
 	QScrollArea* VerticalScrollArea = new QScrollArea;
 	VerticalScrollArea->setWidgetResizable(true);
@@ -40,10 +45,9 @@ bioData::bioData(QWidget *parent)
 	innertabWidget2->setLayout(gridLayout2);
 	innerTabs->addTab(innertabWidget2, "Advanced");
 
-	//connect(this->PushButton, SIGNAL(clicked()), this, SLOT(pbClicked()));
-	//connect(this->PushButton1, SIGNAL(clicked()), this, SLOT(pb1Clicked()));
 	connect(this->otsuButton, SIGNAL(clicked()), this, SLOT(otsuClicked()));
 	connect(this->kapuraButton, SIGNAL(clicked()), this, SLOT(kapuraClicked()));
+	connect(this->boundaryButton, SIGNAL(clicked()), this, SLOT(boundaryClicked()));
 	//connect(this->dataUp, SIGNAL(clicked()), this, SLOT(dataUpClicked()));
 	//connect(this->dataDown, SIGNAL(clicked()), this, SLOT(dataDownClicked()));
 	connect(this->dataListView, SIGNAL(currentRowChanged(int)), this, SLOT(listIndexChanged(int)));
@@ -53,21 +57,6 @@ bioData::bioData(QWidget *parent)
 	//_tabs = new QTabWidget();
 	//static_cast<QGridLayout*>(ui->centralwidget->layout())->addWidget(_tabs, 0, 0);
 }
-
-/*bioData::bioData() {
-	this->ui = new Ui::bioData;
-	this->ui->setupUi(this);
-
-	QFont f("Times New Roman", 10, QFont::Normal);
-
-	QScrollArea* VerticalScrollArea = new QScrollArea;
-	VerticalScrollArea->setWidgetResizable(true);
-	QWidget* contentWidget = new QWidget;
-	VerticalScrollArea->setWidget(contentWidget);
-	QGridLayout* gridScrollArea = new QGridLayout(contentWidget);
-	VerticalScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-
-}*/
 
 void bioData::keyUpEvent(QKeyEvent *event)
 {
@@ -125,7 +114,7 @@ void bioData::actionClose()
 	qApp->exit();
 }
 
-void bioData::visualize()
+/*void bioData::visualize()
 {
 	/*vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
 	// qW->SetRenderWindow(renderWindow);
@@ -152,7 +141,7 @@ void bioData::visualize()
 
 	w->getQVTKwidget()->GetRenderWindow()->AddRenderer(renderer);*/
 
-	vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
+	/*vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
 	// qW->SetRenderWindow(renderWindow);
 	w->getQVTKwidget()->SetRenderWindow(renderWindow);
 
@@ -193,7 +182,7 @@ void bioData::visualize()
 	renderWindowInteractor->SetRenderWindow(renderWindow);
 	renderWindow->Render();
 	renderWindowInteractor->Start();*/
-}
+//}
 
 void bioData::actionOpenFile()
 {
@@ -218,14 +207,14 @@ void bioData::actionOpenFile()
 
 	//w = new viewerWidget();
 	//vytvorenie scroll area a pridanie Widgetu
-	QScrollArea* scrollArea = new QScrollArea;
+	/*QScrollArea* scrollArea = new QScrollArea;
 	scrollArea->setObjectName("QScrollArea");
 	scrollArea->setWidget(w);
 	scrollArea->setBackgroundRole(QPalette::Light);
 	scrollArea->setWidgetResizable(true);
 	scrollArea->installEventFilter(this);
 	scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);*/
 
 
 	//vytvorenie vnutornych layoutov 
@@ -244,32 +233,27 @@ void bioData::actionOpenFile()
 
 	//auto tabWidget = new QWidget;
 	createFileGroupBox(fName, filePath, fTmp->getWidth(), fTmp->getHeight());
+	innerTabs->setMinimumWidth(200);
+	innerTabs->setMaximumWidth(400);
 	static_cast<QGridLayout*>(ui->centralwidget->layout())->addWidget(w->getScrollArea(),0,1);
-	
 	static_cast<QGridLayout*>(ui->centralwidget->layout())->addWidget(innerTabs,0,0);
 
 	setTabWidget();
 	createListGroupBox();
 	createFilterGB();
+	createColorsGB();
 
 	innerTabs->setCurrentIndex(0);
 	static_cast<QGridLayout*>(innerTabs->currentWidget()->layout())->addWidget(fileGroupBox, 0, 0, 1, 1);
 	static_cast<QGridLayout*>(innerTabs->currentWidget()->layout())->addWidget(listGroupBox, 1, 0, 1, 1);
 	static_cast<QGridLayout*>(innerTabs->currentWidget()->layout())->addWidget(filterGB, 2, 0, 1, 1);
 	this->ui->actionAdvanced->setDisabled(false);
+	//innerTabs->setCurrentIndex(1);
+	static_cast<QGridLayout*>(innerTabs->widget(1)->layout())->addWidget(colorsGB, 2, 0, 1, 1);
 
 	QString dataName = "Original Data";
 	dataListView->addItem(dataName);
 
-	// pridanie prazdneho tabu do ktoreho vlozime naplneny widget s horiz. layoutom
-	//_tabs->addTab(tabWidget, list[list.length() - 1].left(6));
-	// _index++;
-
-	//prepojenie funkcii a pushButtonmi
-	//connect(this->scalePushButton, SIGNAL(clicked()), this, SLOT(scaleClicked()));
-	//connect(this->colorPushButton, SIGNAL(clicked()), this, SLOT(colorClicked()));
-
-	//fTmp->scale(scaleSpinBox_z->value());
 	w->setViewerWidget(fTmp->getImageData(), fTmp->getFileName(fName));
 	//visualize();
 }
@@ -286,18 +270,6 @@ void bioData::actionpgm() {
 	QString fileName1 = dataListView->item(i)->text() + ".pgm";
 	fTmp->save_ascii(fileName1, i);
 }
-
-/*void bioData::pbClicked() {
-	QMessageBox mbox;
-	mbox.setText("pb kliknuty");
-	mbox.exec();
-}
-
-void bioData::pb1Clicked() {
-	QMessageBox mbox;
-	mbox.setText("pb1 kliknuty");
-	mbox.exec();
-}*/
 
 void bioData::createFileGroupBox(QString name, QString path, int width, int height) {
 
@@ -371,43 +343,13 @@ void bioData::actionAdvanced() {
 void bioData::createListGroupBox()
 {
 	listGroupBox = new QGroupBox(tr("Data"));
-
-	//QLabel *Label = new QLabel(tr("Save all steps of filtration"));
-	//QString setpath = ()QDir::current();
-	//std::cout << ((QString)setpath).toStdString() << std::endl;
-	//setpath.cdUp();
-	//std::cout << ((QString)(setpath.cdUp())).toStdString() << std::endl;
-
-	//QDir::setSearchPaths("mckps", QStringList(QDir::currentPath() + "/mockups"));
-	//dataDown->setIcon(QIcon("mckps:arrow_down.png"));
-	//dataDown->setIconSize(QSize(65, 65));
-	//dataUp->setIcon(QIcon("mckps:arrow_up.png"));
-	
-	//dataUp->setText("up");
-	//dataUp->setIconSize(QSize(10, 10));
-	//dataDown->setText("down");
-	//dataDown->setIconSize(QSize(10, 10));
-	/*viewCurrentPushButton->setText("OPEN IN NEW TAB");;
-	listDeletePushButton->setText("DELETE");;
-	listSavePushButton->setText("SAVE");
-	listSaveComboBox->addItem("Save selected");
-	listSaveComboBox->addItem("Save all");
-	listDeleteComboBox->addItem("Delete selected");
-	listDeleteComboBox->addItem("Delete all");*/
+	QLabel *Label = new QLabel(tr("Work with original data: "));
 
 	QGridLayout *listLayout = new QGridLayout;
 	QVBoxLayout* vLayout = new QVBoxLayout;
-	listLayout->addWidget(dataListView, 0, 0, 2, 1);
-	std::cout << (qApp->applicationDirPath()).toStdString() << endl;
-	//listLayout->addWidget(dataUp,0,1,1,1);
-	//listLayout->addWidget(dataDown, 1, 1,1,2);
-	/*listLayout->addWidget(viewCurrentPushButton, 1, 1);
-	listLayout->addWidget(Label, 2, 0);
-	listLayout->addWidget(saveCheckbox, 2, 1);
-	listLayout->addWidget(listSaveComboBox, 3, 0);
-	listLayout->addWidget(listSavePushButton, 3, 1);
-	listLayout->addWidget(listDeleteComboBox, 4, 0);
-	listLayout->addWidget(listDeletePushButton, 4, 1);*/
+	listLayout->addWidget(dataListView, 0, 0, 2, 2);
+	listLayout->addWidget(Label, 2, 0, 2, 1);
+	listLayout->addWidget(useOData, 2, 1, 2, 1);
 
 	listGroupBox->setLayout(listLayout);
 }
@@ -418,6 +360,7 @@ void bioData::createFilterGB() {
 	QGridLayout *filterLayout = new QGridLayout;
 	QLabel *otsuLabel = new QLabel(tr("Between-class variance:"));
 	QLabel *kapurLabel = new QLabel(tr("Maximum entropy thresholding:"));
+	QLabel *boundaryLabel = new QLabel(tr("Display boundaries of the object:"));
 
 	otsuButton->setText("Apply");
 	filterLayout->addWidget(otsuLabel,0,0);
@@ -425,7 +368,10 @@ void bioData::createFilterGB() {
 	kapuraButton->setText("Apply");
 	filterLayout->addWidget(kapurLabel, 1, 0);
 	filterLayout->addWidget(kapuraButton, 1, 1);
-
+	boundaryButton->setText("Apply");
+	filterLayout->addWidget(boundaryLabel, 2, 0);
+	filterLayout->addWidget(boundaryButton, 2, 1);
+	   	 
 	filterGB->setLayout(filterLayout);
 }
 
@@ -451,7 +397,7 @@ void bioData::kapuraClicked() {
 	filter.kapuraFilter();
 	fTmp->addFiltData(filter.getFiltDat());
 
-	QString item = "kapura";
+	QString item = "kapur";
 	dataListView->addItem(item);
 	//	dataListView->setCurrentRow(dataListView->count() - 1);
 	std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
@@ -469,3 +415,43 @@ void bioData::listIndexChanged(int i)
 	}
 }
 
+void bioData::createColorsGB() {
+	colorsGB = new QGroupBox(tr("Colors"));
+
+	QGridLayout *colorLayout = new QGridLayout;
+	QLabel *backgroundLab = new QLabel(tr("Background: "));
+	QLabel *foregroundLab = new QLabel(tr("Foreground: "));
+	QLabel *label = new QLabel(tr("Use default color settings: "));
+
+	foregroundSB->setRange(0, 255);
+	foregroundSB->setSingleStep(1);
+	foregroundSB->setValue(207);
+	foregroundSB->setDisabled(true);
+	backgroundSB->setRange(0, 255);
+	backgroundSB->setSingleStep(1);
+	backgroundSB->setValue(0);
+	backgroundSB->setDisabled(true);
+
+	colorLayout->addWidget(backgroundLab, 0, 0);
+	colorLayout->addWidget(backgroundSB, 0, 1);
+	colorLayout->addWidget(foregroundLab, 1, 0);
+	colorLayout->addWidget(foregroundSB, 1, 1);
+	colorLayout->addWidget(label, 2, 0);
+	colorLayout->addWidget(originalCol, 2, 1);
+
+	colorsGB->setLayout(colorLayout);
+}
+
+void bioData::boundaryClicked() {
+	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
+	filter.histogram();
+	filter.boundary();
+	fTmp->addFiltData(filter.getFiltDat());
+
+	QString item = "boundary";
+	dataListView->addItem(item);
+	//	dataListView->setCurrentRow(dataListView->count() - 1);
+	std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
+	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
+	w->updateViewerWidget();
+}

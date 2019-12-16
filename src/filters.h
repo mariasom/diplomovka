@@ -10,10 +10,13 @@ class filters
 private:
 	int width;
 	int height;
+	float threshold = 0;
 	QVector<int> hist;
 	QVector<unsigned char> origData;
 	QVector<unsigned char> newData;
 	QVector<QVector<int>> t;
+
+	QVector<unsigned char> reflection(QVector<unsigned char> edge, int p);
 
 
 public:
@@ -25,5 +28,9 @@ public:
 	void otsuFilter();
 	void kapuraFilter();
 	void coOcMatrix();
+	void boundary();
+	void createNewData();
+	void distFunct();
+	void DistFunctSign();
 	QVector<QVector<float>> makeTables(int K, QVector<float> histN);
 };

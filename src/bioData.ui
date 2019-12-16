@@ -22,7 +22,7 @@
      <x>0</x>
      <y>0</y>
      <width>599</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -38,6 +38,7 @@
     <addaction name="actionOpen"/>
     <addaction name="menuSave"/>
     <addaction name="separator"/>
+    <addaction name="actionClose_Files"/>
     <addaction name="actionClose"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
@@ -46,8 +47,16 @@
     </property>
     <addaction name="actionAdvanced"/>
    </widget>
+   <widget class="QMenu" name="menuAbout">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionDocumentation"/>
+    <addaction name="actionAbout"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuSettings"/>
+   <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionOpen">
@@ -71,6 +80,21 @@
   <action name="actionClose">
    <property name="text">
     <string>Close</string>
+   </property>
+  </action>
+  <action name="actionClose_Files">
+   <property name="text">
+    <string>Close Files</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionDocumentation">
+   <property name="text">
+    <string>Documentation</string>
    </property>
   </action>
  </widget>
@@ -140,11 +164,30 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionClose_Files</sender>
+   <signal>triggered()</signal>
+   <receiver>bioData</receiver>
+   <slot>actionCloseFiles()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>193</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>actionOpenFile()</slot>
   <slot>actionpgm()</slot>
   <slot>actionAdvanced()</slot>
   <slot>actionClose()</slot>
+  <slot>actionCloseFiles()</slot>
+  <slot>actionDoc()</slot>
+  <slot>actionAbout()</slot>
  </slots>
 </ui>

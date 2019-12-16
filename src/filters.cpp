@@ -25,9 +25,6 @@ void filters::histogram() {
 	for (int i = 0; i < width*height; i++) {
 		hist[int(origData[i])]++;
 	}
-
-	for (int i = 0; i < 256; i++)
-		std::cout << "farba: " << i << "hodnota: " << hist[i] << std::endl;
 }
 
 void filters::coOcMatrix() {
@@ -78,7 +75,6 @@ void filters::otsuFilter() {
 	int wF = 0;
 
 	float varMax = 0;
-	float threshold = 0;
 
 	for (int t = 0; t < 256; t++) {
 		wB += hist[t];               // Weight Background (probability distribution)
@@ -105,26 +101,8 @@ void filters::otsuFilter() {
 	}
 
 	std::cout << "treshold: " << threshold << std::endl;
-	
-	newData = origData;
-	for (int j = 0; j < width; j++) //vytvorenie dat
-		for (int i = 0; i < height; i++)
-			if ((int)origData[j * width + i] < threshold)
-				newData[j * width + i] = (unsigned char)0;
-			else
-				newData[j * width + i] = (unsigned char)207;
 
-	/*for (int j = 0; j < width-1; j++) //vytvorenie hranicnej krivky
-		for (int i = 0; i < height-1; i++)
-			if ((newData[j * width + i] == 0) && 
-				(newData[j * width + (i + 1)] == 207 || newData[j * width + (i - 1)] == 207 || newData[(j + 1) * width + i] == 207 || newData[(j - 1) * width + i] == 207))
-				newData[j * width + i] = (unsigned char)255;
-
-	for (int j = 0; j < width; j++) {
-		for (int i = 0; i < height; i++)
-			std::cout << (int)newData[j * width + i] << " ";
-		std::cout << std::endl;
-	}*/
+	createNewData();
 }
 
 /*void filters::kapuraFilter() {
@@ -228,58 +206,40 @@ void filters::kapuraFilter() {
 	histN.resize(hist.size());
 	for (int i = 0; i < hist.size(); i++) {
 		histN[i] = (float)hist[i] / (float)(height*width);
-		std::cout << "Normalize hist: " << histN[i] << std::endl;
 	}
 		
 	S = makeTables(K, histN);
 	
 	float p0 = 0;
 	float p1 = 0;
-	int qmax = -1;
+	//int qmax = -1;
 	int Hmax = -100000;
+	threshold = -1;
 
 	for (int q = 0; q < K - 2; q++) {
 		p0 = p0 + histN[q];
-		std::cout << "p0: " << p0 << std::endl;
 		p1 = 1 - p0;
-		std::cout << "p1: " << p1 << std::endl;
 		float h0 = 0, h1 = 0, h = 0;
 		if (p0 > 0) {
 			h0 = -(1. / p0)*S[0][q] + log(p0);
-			//std::cout << "h0: " << -(1. / p0)*S[0][q] + log(p0) << std::endl;
 		}
 		else
 			h0 = 0;
 
 		if (p1 > 0) {
 			h1 = -(1. / p1)*S[1][q] + log(p1);
-			//std::cout << "h1: " << -(1. / p1)*S[1][q] + log(p1) << std::endl;
 		}
 		else
 			h1 = 0;
-
-		std::cout << "h0: " << h0 + h1 << std::endl;
 		h = h0 + h1; 
 
-		std::cout << "h: " << h << std::endl;
 		if (h > Hmax) {
-			std::cout << "tu" << std::endl;
 			Hmax = h;
-			qmax = q;
+			threshold = q;
 		}
-		std::cout << "treshold: " << qmax << std::endl;
-
 	}
-
-	
-
-	newData = origData;
-	for (int j = 0; j < width; j++) //vytvorenie dat
-		for (int i = 0; i < height; i++)
-			if ((int)origData[j * width + i] < qmax)
-				newData[j * width + i] = (unsigned char)0;
-			else
-				newData[j * width + i] = (unsigned char)207;
+	std::cout << "treshold: " << threshold << std::endl;
+	createNewData();
 }
 
 QVector<QVector<float>> filters::makeTables(int K, QVector<float> histN) {
@@ -293,14 +253,126 @@ QVector<QVector<float>> filters::makeTables(int K, QVector<float> histN) {
 		if (histN[i] > 0)
 			s0 = s0 + histN[i] * log(histN[i]);
 		S0[i] = s0;
-		std::cout << "S0[i]: " << S0[i] << std::endl;
 	}
 	
-	for (int i = K; i > 0; i--) {
+	for (int i = K - 1; i >= 0; i--) {
 		S1[i] = s1;
 		if (histN[i] > 0)
 			s1 = s1 + histN[i] * log(histN[i]);
-		std::cout << "S1[i]: " << S1[i] << std::endl;
 	}
 	return {S0, S1};
 }
+
+void filters::createNewData() {
+
+	newData = origData;
+	for (int j = 0; j < width; j++) //vytvorenie dat
+		for (int i = 0; i < height; i++)
+			if ((int)origData[j * width + i] < threshold)
+				newData[j * width + i] = (unsigned char)0;
+			else
+				newData[j * width + i] = (unsigned char)207;
+}
+
+void filters::boundary() {
+	QVector<unsigned char> tmp;
+
+	otsuFilter();
+	createNewData();
+	tmp = newData;
+
+	for (int j = 0; j < width; j++) {
+		for (int i = 0; i < height; i++) {
+			tmp[j * width + i] = 0;
+			if(newData[j * width + i] !=0 && (newData[j * width + (i+1)] == 0 || newData[j * width + (i - 1)] == 0 ||
+				newData[(j+1) * width + i] == 0 || newData[(j - 1) * width + i] == 0)) 
+				tmp[j * width + i] = (unsigned char)207;
+		}
+	}	
+	newData = tmp;
+}
+
+/*void filters::distFunct() {
+	int p = 1;
+	QVector<unsigned char> tmp(width*height);
+	tmp.fill(0);
+	QVector<unsigned char> un(width + (2 * p)*(height + (2 * p))), up, ue;
+	un.fill(0);
+	un = up;
+	ue = reflection(newData, p);
+	int tol = 1;
+	double mass = 10 ^ 6;
+	int l = 0;
+	int maxIter = 1000;
+
+	while (mass > tol && l < maxIter) {
+		mass = 0;
+		for (int i = 2; i < width + 2 * p; i++) {
+			for (int j = 2; j < height + 2 * p; j++) {
+				if (ue[j * width + i] != col)
+				{
+
+				}[,
+			un[[i, j]] =
+			up[[i, j]] + \[Tau] - \[Tau] / h *
+			Sqrt[Max[M[up, i, j, -1, 0], M[up, i, j, 1, 0]] +
+			Max[M[up, i, j, 0, -1], M[up, i, j, 0, 1]]];
+			];
+			];
+		];
+		For[i = 1, i <= x + 2 * p, i++,
+			For[j = 1, j <= y + 2 * p, j++,
+			mass += (un[[i, j]] - up[[i, j]]) ^ 2;
+			];
+	}
+	mass = Sqrt[mass];
+	un = ArrayPad[un, -p];
+	un = ArrayPad[un, p, "Reflected"];
+	up = un;
+	AppendTo[vysl, ArrayPad[un, -p]];
+	l++;
+	];
+	Print["Distance function bola ziskana po ", l " iteraciach."];
+	Return[vysl];
+
+
+}
+
+DistFunct[u_, edge_, \[Tau]_, h_, col_] : =
+Module[{i, j, x, y, p, un, up, ue, mass, tol, l, maxIter, vysl},
+p = 1;
+{x, y} = Dimensions[u];
+vysl = { Table[0, x, y] };
+un = up = Table[0, x + 2 * p, y + 2 * p];
+ue = ArrayPad[edge, p];
+tol = 1;
+mass = 10 ^ 6;
+l = 0;
+maxIter = 1000;
+While[(mass > tol && l < maxIter),
+	mass = 0;
+For[i = 2, i < x + 2 * p, i++,
+	For[j = 2, j < y + 2 * p, j++,
+	If[ue[[i, j]] != col,
+	un[[i, j]] =
+	up[[i, j]] + \[Tau] - \[Tau] / h *
+	Sqrt[Max[M[up, i, j, -1, 0], M[up, i, j, 1, 0]] +
+	Max[M[up, i, j, 0, -1], M[up, i, j, 0, 1]]];
+	];
+	];
+];
+For[i = 1, i <= x + 2 * p, i++,
+For[j = 1, j <= y + 2 * p, j++,
+mass += (un[[i, j]] - up[[i, j]]) ^ 2;
+];
+];
+mass = Sqrt[mass];
+un = ArrayPad[un, -p];
+un = ArrayPad[un, p, "Reflected"];
+up = un;
+AppendTo[vysl, ArrayPad[un, -p]];
+l++;
+];
+Print["Distance function bola ziskana po ", l " iteraciach."];
+Return[vysl];
+]*/
