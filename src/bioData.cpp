@@ -388,6 +388,7 @@ void bioData::otsuClicked() {
 	std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
 	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData()-1));
 	w->updateViewerWidget();
+	//tst
 }
 
 void bioData::kapuraClicked() {
@@ -444,8 +445,10 @@ void bioData::createColorsGB() {
 
 void bioData::boundaryClicked() {
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
-	filter.histogram();
-	filter.boundary();
+	//histogram();
+	//filter.boundary();
+	//filter.subSurf(filter.distFunctSign(fTmp->getFiltData(0)));
+	filter.distFunctSign(fTmp->getFiltData(0));
 	fTmp->addFiltData(filter.getFiltDat());
 
 	QString item = "boundary";

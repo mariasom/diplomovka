@@ -39,8 +39,6 @@ void filters::coOcMatrix() {
 		//std::cout << std::endl;
 	}
 
-
-
 	for (int i = 0; i < 256; i++) { //cooccurance matrix
 		t[i].resize(256);
 		for (int j = 0; j < 256; j++) {
@@ -292,87 +290,373 @@ void filters::boundary() {
 	newData = tmp;
 }
 
-/*void filters::distFunct() {
+QVector<unsigned char> filters::reflection(QVector<unsigned char> data, int p) { //v tejto funkcii ratam s tym ze p = 1
+	int widthR, heightR;
+	widthR = width + 2 * p;
+	heightR = height + 2 * p;
+	QVector<unsigned char> reflected;
+	reflected.resize(widthR * heightR);
+
+	for (int j = 0; j < widthR; j++) {
+		for (int i = 0; i < heightR; i++) {
+			if (i == 0 || i == heightR - 1 ) {				//hore a dole
+				if(i == 0) 
+					reflected[j + widthR * i] = data.at(j + width * i);
+				else
+					reflected[j + widthR * i] = data.at(j + width * (height - 1));
+			}
+			else if (j == 0 || i == widthR - 1) {			//vpravo a vlavoo
+				if (j == 0)
+					reflected[j + widthR * i] = data.at(j + width * (i - 1));
+				else
+					reflected[j + widthR * i] = data.at((width - 1) + width * i);
+			}
+			else {
+				reflected[j + widthR * i] = data.at((j - 1) + width * (i - 1));
+			}
+		}
+	}
+	return reflected;
+}
+
+QVector<unsigned char> filters::antireflection(QVector<unsigned char> data, int p) { //v tejto funkcii ratam s tym ze p = 1
+	int widthR, heightR;
+	widthR = width + 2 * p;
+	heightR = height + 2 * p;
+	QVector<unsigned char> antiref;
+	antiref.resize(width*height);
+
+	for (int j = 0; j < width; j++) {
+		for (int i = 0; i < height; i++) {
+			antiref[j + width * (i)] = data.at((j + 1) + width * (i + 1));
+		}
+	}
+
+	return antiref;
+}
+
+double filters::M(QVector<unsigned char> u, int i, int j, int p, int q) {
+	double tmp = u.at((j + q) * width + (i + p)) - u.at(j * width + i);
+	if (tmp < 0)
+		return tmp * tmp;
+	else
+		return 0;
+}
+	
+double filters::findmax(double m1, double m2) {
+	if (m1 > m2)
+		return m1;
+	else
+		return m2;
+}
+
+QVector<unsigned char> filters::distFunct(QVector<unsigned char> data) {
 	int p = 1;
-	QVector<unsigned char> tmp(width*height);
-	tmp.fill(0);
-	QVector<unsigned char> un(width + (2 * p)*(height + (2 * p))), up, ue;
-	un.fill(0);
-	un = up;
+	int widthR = width + 2 * p;
+	int heightR = height + 2 * p;
+	QVector<unsigned char> vysl;
+	vysl.resize(width * height);
+	QVector<unsigned char> un, up, ue;
+	un.resize(widthR * heightR);
+	up.resize(widthR * heightR);
+	boundary();
 	ue = reflection(newData, p);
 	int tol = 1;
 	double mass = 10 ^ 6;
 	int l = 0;
 	int maxIter = 1000;
-
+	double tau = 0.4;
+	double h = 1.0;
+	int col = 255;
 	while (mass > tol && l < maxIter) {
 		mass = 0;
-		for (int i = 2; i < width + 2 * p; i++) {
-			for (int j = 2; j < height + 2 * p; j++) {
-				if (ue[j * width + i] != col)
-				{
-
-				}[,
-			un[[i, j]] =
-			up[[i, j]] + \[Tau] - \[Tau] / h *
-			Sqrt[Max[M[up, i, j, -1, 0], M[up, i, j, 1, 0]] +
-			Max[M[up, i, j, 0, -1], M[up, i, j, 0, 1]]];
-			];
-			];
-		];
-		For[i = 1, i <= x + 2 * p, i++,
-			For[j = 1, j <= y + 2 * p, j++,
-			mass += (un[[i, j]] - up[[i, j]]) ^ 2;
-			];
+		for (int i = 1; i < widthR - 1; i++) {
+			for (int j = 1; j < heightR - 1; j++) {
+				if (ue[j * widthR + i] != col) {
+					un[j * widthR + i] =
+						up[j * width + i] + tau - tau / h *
+						sqrt(findmax(M(up, i, j, -1, 0), M(up, i, j, 1, 0)) +
+							findmax(M(up, i, j, 0, -1), M(up, i, j, 0, 1)));
+				}
+			}
+		}
+		for (int i = 0; i < widthR; i++)
+			for (int j = 0; j < heightR; j++)
+				mass += (un[j * widthR + i] - up[j * widthR + i]) ^ 2;
+		mass = sqrt(mass);
+		//premyslieeeet
+		un = antireflection(un, p);
+		un = reflection(un, p);
+		up = un;
+		l++;
 	}
-	mass = Sqrt[mass];
-	un = ArrayPad[un, -p];
-	un = ArrayPad[un, p, "Reflected"];
-	up = un;
-	AppendTo[vysl, ArrayPad[un, -p]];
-	l++;
-	];
-	Print["Distance function bola ziskana po ", l " iteraciach."];
-	Return[vysl];
-
-
+	std::cout << "Distanced function bola ziskana po " << l << "iteraciach" << std::endl;
+	vysl = un;
+	return vysl;
 }
 
-DistFunct[u_, edge_, \[Tau]_, h_, col_] : =
-Module[{i, j, x, y, p, un, up, ue, mass, tol, l, maxIter, vysl},
-p = 1;
-{x, y} = Dimensions[u];
-vysl = { Table[0, x, y] };
-un = up = Table[0, x + 2 * p, y + 2 * p];
-ue = ArrayPad[edge, p];
-tol = 1;
-mass = 10 ^ 6;
-l = 0;
-maxIter = 1000;
-While[(mass > tol && l < maxIter),
-	mass = 0;
-For[i = 2, i < x + 2 * p, i++,
-	For[j = 2, j < y + 2 * p, j++,
-	If[ue[[i, j]] != col,
-	un[[i, j]] =
-	up[[i, j]] + \[Tau] - \[Tau] / h *
-	Sqrt[Max[M[up, i, j, -1, 0], M[up, i, j, 1, 0]] +
-	Max[M[up, i, j, 0, -1], M[up, i, j, 0, 1]]];
-	];
-	];
-];
-For[i = 1, i <= x + 2 * p, i++,
-For[j = 1, j <= y + 2 * p, j++,
-mass += (un[[i, j]] - up[[i, j]]) ^ 2;
-];
-];
-mass = Sqrt[mass];
-un = ArrayPad[un, -p];
-un = ArrayPad[un, p, "Reflected"];
-up = un;
-AppendTo[vysl, ArrayPad[un, -p]];
-l++;
-];
-Print["Distance function bola ziskana po ", l " iteraciach."];
-Return[vysl];
-]*/
+QVector<unsigned char> filters::distFunctSign(QVector<unsigned char> data) {
+	QVector<unsigned char> matrix;
+	QVector<unsigned char> dist; 
+	dist = distFunct(data);
+	matrix.resize(width*height);
+	int col = 255;
+
+	for (int i = 0; i < width; i++) {
+		for (int j = 0; j < height; j++) {
+			if (data.at(j * width + i) == col)
+				matrix[j * width + i] = dist[j * width + i];
+			else
+				matrix[j * width + i] = (unsigned char)(-1*(double)dist[j * width + i]);
+		}
+	}
+	return matrix;
+}
+
+QVector<unsigned char> filters::aw(QVector<unsigned char> data, bool eps) {
+	int p = 1;
+	int widthR = width + 2 * p;
+	int heightR = height + 2 * p;
+	QVector<unsigned char> pole;
+	pole.resize(widthR*heightR);
+	double ux, uy;
+	double h = 1.;
+	double k = 255 * 255;
+	double epsilon = 0.001;
+
+	for (int i = 1; i < widthR; i++) {
+		for (int j = 1; j < heightR; j++) {
+			ux = (data.at(j * widthR + (i - 1)) - data.at(j * widthR + i)) / h;
+			uy = (data.at((j - 1) * widthR + i) + data.at((j - 1) * widthR + (i - 1))
+				- data.at((j + 1) * widthR + i) - data.at((j + 1) * widthR + (i - 1))) / (4 * h);
+
+			double s = sqrt(ux*ux + uy * uy);
+			if (eps = true) {
+				pole[j * widthR + i] = (unsigned char)(1. / (1 + k * s * s));
+			}
+			else 
+				pole[j * widthR + i] = (unsigned char)(sqrt(ux *ux + uy * uy + epsilon * epsilon));
+		}
+	}
+	return pole;
+}
+
+QVector<unsigned char> filters::ae(QVector<unsigned char> data, bool eps) {
+	int p = 1;
+	int widthR = width + 2 * p;
+	int heightR = height + 2 * p;
+	QVector<unsigned char> pole;
+	pole.resize(widthR*heightR);
+	double ux, uy;
+	double h = 1.;
+	double k = 255 * 255;
+	double epsilon = 0.001;
+
+	for (int i = 1; i < widthR; i++) {
+		for (int j = 1; j < heightR; j++) {
+			ux = (data.at(j * widthR + (i + 1)) - data.at(j * widthR + i)) / h;
+			uy = (data.at((j + 1) * widthR + (i + 1)) + data.at((j + 1) * widthR + i)
+				- data.at((j - 1) * widthR + (i + 1)) - data.at((j - 1) * widthR + i)) / (4 * h);
+
+			double s = sqrt(ux*ux + uy * uy);
+			if (eps = true) {
+				pole[j * widthR + i] = (unsigned char)(1. / (1 + k * s * s));
+			}
+			else
+				pole[j * widthR + i] = (unsigned char)(sqrt(ux *ux + uy * uy + epsilon * epsilon));
+		}
+	}
+	return pole;
+}
+
+QVector<unsigned char> filters::as(QVector<unsigned char> data, bool eps) {
+	int p = 1;
+	int widthR = width + 2 * p;
+	int heightR = height + 2 * p;
+	QVector<unsigned char> pole;
+	pole.resize(widthR*heightR);
+	double ux, uy;
+	double h = 1.;
+	double k = 255 * 255;
+	double epsilon = 0.001;
+
+	for (int i = 1; i < widthR; i++) {
+		for (int j = 1; j < heightR; j++) {
+			uy = (data.at((j - 1) * widthR + i) - data.at(j * widthR + i)) / h;
+			ux = (data.at(j * widthR + (i + 1)) + data.at((j - 1) * widthR + (i + 1))
+				- data.at((j - 1) * widthR + (i - 1)) - data.at(j * widthR + (i - 1))) / (4 * h);
+
+			double s = sqrt(ux*ux + uy * uy);
+			if (eps = true) {
+				pole[j * widthR + i] = (unsigned char)(1. / (1 + k * s * s));
+			}
+			else
+				pole[j * widthR + i] = (unsigned char)(sqrt(ux *ux + uy * uy + epsilon * epsilon));
+		}
+	}
+	return pole;
+}
+
+QVector<unsigned char> filters::an(QVector<unsigned char> data, bool eps) {
+	int p = 1;
+	int widthR = width + 2 * p;
+	int heightR = height + 2 * p;
+	QVector<unsigned char> pole;
+	pole.resize(widthR*heightR);
+	double ux, uy;
+	double h = 1.;
+	double k = 255 * 255;
+	double epsilon = 0.001;
+
+	for (int i = 1; i < widthR; i++) {
+		for (int j = 1; j < heightR; j++) {
+			uy = (data.at((j + 1) * widthR + i) - data.at(j * widthR + i)) / h;
+			ux = (data.at((j + 1) * widthR + (i - 1)) + data.at(j * widthR + (i - 1))
+				- data.at((j + 1) * widthR + (i + 1)) - data.at((j + 1) * widthR + i)) / (4 * h);
+
+			double s = sqrt(ux*ux + uy * uy);
+			if (eps = true) {
+				pole[j * widthR + i] = (unsigned char)(1. / (1 + k * s * s));
+			}
+			else
+				pole[j * widthR + i] = (unsigned char)(sqrt(ux *ux + uy * uy + epsilon * epsilon));
+		}
+	}
+	return pole;
+}
+
+QVector<unsigned char> filters::heatImpl(QVector<unsigned char> data) {
+	int p = 1;
+	int widthR = width + 2 * p;
+	int heightR = height + 2 * p;
+	QVector<unsigned char> un, up;
+	un.resize(width*height);
+	un = up;
+	up = reflection(data);
+	un = up;
+	double tol = pow(10, -6);;
+	int itermax = 1000;
+	double tau = 1.0;
+	double h = 1.0;
+	double a = tau / h * h;
+	double rez = pow(10, 6);
+	double w = 1.15;
+
+	for(int iter = 1; iter <= itermax; iter++) {
+		// (*Print["HE: krok=", 1., ", iter=", iter, " rez=", rez]; *)
+
+		for (int i = 1; i < widthR; i++) {
+			for (int j = 1; j < heightR; j++) {
+				double tmp = (1. / (1 + 4 * a))*(un.at(j * widthR + i) +
+					a * (un.at(j * widthR + (i + 1)) + un.at(j * widthR + (i - 1))
+						+ un.at((j + 1) * widthR + i) + un.at((j - 1) * widthR + i)));
+				un[j * widthR + i] = un.at(j * widthR + i) + w * (tmp - un.at(j * widthR + i));
+			}
+		}
+		rez = 0;
+		for (int i = 1; i < widthR; i++) {
+			for (int j = 1; j < heightR; j++) {
+				double tmp = (1 + 4 * a)*(un.at(j * widthR + i) -
+					a * (un.at(j * widthR + (i + 1)) + un.at(j * widthR + (i - 1))
+						+ un.at((j - 1) * widthR + i) + un.at(j * widthR + i)));
+				rez += tmp * tmp;
+			}
+		}
+		if (rez < tol)
+			break;
+	}
+
+	un = antireflection(un, p);
+	un = reflection(un, p);
+	up = un;
+
+	return up;
+}
+
+QVector<unsigned char> filters::subSurf(QVector<unsigned char> data) {
+	int p = 1;
+	int widthR = width + 2 * p;
+	int heightR = height + 2 * p;
+	QVector<unsigned char> uf, uk1, up, un, uhe, up1;
+	QVector<unsigned char> qepm, qwpm, qspm, qnpm, qe, qw, qs, qn;
+	uf.resize(width*height);
+	uf = uk1 = up = un;
+	up = reflection(data, p);
+	uhe.resize(widthR*heightR);
+	uhe = up1;
+	un = up;
+	//pic[0] = data;
+	double tol = 0.5;
+	int itermax = 100;
+	double tau = 1.0;
+	double h = 1.0;
+	double a = tau / (h*h);
+	double k = 255*255;
+	double sigma = 0.25;
+	double epsilon = 0.001;
+	double w = 1.15;
+
+	uk1 = heatImpl(data);
+
+	qepm = ae(uk1, true);
+	qwpm = aw(uk1, true);
+	qspm = as(uk1, true);
+	qnpm = an(uk1, true);
+
+	qe = ae(un, false);
+	qw = aw(un, false);
+	qs = as(un, false);
+	qn = an(un, false);
+
+	for (int t = 0; t < 200; t++) {
+		int rez = pow(10,6);
+
+		for (int iter = 0; iter < itermax; iter++) {
+			// (*Print["krok=", t, ", iter=", iter, " rez=", rez]; *)
+
+			for (int i = 1; i < widthR; i++) {
+				for (int j = 1; j < heightR; j++) {
+					double avg = (1. / 4.)*(qe.at(j * widthR + i) + qw.at(j * widthR + i)
+						+ qs.at(j * widthR + i) + qn.at(j * widthR + i));
+
+					double	tmps = (1. / qe.at(j * widthR + i)) * qepm.at(j * widthR + i) +
+						(1. / qw.at(j * widthR + i)) * qwpm.at(j * widthR + i) +
+						(1. / qs.at(j * widthR + i)) * qspm.at(j * widthR + i) +
+						(1. / qn.at(j * widthR + i)) * qnpm.at(j * widthR + i);
+					double tmp = (up.at(j * widthR + i) -
+						(-a * avg)*(qepm.at(j * widthR + i) * un.at(j * widthR + (i + 1)) * (1. / qe.at(j * widthR + i)) +
+							un.at(j * widthR + (i - 1)) * qwpm.at(j * widthR + i) * (1. / qw.at(j * widthR + i)) +
+							un.at((j + 1) * widthR + i) * qnpm.at(j * widthR + i) * (1. / qn.at(j * widthR + i)) +
+							un.at((j - 1) * widthR + i) * qspm.at(j * widthR + i) * (1. / qe.at(j * widthR + i)))) / (1 + a * tmps*avg);
+
+					un[j * widthR + i] = un.at(j * widthR + i) + w * (tmp - un.at(j * widthR + i));
+				}
+			}
+			rez = 0.;
+			for (int i = 1; i < widthR; i++) {
+				for (int j = 1; j < heightR; j++) {
+					double avg = (1. / 4.)*(qe.at(j * widthR + i) + qw.at(j * widthR + i)
+						+ qs.at(j * widthR + i) + qn.at(j * widthR + i));
+					double tmps = (1. / qe.at(j * widthR + i)) * qepm.at(j * widthR + i)
+						+ (1. / qw.at(j * widthR + i)) * qwpm.at(j * widthR + i)
+						+ (1. / qs.at(j * widthR + i)) * qspm.at(j * widthR + i)
+						+ (1. / qn.at(j * widthR + i)) * qnpm.at(j * widthR + i);
+					double tmp = (up.at(j * widthR + i) - ((1 + a * tmps*avg)*
+						un.at(j * widthR + i) + (-a * avg)*(qepm.at(j * widthR + i)
+							* un.at(j * widthR + (i + 1)) * (1. / qe.at(j * widthR + i))
+							+ un.at(j * widthR + (i - 1)) * qwpm.at(j * widthR + i) * (1. / qw.at(j * widthR + i)) +
+							un.at((j + 1) * widthR + i) * qnpm.at(j * widthR + i) * (1. / qn.at(j * widthR + i)) +
+							un.at((j - 1) * widthR + i) * qspm.at(j * widthR + i) * (1. / qs.at(j * widthR + i)))));
+					rez += tmp * tmp;
+				}
+			}
+			if (rez < tol)
+				break;
+		}
+		up = un;
+		uf = antireflection(un, p);
+		//pic[t] = uf;
+	}
+		
+	return uf;
+}
