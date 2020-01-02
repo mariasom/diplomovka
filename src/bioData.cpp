@@ -448,7 +448,7 @@ void bioData::boundaryClicked() {
 	//histogram();
 	//filter.boundary();
 	//filter.subSurf(filter.distFunctSign(fTmp->getFiltData(0)));
-	filter.distFunctSign(fTmp->getFiltData(0));
+	filter.distFunctSign(filter.dataToDouble(fTmp->getFiltData(0)));
 	fTmp->addFiltData(filter.getFiltDat());
 
 	QString item = "boundary";

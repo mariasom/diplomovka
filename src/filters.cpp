@@ -8,7 +8,19 @@ filters::filters(int widthOrig, int heightOrig, QVector<unsigned char> oData)
 {
 	width = widthOrig;
 	height = heightOrig;
-	origData = oData;
+	origData = dataToDouble(oData);
+}
+
+QVector<double> filters::dataToDouble(QVector<unsigned char> oData) {
+	QVector<double> tmp;
+	tmp.resize(width*height);
+
+	for (int j = 0; j < width; j++) {
+		for (int i = 0; i < height; i++) {
+			tmp[j * width + i] = oData.at(j * width + i);
+		}
+	}
+	return tmp;
 }
 
 filters::~filters() {
@@ -272,8 +284,8 @@ void filters::createNewData() {
 				newData[j * width + i] = (unsigned char)207;
 }
 
-void filters::boundary() {
-	QVector<unsigned char> tmp;
+QVector<double> filters::boundary() {
+	QVector<double> tmp;
 
 	otsuFilter();
 	createNewData();
@@ -284,17 +296,18 @@ void filters::boundary() {
 			tmp[j * width + i] = 0;
 			if(newData[j * width + i] !=0 && (newData[j * width + (i+1)] == 0 || newData[j * width + (i - 1)] == 0 ||
 				newData[(j+1) * width + i] == 0 || newData[(j - 1) * width + i] == 0)) 
-				tmp[j * width + i] = (unsigned char)207;
+				tmp[j * width + i] = 207;
+
 		}
 	}	
-	newData = tmp;
+	return tmp;
 }
 
-QVector<unsigned char> filters::reflection(QVector<unsigned char> data, int p) { //v tejto funkcii ratam s tym ze p = 1
+QVector<double> filters::reflection(QVector<double> data, int p) { //v tejto funkcii ratam s tym ze p = 1
 	int widthR, heightR;
 	widthR = width + 2 * p;
 	heightR = height + 2 * p;
-	QVector<unsigned char> reflected;
+	QVector<double> reflected;
 	reflected.resize(widthR * heightR);
 
 	for (int j = 0; j < widthR; j++) {
@@ -319,11 +332,11 @@ QVector<unsigned char> filters::reflection(QVector<unsigned char> data, int p) {
 	return reflected;
 }
 
-QVector<unsigned char> filters::antireflection(QVector<unsigned char> data, int p) { //v tejto funkcii ratam s tym ze p = 1
+QVector<double> filters::antireflection(QVector<double> data, int p) { //v tejto funkcii ratam s tym ze p = 1
 	int widthR, heightR;
 	widthR = width + 2 * p;
 	heightR = height + 2 * p;
-	QVector<unsigned char> antiref;
+	QVector<double> antiref;
 	antiref.resize(width*height);
 
 	for (int j = 0; j < width; j++) {
@@ -335,8 +348,8 @@ QVector<unsigned char> filters::antireflection(QVector<unsigned char> data, int 
 	return antiref;
 }
 
-double filters::M(QVector<unsigned char> u, int i, int j, int p, int q) {
-	double tmp = u.at((j + q) * width + (i + p)) - u.at(j * width + i);
+double filters::M(QVector<double> u, int i, int j, int p, int q) {
+	double tmp = (double)u.at((j + q) * width + (i + p)) - (double)u.at(j * width + i);
 	if (tmp < 0)
 		return tmp * tmp;
 	else
@@ -350,40 +363,44 @@ double filters::findmax(double m1, double m2) {
 		return m2;
 }
 
-QVector<unsigned char> filters::distFunct(QVector<unsigned char> data) {
+QVector<double> filters::distFunct(QVector<double> data) {
 	int p = 1;
 	int widthR = width + 2 * p;
 	int heightR = height + 2 * p;
-	QVector<unsigned char> vysl;
+	QVector<double> vysl;
 	vysl.resize(width * height);
-	QVector<unsigned char> un, up, ue;
+	QVector<double> un, up, ue;
 	un.resize(widthR * heightR);
 	up.resize(widthR * heightR);
-	boundary();
-	ue = reflection(newData, p);
+	up.fill(0);
+	un.fill(0);
+	ue = reflection(boundary(), p);
 	int tol = 1;
-	double mass = 10 ^ 6;
+	double mass = pow(10,6);
 	int l = 0;
 	int maxIter = 1000;
 	double tau = 0.4;
 	double h = 1.0;
-	int col = 255;
+	int col = 207;
 	while (mass > tol && l < maxIter) {
 		mass = 0;
 		for (int i = 1; i < widthR - 1; i++) {
 			for (int j = 1; j < heightR - 1; j++) {
 				if (ue[j * widthR + i] != col) {
 					un[j * widthR + i] =
-						up[j * width + i] + tau - tau / h *
+						((double)up[j * width + i] + tau - tau / h *
 						sqrt(findmax(M(up, i, j, -1, 0), M(up, i, j, 1, 0)) +
-							findmax(M(up, i, j, 0, -1), M(up, i, j, 0, 1)));
+							findmax(M(up, i, j, 0, -1), M(up, i, j, 0, 1))));
+					//std::cout << "hodnota uij" << un[j * widthR + i] << std::endl;
 				}
 			}
 		}
 		for (int i = 0; i < widthR; i++)
 			for (int j = 0; j < heightR; j++)
-				mass += (un[j * widthR + i] - up[j * widthR + i]) ^ 2;
+				mass += ((double)un[j * widthR + i] - (double)up[j * widthR + i]) * ((double)un[j * widthR + i] - (double)up[j * widthR + i]);
 		mass = sqrt(mass);
+		std::cout << "l: " << l << " rezidua: " << mass << std::endl;
+
 		//premyslieeeet
 		un = antireflection(un, p);
 		un = reflection(un, p);
@@ -395,9 +412,9 @@ QVector<unsigned char> filters::distFunct(QVector<unsigned char> data) {
 	return vysl;
 }
 
-QVector<unsigned char> filters::distFunctSign(QVector<unsigned char> data) {
-	QVector<unsigned char> matrix;
-	QVector<unsigned char> dist; 
+QVector<double> filters::distFunctSign(QVector<double> data) {
+	QVector<double> matrix;
+	QVector<double> dist; 
 	dist = distFunct(data);
 	matrix.resize(width*height);
 	int col = 255;
@@ -407,17 +424,17 @@ QVector<unsigned char> filters::distFunctSign(QVector<unsigned char> data) {
 			if (data.at(j * width + i) == col)
 				matrix[j * width + i] = dist[j * width + i];
 			else
-				matrix[j * width + i] = (unsigned char)(-1*(double)dist[j * width + i]);
+				matrix[j * width + i] = (-1*(double)dist[j * width + i]);
 		}
 	}
 	return matrix;
 }
 
-QVector<unsigned char> filters::aw(QVector<unsigned char> data, bool eps) {
+QVector<double> filters::aw(QVector<double> data, bool eps) {
 	int p = 1;
 	int widthR = width + 2 * p;
 	int heightR = height + 2 * p;
-	QVector<unsigned char> pole;
+	QVector<double> pole;
 	pole.resize(widthR*heightR);
 	double ux, uy;
 	double h = 1.;
@@ -441,11 +458,11 @@ QVector<unsigned char> filters::aw(QVector<unsigned char> data, bool eps) {
 	return pole;
 }
 
-QVector<unsigned char> filters::ae(QVector<unsigned char> data, bool eps) {
+QVector<double> filters::ae(QVector<double> data, bool eps) {
 	int p = 1;
 	int widthR = width + 2 * p;
 	int heightR = height + 2 * p;
-	QVector<unsigned char> pole;
+	QVector<double> pole;
 	pole.resize(widthR*heightR);
 	double ux, uy;
 	double h = 1.;
@@ -469,11 +486,11 @@ QVector<unsigned char> filters::ae(QVector<unsigned char> data, bool eps) {
 	return pole;
 }
 
-QVector<unsigned char> filters::as(QVector<unsigned char> data, bool eps) {
+QVector<double> filters::as(QVector<double> data, bool eps) {
 	int p = 1;
 	int widthR = width + 2 * p;
 	int heightR = height + 2 * p;
-	QVector<unsigned char> pole;
+	QVector<double> pole;
 	pole.resize(widthR*heightR);
 	double ux, uy;
 	double h = 1.;
@@ -497,11 +514,11 @@ QVector<unsigned char> filters::as(QVector<unsigned char> data, bool eps) {
 	return pole;
 }
 
-QVector<unsigned char> filters::an(QVector<unsigned char> data, bool eps) {
+QVector<double> filters::an(QVector<double> data, bool eps) {
 	int p = 1;
 	int widthR = width + 2 * p;
 	int heightR = height + 2 * p;
-	QVector<unsigned char> pole;
+	QVector<double> pole;
 	pole.resize(widthR*heightR);
 	double ux, uy;
 	double h = 1.;
@@ -525,11 +542,11 @@ QVector<unsigned char> filters::an(QVector<unsigned char> data, bool eps) {
 	return pole;
 }
 
-QVector<unsigned char> filters::heatImpl(QVector<unsigned char> data) {
+QVector<double> filters::heatImpl(QVector<double> data) {
 	int p = 1;
 	int widthR = width + 2 * p;
 	int heightR = height + 2 * p;
-	QVector<unsigned char> un, up;
+	QVector<double> un, up;
 	un.resize(width*height);
 	un = up;
 	up = reflection(data);
@@ -573,12 +590,12 @@ QVector<unsigned char> filters::heatImpl(QVector<unsigned char> data) {
 	return up;
 }
 
-QVector<unsigned char> filters::subSurf(QVector<unsigned char> data) {
+QVector<double> filters::subSurf(QVector<double> data) {
 	int p = 1;
 	int widthR = width + 2 * p;
 	int heightR = height + 2 * p;
-	QVector<unsigned char> uf, uk1, up, un, uhe, up1;
-	QVector<unsigned char> qepm, qwpm, qspm, qnpm, qe, qw, qs, qn;
+	QVector<double> uf, uk1, up, un, uhe, up1;
+	QVector<double> qepm, qwpm, qspm, qnpm, qe, qw, qs, qn;
 	uf.resize(width*height);
 	uf = uk1 = up = un;
 	up = reflection(data, p);
