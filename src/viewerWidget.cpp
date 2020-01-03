@@ -23,6 +23,28 @@ void viewerWidget::setScrollArea()
 	_scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
+/*void viewerWidget::setViewerWidget(vtkSmartPointer<vtkPolyData> polyData, QString fName)
+{
+	qW->SetRenderWindow(renderWindow);
+
+	vtkSmartPointer<vtkDataSetMapper> mapper =
+		vtkSmartPointer<vtkDataSetMapper>::New();
+	mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+	mapper->SetInputData(polyData);
+	actor = vtkSmartPointer<vtkActor>::New();
+	actor->SetMapper(mapper);
+
+	renderer = vtkSmartPointer<vtkRenderer>::New();
+	renderer->GetViewProps()->RemoveAllItems();
+	renderer->AddActor(actor);
+	//renderer->AddActor(scalarBar);
+	renderer->SetBackground(1, 1, 1);
+	//renderer->AddViewProp(cornerAnnotation(fName));
+
+	// VTK/Qt wedded
+	qW->GetRenderWindow()->AddRenderer(renderer);
+}*/
+
 void viewerWidget::setViewerWidget(vtkSmartPointer<vtkImageData> image, QString fName)
 {
 	//vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
@@ -69,3 +91,23 @@ void viewerWidget::updateViewerWidget()
 
 	renderWindow->Render();
 }
+
+void viewerWidget::updateViewerWidget(vtkSmartPointer<vtkPolyData> polydata)
+{
+	vtkSmartPointer<vtkDataSetMapper> mapper =
+		vtkSmartPointer<vtkDataSetMapper>::New();
+	mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+	mapper->SetInputData(polydata);
+	//actor = vtkSmartPointer<vtkActor>::New();
+	actor->SetMapper(mapper);
+
+	//renderer = vtkSmartPointer<vtkRenderer>::New();
+	renderer->GetViewProps()->RemoveAllItems();
+	renderer->AddActor(actor);
+	//renderer->AddActor(scalarBar);
+	renderer->SetBackground(1, 1, 1);
+	//renderer->AddViewProp(cornerAnnotation(fName));
+
+	renderWindow->Render();
+}
+

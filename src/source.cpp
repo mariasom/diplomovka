@@ -219,3 +219,14 @@ void source::save_ascii(QString fileName, int index) {
 
 	outputFile.close();
 }
+
+void source::create3Ddata(QVector<double> z) {
+
+	points->SetNumberOfPoints(width*height);
+
+	//#pragma omp parallel for private(datatToSet, sX, sY, sZ, width)
+	for (int j = 0; j < height; j++)
+		for (int i = 0; i < width; i++) {
+			points->SetPoint(j * width + i, i, j, z[width * j + i]);
+		}
+}

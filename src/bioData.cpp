@@ -378,9 +378,7 @@ void bioData::createFilterGB() {
 void bioData::otsuClicked() {
 
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
-	filter.histogram();
-	filter.otsuFilter();
-	fTmp->addFiltData(filter.getFiltDat());
+	fTmp->addFiltData(filter.createNewData(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter()));
 
 	QString item = "otsu";
 	dataListView->addItem(item);
@@ -394,9 +392,8 @@ void bioData::otsuClicked() {
 void bioData::kapuraClicked() {
 
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
-	filter.histogram();
-	filter.kapuraFilter();
-	fTmp->addFiltData(filter.getFiltDat());
+	//filter.histogram();
+	fTmp->addFiltData(filter.createNewData(filter.dataToInt(fTmp->getOrigData()), filter.kapuraFilter()));
 
 	QString item = "kapur";
 	dataListView->addItem(item);
@@ -448,13 +445,15 @@ void bioData::boundaryClicked() {
 	//histogram();
 	//filter.boundary();
 	//filter.subSurf(filter.distFunctSign(fTmp->getFiltData(0)));
-	filter.distFunctSign(filter.dataToDouble(fTmp->getFiltData(0)));
-	fTmp->addFiltData(filter.getFiltDat());
+	//filter.distFunctSign(filter.dataToDouble(fTmp->getFiltData(0)));
+	fTmp->create3Ddata(filter.distFunct(filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())));
+	//QVector<int> tmp = filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter());
+	//fTmp->addFiltData(filter.dataToChar(tmp));
 
 	QString item = "boundary";
 	dataListView->addItem(item);
 	//	dataListView->setCurrentRow(dataListView->count() - 1);
 	std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
-	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
-	w->updateViewerWidget();
+	//w->set(fTmp->get3Data(), " ");
+	w->updateViewerWidget(fTmp->get3Data());
 }

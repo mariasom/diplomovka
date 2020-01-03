@@ -52,7 +52,7 @@ protected:
 	qint64 sSize = 0;
 	QStringList file;
 	vtkSmartPointer<vtkPoints> points;
-	//vtkSmartPointer<vtkPolyData> polydata;
+	vtkSmartPointer<vtkPolyData> polydata;
 	vtkSmartPointer<vtkUnsignedCharArray> colors;
 	vtkSmartPointer<vtkImageMapToColors> scalarValuesToColors;
 	vtkSmartPointer<vtkLookupTable> colorLookupTable;
@@ -73,9 +73,10 @@ public:
 	vtkSmartPointer<vtkImageData> getImageData() { return image; };
 	int getWidth() { return width; };
 	int getHeight() { return height; };
-	//vtkSmartPointer<vtkPolyData> getData() { return polydata; };
+	vtkSmartPointer<vtkPolyData> get3Data() { return polydata; };
 	void removeFiltData(int i) { dataFilt.remove(i); };
 	int getSizeFiltData() { return dataFilt.size(); };
+	void create3Ddata(QVector<double> z);
 
 	void addFiltData(QVector<unsigned char> &addData);
 	void save_ascii(QString fileName, int index);
