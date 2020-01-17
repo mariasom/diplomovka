@@ -26,6 +26,8 @@ private:
 	QVector<double> heatImpl(QVector<double> data);
 	QVector<double> antireflection(QVector<double> data, int p = 1);
 	QVector<double> reflection(QVector<double> data, int p = 1);
+	QVector<double> updateReflection(QVector<double> data, int p = 1);
+
 
 
 public:
@@ -40,7 +42,7 @@ public:
 	QVector<double> boundary(QVector<int> data, int threshold);
 	QVector<unsigned char> createNewData(QVector<int> data, int threshold);
 	QVector<double> dataToDouble(QVector<unsigned char> oData);
-	QVector<int> filters::dataToInt(QVector<unsigned char> oData);
+	QVector<int> dataToInt(QVector<unsigned char> oData);
 	QVector<unsigned char> dataToChar(QVector<int> data);
 	QVector<double> distFunct(QVector<double> data);
 	QVector<double> distFunctSign(QVector<double> data);

@@ -2,7 +2,7 @@
 
 source::source() {
 	points = vtkSmartPointer<vtkPoints>::New();
-	//polydata = vtkSmartPointer<vtkPolyData>::New();
+	polydata = vtkSmartPointer<vtkPolyData>::New();
 	colors = vtkSmartPointer<vtkUnsignedCharArray>::New();
 	colorLookupTable = vtkSmartPointer<vtkLookupTable>::New();
 	image = vtkSmartPointer<vtkImageData>::New();
@@ -221,12 +221,45 @@ void source::save_ascii(QString fileName, int index) {
 }
 
 void source::create3Ddata(QVector<double> z) {
+	int widthR, heightR;
+	int p = 1;
+	//widthR = width + 2 * p;
+	//heightR = height + 2 * p;
 
 	points->SetNumberOfPoints(width*height);
 
-	//#pragma omp parallel for private(datatToSet, sX, sY, sZ, width)
 	for (int j = 0; j < height; j++)
 		for (int i = 0; i < width; i++) {
 			points->SetPoint(j * width + i, i, j, z[width * j + i]);
 		}
+
+	//vtkSmartPointer<vtkCellArray> vertices = vtkSmartPointer<vtkCellArray>::New();
+
+	//for (int i = 0; i < points->GetNumberOfPoints(); ++i)
+	//{
+	//	vtkIdType id[1];
+	//	id[0] = i;
+	//	vertices->InsertNextCell(1, id);
+	//}
+
+	vtkSmartPointer<vtkCellArray> triangles = vtkSmartPointer<vtkCellArray>::New();
+	vtkSmartPointer<vtkTriangle> triangle = vtkSmartPointer<vtkTriangle>::New();
+
+	for (int j = 0; j < height - 1; j++)
+		for (int i = 0; i < width - 1; i++)
+		{
+			triangle->GetPointIds()->SetId(0, j * width + i);
+			triangle->GetPointIds()->SetId(1, (j + 1) * width + i);
+			triangle->GetPointIds()->SetId(2, (j + 1) * width + (i + 1));
+			triangles->InsertNextCell(triangle);
+
+			triangle->GetPointIds()->SetId(0, j * width + i);
+			triangle->GetPointIds()->SetId(1, (j + 1) * width + (i + 1));
+			triangle->GetPointIds()->SetId(2, (j)* width + (i + 1));
+			triangles->InsertNextCell(triangle);
+		}
+
+	polydata->SetPoints(points);
+	//polydata->SetVerts(vertices);
+	polydata->SetStrips(triangles);
 }

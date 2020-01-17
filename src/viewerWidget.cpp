@@ -94,20 +94,34 @@ void viewerWidget::updateViewerWidget()
 
 void viewerWidget::updateViewerWidget(vtkSmartPointer<vtkPolyData> polydata)
 {
-	vtkSmartPointer<vtkDataSetMapper> mapper =
-		vtkSmartPointer<vtkDataSetMapper>::New();
-	mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-	mapper->SetInputData(polydata);
-	//actor = vtkSmartPointer<vtkActor>::New();
-	actor->SetMapper(mapper);
+	vtkSmartPointer<vtkPolyDataMapper> mapper1 =
+		vtkSmartPointer<vtkPolyDataMapper>::New();
+	mapper1->SetInputData(polydata);
+
+	vtkSmartPointer<vtkActor> actor1 = vtkSmartPointer<vtkActor>::New();
+	actor1->SetMapper(mapper1);
+	//actor1->GetProperty()->SetColor(colors->GetColor3d("Tomato").GetData());
+	//actor1->GetProperty()->SetPointSize(10);
+
+	vtkSmartPointer<vtkRenderer> renderer1 =
+		vtkSmartPointer<vtkRenderer>::New();
+	vtkSmartPointer<vtkRenderWindow> renderWindow1 =
+		vtkSmartPointer<vtkRenderWindow>::New();
+	renderWindow1->AddRenderer(renderer1);
+
+	// An interactor
+	vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
+		vtkSmartPointer<vtkRenderWindowInteractor>::New();
+	renderWindowInteractor->SetRenderWindow(renderWindow1);
 
 	//renderer = vtkSmartPointer<vtkRenderer>::New();
-	renderer->GetViewProps()->RemoveAllItems();
-	renderer->AddActor(actor);
+	renderer1->GetViewProps()->RemoveAllItems();
+	renderer1->AddActor(actor1);
 	//renderer->AddActor(scalarBar);
-	renderer->SetBackground(1, 1, 1);
+	renderer1->SetBackground(.1, .2, .3);
 	//renderer->AddViewProp(cornerAnnotation(fName));
 
-	renderWindow->Render();
+	//renderWindow1->Render();
+	renderWindowInteractor->Start();
 }
 

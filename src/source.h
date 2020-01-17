@@ -17,7 +17,7 @@
 #include <vtkColorTransferFunction.h>
 #include <vtkImageMapToColors.h>
 #include <vtkLookupTable.h>
-
+#include <vtkTriangle.h>
 #include <vtkImageActor.h>
 #include <vtkImageData.h>
 #include <vtkImageMapper3D.h>

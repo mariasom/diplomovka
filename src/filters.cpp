@@ -334,23 +334,60 @@ QVector<double> filters::reflection(QVector<double> data, int p) { //v tejto fun
 	heightR = height + 2 * p;
 	QVector<double> reflected;
 	reflected.resize(widthR * heightR);
+	reflected.fill(0);
 
-	for (int j = 0; j < widthR; j++) {
-		for (int i = 0; i < heightR; i++) {
+	for (int i = 0; i < heightR; i++) {
+		for (int j = 0; j < widthR; j++) {
+		
 			if (i == 0 || i == heightR - 1 ) {				//hore a dole
-				if(i == 0) 
-					reflected[j + widthR * i] = data.at(j + width * i);
+				if (i == 0)
+					reflected[j + widthR * i] = data.at(j);
 				else
-					reflected[j + widthR * i] = data.at(j + width * (height - 1));
-			}
-			else if (j == 0 || i == widthR - 1) {			//vpravo a vlavoo
-				if (j == 0)
-					reflected[j + widthR * i] = data.at(j + width * (i - 1));
-				else
-					reflected[j + widthR * i] = data.at((width - 1) + width * i);
+					reflected[j + widthR * i] = data.at(j + width * (height - 1)); 
 			}
 			else {
-				reflected[j + widthR * i] = data.at((j - 1) + width * (i - 1));
+				if (j == 0 || j == widthR - 1) {			//vpravo a vlavoo
+					if (j == 0)
+						reflected[j + widthR * i] = data.at(width * (i - 1));
+					else
+						reflected[j + widthR * i] = data.at((width - 1) + width * (i - 1));
+				}
+				else {
+					reflected[j + widthR * i] = data.at(width * (i-1) + (j-1));// data.at(j + widthR * i);
+				}
+			}
+		}
+	}
+	return reflected;
+}
+
+QVector<double> filters::updateReflection(QVector<double> data, int p) {
+	int widthR, heightR;
+	widthR = width + 2 * p;
+	heightR = height + 2 * p;
+	QVector<double> reflected;
+	reflected.resize(widthR * heightR);
+	reflected.fill(0);
+
+	for (int i = 0; i < heightR; i++) {
+		for (int j = 0; j < widthR; j++) {
+
+			if (i == 0 || i == heightR - 1) {				//hore a dole
+				if (i == 0)
+					reflected[j + widthR * i] = data.at(j + widthR * (i + 1));
+				else
+					reflected[j + widthR * i] = data.at(j + widthR * (i - 1));
+			}
+			else {
+				if (j == 0 || j == widthR - 1) {			//vpravo a vlavoo
+					if (j == 0)
+						reflected[j + widthR * i] = data.at((j + 1) + widthR * (i));
+					else
+						reflected[j + widthR * i] = data.at((j - 1) + widthR * (i));
+				}
+				else {
+					reflected[j + widthR * i] = data.at(widthR * (i) + (j));// data.at(j + widthR * i);
+				}
 			}
 		}
 	}
@@ -366,7 +403,7 @@ QVector<double> filters::antireflection(QVector<double> data, int p) { //v tejto
 
 	for (int j = 0; j < width; j++) {
 		for (int i = 0; i < height; i++) {
-			antiref[j + width * (i)] = data.at((j + 1) + width * (i + 1));
+			antiref[j + width * (i)] = data.at((j + 1) + widthR * (i + 1));
 		}
 	}
 
@@ -374,7 +411,7 @@ QVector<double> filters::antireflection(QVector<double> data, int p) { //v tejto
 }
 
 double filters::M(QVector<double> u, int i, int j, int p, int q) {
-	double tmp = (double)u.at((j + q) * width + (i + p)) - (double)u.at(j * width + i);
+	double tmp = u.at((j + q) * (width +2) + (i + p)) - u.at(j * (width + 2) + i);
 	if (tmp < 0)
 		return tmp * tmp;
 	else
@@ -391,16 +428,18 @@ double filters::findmax(double m1, double m2) {
 QVector<double> filters::distFunct(QVector<double> edge) {
 	int p = 1;
 	int widthR = width + 2 * p;
-	int heightR = height + 2 * p;
+	int heightR = height +2 * p;
 	QVector<double> vysl;
 	vysl.resize(width * height);
 	QVector<double> un, up;
 	QVector<double> ue;
 	un.resize(widthR * heightR);
 	up.resize(widthR * heightR);
+	vysl.fill(0);
 	up.fill(0);
 	un.fill(0);
 	ue = reflection(edge, p);
+	//ue = edge;
 	int tol = 1;
 	double mass = pow(10,6);
 	int l = 0;
@@ -410,31 +449,30 @@ QVector<double> filters::distFunct(QVector<double> edge) {
 	int col = 207;
 	while (mass > tol && l < maxIter) {
 		mass = 0;
-		for (int i = 1; i < widthR - 1; i++) {
-			for (int j = 1; j < heightR - 1; j++) {
+		for (int j = 1; j < widthR - 1; j++) {
+			for (int i = 1; i < heightR - 1; i++) {
 				if (ue[j * widthR + i] != col) {
 					un[j * widthR + i] =
-						(up[j * width + i] + tau - tau / h *
+						(double)(up[j * widthR + i] + tau - tau / h *
 						sqrt(findmax(M(up, i, j, -1, 0), M(up, i, j, 1, 0)) +
 							findmax(M(up, i, j, 0, -1), M(up, i, j, 0, 1))));
-					//std::cout << "hodnota uij " << un[j * widthR + i] << std::endl;
 				}
 			}
 		}
-		for (int i = 0; i < widthR; i++)
-			for (int j = 0; j < heightR; j++)
+		for (int j = 0; j < widthR; j++)
+			for (int i = 0; i < heightR; i++)
 				mass += (un[j * widthR + i] - up[j * widthR + i]) * (un[j * widthR + i] - up[j * widthR + i]);
 		mass = sqrt(mass);
 		std::cout << "l: " << l << " rezidua: " << mass << std::endl;
 
-		//premyslieeeet
-		//un = antireflection(un, p);
-		//un = reflection(un, p);
+		un = updateReflection(un, p);
+		up.resize(un.size());
 		up = un;
 		l++;
 	}
-	std::cout << "Distanced function bola ziskana po " << l << "iteraciach" << std::endl;
-	vysl = un;
+	std::cout << "Distanced function bola ziskana po " << l << " iteraciach." << std::endl;
+	
+	vysl = antireflection(un, p);
 	return vysl;
 }
 
