@@ -58,6 +58,8 @@
     <property name="title">
      <string>Tools</string>
     </property>
+    <addaction name="actionDistanced_Function"/>
+    <addaction name="actionSign_Distanced_Function"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuTools"/>
@@ -101,6 +103,16 @@
   <action name="actionDocumentation">
    <property name="text">
     <string>Documentation</string>
+   </property>
+  </action>
+  <action name="actionDistanced_Function">
+   <property name="text">
+    <string>Distanced Function</string>
+   </property>
+  </action>
+  <action name="actionSign_Distanced_Function">
+   <property name="text">
+    <string>Sign Distanced Function</string>
    </property>
   </action>
  </widget>
@@ -186,6 +198,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionDistanced_Function</sender>
+   <signal>triggered()</signal>
+   <receiver>bioData</receiver>
+   <slot>actionDistFunc()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>193</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSign_Distanced_Function</sender>
+   <signal>triggered()</signal>
+   <receiver>bioData</receiver>
+   <slot>actionSignDistFunc()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>193</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>actionOpenFile()</slot>
@@ -195,5 +239,7 @@
   <slot>actionCloseFiles()</slot>
   <slot>actionDoc()</slot>
   <slot>actionAbout()</slot>
+  <slot>actionDistFunc()</slot>
+  <slot>actionSignDistFunc()</slot>
  </slots>
 </ui>

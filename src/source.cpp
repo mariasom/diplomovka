@@ -246,7 +246,7 @@ void source::create3Ddata(QVector<double> z) {
 	vtkSmartPointer<vtkTriangle> triangle = vtkSmartPointer<vtkTriangle>::New();
 
 	for (int j = 0; j < height - 1; j++)
-		for (int i = 0; i < width - 1; i++)
+		for (int i = 0; i < width - 1 ; i++)
 		{
 			triangle->GetPointIds()->SetId(0, j * width + i);
 			triangle->GetPointIds()->SetId(1, (j + 1) * width + i);
@@ -258,6 +258,7 @@ void source::create3Ddata(QVector<double> z) {
 			triangle->GetPointIds()->SetId(2, (j)* width + (i + 1));
 			triangles->InsertNextCell(triangle);
 		}
+
 
 	polydata->SetPoints(points);
 	//polydata->SetVerts(vertices);

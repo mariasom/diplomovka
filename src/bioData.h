@@ -39,6 +39,8 @@ public slots:
 	void kapuraClicked();
 	void boundaryClicked();
 	void listIndexChanged(int i);
+	void actionSignDistFunc();
+	void actionDistFunc();
 	//void keyDown();
 	//void keyUp();
 

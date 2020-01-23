@@ -446,14 +446,65 @@ void bioData::boundaryClicked() {
 	//filter.boundary();
 	//filter.subSurf(filter.distFunctSign(fTmp->getFiltData(0)));
 	//filter.distFunctSign(filter.dataToDouble(fTmp->getFiltData(0)));
+	fTmp->create3Ddata(filter.subSurf(
+		filter.distFunctSign(
+			filter.boundary(
+				filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())),
+		filter.changeRangeOfData(
+			filter.dataToInt(
+				filter.createNewData(
+					filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())))));
+//	fTmp->create3Ddata(filter.heatImpl(filter.changeRangeOfData(
+//		filter.dataToInt(
+//			filter.createNewData(
+//				filter.dataToInt(
+//					fTmp->getOrigData()), filter.kapuraFilter())))));
+//QVector<int> tmp = filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter());
+	//fTmp->addFiltData(filter.dataToChar(filter.subSurf(filter.distFunctSign(filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())), 
+	//	filter.changeRangeOfData(filter.dataToInt(filter.createNewData(filter.dataToInt(fTmp->getOrigData()), filter.kapuraFilter()))))));
+
+	//QString item = "subSurf";
+	//dataListView->addItem(item);
+	//dataListView->setCurrentRow(dataListView->count() - 1);
+	//std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
+	//w->set(fTmp->get3Data(), " ");
+	//w->updateViewerWidget(fTmp->get3Data());
+	//w->updateViewerWidget();
+	w->updateViewerWidget(fTmp->get3Data());
+}
+
+void bioData::actionDistFunc() {
+	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
+	//histogram();
+	//filter.boundary();
+	//filter.subSurf(filter.distFunctSign(fTmp->getFiltData(0)));
+	//filter.distFunctSign(filter.dataToDouble(fTmp->getFiltData(0)));
 	fTmp->create3Ddata(filter.distFunct(filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())));
 	//QVector<int> tmp = filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter());
 	//fTmp->addFiltData(filter.dataToChar(tmp));
 
-	QString item = "boundary";
-	dataListView->addItem(item);
+	//QString item = "boundary";
+	//dataListView->addItem(item);
 	//	dataListView->setCurrentRow(dataListView->count() - 1);
-	std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
+	//std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
+	//w->set(fTmp->get3Data(), " ");
+	w->updateViewerWidget(fTmp->get3Data());
+}
+
+void bioData::actionSignDistFunc() {
+	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
+	//histogram();
+	//filter.boundary();
+	//filter.subSurf(filter.distFunctSign(fTmp->getFiltData(0)));
+	//filter.distFunctSign(filter.dataToDouble(fTmp->getFiltData(0)));
+	fTmp->create3Ddata(filter.distFunctSign(filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())));
+	//QVector<int> tmp = filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter());
+	//fTmp->addFiltData(filter.dataToChar(tmp));
+
+	//QString item = "boundary";
+	//dataListView->addItem(item);
+	//	dataListView->setCurrentRow(dataListView->count() - 1);
+	//std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
 	//w->set(fTmp->get3Data(), " ");
 	w->updateViewerWidget(fTmp->get3Data());
 }

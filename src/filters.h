@@ -23,7 +23,6 @@ private:
 	QVector<double> ae(QVector<double> data, bool eps);
 	double M(QVector<double> u,int i, int j, int p, int q);
 	double findmax(double m1, double m2);
-	QVector<double> heatImpl(QVector<double> data);
 	QVector<double> antireflection(QVector<double> data, int p = 1);
 	QVector<double> reflection(QVector<double> data, int p = 1);
 	QVector<double> updateReflection(QVector<double> data, int p = 1);
@@ -43,9 +42,12 @@ public:
 	QVector<unsigned char> createNewData(QVector<int> data, int threshold);
 	QVector<double> dataToDouble(QVector<unsigned char> oData);
 	QVector<int> dataToInt(QVector<unsigned char> oData);
+	QVector<int> dataToInt(QVector<double> oData);
+	QVector<double> changeRangeOfData(QVector<int> data);
 	QVector<unsigned char> dataToChar(QVector<int> data);
 	QVector<double> distFunct(QVector<double> data);
 	QVector<double> distFunctSign(QVector<double> data);
 	QVector<QVector<float>> makeTables(int K, QVector<float> histN);
-	QVector<double> subSurf(QVector<double> data);
+	QVector<double> subSurf(QVector<double> data, QVector<double> tData);
+	QVector<double> heatImpl(QVector<double> data);
 };
