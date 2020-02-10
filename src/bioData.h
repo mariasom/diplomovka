@@ -8,6 +8,7 @@
 #include "filters.h"
 #include <filesystem>
 #include <QKeyEvent>
+#include <QDockWidget>
 
 class bioData : public QMainWindow
 {
@@ -22,12 +23,18 @@ public:
 	//void visualize();
 	void setTabWidget();
 	//void createInfoGroupBox();
-	void createFileGroupBox(QString name, QString path, int width, int height);
-	void createListGroupBox();
-	void createFilterGB();
+	void createFileDock(QString name, QString path, int width, int height);
+	void createListDock();
+	void createFilterDock();
 	void createColorsGB();
+	void set3DWidget();
+	void update3DWidget();
+	void set2DWidget();
+	void update2DWidget();
+	void createDockWidgets();
 	void keyUpEvent(QKeyEvent *event);
 	void keyDownEvent(QKeyEvent *event);
+	void addSubItem(QTreeWidgetItem *parent, QString name);
 
 public slots:
 	virtual void slotExit();
@@ -41,15 +48,25 @@ public slots:
 	void listIndexChanged(int i);
 	void actionSignDistFunc();
 	void actionDistFunc();
+	//void createDockWindows();
 	//void keyDown();
 	//void keyUp();
 
 private:
-	//void createScaleGroupBox();
-	//void createColorGroupBox();
-
 	Ui::bioData *ui;
-	QTabWidget *_tabs = new QTabWidget();
+	QMdiArea *mdiArea;
+	QWidget *widget2D = nullptr;
+	QWidget *widget3D = nullptr;
+	QGridLayout *gridLayout2D;
+	QGridLayout *gridLayout3D;
+	QDockWidget *fileDock;
+	QDockWidget *filterDock;
+	QDockWidget *listDock;
+	QTreeWidget *dataTree;
+	QTreeWidgetItem *parent2D;
+	QTreeWidgetItem *parent3D;
+
+
 	QTabWidget *innerTabs;
 	QDoubleSpinBox *scaleSpinBox_x;
 	QDoubleSpinBox *scaleSpinBox_y;

@@ -30,21 +30,35 @@ public:
 	viewerWidget(QWidget *parent = Q_NULLPTR);
 	~viewerWidget();
 
-	QVTKOpenGLNativeWidget* getQVTKwidget() { return qW; };
-	void setAreaSize(QSize s) { qW->resize(s.width(), s.height()); }
-	void setScrollArea();
-	void setViewerWidget(vtkSmartPointer<vtkImageData> image, QString fName);
+	QVTKOpenGLNativeWidget* getQVTKwidget2D() { return qW2D; };
+	QVTKOpenGLNativeWidget* getQVTKwidget3D() { return qW3D; };
+	void setAreaSize2D(QSize s) { qW2D->resize(s.width(), s.height()); }
+	void setAreaSize3D(QSize s) { qW3D->resize(s.width(), s.height()); }
+	void setScrollArea2D();
+	void setScrollArea3D();
+	void setViewerWidget2D(vtkSmartPointer<vtkImageData> image, QString fName);
 	//void setViewerWidget(vtkSmartPointer<vtkPolyData> polyData, QString fName);
-	QScrollArea *getScrollArea() { return _scrollArea; }
-	void updateViewerWidget();
-	void updateViewerWidget(vtkSmartPointer<vtkPolyData> polydata);
+	QScrollArea *getScrollArea2D() { return _scrollArea2D; }
+	QScrollArea *getScrollArea3D() { return _scrollArea3D; }
+	void updateViewerWidget2D();
+	void updateViewerWidget3D();
+	void setViewerWidget3D(vtkSmartPointer<vtkPolyData> polydata);
 
-private: 
-	QVTKOpenGLNativeWidget* qW;
-	QScrollArea* _scrollArea;
-	vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
-	vtkSmartPointer<vtkRenderer> renderer;
-	vtkSmartPointer<vtkActor> actor;
+private:
+	//global variables for 2D data/image/threshold ect data.
+	QVTKOpenGLNativeWidget* qW2D;
+	QScrollArea* _scrollArea2D;
+	vtkNew<vtkGenericOpenGLRenderWindow> renderWindow2D;
+	vtkSmartPointer<vtkRenderer> renderer2D;
+	vtkSmartPointer<vtkActor> actor2D;
+
+	//global variables for 3D distance function/subsurf ect data.
+	QVTKOpenGLNativeWidget* qW3D;
+	QScrollArea* _scrollArea3D;
+	vtkNew<vtkGenericOpenGLRenderWindow> renderWindow3D;
+	vtkSmartPointer<vtkRenderer> renderer3D;
+	vtkSmartPointer<vtkActor> actor3D;
+
 
 	//public slots:
 };

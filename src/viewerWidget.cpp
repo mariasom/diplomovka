@@ -3,7 +3,8 @@
 viewerWidget::viewerWidget(QWidget *parent) : QWidget(parent)
 {
 	setAttribute(Qt::WA_StaticContents);
-	qW = new QVTKOpenGLNativeWidget(this);
+	qW2D = new QVTKOpenGLNativeWidget(this);
+	qW3D = new QVTKOpenGLNativeWidget(this);
 }
 
 
@@ -11,16 +12,28 @@ viewerWidget::~viewerWidget()
 {
 }
 
-void viewerWidget::setScrollArea()
+void viewerWidget::setScrollArea2D()
 {
-	_scrollArea = new QScrollArea;
-	_scrollArea->setObjectName("QScrollArea");
-	_scrollArea->setWidget(qW);
-	_scrollArea->setBackgroundRole(QPalette::Dark);
-	_scrollArea->setWidgetResizable(true);
-	_scrollArea->installEventFilter(this);
-	_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	_scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	_scrollArea2D = new QScrollArea;
+	_scrollArea2D->setObjectName("QScrollArea");
+	_scrollArea2D->setWidget(qW2D);
+	_scrollArea2D->setBackgroundRole(QPalette::Dark);
+	_scrollArea2D->setWidgetResizable(true);
+	_scrollArea2D->installEventFilter(this);
+	_scrollArea2D->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	_scrollArea2D->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+}
+
+void viewerWidget::setScrollArea3D()
+{
+	_scrollArea3D = new QScrollArea;
+	_scrollArea3D->setObjectName("QScrollArea");
+	_scrollArea3D->setWidget(qW3D);
+	_scrollArea3D->setBackgroundRole(QPalette::Dark);
+	_scrollArea3D->setWidgetResizable(true);
+	_scrollArea3D->installEventFilter(this);
+	_scrollArea3D->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	_scrollArea3D->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 /*void viewerWidget::setViewerWidget(vtkSmartPointer<vtkPolyData> polyData, QString fName)
@@ -45,10 +58,10 @@ void viewerWidget::setScrollArea()
 	qW->GetRenderWindow()->AddRenderer(renderer);
 }*/
 
-void viewerWidget::setViewerWidget(vtkSmartPointer<vtkImageData> image, QString fName)
+void viewerWidget::setViewerWidget2D(vtkSmartPointer<vtkImageData> image, QString fName)
 {
 	//vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
-	qW->SetRenderWindow(renderWindow);
+	qW2D->SetRenderWindow(renderWindow2D);
 
 	vtkSmartPointer<vtkInteractorStyleImage> imageStyle =
 		vtkSmartPointer<vtkInteractorStyleImage>::New();
@@ -56,7 +69,7 @@ void viewerWidget::setViewerWidget(vtkSmartPointer<vtkImageData> image, QString 
 	imageStyle->SetInteractionModeToImage2D();
 	//imageStyle->StartRotate();
 	//std::cout << imageStyle->GetInteractionMode() << std::endl;
-	qW->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
+	qW2D->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
 
 	//vtkSmartPointer<vtkImageReslice> reslice = vtkSmartPointer<vtkImageReslice>::New();
 	//reslice->SetInputData(image);
@@ -70,58 +83,53 @@ void viewerWidget::setViewerWidget(vtkSmartPointer<vtkImageData> image, QString 
 	//mapper->SetInputData(reslice->GetOutput());
 	mapper->SetInputData(image);
 
-	actor = vtkSmartPointer<vtkActor>::New();
-	actor->SetMapper(mapper);
+	actor2D = vtkSmartPointer<vtkActor>::New();
+	actor2D->SetMapper(mapper);
 
-	renderer = vtkSmartPointer<vtkRenderer>::New();
+	renderer2D = vtkSmartPointer<vtkRenderer>::New();
 
-	renderWindow->AddRenderer(renderer);
-	renderer->AddActor(actor);
-	renderer->SetBackground(1, 1, 1);
-	renderer->ResetCamera();
+	renderWindow2D->AddRenderer(renderer2D);
+	renderer2D->AddActor(actor2D);
+	renderer2D->SetBackground(1, 1, 1);
+	renderer2D->ResetCamera();
 
-	qW->GetRenderWindow()->AddRenderer(renderer);
+	qW2D->GetRenderWindow()->AddRenderer(renderer2D);
 }
 
-void viewerWidget::updateViewerWidget()
+void viewerWidget::updateViewerWidget2D()
 {
-	renderer->GetViewProps()->RemoveAllItems();
-	renderer->AddActor(actor);
-	renderer->SetBackground(1, 1, 1);
+	renderer2D->GetViewProps()->RemoveAllItems();
+	renderer2D->AddActor(actor2D);
+	renderer2D->SetBackground(1, 1, 1);
 
-	renderWindow->Render();
+	renderWindow2D->Render();
 }
 
-void viewerWidget::updateViewerWidget(vtkSmartPointer<vtkPolyData> polydata)
+void viewerWidget::updateViewerWidget3D()
 {
-	vtkSmartPointer<vtkPolyDataMapper> mapper1 =
+	renderer3D->GetViewProps()->RemoveAllItems();
+	renderer3D->AddActor(actor3D);
+	renderer3D->SetBackground(1,0 , 1);
+
+	renderWindow3D->Render();
+}
+
+void viewerWidget::setViewerWidget3D(vtkSmartPointer<vtkPolyData> polydata)
+{
+	qW3D->SetRenderWindow(renderWindow3D);
+	vtkSmartPointer<vtkPolyDataMapper> mapper =
 		vtkSmartPointer<vtkPolyDataMapper>::New();
-	mapper1->SetInputData(polydata);
+	mapper->SetInputData(polydata);
 
-	vtkSmartPointer<vtkActor> actor1 = vtkSmartPointer<vtkActor>::New();
-	actor1->SetMapper(mapper1);
-	//actor1->GetProperty()->SetColor(colors->GetColor3d("Tomato").GetData());
-	//actor1->GetProperty()->SetPointSize(10);
+	actor3D = vtkSmartPointer<vtkActor>::New();
+	actor3D->SetMapper(mapper);
 
-	vtkSmartPointer<vtkRenderer> renderer1 =
-		vtkSmartPointer<vtkRenderer>::New();
-	vtkSmartPointer<vtkRenderWindow> renderWindow1 =
-		vtkSmartPointer<vtkRenderWindow>::New();
-	renderWindow1->AddRenderer(renderer1);
+	renderer3D = vtkSmartPointer<vtkRenderer>::New();
+	renderWindow3D->AddRenderer(renderer3D);
 
-	// An interactor
-	vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
-		vtkSmartPointer<vtkRenderWindowInteractor>::New();
-	renderWindowInteractor->SetRenderWindow(renderWindow1);
+	renderer3D->GetViewProps()->RemoveAllItems();
+	renderer3D->AddActor(actor3D);
+	renderer3D->SetBackground(.1, .2, .3);
 
-	//renderer = vtkSmartPointer<vtkRenderer>::New();
-	renderer1->GetViewProps()->RemoveAllItems();
-	renderer1->AddActor(actor1);
-	//renderer->AddActor(scalarBar);
-	renderer1->SetBackground(.1, .2, .3);
-	//renderer->AddViewProp(cornerAnnotation(fName));
-
-	//renderWindow1->Render();
-	renderWindowInteractor->Start();
+	qW3D->GetRenderWindow()->AddRenderer(renderer3D);
 }
-

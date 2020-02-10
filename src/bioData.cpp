@@ -15,7 +15,8 @@ bioData::bioData(QWidget *parent)
 	otsuButton = new QPushButton;
 	kapuraButton = new QPushButton;
 	boundaryButton = new QPushButton;
-	dataListView = new QListWidget;
+	//dataListView = new QListWidget;
+	dataTree = new QTreeWidget;
 	useOData = new QCheckBox;
 	originalCol = new QCheckBox;
 	foregroundSB = new QSpinBox;
@@ -50,12 +51,17 @@ bioData::bioData(QWidget *parent)
 	connect(this->boundaryButton, SIGNAL(clicked()), this, SLOT(boundaryClicked()));
 	//connect(this->dataUp, SIGNAL(clicked()), this, SLOT(dataUpClicked()));
 	//connect(this->dataDown, SIGNAL(clicked()), this, SLOT(dataDownClicked()));
-	connect(this->dataListView, SIGNAL(currentRowChanged(int)), this, SLOT(listIndexChanged(int)));
+	//connect(this->dataListView, SIGNAL(currentRowChanged(int)), this, SLOT(listIndexChanged(int)));
+	//connect(this->dataTree, SIGNAL(currentItemChanged(QTreeWidgetItem, QTreeWidgetItem)), this, SLOT(treeIndexChanged(QTreeWidgetItem, QTreeWidgetItem)));
+	connect(this->dataTree, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(treeIndexChanged(QTreeWidgetItem *, int)));
 
-
-	// plocha pre taby
-	//_tabs = new QTabWidget();
-	//static_cast<QGridLayout*>(ui->centralwidget->layout())->addWidget(_tabs, 0, 0);
+	// space for the display area
+	mdiArea = new QMdiArea(this); 
+	// configure scrollbars
+	mdiArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	mdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	// Set Mdi Area as the central widget
+	setCentralWidget(mdiArea);
 }
 
 void bioData::keyUpEvent(QKeyEvent *event)
@@ -92,8 +98,9 @@ bool bioData::QScrollAreaEventFilter(QObject * obj, QEvent * event)
 	QScrollArea* s = static_cast<QScrollArea*>(obj);
 	if (event->type() == QEvent::Resize) {
 		if (s->widget()) {
+			//tu je nejaky odzub premysliet co ak ma 3D area inu velkost?
 			viewerWidget* w = static_cast<viewerWidget*>(s->widget());
-			w->setAreaSize(s->size());
+			w->setAreaSize2D(s->size());
 		}
 	}
 	else {
@@ -114,79 +121,9 @@ void bioData::actionClose()
 	qApp->exit();
 }
 
-/*void bioData::visualize()
-{
-	/*vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
-	// qW->SetRenderWindow(renderWindow);
-	w->getQVTKwidget()->SetRenderWindow(renderWindow);
-
-	std::cout << fTmp->getData()->GetCellData() << std::endl;
-	vtkSmartPointer<vtkPolyDataMapper> mapper =
-		vtkSmartPointer<vtkPolyDataMapper>::New();
-	mapper->SetInputData(fTmp->getData());
-	std::cout << "data v biodata.cpp" << fTmp->getData()->GetNumberOfPoints() << std::endl;
-
-	vtkSmartPointer<vtkActor> actor =
-		vtkSmartPointer<vtkActor>::New();
-	actor->SetMapper(mapper);
-	actor->GetProperty()->SetPointSize(10);
-
-	vtkSmartPointer<vtkRenderer> renderer =
-		vtkSmartPointer<vtkRenderer>::New();
-	
-	renderWindow->AddRenderer(renderer);
-	renderer->AddActor(actor);
-	renderer->SetBackground(1, 0, 1);
-	renderer->ResetCamera();
-
-	w->getQVTKwidget()->GetRenderWindow()->AddRenderer(renderer);*/
-
-	/*vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
-	// qW->SetRenderWindow(renderWindow);
-	w->getQVTKwidget()->SetRenderWindow(renderWindow);
-
-	vtkSmartPointer<vtkImageReslice> reslice = vtkSmartPointer<vtkImageReslice>::New();
-	reslice->SetInputData(fTmp->getImageData());
-	//reslice->SetOutputSpacing(0);
-	reslice->SetInterpolate(0);
-	reslice->Update();
-	//std::cout << reslice->GetInformation();
-	//
-
-	vtkSmartPointer<vtkDataSetMapper> mapper =
-		vtkSmartPointer<vtkDataSetMapper>::New();
-	//mapper->InterpolateScalarsBeforeMappingOn();
-	mapper->SetInputData(reslice->GetOutput());
-	
-
-	vtkSmartPointer<vtkActor> actor =
-		vtkSmartPointer<vtkActor>::New();
-	actor->SetMapper(mapper);
-
-	vtkSmartPointer<vtkRenderer> renderer =
-		vtkSmartPointer<vtkRenderer>::New();
-
-	renderWindow->AddRenderer(renderer);
-	renderer->AddActor(actor);
-	renderer->SetBackground(1, 1, 1);
-	renderer->ResetCamera();
-
-	vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
-		vtkSmartPointer<vtkRenderWindowInteractor>::New();
-	renderWindowInteractor->SetRenderWindow(renderWindow);
-	renderWindow->Render();
-	renderWindowInteractor->Start();
-
-	/*vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
-		vtkSmartPointer<vtkRenderWindowInteractor>::New();
-	renderWindowInteractor->SetRenderWindow(renderWindow);
-	renderWindow->Render();
-	renderWindowInteractor->Start();*/
-//}
-
 void bioData::actionOpenFile()
 {
-	// nacitanie suboru
+	// file load
 	filePath = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Portable Graymap (*.pgm)"));
 	
 	if (filePath.isEmpty()) {
@@ -196,72 +133,36 @@ void bioData::actionOpenFile()
 	fTmp = new source;
 	fTmp->load(filePath);
 	fTmp->setPoints(fTmp->getOrigData());
-	// extrahovanie nazvu suboru s cesty
+	// extract filename from the path
 	QStringList list = filePath.split('/');
 	fName = list[list.length() - 1];
 
-	//vytvorenie viewer widgetu
 	w = new viewerWidget();
-	//w->setViewerWidget(fTmp->getPolyData(colorComboBox->currentIndex()), fName);
-	w->setScrollArea();
 
-	//w = new viewerWidget();
-	//vytvorenie scroll area a pridanie Widgetu
-	/*QScrollArea* scrollArea = new QScrollArea;
-	scrollArea->setObjectName("QScrollArea");
-	scrollArea->setWidget(w);
-	scrollArea->setBackgroundRole(QPalette::Light);
-	scrollArea->setWidgetResizable(true);
-	scrollArea->installEventFilter(this);
-	scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);*/
+	createFileDock(fName, filePath, fTmp->getWidth(), fTmp->getHeight());
+	createListDock();
+	createFilterDock();
 
+	if (widget2D == nullptr)
+		set2DWidget();
+	else
+		update2DWidget();
+	widget2D->setWindowTitle("Original Data");
+	addSubItem(parent2D, "Original Data");
+	// QString dataName = "Original Data";
+	// dataListView->addItem(dataName);
+	// dataListView->setCurrentRow(dataListView->count() - 1);
+}
 
-	//vytvorenie vnutornych layoutov 
-	QHBoxLayout* hLayout = new QHBoxLayout;
-	QVBoxLayout* vLayout = new QVBoxLayout;
-
-	// vytvorenie GroupBoxov na skalovanie a farbenie, pridanie do vLayoutu
-	// createScaleGroupBox();
-	// createColorGroupBox();
-	//vLayout->addWidget(colorGroupBox);
-	// vLayout->addWidget(scaleGroupBox);
-
-	//naplnenie horiz. Layoutu
-	//hLayout->addWidget(w->getScrollArea());
-	//hLayout->addItem(vLayout);
-
-	//auto tabWidget = new QWidget;
-	createFileGroupBox(fName, filePath, fTmp->getWidth(), fTmp->getHeight());
-	innerTabs->setMinimumWidth(200);
-	innerTabs->setMaximumWidth(400);
-	static_cast<QGridLayout*>(ui->centralwidget->layout())->addWidget(w->getScrollArea(),0,1);
-	static_cast<QGridLayout*>(ui->centralwidget->layout())->addWidget(innerTabs,0,0);
-
-	setTabWidget();
-	createListGroupBox();
-	createFilterGB();
-	createColorsGB();
-
-	innerTabs->setCurrentIndex(0);
-	static_cast<QGridLayout*>(innerTabs->currentWidget()->layout())->addWidget(fileGroupBox, 0, 0, 1, 1);
-	static_cast<QGridLayout*>(innerTabs->currentWidget()->layout())->addWidget(listGroupBox, 1, 0, 1, 1);
-	static_cast<QGridLayout*>(innerTabs->currentWidget()->layout())->addWidget(filterGB, 2, 0, 1, 1);
-	this->ui->actionAdvanced->setDisabled(false);
-	//innerTabs->setCurrentIndex(1);
-	static_cast<QGridLayout*>(innerTabs->widget(1)->layout())->addWidget(colorsGB, 2, 0, 1, 1);
-
-	QString dataName = "Original Data";
-	dataListView->addItem(dataName);
-
-	w->setViewerWidget(fTmp->getImageData(), fTmp->getFileName(fName));
-	//visualize();
+void bioData::addSubItem(QTreeWidgetItem *parent, QString name) {
+	QTreeWidgetItem *itm = new QTreeWidgetItem();
+	itm->setText(0, name);
+	parent->addChild(itm);
+	dataTree->setCurrentItem(itm);
 }
 
 void bioData::setTabWidget() {
-
 	auto tabWidget = new QWidget;
-
 }
 
 // save pgm file
@@ -271,37 +172,42 @@ void bioData::actionpgm() {
 	fTmp->save_ascii(fileName1, i);
 }
 
-void bioData::createFileGroupBox(QString name, QString path, int width, int height) {
+void bioData::createFileDock(QString name, QString path, int width, int height) {
 
-	fileGroupBox = new QGroupBox(tr("File info"));
+	fileDock = new QDockWidget(tr("File Info"), this);
+	fileDock->setAllowedAreas(Qt::LeftDockWidgetArea |
+		Qt::RightDockWidgetArea |
+		Qt::BottomDockWidgetArea);
+	fileDock->setFeatures(QDockWidget::DockWidgetClosable | QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetVerticalTitleBar);
 	int size = 60;
 
 	QLabel *fileName = new QLabel(tr("File name"));
 	QLineEdit *fileName1 = new QLineEdit;
-	fileName1->setText(fTmp->getFileName(filePath));
+	fileName1->setText(name);
 	fileName1->setReadOnly(true);
 	fileName1->setCursorPosition(0);
 	fileName1->setFrame(QFrame::Panel | QFrame::Sunken);
 	QLabel *filePathL = new QLabel(tr("Path"));
 	QLineEdit *filePath1 = new QLineEdit;
-	filePath1->setText(filePath);
+	filePath1->setText(path);
 	filePath1->setReadOnly(true);
 	filePath1->setCursorPosition(0);
 	filePath1->setFrame(QFrame::WinPanel | QFrame::Sunken);
 
 	QLabel *fileWidth = new QLabel(tr("Width"));
 	QLineEdit *fileWidth1 = new QLineEdit;
-	fileWidth1->setText(QString::number(fTmp->getWidth()));
+	fileWidth1->setText(QString::number(width));
 	fileWidth1->setReadOnly(true);
 	fileWidth1->setFrame(QFrame::Panel | QFrame::Sunken);
 	fileWidth1->setFixedWidth(size);
 	QLabel *fileHeight = new QLabel(tr("Height"));
 	QLineEdit *fileHeight1 = new QLineEdit;
-	fileHeight1->setText(QString::number(fTmp->getHeight()));
+	fileHeight1->setText(QString::number(height));
 	fileHeight1->setReadOnly(true);
 	fileHeight1->setFrame(QFrame::WinPanel | QFrame::Sunken);
 	fileHeight1->setFixedWidth(size);
 
+	QWidget* multiWidget = new QWidget();
 	QSpacerItem *spacer = new QSpacerItem(5, 10);
 	QGridLayout *fileLayout = new QGridLayout;
 	fileLayout->addWidget(fileName, 0, 0);
@@ -315,7 +221,9 @@ void bioData::createFileGroupBox(QString name, QString path, int width, int heig
 	fileLayout->addWidget(fileHeight, 2, 3);
 	fileLayout->addWidget(fileHeight1, 2, 4);
 
-	fileGroupBox->setLayout(fileLayout);
+	multiWidget->setLayout(fileLayout);
+	fileDock->setWidget(multiWidget);
+	addDockWidget(Qt::RightDockWidgetArea, fileDock);
 }
 
 void bioData::actionAdvanced() {
@@ -340,23 +248,41 @@ void bioData::actionAdvanced() {
 	}
 }
 
-void bioData::createListGroupBox()
-{
-	listGroupBox = new QGroupBox(tr("Data"));
+void bioData::createListDock() {
+	listDock = new QDockWidget(tr("Data"), this);
+	listDock->setAllowedAreas(Qt::LeftDockWidgetArea |
+		Qt::RightDockWidgetArea |
+		Qt::BottomDockWidgetArea);
+	listDock->setFeatures(QDockWidget::DockWidgetClosable |
+		QDockWidget::DockWidgetMovable | 
+		QDockWidget::DockWidgetVerticalTitleBar);
 	QLabel *Label = new QLabel(tr("Work with original data: "));
 
+	QWidget* multiWidget = new QWidget();
 	QGridLayout *listLayout = new QGridLayout;
 	QVBoxLayout* vLayout = new QVBoxLayout;
-	listLayout->addWidget(dataListView, 0, 0, 2, 2);
+	//listLayout->addWidget(dataListView, 0, 0, 2, 2);
+	dataTree->setHeaderHidden(true);
+	dataTree->setColumnCount(1);
+	listLayout->addWidget(dataTree, 0, 0, 2, 2);
 	listLayout->addWidget(Label, 2, 0, 2, 1);
 	listLayout->addWidget(useOData, 2, 1, 2, 1);
 
-	listGroupBox->setLayout(listLayout);
+	multiWidget->setLayout(listLayout);
+	listDock->setWidget(multiWidget);
+	addDockWidget(Qt::RightDockWidgetArea, listDock);
 }
 
-void bioData::createFilterGB() {
-	filterGB = new QGroupBox(tr("Filters"));
+void bioData::createFilterDock() {
+	filterDock = new QDockWidget(tr("Filters"), this);
+	filterDock->setAllowedAreas(Qt::LeftDockWidgetArea |
+		Qt::RightDockWidgetArea |
+		Qt::BottomDockWidgetArea);
+	filterDock->setFeatures(QDockWidget::DockWidgetClosable |
+		QDockWidget::DockWidgetMovable |
+		QDockWidget::DockWidgetVerticalTitleBar);
 
+	QWidget* multiWidget = new QWidget();
 	QGridLayout *filterLayout = new QGridLayout;
 	QLabel *otsuLabel = new QLabel(tr("Between-class variance:"));
 	QLabel *kapurLabel = new QLabel(tr("Maximum entropy thresholding:"));
@@ -372,21 +298,31 @@ void bioData::createFilterGB() {
 	filterLayout->addWidget(boundaryLabel, 2, 0);
 	filterLayout->addWidget(boundaryButton, 2, 1);
 	   	 
-	filterGB->setLayout(filterLayout);
+	multiWidget->setLayout(filterLayout);
+	filterDock->setWidget(multiWidget);
+	addDockWidget(Qt::RightDockWidgetArea, filterDock);
 }
 
 void bioData::otsuClicked() {
 
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
 	fTmp->addFiltData(filter.createNewData(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter()));
-
-	QString item = "otsu";
-	dataListView->addItem(item);
-//	dataListView->setCurrentRow(dataListView->count() - 1);
-	std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
-	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData()-1));
-	w->updateViewerWidget();
-	//tst
+	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
+	if (widget2D == nullptr)
+		set2DWidget();
+	else
+		update2DWidget();
+	// Set the window title
+	widget2D->setWindowTitle("Otsu Threshold");
+	addSubItem(parent2D, "otsu");
+	//QString item = "otsu";
+	//dataListView->addItem(item);
+    //dataListView->setCurrentRow(dataListView->count() - 1);
+	//std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
+	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
+	/*widget2D->setWindowTitle("Otsu Threshold");
+	w->updateViewerWidget2D();
+	widget2D->update();*/
 }
 
 void bioData::kapuraClicked() {
@@ -394,13 +330,22 @@ void bioData::kapuraClicked() {
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
 	//filter.histogram();
 	fTmp->addFiltData(filter.createNewData(filter.dataToInt(fTmp->getOrigData()), filter.kapuraFilter()));
-
-	QString item = "kapur";
-	dataListView->addItem(item);
-	//	dataListView->setCurrentRow(dataListView->count() - 1);
-	std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
 	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
-	w->updateViewerWidget();
+	if (widget2D == nullptr)
+		set2DWidget();
+	else
+		update2DWidget();
+	// Set the window title
+	widget2D->setWindowTitle("kapur");
+	addSubItem(parent2D, "kapur");
+
+
+	// QString item = "kapur";
+	// dataListView->addItem(item);
+	// dataListView->setCurrentRow(dataListView->count() - 1);
+	// std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
+
+	//w->updateViewerWidget2D();
 }
 
 void bioData::listIndexChanged(int i)
@@ -408,8 +353,11 @@ void bioData::listIndexChanged(int i)
 	if (i == -1)
 		return;
 	else {
+		QMessageBox mbox;
+		mbox.setText("index changed");
+		mbox.exec();
 		fTmp->setPoints(fTmp->getFiltData(i));
-		w->updateViewerWidget();
+		w->updateViewerWidget2D();
 	}
 }
 
@@ -454,6 +402,12 @@ void bioData::boundaryClicked() {
 			filter.dataToInt(
 				filter.createNewData(
 					filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())))));
+	if (widget3D == nullptr)
+		set3DWidget();
+	else
+		update3DWidget();
+	// Set the window title
+	widget3D->setWindowTitle("Subsurf(3D)");
 //	fTmp->create3Ddata(filter.heatImpl(filter.changeRangeOfData(
 //		filter.dataToInt(
 //			filter.createNewData(
@@ -470,41 +424,78 @@ void bioData::boundaryClicked() {
 	//w->set(fTmp->get3Data(), " ");
 	//w->updateViewerWidget(fTmp->get3Data());
 	//w->updateViewerWidget();
-	w->updateViewerWidget(fTmp->get3Data());
+//	w->updateViewerWidget(fTmp->get3Data());
 }
 
 void bioData::actionDistFunc() {
-	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
-	//histogram();
-	//filter.boundary();
-	//filter.subSurf(filter.distFunctSign(fTmp->getFiltData(0)));
-	//filter.distFunctSign(filter.dataToDouble(fTmp->getFiltData(0)));
+	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());	
 	fTmp->create3Ddata(filter.distFunct(filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())));
-	//QVector<int> tmp = filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter());
-	//fTmp->addFiltData(filter.dataToChar(tmp));
+	if (widget3D == nullptr)
+		set3DWidget();
+	else
+		update3DWidget();
+	// Set the window title
+	widget3D->setWindowTitle("Distanced Function");
+}
 
-	//QString item = "boundary";
-	//dataListView->addItem(item);
-	//	dataListView->setCurrentRow(dataListView->count() - 1);
-	//std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
-	//w->set(fTmp->get3Data(), " ");
-	w->updateViewerWidget(fTmp->get3Data());
+void bioData::set3DWidget() {
+	widget3D = new QWidget(mdiArea);
+	w->setScrollArea3D();
+	gridLayout3D = new QGridLayout(widget3D);
+	gridLayout3D->addWidget(w->getScrollArea3D());
+	w->setViewerWidget3D(fTmp->get3Data());
+	// Adding a widget as a sub window in the Mdi Area
+	mdiArea->addSubWindow(widget3D);
+	mdiArea->setAttribute(Qt::WA_DeleteOnClose);
+	mdiArea->setWindowFlags(Qt::WindowTitleHint);
+	// And show the widget
+	widget3D->show();
+	mdiArea->currentSubWindow()->showMaximized();
+}
+
+void bioData::update3DWidget() {
+	w->updateViewerWidget3D();
+	widget3D->update();
+	widget3D->show();
+}
+
+void bioData::set2DWidget() {
+	widget2D = new QWidget(mdiArea); 
+	parent2D = new QTreeWidgetItem();
+	parent2D->setText(0, "2D");
+	dataTree->addTopLevelItem(parent2D);
+	w->setScrollArea2D();
+	gridLayout2D = new QGridLayout(widget2D);
+	gridLayout2D->addWidget(w->getScrollArea2D());
+	w->setViewerWidget2D(fTmp->getImageData(), fTmp->getFileName(fName));
+	// Adding a widget as a sub window in the Mdi Area
+	mdiArea->addSubWindow(widget2D);
+	//QString twod = "2D";
+	//dataListView->addItem(twod);
+	//dataListView->item(0)->setFlags(Qt::ItemIsAutoTristate);
+	// And show the widget
+	widget2D->show();
+	mdiArea->currentSubWindow()->showMaximized();
+}
+
+void bioData::update2DWidget() {
+	w->updateViewerWidget2D();
+	widget2D->update();
+	widget2D->show();
 }
 
 void bioData::actionSignDistFunc() {
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
-	//histogram();
-	//filter.boundary();
-	//filter.subSurf(filter.distFunctSign(fTmp->getFiltData(0)));
-	//filter.distFunctSign(filter.dataToDouble(fTmp->getFiltData(0)));
 	fTmp->create3Ddata(filter.distFunctSign(filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())));
-	//QVector<int> tmp = filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter());
-	//fTmp->addFiltData(filter.dataToChar(tmp));
+	if (widget3D == nullptr)
+		set3DWidget();
+	else
+		update3DWidget();
+	// Set the window title
+	widget3D->setWindowTitle("Sign Distanced Function");	
+}
 
-	//QString item = "boundary";
-	//dataListView->addItem(item);
-	//	dataListView->setCurrentRow(dataListView->count() - 1);
-	//std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
-	//w->set(fTmp->get3Data(), " ");
-	w->updateViewerWidget(fTmp->get3Data());
+void bioData::createDockWidgets() {
+	
+
 }
