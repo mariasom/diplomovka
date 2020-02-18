@@ -12,6 +12,7 @@ source::~source()
 {
 	points->Delete();
 	dataFilt.clear();
+	data3DFilt.clear();
 }
 
 void source::load(QString path) 
@@ -179,18 +180,19 @@ void source::setPoints(QVector<unsigned char> &setData) {
 		{
 			unsigned char* pixel = static_cast<unsigned char*>(image->GetScalarPointer(i, j, 0));
 			pixel[0] = (unsigned char)setData[j * width + i];
-			// std::cout << data[j * width + i] << " ";
 		}
-		//::cout << endl;
 	}
-
 	image->Modified();
 }
 
-void source::addFiltData(QVector<unsigned char> &addData)
-{
+void source::addFiltData(QVector<unsigned char> &addData) {
 	dataFilt.resize(dataFilt.size() + 1);
 	dataFilt[dataFilt.size() - 1] = addData;
+}
+
+void source::add3DData(QVector<double> &addData) {
+	data3DFilt.resize(data3DFilt.size() + 1);
+	data3DFilt[data3DFilt.size() - 1] = addData;
 }
 
 void source::save_ascii(QString fileName, int index) {
@@ -213,8 +215,6 @@ void source::save_ascii(QString fileName, int index) {
 		for (int i = 0; i < height; i++) {
 			stream << dataFilt.at(index).at(j * width + i) <<  " ";
 		}
-		stream << "\n";
-		cout << "tu  som" << endl;
 	}
 
 	outputFile.close();

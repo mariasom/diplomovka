@@ -7,13 +7,19 @@ bioData::bioData(QWidget *parent)
 	this->ui->setupUi(this);
 
 	this->ui->actionAdvanced->setChecked(true);
+	this->ui->actionAll->setChecked(true);
+	this->ui->actionFileInfo->setChecked(true);
+	this->ui->actionData->setChecked(true);
+	this->ui->actionFilters->setChecked(true);
 	advanced = true;
 	this->ui->actionAdvanced->setDisabled(true);
+	this->ui->menuTabs->setDisabled(true);
 
 	//dataUp = new QPushButton;
 	//dataDown = new QPushButton;
 	otsuButton = new QPushButton;
 	kapuraButton = new QPushButton;
+	niblackButton = new QPushButton;
 	boundaryButton = new QPushButton;
 	//dataListView = new QListWidget;
 	dataTree = new QTreeWidget;
@@ -48,12 +54,13 @@ bioData::bioData(QWidget *parent)
 
 	connect(this->otsuButton, SIGNAL(clicked()), this, SLOT(otsuClicked()));
 	connect(this->kapuraButton, SIGNAL(clicked()), this, SLOT(kapuraClicked()));
+	connect(this->niblackButton, SIGNAL(clicked()), this, SLOT(niblackClicked()));
 	connect(this->boundaryButton, SIGNAL(clicked()), this, SLOT(boundaryClicked()));
 	//connect(this->dataUp, SIGNAL(clicked()), this, SLOT(dataUpClicked()));
 	//connect(this->dataDown, SIGNAL(clicked()), this, SLOT(dataDownClicked()));
 	//connect(this->dataListView, SIGNAL(currentRowChanged(int)), this, SLOT(listIndexChanged(int)));
 	//connect(this->dataTree, SIGNAL(currentItemChanged(QTreeWidgetItem, QTreeWidgetItem)), this, SLOT(treeIndexChanged(QTreeWidgetItem, QTreeWidgetItem)));
-	connect(this->dataTree, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this, SLOT(treeIndexChanged(QTreeWidgetItem *, int)));
+	connect(this->dataTree, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(treeIndexChanged(QTreeWidgetItem *, int)));
 
 	// space for the display area
 	mdiArea = new QMdiArea(this); 
@@ -142,6 +149,7 @@ void bioData::actionOpenFile()
 	createFileDock(fName, filePath, fTmp->getWidth(), fTmp->getHeight());
 	createListDock();
 	createFilterDock();
+	this->ui->menuTabs->setDisabled(false);
 
 	if (widget2D == nullptr)
 		set2DWidget();
@@ -229,10 +237,8 @@ void bioData::createFileDock(QString name, QString path, int width, int height) 
 void bioData::actionAdvanced() {
 
 	QMessageBox mbox;
-	
 	if (filePath.isEmpty()) {
-	//if (!(this->ui->actionAdvanced->isEnabled())) {
-	return;
+		return;
 	}
 	else {
 		if (this->ui->actionAdvanced->isChecked()) {
@@ -240,6 +246,90 @@ void bioData::actionAdvanced() {
 		}
 		else if (!(this->ui->actionAdvanced->isChecked())) {
 			innerTabs->setTabEnabled(1,false);
+		}
+		else {
+			mbox.setText("something went wrong!");
+			mbox.exec();
+		}
+	}
+}
+
+void bioData::actionAll() {
+
+	QMessageBox mbox;
+	if (filePath.isEmpty()) {
+		return;
+	}
+	else {
+		if (this->ui->actionAll->isChecked()) {
+			listDock->show();
+			filterDock->show();
+			fileDock->show();
+		}
+		else if (!(this->ui->actionAll->isChecked())) {
+			listDock->hide();
+			filterDock->hide();
+			fileDock->hide();
+		}
+		else {
+			mbox.setText("something went wrong!");
+			mbox.exec();
+		}
+	}
+}
+
+void bioData::actionFileInfo() {
+
+	QMessageBox mbox;
+	if (filePath.isEmpty()) {
+		return;
+	}
+	else {
+		if (this->ui->actionFileInfo->isChecked()) {
+			fileDock->show();
+		}
+		else if (!(this->ui->actionFileInfo->isChecked())) {
+			fileDock->hide();
+		}
+		else {
+			mbox.setText("something went wrong!");
+			mbox.exec();
+		}
+	}
+}
+
+void bioData::actionData() {
+
+	QMessageBox mbox;
+	if (filePath.isEmpty()) {
+		return;
+	}
+	else {
+		if (this->ui->actionData->isChecked()) {
+			listDock->show();
+		}
+		else if (!(this->ui->actionData->isChecked())) {
+			listDock->hide();
+		}
+		else {
+			mbox.setText("something went wrong!");
+			mbox.exec();
+		}
+	}
+}
+
+void bioData::actionFilters() {
+
+	QMessageBox mbox;
+	if (filePath.isEmpty()) {
+		return;
+	}
+	else {
+		if (this->ui->actionFilters->isChecked()) {
+			filterDock->show();
+		}
+		else if (!(this->ui->actionFilters->isChecked())) {
+			filterDock->hide();
 		}
 		else {
 			mbox.setText("something went wrong!");
@@ -286,7 +376,8 @@ void bioData::createFilterDock() {
 	QGridLayout *filterLayout = new QGridLayout;
 	QLabel *otsuLabel = new QLabel(tr("Between-class variance:"));
 	QLabel *kapurLabel = new QLabel(tr("Maximum entropy thresholding:"));
-	QLabel *boundaryLabel = new QLabel(tr("Display boundaries of the object:"));
+	QLabel *niblackLabel = new QLabel(tr("Niblack’s original method:"));
+	QLabel *boundaryLabel = new QLabel(tr("SUBSURF:"));
 
 	otsuButton->setText("Apply");
 	filterLayout->addWidget(otsuLabel,0,0);
@@ -294,9 +385,12 @@ void bioData::createFilterDock() {
 	kapuraButton->setText("Apply");
 	filterLayout->addWidget(kapurLabel, 1, 0);
 	filterLayout->addWidget(kapuraButton, 1, 1);
+	niblackButton->setText("Apply");
+	filterLayout->addWidget(niblackLabel, 2, 0);
+	filterLayout->addWidget(niblackButton, 2, 1);
 	boundaryButton->setText("Apply");
-	filterLayout->addWidget(boundaryLabel, 2, 0);
-	filterLayout->addWidget(boundaryButton, 2, 1);
+	filterLayout->addWidget(boundaryLabel, 3, 0);
+	filterLayout->addWidget(boundaryButton, 3, 1);
 	   	 
 	multiWidget->setLayout(filterLayout);
 	filterDock->setWidget(multiWidget);
@@ -339,13 +433,25 @@ void bioData::kapuraClicked() {
 	widget2D->setWindowTitle("kapur");
 	addSubItem(parent2D, "kapur");
 
-
 	// QString item = "kapur";
 	// dataListView->addItem(item);
 	// dataListView->setCurrentRow(dataListView->count() - 1);
 	// std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
 
 	//w->updateViewerWidget2D();
+}
+
+void bioData::niblackClicked() {
+	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
+	fTmp->addFiltData(filter.createNewData(filter.dataToInt(fTmp->getOrigData()), filter.kapuraFilter()));
+	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
+	if (widget2D == nullptr)
+		set2DWidget();
+	else
+		update2DWidget();
+	// Set the window title
+	widget2D->setWindowTitle("niblack");
+	addSubItem(parent2D, "niblack");
 }
 
 void bioData::listIndexChanged(int i)
@@ -359,6 +465,36 @@ void bioData::listIndexChanged(int i)
 		fTmp->setPoints(fTmp->getFiltData(i));
 		w->updateViewerWidget2D();
 	}
+}
+
+void bioData::treeIndexChanged(QTreeWidgetItem *itm, int i) {
+	//if (i == 0) {
+		QMessageBox mbox;
+		//mbox.setText(QString::number(itm->parent()->indexOfChild(itm)));
+		//mbox.exec();
+		//mbox.setText(QString::number(i));
+		//mbox.exec();
+		// itm->parent()->indexOfChild(itm);
+		if (itm->parent() == parent2D) {
+
+			fTmp->setPoints(fTmp->getFiltData(dataTree->currentIndex().row()));
+			w->updateViewerWidget2D();
+			if (widget3D != nullptr)
+				widget3D->hide();
+			widget2D->show();
+		}
+		else if (itm->parent() == parent3D) {
+			fTmp->create3Ddata(fTmp->get3DData(dataTree->currentIndex().row()));
+			w->updateViewerWidget3D();
+			if (widget2D != nullptr)
+				widget2D->hide();
+			widget3D->show();
+		}
+		//else if (itm->parent()) {
+		//	mbox.setText("tu som ");
+		//	mbox.exec();
+		//}
+	//}
 }
 
 void bioData::createColorsGB() {
@@ -390,24 +526,36 @@ void bioData::createColorsGB() {
 
 void bioData::boundaryClicked() {
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
-	//histogram();
-	//filter.boundary();
-	//filter.subSurf(filter.distFunctSign(fTmp->getFiltData(0)));
-	//filter.distFunctSign(filter.dataToDouble(fTmp->getFiltData(0)));
-	fTmp->create3Ddata(filter.subSurf(
+	QVector<double> tmp = filter.subSurf(
 		filter.distFunctSign(
 			filter.boundary(
 				filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())),
 		filter.changeRangeOfData(
 			filter.dataToInt(
 				filter.createNewData(
-					filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())))));
+					filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter()))));
+	//histogram();
+	//filter.boundary();
+	//filter.subSurf(filter.distFunctSign(fTmp->getFiltData(0)));
+	//filter.distFunctSign(filter.dataToDouble(fTmp->getFiltData(0)));
+	fTmp->add3DData(tmp);
+	fTmp->create3Ddata(fTmp->get3DData(fTmp->getSize3DData() - 1));
+	// fTmp->create3Ddata(filter.subSurf(
+	//	filter.distFunctSign(
+	//		filter.boundary(
+	//			filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())),
+	//	filter.changeRangeOfData(
+	//		filter.dataToInt(
+	//			filter.createNewData(
+	//				filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())))));
+	
 	if (widget3D == nullptr)
 		set3DWidget();
 	else
 		update3DWidget();
 	// Set the window title
 	widget3D->setWindowTitle("Subsurf(3D)");
+	addSubItem(parent3D, "Subsurf");
 //	fTmp->create3Ddata(filter.heatImpl(filter.changeRangeOfData(
 //		filter.dataToInt(
 //			filter.createNewData(
@@ -429,21 +577,28 @@ void bioData::boundaryClicked() {
 
 void bioData::actionDistFunc() {
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());	
-	fTmp->create3Ddata(filter.distFunct(filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())));
+	QVector<double> tmp = filter.distFunct(filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter()));
+	fTmp->add3DData(tmp);
+	fTmp->create3Ddata(fTmp->get3DData(fTmp->getSize3DData() - 1));
+
 	if (widget3D == nullptr)
 		set3DWidget();
 	else
 		update3DWidget();
 	// Set the window title
 	widget3D->setWindowTitle("Distanced Function");
+	addSubItem(parent3D, "dist_function");
 }
 
 void bioData::set3DWidget() {
 	widget3D = new QWidget(mdiArea);
+	parent3D = new QTreeWidgetItem();
+	parent3D->setText(0, "3D");
+	dataTree->addTopLevelItem(parent3D);
 	w->setScrollArea3D();
-	gridLayout3D = new QGridLayout(widget3D);
+	gridLayout3D = new QGridLayout(widget3D); 
 	gridLayout3D->addWidget(w->getScrollArea3D());
-	w->setViewerWidget3D(fTmp->get3Data());
+	w->setViewerWidget3D(fTmp->getPolydata());
 	// Adding a widget as a sub window in the Mdi Area
 	mdiArea->addSubWindow(widget3D);
 	mdiArea->setAttribute(Qt::WA_DeleteOnClose);
@@ -486,13 +641,18 @@ void bioData::update2DWidget() {
 
 void bioData::actionSignDistFunc() {
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
-	fTmp->create3Ddata(filter.distFunctSign(filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())));
+	//fTmp->create3Ddata(filter.distFunctSign(filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())));
+	QVector<double> tmp = filter.distFunctSign(filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter()));
+	fTmp->add3DData(tmp);
+	fTmp->create3Ddata(fTmp->get3DData(fTmp->getSize3DData() - 1));
+
 	if (widget3D == nullptr)
 		set3DWidget();
 	else
 		update3DWidget();
 	// Set the window title
 	widget3D->setWindowTitle("Sign Distanced Function");	
+	addSubItem(parent3D, "sign_dist_function");
 }
 
 void bioData::createDockWidgets() {

@@ -45,7 +45,18 @@
     <property name="title">
      <string>Settings</string>
     </property>
+    <widget class="QMenu" name="menuTabs">
+     <property name="title">
+      <string>Tabs</string>
+     </property>
+     <addaction name="actionAll"/>
+     <addaction name="separator"/>
+     <addaction name="actionFileInfo"/>
+     <addaction name="actionData"/>
+     <addaction name="actionFilters"/>
+    </widget>
     <addaction name="actionAdvanced"/>
+    <addaction name="menuTabs"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
@@ -113,6 +124,38 @@
   <action name="actionSign_Distanced_Function">
    <property name="text">
     <string>Sign Distanced Function</string>
+   </property>
+  </action>
+  <action name="actionFileInfo">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>File Info </string>
+   </property>
+  </action>
+  <action name="actionData">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Data</string>
+   </property>
+  </action>
+  <action name="actionFilters">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Filters</string>
+   </property>
+  </action>
+  <action name="actionAll">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>All</string>
    </property>
   </action>
  </widget>
@@ -230,6 +273,70 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionAll</sender>
+   <signal>changed()</signal>
+   <receiver>bioData</receiver>
+   <slot>actionAll()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>193</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionFileInfo</sender>
+   <signal>changed()</signal>
+   <receiver>bioData</receiver>
+   <slot>actionFileInfo()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>193</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionData</sender>
+   <signal>changed()</signal>
+   <receiver>bioData</receiver>
+   <slot>actionData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>193</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionFilters</sender>
+   <signal>changed()</signal>
+   <receiver>bioData</receiver>
+   <slot>actionFilters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>193</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>actionOpenFile()</slot>
@@ -241,5 +348,9 @@
   <slot>actionAbout()</slot>
   <slot>actionDistFunc()</slot>
   <slot>actionSignDistFunc()</slot>
+  <slot>actionData()</slot>
+  <slot>actionFilters()</slot>
+  <slot>actionAll()</slot>
+  <slot>actionFileInfo()</slot>
  </slots>
 </ui>

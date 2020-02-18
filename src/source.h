@@ -43,6 +43,7 @@ class source {
 protected:
 	QVector<unsigned char> data;
 	QVector<QVector<unsigned char>> dataFilt;
+	QVector<QVector<double>> data3DFilt;
 	QString fileName = " ";
 	int width = 0;
 	int height = 0;
@@ -70,14 +71,18 @@ public:
 	void setPoints(QVector<unsigned char> &setData);
 	QVector<unsigned char> getOrigData() { return  dataFilt.at(0); };
 	QVector<unsigned char> getFiltData(int i) { return dataFilt.at(i); };
+	QVector<double> get3DData(int i) { return data3DFilt.at(i); };
 	vtkSmartPointer<vtkImageData> getImageData() { return image; };
 	int getWidth() { return width; };
 	int getHeight() { return height; };
-	vtkSmartPointer<vtkPolyData> get3Data() { return polydata; };
+	vtkSmartPointer<vtkPolyData> getPolydata() { return polydata; };
 	void removeFiltData(int i) { dataFilt.remove(i); };
 	int getSizeFiltData() { return dataFilt.size(); };
+	void remove3DData(int i) { data3DFilt.remove(i); };
+	int getSize3DData() { return data3DFilt.size(); };
 	void create3Ddata(QVector<double> z);
 
 	void addFiltData(QVector<unsigned char> &addData);
+	void add3DData(QVector<double> &addData);
 	void save_ascii(QString fileName, int index);
 };

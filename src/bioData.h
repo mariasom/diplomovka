@@ -44,10 +44,16 @@ public slots:
 	void actionAdvanced();
 	void otsuClicked();
 	void kapuraClicked();
+	void niblackClicked();
 	void boundaryClicked();
 	void listIndexChanged(int i);
+	void treeIndexChanged(QTreeWidgetItem *itm, int i);
 	void actionSignDistFunc();
 	void actionDistFunc();
+	void actionAll();
+	void actionFileInfo();
+	void actionData();
+	void actionFilters();
 	//void createDockWindows();
 	//void keyDown();
 	//void keyUp();
@@ -85,6 +91,7 @@ private:
 	QPushButton *dataDown;
 	QPushButton *otsuButton;
 	QPushButton *kapuraButton;
+	QPushButton *niblackButton;
 	QPushButton *boundaryButton;
 	QGroupBox *fileGroupBox;
 	QListWidget *dataListView;

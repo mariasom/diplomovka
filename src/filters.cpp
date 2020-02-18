@@ -650,7 +650,8 @@ QVector<double> filters::heatImpl(QVector<double> data) {
 	double a = tau / (h * h);
 	double rez = pow(10, 6);
 	double w = 1.15;
-
+	// prerobit na do ~ while
+	// do {
 	for(int iter = 1; iter <= itermax; iter++) {
 		// (*Print["HE: krok=", 1., ", iter=", iter, " rez=", rez]; *)
 		std::cout << " HE: krok: " << 1. << " iter: " << iter << " rez: " << rez << std::endl;
@@ -681,7 +682,7 @@ QVector<double> filters::heatImpl(QVector<double> data) {
 		}
 		if (rez < tol)
 			break;
-	}
+	} // while ();
 	un = antireflection(un, p);
 	up = un;
 

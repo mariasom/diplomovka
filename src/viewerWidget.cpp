@@ -109,7 +109,7 @@ void viewerWidget::updateViewerWidget3D()
 {
 	renderer3D->GetViewProps()->RemoveAllItems();
 	renderer3D->AddActor(actor3D);
-	renderer3D->SetBackground(1,0 , 1);
+	renderer3D->SetBackground(0,0,0);
 
 	renderWindow3D->Render();
 }
