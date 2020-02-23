@@ -131,7 +131,7 @@ QString source::getFileName(QString path) {
 	return name;
 }
 
-void source::setPoints(QVector<unsigned char> &setData) {
+void source::setPoints(QVector<unsigned char> &setData, int p) {
 
 	// cez body
 
@@ -170,16 +170,19 @@ void source::setPoints(QVector<unsigned char> &setData) {
 	polydata->GetPointData()->SetScalars(color);
 	polydata->Modified();*/
 
-	image->SetDimensions(width, height, 1);
+	 int widthR = width + 2 * p;
+	int heightR = height + 2 * p;
+
+	image->SetDimensions(widthR, heightR, 1);
 	image->SetOrigin(.5, .5, 0);
 	image->AllocateScalars(VTK_UNSIGNED_CHAR, 1);
 	
-	for (int j = 0; j < width; j++)
+	for (int j = 0; j < widthR; j++)
 	{
-		for (int i = 0; i < height; i++)
+		for (int i = 0; i < heightR; i++)
 		{
 			unsigned char* pixel = static_cast<unsigned char*>(image->GetScalarPointer(i, j, 0));
-			pixel[0] = (unsigned char)setData[j * width + i];
+			pixel[0] = (unsigned char)setData[j * widthR + i];
 		}
 	}
 	image->Modified();

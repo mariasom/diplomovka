@@ -8,7 +8,7 @@ filters::filters(int widthOrig, int heightOrig, QVector<unsigned char> oData)
 {
 	width = widthOrig;
 	height = heightOrig;
-	origData = dataToInt(oData);
+	origData = dataToDouble(oData);
 	histogram(origData);
 }
 
@@ -48,7 +48,7 @@ QVector<int> filters::dataToInt(QVector<double> oData) {
 	return tmp;
 }
 
-QVector<unsigned char> filters::dataToChar(QVector<int> data) {
+QVector<unsigned char> filters::dataToChar(QVector<double> data) {
 	QVector<unsigned char> tmp;
 
 	tmp.reserve(data.size());
@@ -61,7 +61,7 @@ filters::~filters() {
 	origData.clear();
 }
 
-void filters::histogram(QVector<int> data) {
+void filters::histogram(QVector<double> data) {
 		//vynulovanie histogrramu
 	hist.resize(256);
 
@@ -311,9 +311,9 @@ QVector<QVector<float>> filters::makeTables(int K, QVector<float> histN) {
 }
 
 // data when using thresholding
-QVector<unsigned char> filters::createNewData(QVector<int> data, int threshold) {
+QVector<unsigned char> filters::createNewData(QVector<unsigned char> data, int threshold) {
 	QVector<unsigned char> tmp;
-	tmp = dataToChar(data);
+	tmp = data;
 	for (int j = 0; j < width; j++) //vytvorenie dat
 		for (int i = 0; i < height; i++)
 			if ((int)origData[j * width + i] < threshold)
@@ -323,10 +323,10 @@ QVector<unsigned char> filters::createNewData(QVector<int> data, int threshold) 
 	return tmp;
 }
 
-QVector<double> filters::boundary(QVector<int> data, int threshold) {
+QVector<double> filters::boundary(QVector<double> data, int threshold) {
 	QVector<unsigned char> tmp;
 	QVector<double> tmp1;
-	tmp = createNewData(data, threshold);
+	tmp = createNewData(dataToChar(data), threshold);
 	tmp1.resize(width*height);
 
 	for (int j = 0; j < width; j++) {
@@ -352,7 +352,22 @@ QVector<double> filters::changeRangeOfData(QVector<int> data) {
 	return tmp;
 }
 
-QVector<double> filters::reflection(QVector<double> data, int p) { //v tejto funkcii ratam s tym ze p = 1
+QVector<double> filters::changeRangeOfData(QVector<double> data, int p) {
+	int widthR, heightR;
+	widthR = width + 2 * p;
+	heightR = height + 2 * p;
+	QVector<double> tmp;
+	tmp.resize(widthR * heightR);
+
+	for (int j = 0; j < widthR; j++) {
+		for (int i = 0; i < heightR; i++) {
+			tmp[j * widthR + i] = data.at(j * widthR + i) * 255.;
+		}
+	}
+	return tmp;
+}
+
+QVector<double> filters::reflection(QVector<double> data, int p) { //v tejto funkcii ratam s tym ze p = 1 (uz nie uz funguje vseobecne)
 	int widthR, heightR;
 	widthR = width + 2 * p;
 	heightR = height + 2 * p;
@@ -360,7 +375,24 @@ QVector<double> filters::reflection(QVector<double> data, int p) { //v tejto fun
 	reflected.resize(widthR * heightR);
 	reflected.fill(0);
 
-	for (int i = 0; i < heightR; i++) {
+	for (int i = p; i < heightR - p; i++) {
+		for (int j = p; j < widthR - p; j++) 
+			reflected[j + widthR * i] = data.at((j - p) + width * (i - p));
+	}
+	
+	for (int i = p; i < heightR - p; i++)
+		for (int k = 0; k < p; k++) {
+			reflected[(p - k - 1) + widthR * i] = reflected.at((p + k) + widthR * i);
+			reflected[(height + p + k) + widthR * i] = reflected.at((height + p - k - 1) + widthR * i);
+		}
+
+	for (int j = 0; j < widthR; j++)
+		for (int k = 0; k < p; k++)	{
+			reflected[j + widthR * (p - k - 1)] = reflected.at(j + widthR * (p + k));
+			reflected[j + widthR * (width + p + k)] = reflected.at(j + widthR * (width + p - k - 1));
+		}
+
+	/*for (int i = 0; i < heightR; i++) {
 		for (int j = 0; j < widthR; j++) {
 		
 			if (i == 0 || i == heightR - 1 ) {				//hore a dole
@@ -381,7 +413,7 @@ QVector<double> filters::reflection(QVector<double> data, int p) { //v tejto fun
 				}
 			}
 		}
-	}
+	}*/
 	return reflected;
 }
 
@@ -393,7 +425,24 @@ QVector<double> filters::updateReflection(QVector<double> data, int p) {
 	reflected.resize(widthR * heightR);
 	reflected.fill(0);
 
-	for (int i = 0; i < heightR; i++) {
+	for (int i = p; i < heightR - p; i++) {
+		for (int j = p; j < widthR - p; j++)
+			reflected[j + widthR * i] = data.at(j + widthR * i);
+	}
+
+	for (int i = p; i < heightR - p; i++)
+		for (int k = 0; k < p; k++) {
+			reflected[(p - k - 1) + widthR * i] = data.at((p + k) + widthR * i);
+			reflected[(height + p + k) + widthR * i] = data.at((height + p - k - 1) + widthR * i);
+		}
+
+	for (int j = 0; j < widthR; j++)
+		for (int k = 0; k < p; k++) {
+			reflected[j + widthR * (p - k - 1)] = data.at(j + widthR * (p + k));
+			reflected[j + widthR * (width + p + k)] = data.at(j + widthR * (width + p - k - 1));
+		}
+
+	/*for (int i = 0; i < heightR; i++) {
 		for (int j = 0; j < widthR; j++) {
 
 			if (i == 0 || i == heightR - 1) {				//hore a dole
@@ -414,7 +463,7 @@ QVector<double> filters::updateReflection(QVector<double> data, int p) {
 				}
 			}
 		}
-	}
+	}*/
 	return reflected;
 }
 
@@ -425,11 +474,15 @@ QVector<double> filters::antireflection(QVector<double> data, int p) { //v tejto
 	QVector<double> antiref;
 	antiref.resize(width*height);
 
-	for (int j = 0; j < width; j++) {
+	/* for (int j = 0; j < width; j++) {
 		for (int i = 0; i < height; i++) {
 			antiref[j + width * (i)] = data.at((j + 1) + widthR * (i + 1));
 		}
-	}
+	} */
+
+	for (int j = 0; j < width; j++)
+		for (int i = 0; i < height; i++) 
+			antiref[j + width * i] = data.at((j + p) + widthR * (i + p));
 
 	return antiref;
 }
@@ -634,8 +687,7 @@ QVector<double> filters::an(QVector<double> data, bool eps) {
 	return pole;
 }
 
-QVector<double> filters::heatImpl(QVector<double> data) {
-	int p = 1;
+QVector<double> filters::heatImpl(QVector<double> data, int p) {
 	int widthR = width + 2 * p ;
 	int heightR = height + 2 * p;
 	QVector<double> un, up;
@@ -656,8 +708,8 @@ QVector<double> filters::heatImpl(QVector<double> data) {
 		// (*Print["HE: krok=", 1., ", iter=", iter, " rez=", rez]; *)
 		std::cout << " HE: krok: " << 1. << " iter: " << iter << " rez: " << rez << std::endl;
 
-		for (int j = 1; j < heightR - 1; j++) {
-			for (int i = 1; i < widthR - 1; i++) {
+		for (int j = p; j < heightR - p; j++) {
+			for (int i = p; i < widthR - p; i++) {
 				double tmp = (1. / (1. + 4 * a))*(up.at(j * widthR + i) +
 					a * (un.at(j * widthR + (i + 1)) +
 						un.at(j * widthR + (i - 1)) +
@@ -669,8 +721,8 @@ QVector<double> filters::heatImpl(QVector<double> data) {
 			}
 		}
 		rez = 0;
-		for (int j = 1; j < heightR - 1; j++) {
-			for (int i = 1; i < widthR - 1; i++) {
+		for (int j = p; j < heightR - p; j++) {
+			for (int i = p; i < widthR - p; i++) {
 				double tmp = (1. + 4 * a) * un.at(j * widthR + i) -
 					a * (un.at(j * widthR + (i + 1)) +
 						un.at(j * widthR + (i - 1)) + 
@@ -784,4 +836,81 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData) {
 	}	
 	uf = antireflection(un, p);
 	return uf;
+}
+
+QVector<double> filters::niblackThreshold(QVector<double> data, int p) {
+	QVector<double> tmp, tmp1, tmp2, thresholds;
+	int widthR = width + 2 * p;
+	int heightR = height + 2 * p;
+	double TT = 20, r = p*p;
+	tmp1 = heatImpl(data, p); //u
+	tmp2 = heatImpl(pow2(data), p); //uu
+
+	tmp1 = reflection(data, p); 
+	tmp2 = reflection(pow2(data), p); 
+
+	for (int i = p; i < height + p; i++)
+		for (int j = p; j < width + p; j++) {
+			tmp2[j * widthR + i] = sqrt(tmp2[j * widthR + i] - pow(tmp1[j * widthR + i], 2));
+			if (tmp2[j * widthR + i] < TT / 255. && tmp1[j * widthR + i] < 70 / 255.)
+				tmp2[j * widthR + i] = tmp2[j * widthR + i] + 30 / 255.;
+			if (tmp2[j * widthR + i] < TT / 255. && tmp1[j * widthR + i] >= 70 / 255.)
+				tmp2[j * widthR + i] = tmp2[j * widthR + i] - 30 / 255.;
+		}
+
+	thresholds.resize(tmp1.size());
+	for (int i = p; i < height + p; i++)
+		for (int j = p; j < width + p; j++) 
+			thresholds[j * widthR + i] = tmp1[j * widthR + i] + 0.18*tmp2[j * widthR + i];  //thresholds
+
+	tmp = reflection(data, p);
+
+	for (int i = p; i < height + p; i++)
+		for (int j = p; j < width + p; j++)
+			if (tmp[j * widthR + i] <= thresholds[j * widthR + i])
+				tmp[j * widthR + i] = 0;
+			else
+				tmp[j * widthR + i] = 1;
+
+	double cminv = 50/255.;
+	for (int i = p; i < height + p; i++) {
+		for (int j = p; j < width + p; j++) {
+			double min = 10, max = -1;
+			for (int ii = i - p; ii <= i + p; ii++)
+				for (int jj = j - p; jj <= j + p; jj++) 
+					//if(pow(i-ii,2)+pow(j-jj,2)<=p*p) 
+					{
+						if (tmp[jj * widthR + ii] < min)
+							min = tmp.at(jj * widthR + ii);
+						if (tmp[jj * widthR + ii] > max)
+							max = tmp.at(jj * widthR + ii);
+					}
+			double pom = 0.5*(min + max);
+			if (pom < cminv)
+				thresholds[j * widthR + i] = 1;
+		}
+	}
+
+	//final thresholding
+	for (int i = p; i < height + p; i++) 
+		for (int j = p; j < width + p; j++) 
+			if (tmp[j * widthR + i] <= thresholds[j * widthR + i])
+				tmp1[j * widthR + i] = 0;
+			else
+				tmp1[j * widthR + i] = 1;
+
+	 tmp1 = antireflection(tmp1, p);
+	 tmp1 = changeRangeOfData(tmp1);
+
+	return tmp1;
+}
+
+QVector<double> filters::pow2(QVector<double> data) {
+	QVector<double> tmp;
+	tmp.resize(data.size());
+	for (int i = 0; i < height; i++)
+		for (int j = 0; j < width; j++)
+			tmp[j * width + i] = data.at(j * width + i)* data.at(j * width + i);
+
+	return tmp;
 }

@@ -175,8 +175,8 @@ void bioData::setTabWidget() {
 
 // save pgm file
 void bioData::actionpgm() {
-	int i = dataListView->currentRow();
-	QString fileName1 = dataListView->item(i)->text() + ".pgm";
+	int i = dataTree->currentItem()->indexOfChild(dataTree->currentItem());
+	QString fileName1 = dataTree->currentItem()->text(0) + ".pgm";
 	fTmp->save_ascii(fileName1, i);
 }
 
@@ -400,7 +400,7 @@ void bioData::createFilterDock() {
 void bioData::otsuClicked() {
 
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
-	fTmp->addFiltData(filter.createNewData(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter()));
+	fTmp->addFiltData(filter.createNewData(fTmp->getOrigData(), filter.otsuFilter()));
 	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
 	if (widget2D == nullptr)
 		set2DWidget();
@@ -423,7 +423,7 @@ void bioData::kapuraClicked() {
 
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
 	//filter.histogram();
-	fTmp->addFiltData(filter.createNewData(filter.dataToInt(fTmp->getOrigData()), filter.kapuraFilter()));
+	fTmp->addFiltData(filter.createNewData(fTmp->getOrigData(), filter.kapuraFilter()));
 	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
 	if (widget2D == nullptr)
 		set2DWidget();
@@ -443,7 +443,8 @@ void bioData::kapuraClicked() {
 
 void bioData::niblackClicked() {
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
-	fTmp->addFiltData(filter.createNewData(filter.dataToInt(fTmp->getOrigData()), filter.kapuraFilter()));
+	QVector<unsigned char> tmp = filter.dataToChar(filter.niblackThreshold(filter.changeRangeOfData(filter.dataToInt(fTmp->getOrigData())), 7));
+	fTmp->addFiltData(tmp);
 	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
 	if (widget2D == nullptr)
 		set2DWidget();
@@ -528,12 +529,11 @@ void bioData::boundaryClicked() {
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
 	QVector<double> tmp = filter.subSurf(
 		filter.distFunctSign(
-			filter.boundary(
-				filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())),
+			filter.boundary(filter.dataToDouble(fTmp->getOrigData()), filter.otsuFilter())),
 		filter.changeRangeOfData(
 			filter.dataToInt(
 				filter.createNewData(
-					filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter()))));
+					fTmp->getOrigData(), filter.otsuFilter()))));
 	//histogram();
 	//filter.boundary();
 	//filter.subSurf(filter.distFunctSign(fTmp->getFiltData(0)));
@@ -577,7 +577,7 @@ void bioData::boundaryClicked() {
 
 void bioData::actionDistFunc() {
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());	
-	QVector<double> tmp = filter.distFunct(filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter()));
+	QVector<double> tmp = filter.distFunct(filter.boundary(filter.dataToDouble(fTmp->getOrigData()), filter.otsuFilter()));
 	fTmp->add3DData(tmp);
 	fTmp->create3Ddata(fTmp->get3DData(fTmp->getSize3DData() - 1));
 
@@ -642,7 +642,7 @@ void bioData::update2DWidget() {
 void bioData::actionSignDistFunc() {
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
 	//fTmp->create3Ddata(filter.distFunctSign(filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())));
-	QVector<double> tmp = filter.distFunctSign(filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter()));
+	QVector<double> tmp = filter.distFunctSign(filter.boundary(filter.dataToDouble(fTmp->getOrigData()), filter.otsuFilter()));
 	fTmp->add3DData(tmp);
 	fTmp->create3Ddata(fTmp->get3DData(fTmp->getSize3DData() - 1));
 
