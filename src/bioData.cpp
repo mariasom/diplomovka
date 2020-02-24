@@ -442,8 +442,8 @@ void bioData::kapuraClicked() {
 }
 
 void bioData::niblackClicked() {
-	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
-	QVector<unsigned char> tmp = filter.dataToChar(filter.niblackThreshold(filter.changeRangeOfData(filter.dataToInt(fTmp->getOrigData())), 7));
+	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData(),7);
+	QVector<unsigned char> tmp = filter.dataToChar(filter.niblackThreshold(filter.changeRangeOfData(filter.dataToInt(fTmp->getOrigData()))));
 	fTmp->addFiltData(tmp);
 	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
 	if (widget2D == nullptr)
@@ -532,8 +532,7 @@ void bioData::boundaryClicked() {
 			filter.boundary(filter.dataToDouble(fTmp->getOrigData()), filter.otsuFilter())),
 		filter.changeRangeOfData(
 			filter.dataToInt(
-				filter.createNewData(
-					fTmp->getOrigData(), filter.otsuFilter()))));
+				filter.niblackThreshold(filter.changeRangeOfData(filter.dataToInt(fTmp->getOrigData()))))));
 	//histogram();
 	//filter.boundary();
 	//filter.subSurf(filter.distFunctSign(fTmp->getFiltData(0)));
@@ -656,6 +655,4 @@ void bioData::actionSignDistFunc() {
 }
 
 void bioData::createDockWidgets() {
-	
-
 }

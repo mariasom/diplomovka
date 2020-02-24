@@ -4,12 +4,13 @@
 #include <iostream>
 #include <QtMath>
 #include <math.h>
+#include <qfile>
+#include <QTextStream>
 
 class filters
 {
 private:
-	int width;
-	int height;
+	int width, height, widthR, heightR, p;
 	float threshold = 0;
 	QVector<int> hist;
 	QVector<double> origData;
@@ -23,36 +24,33 @@ private:
 	QVector<double> ae(QVector<double> data, bool eps);
 	double M(QVector<double> u,int i, int j, int p, int q);
 	double findmax(double m1, double m2);
-	QVector<double> antireflection(QVector<double> data, int p = 1);
-	QVector<double> updateReflection(QVector<double> data, int p = 1);
+	QVector<double> antireflection(QVector<double> data);
+	QVector<double> updateReflection(QVector<double> data);
 	QVector<double> pow2(QVector<double> data);
-
-
-
+	void tmp_save(QString fileName, QVector<double> data, int w, int h);
 
 public:
 	filters();
-	filters(int widthOrig, int heightOrig, QVector<unsigned char> oData);
+	filters(int widthOrig, int heightOrig, QVector<unsigned char> oData, int pp = 1);
 	~filters();
 	void histogram(QVector<double> data);
 	QVector<unsigned char> getFiltDat() { return charData; };
 	int otsuFilter();
 	int kapuraFilter();
-	void coOcMatrix();
 	QVector<double> boundary(QVector<double> data, int threshold);
 	QVector<unsigned char> createNewData(QVector<unsigned char> data, int threshold);
 	QVector<double> dataToDouble(QVector<unsigned char> oData);
 	QVector<int> dataToInt(QVector<unsigned char> oData);
 	QVector<int> dataToInt(QVector<double> oData);
 	QVector<double> changeRangeOfData(QVector<int> data);
-	QVector<double> changeRangeOfData(QVector<double> data, int p = 0);
+	QVector<double> changeRangeOfData(QVector<double> data);
 	QVector<unsigned char> dataToChar(QVector<double> data);
 	QVector<double> distFunct(QVector<double> data);
 	QVector<double> distFunctSign(QVector<double> data);
 	QVector<QVector<float>> makeTables(int K, QVector<float> histN);
 	QVector<double> subSurf(QVector<double> data, QVector<double> tData);
-	QVector<double> heatImpl(QVector<double> data, int p = 1);
-	QVector<double> niblackThreshold(QVector<double> data, int p = 1);
-	QVector<double> reflection(QVector<double> data, int p = 1);
+	QVector<double> heatImpl(QVector<double> data);
+	QVector<double> niblackThreshold(QVector<double> data);
+	QVector<double> reflection(QVector<double> data);
 
 };

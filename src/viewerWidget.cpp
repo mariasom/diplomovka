@@ -1,19 +1,15 @@
 #include "viewerWidget.h"
 
-viewerWidget::viewerWidget(QWidget *parent) : QWidget(parent)
-{
+viewerWidget::viewerWidget(QWidget *parent) : QWidget(parent) {
 	setAttribute(Qt::WA_StaticContents);
 	qW2D = new QVTKOpenGLNativeWidget(this);
 	qW3D = new QVTKOpenGLNativeWidget(this);
 }
 
-
-viewerWidget::~viewerWidget()
-{
+viewerWidget::~viewerWidget() {
 }
 
-void viewerWidget::setScrollArea2D()
-{
+void viewerWidget::setScrollArea2D() {
 	_scrollArea2D = new QScrollArea;
 	_scrollArea2D->setObjectName("QScrollArea");
 	_scrollArea2D->setWidget(qW2D);
@@ -24,8 +20,7 @@ void viewerWidget::setScrollArea2D()
 	_scrollArea2D->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
-void viewerWidget::setScrollArea3D()
-{
+void viewerWidget::setScrollArea3D() {
 	_scrollArea3D = new QScrollArea;
 	_scrollArea3D->setObjectName("QScrollArea");
 	_scrollArea3D->setWidget(qW3D);
@@ -58,8 +53,7 @@ void viewerWidget::setScrollArea3D()
 	qW->GetRenderWindow()->AddRenderer(renderer);
 }*/
 
-void viewerWidget::setViewerWidget2D(vtkSmartPointer<vtkImageData> image, QString fName)
-{
+void viewerWidget::setViewerWidget2D(vtkSmartPointer<vtkImageData> image, QString fName) {
 	//vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
 	qW2D->SetRenderWindow(renderWindow2D);
 
@@ -96,26 +90,21 @@ void viewerWidget::setViewerWidget2D(vtkSmartPointer<vtkImageData> image, QStrin
 	qW2D->GetRenderWindow()->AddRenderer(renderer2D);
 }
 
-void viewerWidget::updateViewerWidget2D()
-{
+void viewerWidget::updateViewerWidget2D() {
 	renderer2D->GetViewProps()->RemoveAllItems();
 	renderer2D->AddActor(actor2D);
 	renderer2D->SetBackground(1, 1, 1);
-
 	renderWindow2D->Render();
 }
 
-void viewerWidget::updateViewerWidget3D()
-{
+void viewerWidget::updateViewerWidget3D() {
 	renderer3D->GetViewProps()->RemoveAllItems();
 	renderer3D->AddActor(actor3D);
 	renderer3D->SetBackground(0,0,0);
-
 	renderWindow3D->Render();
 }
 
-void viewerWidget::setViewerWidget3D(vtkSmartPointer<vtkPolyData> polydata)
-{
+void viewerWidget::setViewerWidget3D(vtkSmartPointer<vtkPolyData> polydata) {
 	qW3D->SetRenderWindow(renderWindow3D);
 	vtkSmartPointer<vtkPolyDataMapper> mapper =
 		vtkSmartPointer<vtkPolyDataMapper>::New();
