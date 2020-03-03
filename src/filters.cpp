@@ -187,7 +187,11 @@ QVector<unsigned char> filters::createNewData(QVector<unsigned char> data, int t
 QVector<double> filters::boundary(QVector<double> data, int threshold) {
 	QVector<unsigned char> tmp;
 	QVector<double> tmp1;
-	tmp = createNewData(dataToChar(data), threshold);
+	if (threshold == -1) 
+		tmp = createNewData(dataToChar(data), threshold);
+	else
+		tmp = dataToChar(data);
+
 	tmp1.resize(width*height);
 
 	for (int j = 0; j < width; j++) {
@@ -519,7 +523,7 @@ QVector<double> filters::heatImpl(QVector<double> data) {
 	return up;
 }
 
-QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData) {
+QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, double sigma, double tau, double k) {
 	QVector<double> uk1, up, un, uhe, up1;
 	QVector<double> qepm, qwpm, qspm, qnpm, qe, qw, qs, qn;
 	QVector<double> uf;
@@ -533,11 +537,8 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData) {
 	//pic[0] = data;
 	double tol = 0.5;
 	int itermax = 100;
-	double tau = 1.0;
 	double h = 1.0;
 	double a = tau / (h*h);
-	double k = 255*255;
-	double sigma = 0.25;
 	double epsilon = 0.001;
 	double w = 1.15;
 
@@ -697,4 +698,8 @@ void filters::tmp_save(QString fileName,QVector<double> data, int w, int h) {
 			stream << (int)data.at(j * width + i) << " ";
 
 	outputFile.close();
+}
+QVector<double> filters::bernsenThreshold(QVector<double> data) {
+	QVector<double> tmp;
+	return tmp;
 }

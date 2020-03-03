@@ -29,6 +29,7 @@ private:
 	QVector<double> pow2(QVector<double> data);
 	void tmp_save(QString fileName, QVector<double> data, int w, int h);
 
+
 public:
 	filters();
 	filters(int widthOrig, int heightOrig, QVector<unsigned char> oData, int pp = 1);
@@ -37,7 +38,7 @@ public:
 	QVector<unsigned char> getFiltDat() { return charData; };
 	int otsuFilter();
 	int kapuraFilter();
-	QVector<double> boundary(QVector<double> data, int threshold);
+	QVector<double> boundary(QVector<double> data, int threshold = -1);
 	QVector<unsigned char> createNewData(QVector<unsigned char> data, int threshold);
 	QVector<double> dataToDouble(QVector<unsigned char> oData);
 	QVector<int> dataToInt(QVector<unsigned char> oData);
@@ -48,9 +49,9 @@ public:
 	QVector<double> distFunct(QVector<double> data);
 	QVector<double> distFunctSign(QVector<double> data);
 	QVector<QVector<float>> makeTables(int K, QVector<float> histN);
-	QVector<double> subSurf(QVector<double> data, QVector<double> tData);
+	QVector<double> subSurf(QVector<double> data, QVector<double> tData, double sigma, double tau, double k); //sigma - size of lin. time steps, tau - nonlinear time steps, k - sensitivity coeficient
 	QVector<double> heatImpl(QVector<double> data);
 	QVector<double> niblackThreshold(QVector<double> data);
 	QVector<double> reflection(QVector<double> data);
-
+	QVector<double> bernsenThreshold(QVector<double> data);
 };

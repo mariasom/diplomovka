@@ -26,6 +26,7 @@ public:
 	void createFileDock(QString name, QString path, int width, int height);
 	void createListDock();
 	void createFilterDock();
+	void createSubsurfDock();
 	void createColorsGB();
 	void set3DWidget();
 	void update3DWidget();
@@ -46,6 +47,7 @@ public slots:
 	void kapuraClicked();
 	void niblackClicked();
 	void boundaryClicked();
+	void subsurfClicked();
 	void listIndexChanged(int i);
 	void treeIndexChanged(QTreeWidgetItem *itm, int i);
 	void actionSignDistFunc();
@@ -68,10 +70,15 @@ private:
 	QDockWidget *fileDock;
 	QDockWidget *filterDock;
 	QDockWidget *listDock;
+	QDockWidget *subsurfDock;
 	QTreeWidget *dataTree;
 	QTreeWidgetItem *parent2D;
 	QTreeWidgetItem *parent3D;
-
+	QComboBox *dataCBox;
+	QPushButton *subsurfButton;
+	QDoubleSpinBox *sigmaSubsurf;
+	QDoubleSpinBox *tauSubsurf;
+	QDoubleSpinBox *kSubsurf;
 
 	QTabWidget *innerTabs;
 	QDoubleSpinBox *scaleSpinBox_x;
