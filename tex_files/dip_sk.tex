@@ -1,0 +1,207 @@
+\documentclass[a4paper,11pt,twoside]{article}%pridat twoside, do [] pre obojstrannu tlac
+    \pagestyle{headings}
+    %\linespread{1.15} % riadkovanie
+    \usepackage[top=2.5cm, bottom=2.5cm, left=3.5cm, right=2cm]{geometry} %odporucane okraje
+%    \usepackage[top=2.9cm, bottom=2.9cm, left=2.5cm, right=4cm]{geometry} %okraje
+    %\evensidemargin=-0cm       %uprava okrajov
+    %\oddsidemargin=+1.5cm        %uprava okrajov
+
+%Slovencina
+\usepackage[slovak]{babel}
+\usepackage[utf8x]{inputenc}
+%\usepackage[cp1250]{inputenc}
+%\usepackage[T1]{fontenc} %pekne makcene
+
+
+%male popisy obrazkov a~grafika
+\usepackage[font=small,margin=0.5cm]{caption} % margin reguluje okraje popisu obrazka (v pripade, ze je na sirku strany a~ma viac ako 1 riadok)
+\usepackage[dvips]{graphicx}
+\usepackage{wrapfig}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{epstopdf}   %bez tohto pdflatex nezoberie eps obazky
+
+%grid obrazkov
+\usepackage{subfig}
+
+%farebne tabulky
+\usepackage{colortbl}
+\usepackage[table]{xcolor}
+%na otacanie tabuliek
+\usepackage{rotating}
+
+%odsadenie prveho odstavca
+\usepackage{indentfirst}
+
+%Matematicke vyrazy
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{verbatim}
+\usepackage[official]{eurosym}
+\usepackage{url}
+
+%algoritmy
+\usepackage[lined,boxed]{algorithm2e}
+
+%�moje definicie
+\newcommand{\p}{\partial}
+ \def\epsilon{\varepsilon}
+ \def\Bf#1{\mathbf{#1}}
+
+%Slovenske uvodzovky
+\chardef\clqq=18 \sfcode18=0
+\chardef\crqq=16 \sfcode16=0
+\def\uv#1{\clqq#1\crqq}
+
+\usepackage{verse}
+
+\author{Mária Somorovská}
+\title{Automatické segmentačné metódy biologických dát}
+
+%Hyperreferencia
+\usepackage{hyperref}
+    \hypersetup{colorlinks,citecolor=red,filecolor=black,linkcolor=blue,urlcolor=blue,pdftex}
+%====================================================================================================================================================
+%====================================================================================================================================================
+
+\begin{document}
+\setlength{\belowdisplayskip}{7pt} \setlength{\belowdisplayshortskip}{5pt}
+\setlength{\abovedisplayskip}{7pt} \setlength{\abovedisplayshortskip}{5pt}
+
+%***********************zaciatok prvej strany
+    \thispagestyle{empty}
+    {
+    \topmargin=0pt
+    \centerline {\large \bf{SLOVENSKÁ TECHNICKÁ UNIVERZITA V~BRATISLAVE}}
+    \vskip 0.2cm
+    \centerline{\large \bf{STAVEBNÁ FAKULTA}}
+    \vskip 7cm
+    \centerline{\Large \bf{Automatické segmentačné metódy biologických dát}}
+    \vskip 0.2cm
+    %\centerline{\Large \bf{V PRÍPADE, ŽE JE PRIDLHÝ JEHO DRUHÝ RIADOK}}
+    %\centerline{ \bf{(verzia z~\today) }}   %vypisovanie dnesneho datumu
+    \vskip 0.5cm
+    \centerline{\large \bf{Diplomová práca}}
+    \vskip 5cm          %\vskip 2cm             %zmena kvoli zobrazovaniu dnesneho datumu
+    \normalsize
+        \begin{tabular}[l]{p{0.27\textwidth}p{0.73\textwidth}}
+        Študijny program: & Matematicko-počítačové modelovanie\\
+        Študijny odbor: & Aplikovaná matematika\\
+        Školiace pracovisko: & Katedra matematiky a deskriptívnej geometrie\\
+        Vedúci diplomovej práce: & doc. RNDr. Zuzana Krivá, PhD. \\
+        \end{tabular}
+    \vskip 1.5cm
+    \centerline{\large \bf{BRATISLAVA 2020}}
+    \vskip 0.2cm
+    \centerline{\large \bf{Bc. Mária Somorovská}}
+    }
+\pagebreak
+%**********************************koniec prvej strany
+
+%obsah
+\tableofcontents
+
+\newpage
+
+\section{Úvod}
+% In the different 
+%Spracovanie obrazov, je metóda, ktorá používa rôzne operácie na obrazových dátach
+
+%Makrofág je typ pohyblivej bielej krvinky, ktorá hrá dôležitú úlohu v ochrane imunitného systému  
+
+%Dáta, ktorými sa zaoberá táto 
+%Rôzne vedné odvetvia, využivajú
+
+V rôznych vedných disciplínach ale aj v bežnom živote sa používajú rôzne aplikácie spracovania obrazov. Spracovanie obrazov je metóda, ktorá pomocou rôznych matematických operácii a algoritmov upravuje obrazové dáta rôznych formátov a pomáha z nich získavať užitočné informácie.  Obrazové dáta je potrebné zobraziť, či už pred alebo po modifikácií. 
+
+Spracovanie obrazov sa rýchlo rozvíja a využíva sa v mnohých vedných disciplínach. Dobrým príkladom, by mohli byť obrazové dáta získané mikroskopom. Takéto dáta môžu obsahovať šum, ktorý je potrebné odstrániť pre lepšie rozoznanie objektov na dátach.
+
+Cieľom práce je vytvorenie softvéru, ktorý slúži na vizualizáciu a segmentáciu obrazov získaných digitálnym mikroskopom, konkrétne sa jedná o biologické dáta a to obrazy makrofágov. 
+Z biologického hladiska, je maktofág typ bielej krvinky, ktorá má dôležitú úlohu pri ochrane imunitného systému a homeostázy. Avšak disfunkčné makrofágy menia svoje účinky a u ľudí môžu spôsobovať závažné ochorenia ako sú napríklad  chronické ochorenia, ktoré vediú k častým infekciám alebo sa môžu podielať na  /postupe??? rakoviny. Makrofág mení svoj tvar keď sa približuje smerom k rane. Táto zmena tvaru je spôsobená objektmo, ktoré sa nachádzajú v blízkosti makrofágu, ako napríklad tkanivovými bunkami alebo medzibunkovou hmotou.
+Segmentácia obrazov môže byť užitočným nástrojom na porozumenie spôsobu inteakcie medzi makrofágmi a bunkami, ktoré ho obklopujú, avšak ich segmetácia môže byť náročnou úlohou, kvôli ich nepravidelnému tvaru.
+
+Mikroskopové dáta makrofágov, s ktorými pracujeme v tejto práci, sú makrofágy priesvitnej larvy danio pruhovanej. Táto larva bola poranená a jej makrofágy sú zafarbené zeleným svetielkujúcim proteínom(kaede) pre lepšiu viditeľnosť pod mikroskopom.
+
+\newpage
+
+\section{Segmentácie obrazov}
+\subsection{Globálne prahovanie}
+
+\subsubsection{Otsuho metóda}
+Otsuho metóda je automatická prahovacia metóda, ktorá rozdeľuje obrázok na 2 rôzne triedy pomocou prahu $q$ na popredie(objekt) a pozadie. Základnou myšlienkou tejto metódy je nájsť prah $q$ taký, že jeho nestálosť v každej z tried, je tak malá ako je len možné, kde sa prahová hodnota pri ktorej sa súčet tried rozpretiera na jej minime. Táto metóda je tiež známa ako (within class variance preklad??). V tomto prípade sa dá ukázať, že táto úloha môže byť zmenená na maximalizačnú úlohu (between class variance preklad??), ktorá je výpočtovo menej náročná, keďže je spracovávaný len čiernobiely(grayscale?) obraz. Ak by išlo o farebný(RGB??) obaz, musel by byť rozdelený na jednotlivé intenzity a výsledkom by bolo viac prahových hodnôt $(q_1, \ldots, q_n)$, kde $n$ reprezentuje počet intenzít v danom obraze.
+
+Nech $L$ je maximálna intenzita obrazu a hodnoty normalizovaného histogramu, budú vypočítané ako
+\begin{equation*}
+p_i^c = \frac{h_i^c}{N}, \hspace{10mm}  \sum_{i=1}^{N} p_i^c = 1, \hspace{10mm} c = \begin{cases} 1, 2, 3 & \text{pre farebné obrazy} \\ 1 & \text{pre čiernobiele obrazy} \end{cases},
+\end{equation*}
+kde $i$ je konkrétny level intenzity $(0 \leq i \leq L)$, $c$ je zložka obrazu, $N$ je celkový počet pixelov na obraze, $h_i^c$ je histogram. Preto v prípade, že je histogram bimodálny, tak budú existovať len dve triedy a objekt na obraze bude vysegmentovaný takmer dokonale.
+
+%predpokladá, že originálne obrazové dáta obsahujú dáta z dvoch
+%rôznych pixelvých tried, kde rozdelenie intenzít nie je známe. Cieľom tejto metódy je nájsť prah $q$, ktorý rozdelí dáta na popredie(objekt) a pozadie.
+%% tak aby distribúcie boli maximálne oddelené. To znamená:
+%Základn 
+%\begin{itemize}
+%\item
+%\item
+%\end{itemize}
+
+%The goal is to find a threshold q such that the resulting background and foreground
+%distributions are maximally separated, which means that they are (a) each as
+%narrow as possible (have minimal variances) and (b) their centers (means) are
+%most distant from each other.
+%For a given threshold q, the variances of the corresponding background and
+%foreground partitions can be calculated straight from the image’s %histogram(see
+%Eqn. (2.11)–(2.12)). The combined width of the two distributions is measured
+%by the within-class variance
+
+\subsubsection{Maximálna prahová hodnota enntropie}
+
+\subsection{Lokálne adaptívne prahovanie}
+
+Lokálne adaptívne prahovanie namiesto jednej prahovej hodnoty pre celý obraz, používa adaptívne prahovanie, ktoré určuje meniiacu sa prahovú hodnotu $Q(u,v)$ pre každú polohu obrazu. Tieto hodoty zodpovedajú každému pixelu $I(u,v)$ zodpovedajúcemu danému obrazu. Nasledujúce metódy sa líšia iba s ohľadom na to, akým spôsobom sú získané prahy $Q$ zo vstupného obrázku. 
+
+\subsubsection{Bernsenova metóda}
+
+Táto metóda, určuje prah dynamicky pre každú polohu na obraze $(u,v)$, založená na minimálnej a maximálnej intenzite nachádzajúcej sa v okolí $R(u,v)$. Ak 
+\begin{equation}
+\begin{array}{l}
+I_{min}(u,v) = \min\limits_{(i,j)\in R(u,v)} I(i,j),  \\
+I_{max}(u,v) = \max\limits_{(i,j)\in R(u,v)} I(i,j),
+\end{array}
+\end{equation}
+
+sú minimálnou a maximálnou hodnotou intenzity, na nejakom fixne danom okolí $R$ so stredom na pozícií $(u,v)$. Prahovú hodnotu dostaneme pomocou aritmetického priemeru nájdeneho minima a maxima daného okolia 
+
+\begin{equation}
+Q(u,v) \gets \frac{I_{min}(u,v) + I_{max}(u,v)}{2}
+\end{equation}
+
+\subsubsection{Niblackova metóda}
+
+
+
+\newpage
+\section{Softvér}
+
+\subsection{Požité nástroje}
+
+\subsubsection{VTK}
+
+\subsubsection{Qt}
+
+
+
+
+\newpage
+\section{Výsledky}
+
+\newpage
+\section{Záver}
+
+\newpage
+\begin{thebibliography}{50}
+\end{thebibliography}
+
+
+\end{document}

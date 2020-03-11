@@ -180,14 +180,14 @@ QVector<unsigned char> filters::createNewData(QVector<unsigned char> data, int t
 			if ((int)origData[j * width + i] < threshold)
 				tmp[j * width + i] = (unsigned char)0;
 			else
-				tmp[j * width + i] = (unsigned char)207;
+				tmp[j * width + i] = (unsigned char)255;
 	return tmp;
 }
 
 QVector<double> filters::boundary(QVector<double> data, int threshold) {
 	QVector<unsigned char> tmp;
 	QVector<double> tmp1;
-	if (threshold == -1) 
+	if (threshold != -1) 
 		tmp = createNewData(dataToChar(data), threshold);
 	else
 		tmp = dataToChar(data);
@@ -199,8 +199,10 @@ QVector<double> filters::boundary(QVector<double> data, int threshold) {
 			tmp1[j * width + i] = 0;
 			if((int)tmp[j * width + i] !=0 && ((int)tmp[j * width + (i+1)] == 0 || (int)tmp[j * width + (i - 1)] == 0 ||
 				(int)tmp[(j+1) * width + i] == 0 || (int)tmp[(j - 1) * width + i] == 0))
-				tmp1[j * width + i] = 207;
+				tmp1[j * width + i] = 255;
+			std::cout << tmp1[j * width + i] << " ";
 		}
+		std::cout << "\n";
 	}	
 	return tmp1;
 }
@@ -319,7 +321,7 @@ QVector<double> filters::distFunct(QVector<double> edge) {
 	int maxIter = 1000;
 	double tau = 0.4;
 	double h = 1.0;
-	int col = 207;
+	int col = 255;
 	while (mass > tol && l < maxIter) {
 		mass = 0;
 		for (int j = 1; j < widthR - 1; j++) {
@@ -699,6 +701,7 @@ void filters::tmp_save(QString fileName,QVector<double> data, int w, int h) {
 
 	outputFile.close();
 }
+
 QVector<double> filters::bernsenThreshold(QVector<double> data) {
 	QVector<double> tmp;
 	return tmp;

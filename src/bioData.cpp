@@ -572,7 +572,7 @@ void bioData::boundaryClicked() {
 
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
 	QVector<double> tmp = filter.boundary(filter.niblackThreshold(filter.changeRangeOfData(filter.dataToInt(fTmp->getOrigData()))));
-
+	//QVector<double> tmp = filter.boundary(filter.dataToDouble(fTmp->getOrigData()), filter.otsuFilter());
 	fTmp->addFiltData(filter.dataToChar(tmp));
 	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
 
