@@ -6,10 +6,10 @@
 \contentsline {subsubsection}{\numberline {2.1.2}Maxim\IeC {\'a}lna prahov\IeC {\'a} hodnota enntropie}{4}{subsubsection.2.1.2}% 
 \contentsline {subsection}{\numberline {2.2}Lok\IeC {\'a}lne adapt\IeC {\'\i }vne prahovanie}{4}{subsection.2.2}% 
 \contentsline {subsubsection}{\numberline {2.2.1}Bernsenova met\IeC {\'o}da}{4}{subsubsection.2.2.1}% 
-\contentsline {subsubsection}{\numberline {2.2.2}Niblackova met\IeC {\'o}da}{4}{subsubsection.2.2.2}% 
-\contentsline {section}{\numberline {3}Softv\IeC {\'e}r}{5}{section.3}% 
-\contentsline {subsection}{\numberline {3.1}Po\IeC {\v z}it\IeC {\'e} n\IeC {\'a}stroje}{5}{subsection.3.1}% 
-\contentsline {subsubsection}{\numberline {3.1.1}VTK}{5}{subsubsection.3.1.1}% 
-\contentsline {subsubsection}{\numberline {3.1.2}Qt}{5}{subsubsection.3.1.2}% 
-\contentsline {section}{\numberline {4}V\IeC {\'y}sledky}{6}{section.4}% 
-\contentsline {section}{\numberline {5}Z\IeC {\'a}ver}{7}{section.5}% 
+\contentsline {subsubsection}{\numberline {2.2.2}Niblackova met\IeC {\'o}da}{5}{subsubsection.2.2.2}% 
+\contentsline {section}{\numberline {3}Softv\IeC {\'e}r}{6}{section.3}% 
+\contentsline {subsection}{\numberline {3.1}Po\IeC {\v z}it\IeC {\'e} n\IeC {\'a}stroje}{6}{subsection.3.1}% 
+\contentsline {subsubsection}{\numberline {3.1.1}VTK}{6}{subsubsection.3.1.1}% 
+\contentsline {subsubsection}{\numberline {3.1.2}Qt}{6}{subsubsection.3.1.2}% 
+\contentsline {section}{\numberline {4}V\IeC {\'y}sledky}{7}{section.4}% 
+\contentsline {section}{\numberline {5}Z\IeC {\'a}ver}{8}{section.5}% 

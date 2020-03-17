@@ -177,6 +177,19 @@ sú minimálnou a maximálnou hodnotou intenzity, na nejakom fixne danom okolí 
 Q(u,v) \gets \frac{I_{min}(u,v) + I_{max}(u,v)}{2}
 \end{equation}
 
+Táto operácia sa vykonáva tak dlho, až pokým lokálny kontrast $c(u, v) = I_{max}(u, v) − I_{min}(u, v)$ sa nachachádza nad preddefinovaným 
+This is done as long as the local contrast c(u, v) = Imax(u, v)−Imin(u, v) is above
+some predefined limit cmin. If c(u, v) < cmin, the pixels in the corresponding
+image region are assumed to belong to a single class and are (by default)
+assigned to the background.
+The whole process is summarized in Alg. 2.7. The main function provides
+a control parameter bg to select the proper default threshold ¯q, which is set to
+K in case of a dark background (bg = dark) and to 0 for a bright background
+(bg = bright). The support region R may be square or circular, typically with
+a radius r = 15. The choice of the minimum contrast limit cmin depends on
+the type of imagery and the noise level (cmin = 15 is a suitable value to start
+with).
+
 \subsubsection{Niblackova metóda}
 
 

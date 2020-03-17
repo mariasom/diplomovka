@@ -19,9 +19,19 @@ filters::filters(int widthOrig, int heightOrig, QVector<unsigned char> oData, in
 
 QVector<double> filters::dataToDouble(QVector<unsigned char> oData) {
 	QVector<double> tmp;
+	tmp.resize(width*height);
+
+	for (int j = 0; j < width; j++) {
+		for (int i = 0; i < height; i++) {
+			tmp[j * width + i] = (int)oData.at(j * width + i)*1.0;
+		}
+	}
+	return tmp;
+	
+	/*QVector<double> tmp;
 	tmp.reserve(oData.size());
 	std::copy(oData.cbegin(), oData.cend(), std::back_inserter(tmp));
-	return tmp;
+	return tmp;*/
 }
 
 QVector<int> filters::dataToInt(QVector<unsigned char> oData) {
@@ -200,9 +210,7 @@ QVector<double> filters::boundary(QVector<double> data, int threshold) {
 			if((int)tmp[j * width + i] !=0 && ((int)tmp[j * width + (i+1)] == 0 || (int)tmp[j * width + (i - 1)] == 0 ||
 				(int)tmp[(j+1) * width + i] == 0 || (int)tmp[(j - 1) * width + i] == 0))
 				tmp1[j * width + i] = 255;
-			std::cout << tmp1[j * width + i] << " ";
 		}
-		std::cout << "\n";
 	}	
 	return tmp1;
 }
@@ -695,14 +703,62 @@ void filters::tmp_save(QString fileName,QVector<double> data, int w, int h) {
 	stream << w << " " << h << endl;
 	stream << 255 << endl;
 
-	for (int j = 0; j < width; j++) 
-		for (int i = 0; i < height; i++) 
+	for (int j = 0; j < width; j++) {
+		for (int i = 0; i < height; i++) {
 			stream << (int)data.at(j * width + i) << " ";
+		}
+		stream << endl;
+	}
 
 	outputFile.close();
 }
 
 QVector<double> filters::bernsenThreshold(QVector<double> data) {
 	QVector<double> tmp;
+	QVector<double> R;
+	int r = p;
+	//r = p;
+	tmp_save("dataBT.pgm", changeRangeOfData(data), width, height);
+	tmp = reflection(data);
+	tmp_save("refBT.pgm", changeRangeOfData(tmp), widthR, heightR);
+	int q = 0; //	kedze mame vzdy tmave pozadie
+	for (int j = 0; j < widthR; j++) {
+		for (int i = 0; i < heightR; i++) {
+			double Imin = 10, Imax = -1, c;
+			for (int ii = i - r; ii <= i + r; ii++)
+				for (int jj = j - r; jj <= j + r; jj++) {
+					if (pow(i - ii, 2) + pow(j - jj, 2) <= r * r)
+					{
+						if (tmp[jj * widthR + ii] < Imin)
+							Imin = tmp.at(jj * widthR + ii);
+						if (tmp[jj * widthR + ii] > Imax)
+							Imax = tmp.at(jj * widthR + ii);
+					}
+				}
+			c = Imax - Imin;
+			int cmin = 45;
+			if (c >= cmin)
+				tmp[j * widthR + i] = (Imax + Imin)/2.;
+			else
+				tmp[j * widthR + i] = q;
+		}
+	}
+	tmp = antireflection(tmp);
+
 	return tmp;
 }
+
+/*QVector<double> filters::makeCircReg(int i, int j, int r) {
+
+	for (int ii = i - r; ii <= i + r; ii++)
+		for (int jj = j - r; jj <= j + r; jj++) {
+			if (pow(i - ii, 2) + pow(j - jj, 2) <= r * r)
+			{
+				if (tmp[jj * widthR + ii] < min)
+					min = tmp.at(jj * widthR + ii);
+				if (tmp[jj * widthR + ii] > max)
+					max = tmp.at(jj * widthR + ii);
+			}
+		}
+
+}*/

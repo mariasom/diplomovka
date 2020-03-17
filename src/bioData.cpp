@@ -148,11 +148,11 @@ void bioData::actionOpenFile()
 	fTmp->setPoints(fTmp->getOrigData());
 	// extract filename from the path
 	QStringList list = filePath.split('/');
-	fName = list[list.length() - 1];
+	fName = list[list.length() - 1].split('.')[0];
 
 	w = new viewerWidget();
 
-	createFileDock(fName, filePath, fTmp->getWidth(), fTmp->getHeight());
+	createFileDock(list[list.length() - 1], filePath, fTmp->getWidth(), fTmp->getHeight());
 	createListDock();
 	createFilterDock();
 	createSubsurfDock();
@@ -164,7 +164,7 @@ void bioData::actionOpenFile()
 	else
 		update2DWidget();
 	widget2D->setWindowTitle("Original Data");
-	addSubItem(parent2D, "Original Data");
+	addSubItem(parent2D, fName + "_original_data");
 	// QString dataName = "Original Data";
 	// dataListView->addItem(dataName);
 	// dataListView->setCurrentRow(dataListView->count() - 1);
@@ -393,7 +393,7 @@ void bioData::createFilterDock() {
 	QLabel *otsuLabel = new QLabel(tr("Between-class variance:"));
 	QLabel *kapurLabel = new QLabel(tr("Maximum entropy thresholding:"));
 	QLabel *niblackLabel = new QLabel(tr("Niblack's original method:"));
-	QLabel *boundaryLabel = new QLabel(tr("SUBSURF:"));
+	QLabel *boundaryLabel = new QLabel(tr("Bernsen's method:"));
 
 	otsuButton->setText("Apply");
 	filterLayout->addWidget(otsuLabel,0,0);
@@ -477,7 +477,7 @@ void bioData::otsuClicked() {
 		update2DWidget();
 	// Set the window title
 	widget2D->setWindowTitle("Otsu Threshold");
-	addSubItem(parent2D, "otsu");
+	addSubItem(parent2D, fName + "_otsu");
 	//QString item = "otsu";
 	//dataListView->addItem(item);
     //dataListView->setCurrentRow(dataListView->count() - 1);
@@ -499,7 +499,7 @@ void bioData::kapuraClicked() {
 	else
 		update2DWidget();
 	widget2D->setWindowTitle("kapur");
-	addSubItem(parent2D, "kapur");
+	addSubItem(parent2D, fName + "_kapur");
 }
 
 void bioData::niblackClicked() {
@@ -512,7 +512,7 @@ void bioData::niblackClicked() {
 	else
 		update2DWidget();
 	widget2D->setWindowTitle("niblack");
-	addSubItem(parent2D, "niblack");
+	addSubItem(parent2D, fName + "_niblack");
 }
 
 void bioData::listIndexChanged(int i)
@@ -570,8 +570,8 @@ void bioData::createColorsGB() {
 
 void bioData::boundaryClicked() {
 
-	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
-	QVector<double> tmp = filter.boundary(filter.niblackThreshold(filter.changeRangeOfData(filter.dataToInt(fTmp->getOrigData()))));
+	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData(), 1);
+	QVector<double> tmp = filter.bernsenThreshold(filter.dataToDouble(fTmp->getOrigData()));
 	//QVector<double> tmp = filter.boundary(filter.dataToDouble(fTmp->getOrigData()), filter.otsuFilter());
 	fTmp->addFiltData(filter.dataToChar(tmp));
 	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
@@ -581,7 +581,7 @@ void bioData::boundaryClicked() {
 	else
 		update2DWidget();
 	widget2D->setWindowTitle("Boundary");
-	addSubItem(parent2D, "Boundary");
+	addSubItem(parent2D, fName + "_bernsen");
 	
 //	fTmp->create3Ddata(filter.heatImpl(filter.changeRangeOfData(
 //		filter.dataToInt(
@@ -603,24 +603,32 @@ void bioData::boundaryClicked() {
 }
 
 void bioData::subsurfClicked() {
-	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
-	QVector<double> tmp = filter.subSurf(
-		filter.distFunctSign(
-			filter.boundary(filter.niblackThreshold(filter.changeRangeOfData(filter.dataToInt(fTmp->getOrigData()))))),
-		filter.changeRangeOfData(
-			filter.dataToInt(
-				filter.niblackThreshold(filter.changeRangeOfData(filter.dataToInt(fTmp->getOrigData()))))),
-		sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());
 
-	fTmp->add3DData(tmp);
-	fTmp->create3Ddata(fTmp->get3DData(fTmp->getSize3DData() - 1));
+	if (parent2D == dataTree->currentItem()->parent()) {
+		filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
+		QVector<double> tmp = filter.subSurf(
+			filter.distFunctSign(
+				filter.boundary(filter.dataToDouble(fTmp->getFiltData(dataTree->currentIndex().row())))),
+			filter.changeRangeOfData(
+				filter.dataToInt(fTmp->getFiltData(dataTree->currentIndex().row()))),
+			sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());
 
-	if (widget3D == nullptr)
-		set3DWidget();
-	else
-		update3DWidget();
-	widget3D->setWindowTitle("Subsurf(3D)");
-	addSubItem(parent3D, "Subsurf");
+		fTmp->add3DData(tmp);
+		fTmp->create3Ddata(fTmp->get3DData(fTmp->getSize3DData() - 1));
+
+		if (widget3D == nullptr)
+			set3DWidget();
+		else
+			update3DWidget();
+		widget3D->setWindowTitle("Subsurf(3D)");
+		QString txt = dataTree->currentItem()->text(dataTree->currentIndex().row());
+		addSubItem(parent3D, txt + "_subsurf");
+	}
+	else {
+		QMessageBox mbox;
+		mbox.setText("ERROR");
+		mbox.exec();
+	}
 }
 
 void bioData::actionDistFunc() {
