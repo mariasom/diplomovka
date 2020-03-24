@@ -718,9 +718,7 @@ QVector<double> filters::bernsenThreshold(QVector<double> data) {
 	QVector<double> R;
 	int r = p;
 	//r = p;
-	tmp_save("dataBT.pgm", changeRangeOfData(data), width, height);
 	tmp = reflection(data);
-	tmp_save("refBT.pgm", changeRangeOfData(tmp), widthR, heightR);
 	int q = 0; //	kedze mame vzdy tmave pozadie
 	for (int j = 0; j < widthR; j++) {
 		for (int i = 0; i < heightR; i++) {
@@ -736,11 +734,14 @@ QVector<double> filters::bernsenThreshold(QVector<double> data) {
 					}
 				}
 			c = Imax - Imin;
-			int cmin = 45;
+			int cmin = 60;
 			if (c >= cmin)
 				tmp[j * widthR + i] = (Imax + Imin)/2.;
 			else
 				tmp[j * widthR + i] = q;
+
+
+
 		}
 	}
 	tmp = antireflection(tmp);

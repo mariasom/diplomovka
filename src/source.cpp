@@ -218,6 +218,7 @@ void source::save_ascii(QString fileName, int index) {
 		for (int i = 0; i < height; i++) {
 			stream << dataFilt.at(index).at(j * width + i) <<  " ";
 		}
+		stream << endl;
 	}
 
 	outputFile.close();

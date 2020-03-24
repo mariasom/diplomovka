@@ -185,7 +185,10 @@ void bioData::setTabWidget() {
 void bioData::actionpgm() {
 	if (parent2D == dataTree->currentItem()->parent()) {
 		int i = dataTree->currentItem()->indexOfChild(dataTree->currentItem());
-		QString fileName1 = dataTree->currentItem()->text(0) + ".pgm";
+		QString tmp = dataTree->currentItem()->text(0) + ".pgm";
+		QString fileName1 = QFileDialog::getSaveFileName(this, tr("Save File"),
+			tmp,
+			tr("Images (*.pgm)"));
 		cout << fileName1.toStdString() << endl;
 		fTmp->save_ascii(fileName1, dataTree->currentIndex().row());
 	}
@@ -380,7 +383,7 @@ void bioData::createListDock() {
 }
 
 void bioData::createFilterDock() {
-	filterDock = new QDockWidget(tr("Filters"), this);
+	filterDock = new QDockWidget(tr("2D Filters"), this);
 	filterDock->setAllowedAreas(Qt::LeftDockWidgetArea |
 		Qt::RightDockWidgetArea |
 		Qt::BottomDockWidgetArea);
@@ -414,54 +417,19 @@ void bioData::createFilterDock() {
 }
 
 void bioData::createSubsurfDock() {
-	subsurfDock = new QDockWidget(tr("SUBSURF"), this);
+	subsurfDock = new QDockWidget(tr("3D Filters"), this);
 	subsurfDock->setAllowedAreas(Qt::LeftDockWidgetArea |
 		Qt::RightDockWidgetArea |
 		Qt::BottomDockWidgetArea);
 	subsurfDock->setFeatures(QDockWidget::DockWidgetClosable |
 		QDockWidget::DockWidgetMovable |
 		QDockWidget::DockWidgetVerticalTitleBar);
-
 	QWidget* multiWidget = new QWidget();
-	QGridLayout *subsurfLayout = new QGridLayout;
-	QLabel *dataLabel = new QLabel(tr("Chose data:"));
-	QLabel *sigmaLabel = new QLabel(tr("Size of (linear) time steps:"));
-	QLabel *tauLabel = new QLabel(tr("Size of (non-linear) time steps:"));
-	QLabel *kLabel = new QLabel(tr("Sensitivity coeficient:"));
-	QStringList comboItems = QStringList() << tr("Original Data") <<
-		tr("Otsu's Threshold method") <<
-		tr("Kapur's Threshold method") <<
-		tr("Niblack's Threshold method") << 
-		tr("Brensen's Threshold method");
-	dataCBox->addItems(comboItems);
-	dataCBox->setDisabled(true);
+	QGridLayout *filterLayout = new QGridLayout;
+	createSubsurfGB();
 
-	sigmaSubsurf->setRange(0.0001, 1000.0);
-	sigmaSubsurf->setDecimals(5);
-	sigmaSubsurf->setSingleStep(0.01);
-	sigmaSubsurf->setValue(0.25);
-	tauSubsurf->setRange(0.0001, 1000.0);
-	tauSubsurf->setDecimals(5);
-	tauSubsurf->setSingleStep(0.01);
-	tauSubsurf->setValue(1.0);
-	kSubsurf->setRange(0.00001, 999999.0);
-	kSubsurf->setDecimals(2);
-	kSubsurf->setSingleStep(0.01);
-	kSubsurf->setValue(255*255);
-
-	subsurfLayout->addWidget(dataLabel, 0, 0);
-	subsurfLayout->addWidget(dataCBox, 0, 1);
-	subsurfLayout->addWidget(sigmaLabel, 1, 0);
-	subsurfLayout->addWidget(sigmaSubsurf, 1, 1);
-	subsurfLayout->addWidget(tauLabel, 2, 0);
-	subsurfLayout->addWidget(tauSubsurf, 2, 1);
-	subsurfLayout->addWidget(kLabel, 3, 0);
-	subsurfLayout->addWidget(kSubsurf, 3, 1);
-
-	subsurfButton->setText("Apply");
-	subsurfLayout->addWidget(subsurfButton, 4, 1);
-
-	multiWidget->setLayout(subsurfLayout);
+	filterLayout->addWidget(subsurfGroupBox);
+	multiWidget->setLayout(filterLayout);
 	subsurfDock->setWidget(multiWidget);
 	addDockWidget(Qt::RightDockWidgetArea, subsurfDock);
 }
@@ -621,12 +589,12 @@ void bioData::subsurfClicked() {
 		else
 			update3DWidget();
 		widget3D->setWindowTitle("Subsurf(3D)");
-		QString txt = dataTree->currentItem()->text(dataTree->currentIndex().row());
+		QString txt = dataTree->currentItem()->text(dataTree->currentIndex().column());
 		addSubItem(parent3D, txt + "_subsurf");
 	}
 	else {
 		QMessageBox mbox;
-		mbox.setText("ERROR");
+		mbox.setText("ERROR! \nYou can't apply SUBSURF on 3D data.");
 		mbox.exec();
 	}
 }
@@ -711,4 +679,48 @@ void bioData::actionSignDistFunc() {
 }
 
 void bioData::createDockWidgets() {
+}
+
+void bioData::createSubsurfGB() {
+	subsurfGroupBox = new QGroupBox(tr("SUBSURF"));
+	int size = 60;
+
+	QGridLayout *subsurfLayout = new QGridLayout;
+	QLabel *sigmaLabel = new QLabel(tr("Size of (linear) time steps:"));
+	QLabel *tauLabel = new QLabel(tr("Size of (non-linear) time steps:"));
+	QLabel *kLabel = new QLabel(tr("Sensitivity coeficient:"));
+	/*QStringList comboItems = QStringList() << tr("Original Data") <<
+		tr("Otsu's Threshold method") <<
+		tr("Kapur's Threshold method") <<
+		tr("Niblack's Threshold method") <<
+		tr("Brensen's Threshold method");
+	dataCBox->addItems(comboItems);
+	dataCBox->setDisabled(true);*/
+
+	sigmaSubsurf->setRange(0.0001, 1000.0);
+	sigmaSubsurf->setDecimals(5);
+	sigmaSubsurf->setSingleStep(0.01);
+	sigmaSubsurf->setValue(0.25);
+	tauSubsurf->setRange(0.0001, 1000.0);
+	tauSubsurf->setDecimals(5);
+	tauSubsurf->setSingleStep(0.01);
+	tauSubsurf->setValue(1.0);
+	kSubsurf->setRange(0.00001, 999999.0);
+	kSubsurf->setDecimals(2);
+	kSubsurf->setSingleStep(0.01);
+	kSubsurf->setValue(255 * 255);
+
+	//subsurfLayout->addWidget(dataLabel, 0, 0);
+	//subsurfLayout->addWidget(dataCBox, 0, 1);
+	subsurfLayout->addWidget(sigmaLabel, 1, 0);
+	subsurfLayout->addWidget(sigmaSubsurf, 1, 1);
+	subsurfLayout->addWidget(tauLabel, 2, 0);
+	subsurfLayout->addWidget(tauSubsurf, 2, 1);
+	subsurfLayout->addWidget(kLabel, 3, 0);
+	subsurfLayout->addWidget(kSubsurf, 3, 1);
+
+	subsurfButton->setText("Apply");
+	subsurfLayout->addWidget(subsurfButton, 4, 1);
+
+	subsurfGroupBox->setLayout(subsurfLayout);
 }

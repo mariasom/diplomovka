@@ -27,6 +27,8 @@ public:
 	void createListDock();
 	void createFilterDock();
 	void createSubsurfDock();
+	void createSubsurfGB();
+	void createDistanceGB();
 	void createColorsGB();
 	void set3DWidget();
 	void update3DWidget();
@@ -79,6 +81,8 @@ private:
 	QDoubleSpinBox *sigmaSubsurf;
 	QDoubleSpinBox *tauSubsurf;
 	QDoubleSpinBox *kSubsurf;
+	QGroupBox *subsurfGroupBox;
+	QGroupBox *distanceGroupBox;
 
 	QTabWidget *innerTabs;
 	QDoubleSpinBox *scaleSpinBox_x;
