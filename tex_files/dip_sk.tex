@@ -113,29 +113,77 @@
 %Dáta, ktorými sa zaoberá táto 
 %Rôzne vedné odvetvia, využivajú
 
-V rôznych vedných disciplínach ale aj v bežnom živote sa používajú rôzne aplikácie spracovania obrazov. Spracovanie obrazov je metóda, ktorá pomocou rôznych matematických operácii a algoritmov upravuje obrazové dáta rôznych formátov a pomáha z nich získavať užitočné informácie.  Obrazové dáta je potrebné zobraziť, či už pred alebo po modifikácií. 
+V rôznych vedných disciplínach ale aj v bežnom živote sa používajú rôzne aplikácie spracovania obrazov. Spracovanie obrazov je metóda, ktorá pomocou rôznych matematických operácii a algoritmov upravuje obrazové dáta rôznych formátov a pomáha z nich získavať užitočné informácie. Obrazové dáta je potrebné zobraziť, či už pred alebo po modifikácií. 
 
-Spracovanie obrazov sa rýchlo rozvíja a využíva sa v mnohých vedných disciplínach. Dobrým príkladom, by mohli byť obrazové dáta získané mikroskopom. Takéto dáta môžu obsahovať šum, ktorý je potrebné odstrániť pre lepšie rozoznanie objektov na dátach.
+Cieľom práce je vytvorenie softvéru, ktorý slúži na vizualizáciu a segmentáciu obrazov získaných digitálnym mikroskopom, konkrétne sa jedná o biologické dáta a to obrazy makrofágov. Takéto dáta môžu obsahovať šum, ktorý je potrebné odstrániť pre lepšie rozoznanie objektov na dátach. 
+ 
+Z biologického hľadiska, je maktofág typ bielej krvinky, ktorá hrá dôležitú úlohu pri ochrane imunitného systému a homeostázy. Avšak disfunkčné makrofágy menia svoje účinky a u ľudí môžu spôsobovať závažné ochorenia ako sú napríklad  chronické ochorenia, ktoré vediú k častým infekciám alebo sa môžu podielať na postupe rakoviny. Makrofág mení svoj tvar keď sa približuje smerom k rane. Táto zmena tvaru je spôsobená objektami, ktoré sa nachádzajú v blízkosti makrofágu, ako napríklad tkanivovými bunkami alebo medzibunkovou hmotou.
+Segmentácia obrazov môže byť užitočným nástrojom na porozumenie spôsobu inteakcie medzi makrofágmi a bunkami, ktoré ho obklopujú, avšak takáto segmetácia môže byť náročnou úlohou, kvôli ich nepravidelnému tvaru.
 
-Cieľom práce je vytvorenie softvéru, ktorý slúži na vizualizáciu a segmentáciu obrazov získaných digitálnym mikroskopom, konkrétne sa jedná o biologické dáta a to obrazy makrofágov. 
-Z biologického hladiska, je maktofág typ bielej krvinky, ktorá má dôležitú úlohu pri ochrane imunitného systému a homeostázy. Avšak disfunkčné makrofágy menia svoje účinky a u ľudí môžu spôsobovať závažné ochorenia ako sú napríklad  chronické ochorenia, ktoré vediú k častým infekciám alebo sa môžu podielať na  /postupe??? rakoviny. Makrofág mení svoj tvar keď sa približuje smerom k rane. Táto zmena tvaru je spôsobená objektmo, ktoré sa nachádzajú v blízkosti makrofágu, ako napríklad tkanivovými bunkami alebo medzibunkovou hmotou.
-Segmentácia obrazov môže byť užitočným nástrojom na porozumenie spôsobu inteakcie medzi makrofágmi a bunkami, ktoré ho obklopujú, avšak ich segmetácia môže byť náročnou úlohou, kvôli ich nepravidelnému tvaru.
+Mikroskopové dáta makrofágov, s ktorými pracujeme v tejto práci, sú makrofágy priesvitnej larvy danio pruhovanej. Táto larva bola poranená a cytoplazmy makrofágov sú zafarbené zeleným svetielkujúcim proteínom(kaede) pre lepšiu viditeľnosť pod mikroskopom. Pôvodné dáta makrofágov sú získané v časovom úseku 5 hodín a s časovým krokom 4 minúty. Následne dané trojdimenzionálne obrazové dáta sú premietnuté do roviny za použitia maximálnej intenziy približne zo 70 rezov, z ktorých vzniknú dvojdimenzionálne obrazové dáta. 
+%vo formáte tiff.
+V tejto práci sa zaoberáme časťami/výrezmi takýchto dát, na ktorých sa nachádza jeden makrofág a používame rôzne metódy na segmentáciu buď automatické alebo semi-automatické. Softvér by mal byť intuitívny a teda určený aj užívateľom, ktorí implementovaným algoritmom nemusia rozumieť. 
+  
+Práca je rozdelená do viacerých častí, v ktorých je podrobnejšie popísaná funkcionalita programu spolu s užívateľským prostredím, použitými algoritmami, knižnicami.
 
-Mikroskopové dáta makrofágov, s ktorými pracujeme v tejto práci, sú makrofágy priesvitnej larvy danio pruhovanej. Táto larva bola poranená a jej makrofágy sú zafarbené zeleným svetielkujúcim proteínom(kaede) pre lepšiu viditeľnosť pod mikroskopom.
+Prvá časť je teoretická a venuje sa matematikým algoritmom využitých pri implementácii, založených na poznatkoch zo spracovania obrazov. Jedná sa o niekoľko automatických a semi-automatických segmentačných metód, ktoré sú kombináciou prahovacích metód a segmentačnej metódy subjektívnych plôch(SUBSURF).
+
+Druhá časť sa zameriava na technológie a knižnice využité pri implementácii. Nachádza sa tam popis Qt knižníc, ktoré boli použité pri vytváraní užívateľského prostredia, VTK knižníc, ktoré boli využité na zobrazenie a manipuláciu s dátami. Popísané sú tu aj triedy, ktoré boli v programe najviac využité.
+
+Ďaľšia časť sa zaoberá popisom grafického rozhrania programu, ktorá by mohla slúžiť aj ako manuál slúžiaci užívateľovi pri používaní.
+
+V poslednej časti sa nachádzajú výsledky, ku ktorým sme v práci dospeli a porovnania medzi rôznymi automatickými a semi-automatickými segmentačnými metódami.
+
+% užité matematické algoritmy, funkcionalita naimplementovaného softvéru a 
+  
+ 
+%Skúmané dáta pochadzajú pôvodne z  a sú z
 
 \newpage
 
 \section{Segmentácie obrazov}
+
+Hlavnou úlohou pri segmentácii makrofágov je odstránenie šumu, ktorý môže byť spôsobený premietnutím dát z trojdimenzionálneho priestoru do roviny alebo bunkami nachádzajúcimi sa v okolí makrofágu alebo zmenou tvaru v čase.
+
+Segmentácia takýchto dát je náročnou úlohou pretože makrofágy majú nepravidelné tvary, ktoré sa ťažko spracovávajú. Preto sme vybrali niekoľko druhov prahovacích metód, ktoré sme skombinovali spolu s metódou segmentácie subjektívnych plôch a aplikovali sme ich na testovacie dáta.
+
 \subsection{Globálne prahovanie}
 
-\subsubsection{Otsuho metóda}
-Otsuho metóda je automatická prahovacia metóda, ktorá rozdeľuje obrázok na 2 rôzne triedy pomocou prahu $q$ na popredie(objekt) a pozadie. Základnou myšlienkou tejto metódy je nájsť prah $q$ taký, že jeho nestálosť v každej z tried, je tak malá ako je len možné, kde sa prahová hodnota pri ktorej sa súčet tried rozpretiera na jej minime. Táto metóda je tiež známa ako (within class variance preklad??). V tomto prípade sa dá ukázať, že táto úloha môže byť zmenená na maximalizačnú úlohu (between class variance preklad??), ktorá je výpočtovo menej náročná, keďže je spracovávaný len čiernobiely(grayscale?) obraz. Ak by išlo o farebný(RGB??) obaz, musel by byť rozdelený na jednotlivé intenzity a výsledkom by bolo viac prahových hodnôt $(q_1, \ldots, q_n)$, kde $n$ reprezentuje počet intenzít v danom obraze.
+Globálne prahovacie metódy sú založéné na histograme, daných čiernobielych(?)obrazových dát $I$. Ich úlohou je nájsť jediný optimálnu prahovú hodnotu $q$, ktorá zadefinuje každý pixel obrazu buď do popredia (ako objekt na dátach) alebo ako pozadie. Teda všetky pixely sú zatriedené do dvoch disjunktných množín $C_0$ a $C_1$, kde množina $C_0$ obsahuje všetky pixle nachádzajúce sa medzi hodntami $(0, 1, \dots , q)$ a $C_1$ obsahuje všetky zvyšné pixle nachádzajúce sa na intervale $(q+1, \dots , K-1)$, teda
 
-Nech $L$ je maximálna intenzita obrazu a hodnoty normalizovaného histogramu, budú vypočítané ako
 \begin{equation*}
-p_i^c = \frac{h_i^c}{N}, \hspace{10mm}  \sum_{i=1}^{N} p_i^c = 1, \hspace{10mm} c = \begin{cases} 1, 2, 3 & \text{pre farebné obrazy} \\ 1 & \text{pre čiernobiele obrazy} \end{cases},
+(u, v) \in \begin{cases} C_0 & \text{ak} \hspace{1em} I(u,v) \leq q \hspace{1em} \text{(pozadie)} \\  C_1 & \text{ak} \hspace{1em} I(u,v) \geq q \hspace{1em} \text{(objekt)} \end{cases}.
 \end{equation*}
-kde $i$ je konkrétny level intenzity $(0 \leq i \leq L)$, $c$ je zložka obrazu, $N$ je celkový počet pixelov na obraze, $h_i^c$ je histogram. Preto v prípade, že je histogram bimodálny, tak budú existovať len dve triedy a objekt na obraze bude vysegmentovaný takmer dokonale.
+
+Treba si uvedomiť, že tieto hodnoty sa musia vymeniť vzhľadom na to akej farby je pozadie a akej objekt.
+
+Prahovacie metódy založené na histograme, sú zvyčajne jednoduché a účinné, pretože pracujú s malým množstvom dát. V našom prípade sa jedná o 256 odtieňov sivej. Dajú sa rozdeliť na 2 hlavné kategórie: štatistické metódy a také, ktoré sú založené na tvare.
+
+
+\subsubsection{Otsuho metóda}
+Otsuho metóda je automatická prahovacia metóda, ktorá rozdeľuje obrázok na 2 rôzne triedy pomocou prahu $q$ na objekt a pozadie. Základnou myšlienkou tejto metódy je nájsť prah $q$ taký, že jeho nestálosť v každej z tried, je tak malá ako je len možné, kde sa prahová hodnota pri ktorej sa súčet tried nachádza na jej minime. Táto metóda je tiež známa ako (within class variance preklad??). V tomto prípade sa dá ukázať, že táto úloha môže byť zmenená na maximalizačnú úlohu (between class variance preklad??), ktorá je výpočtovo menej náročná, keďže je spracovávaný len čiernobiely(grayscale?) obraz. Ak by išlo o farebný(RGB??) obaz, musel by byť rozdelený na jednotlivé intenzity a výsledkom by bolo viac prahových hodnôt $(q_1, \ldots, q_n)$, kde $n$ reprezentuje počet intenzít v danom obraze.
+
+Nech $K$ je maximálna intenzita obrazu a hodnoty normalizovaného histogramu, budú vypočítané ako
+%\begin{equation*}
+%p_i^c = \frac{h_i^c}{N}, \hspace{10mm}  \sum_{i=1}^{N} p_i^c = 1, \hspace{10mm} c = \begin{cases} 1, 2, 3 & \text{pre farebné obrazy} \\ 1 & \text{pre čiernobiele obrazy} \end{cases},
+%\end{equation*}
+
+\begin{equation*}
+p_i = \frac{h_i}{N}, \hspace{10mm}  \sum_{i=1}^{N} p_i = 1,
+\end{equation*}
+
+kde $i$ je konkrétny level intenzity $(0 \leq i \leq K)$, $N$ je celkový počet pixelov na obraze, $h_i$ predstavuje histogram. 
+%Preto v prípade, že je histogram bimodálny, tak budú existovať len dve triedy a objekt na obraze bude vysegmentovaný takmer dokonale.
+
+Optimálny prah $q^*$ nájdeme cez maximalizáciu rozptylu medzi pozadím a objektom v histograme pomocou between class variance, ktorá je definovaná
+
+\begin{equation*}
+\sigma^2_1(q*) = \max_{1 \leq q < K} \sigma^2_1(q),
+\end{equation*}
+
+kde $\sigma_1$ označuje rozptyl a $K$ je maximálna intenzita obrazu.
+
+Otsuho metóda dokáže dobre rozlíšiť dáta s makrofágmi, v prípade že dáta neobsahujú výrazný šum aj v prípade keď sa na dátach nachádzajú tenké časti alebo súzložito tvarované. Avšak ak je intenzita šumu pozadia porovnateľná s intenzitou, táto metóda môže spôsobiť rozdelenie objektu a stratiť niektoré časti objektu, keďže je do úvahy braná len intenzita obrazu.
 
 %predpokladá, že originálne obrazové dáta obsahujú dáta z dvoch
 %rôznych pixelvých tried, kde rozdelenie intenzít nie je známe. Cieľom tejto metódy je nájsť prah $q$, ktorý rozdelí dáta na popredie(objekt) a pozadie.
@@ -157,6 +205,47 @@ kde $i$ je konkrétny level intenzity $(0 \leq i \leq L)$, $c$ je zložka obrazu
 
 \subsubsection{Maximálna prahová hodnota enntropie}
 
+Entropia je dôležitým pojmom v teórií informácií a najmä pri kompresií dát. Je to štatistická miera, ktorá kvantifikuje priemerné množstvo informácií obsiahnutých v  "správe" \\ generovanej dátami generovanými stochasticky. Entropia je definovaná ako
+
+\begin{equation*}
+H(I)= -\sum_{u,v} p(g)log_b(p(g)),
+\end{equation*}
+
+kde $g$ is pravdepodobnosť každej intenzity, $p(g)$ je rozdelenie pravdepodobnsti, $b$ je logaritmický základ, ktorý zvolíme buď $b=10$ alebo $b=e$ aby boli dosiahnuté čo najlepšie výsledky. Hodnota entropie $H$ bude vždy nadobúdať zápornú hodnotu, pretože argument logaritmu, sú pravdepodobnosti, ktoré patria intervalu $(0,1)$.
+
+Z dôvodu hľadania maximálnej hodnoty entropie, potrebujeme definovať entropie pre každú triedu
+
+%\begin{equation*}
+%\begin{array}{l}
+\begin{equation*}
+H_0(q) =  -\frac{1}{P_0(q}S_0(q)+log(P_0(q)) \\
+\end{equation*}
+\begin{equation*}
+H_1(q) =  -\frac{1}{1-P_0(q)}S_1(q)+log(1-P_0(q)),
+\end{equation*}
+%\end{array}
+%\end{equation*}
+kde $P_0$ predstavuje kumulatívnu pravdepodobnosť a $S_0$, $S_1$ sú sumačné podmienky.
+Kumulatívna pravdepodobnosť $P_0$ je definovaná ako
+\begin{equation*}
+	P_0(q) = \begin{cases} p(0) & \text{pre } q = 0 \\
+                            P_0(q-1) + p(q)         & \text{pre } 0 < q < K ,     %
+        \end{cases}
+ \end{equation*} 
+a sumačné podmienky $S_0$, $S_1$ sú predpočítané a definované ako
+ \begin{equation*}   
+    S_0(q) = \begin{cases} p(0).log(p(0))) & \text{pre } q = 0 \\
+                            S_0(q-1) + p(q)log(p(q))         & \text{pre } 0 < q < K      
+        \end{cases}
+        \end{equation*}
+\begin{equation*}
+	S_1(q) = \begin{cases} 0 & \text{pre } q = L-1 \\
+                            S_0(q+1) + p(q+1)log(p(q+1))         & \text{pre } 0 \leq q < K -1      %
+        \end{cases}       	 
+\end{equation*}
+
+Táto metóda je jednoduchá a účinná, pretože závisí len od histogrmu obrazu. %Zosegmentované dáta môžu
+
 \subsection{Lokálne adaptívne prahovanie}
 
 Lokálne adaptívne prahovanie namiesto jednej prahovej hodnoty pre celý obraz, používa adaptívne prahovanie, ktoré určuje meniiacu sa prahovú hodnotu $Q(u,v)$ pre každú polohu obrazu. Tieto hodoty zodpovedajú každému pixelu $I(u,v)$ zodpovedajúcemu danému obrazu. Nasledujúce metódy sa líšia iba s ohľadom na to, akým spôsobom sú získané prahy $Q$ zo vstupného obrázku. 
@@ -177,31 +266,85 @@ sú minimálnou a maximálnou hodnotou intenzity, na nejakom fixne danom okolí 
 Q(u,v) \gets \frac{I_{min}(u,v) + I_{max}(u,v)}{2}
 \end{equation}
 
-Táto operácia sa vykonáva tak dlho, až pokým lokálny kontrast $c(u, v) = I_{max}(u, v) − I_{min}(u, v)$ sa nachachádza nad preddefinovaným 
-This is done as long as the local contrast c(u, v) = Imax(u, v)−Imin(u, v) is above
-some predefined limit cmin. If c(u, v) < cmin, the pixels in the corresponding
-image region are assumed to belong to a single class and are (by default)
-assigned to the background.
-The whole process is summarized in Alg. 2.7. The main function provides
-a control parameter bg to select the proper default threshold ¯q, which is set to
-K in case of a dark background (bg = dark) and to 0 for a bright background
-(bg = bright). The support region R may be square or circular, typically with
-a radius r = 15. The choice of the minimum contrast limit cmin depends on
-the type of imagery and the noise level (cmin = 15 is a suitable value to start
-with).
+Táto operácia sa vykonáva tak dlho, až pokým lokálny kontrast $c(u, v) = I_{max}(u, v) − I_{min}(u, v)$ sa nachachádza nad preddefinovaným limtom $c_{min}$. Ak $c(u, v) < c_{min}$, tak pixle
+%This is done as long as the local contrast c(u, v) = Imax(u, v)−Imin(u, v) is above
+%some predefined limit cmin. If c(u, v) < cmin, the pixels in the corresponding
+%image region are assumed to belong to a single class and are (by default)
+%assigned to the background.
+%The whole process is summarized in Alg. 2.7. The main function provides
+%a control parameter bg to select the proper default threshold ¯q, which is set to
+%K in case of a dark background (bg = dark) and to 0 for a bright background
+%(bg = bright). The support region R may be square or circular, typically with
+%a radius r = 15. The choice of the minimum contrast limit cmin depends on
+%the type of imagery and the noise level (cmin = 15 is a suitable value to start
+%with).
 
 \subsubsection{Niblackova metóda}
+*rovnica vedenia tepla + diskretizacia*
+\subsection{Metóda subjektívnych plôch (SUBSURF)}
 
+Klasická metóda sujektívnych plôch je definovaná
 
+\begin{equation}
+u_t = |\nabla u|\nabla.(g \frac{\nabla u}{|\nabla u|}),
+\end{equation}
+
+kde $u$ 
 
 \newpage
 \section{Softvér}
 
-\subsection{Požité nástroje}
+Na implementáciu a vytvorenie prostredia, bol zvolený objektovo orientovaný prístup jazyka C++, spolu s knižnicami Qt, ktoré obsahujú veľa užitočných tried a boli užitočným nástrojom pri vytváraní užívateľského prostredia a VTK knižnicami, ktoré slúžia na zobrazovanie a manipuláciu s dátami.
+
+\subsection{Qt}
+Užívateľské rozhranie je vytvorené pomocou Qt knižníc, ktoré sú jedným z najpoužívanejších cross-platformových frameworkov na vytváranie užívateľského prostredia(GUI). Majú aj veľa predprogramovaných knižníc ktoré programátorovi ulahčia prácu. Sú naimplementované v jazyku C++. 
+
+*doplnit ako funguju signaly a sloty*
+
+Najčastejšie využívané Qt knižnice v projekte:
+\begin{itemize}
+\item \textbf{QMdiArea}\\ 
+Táto trieda zohráva jednu z najdôležitejších funkcií v programe. Funkcie tejto triedy fungujú v podstate ako správca okien pre MDI okná, čo v našom prípade znamená, že umožňuje vytvárať podokná pomocou triedy, v ktorých sa v programe nachádzajú ďaľšie Qt triedy slúžíace na vykreslovanie 2D a 3D dát, s ktorými program pracuje. V programe je použité kaskádové usporiadanie takýchto podokien, čo znamená že vykreslovacie okná sa môžu navzájom prekrývať, dajú sa minimalizovať/maximalizovať vrámci hlavného okna a zavrieť.
+
+\item \textbf{QScrollArea} \\
+QScrollArea sa nachádza v každom podokne widgetu QMidiArea. Zabezpečuje možnosť priblížiť/oddialiť a posúvať vizualizované dáta.  
+
+\item \textbf{QVTKOpenGLNativeWidget} \\
+Widget tejto triedy sa nachádza v každej QScrollAree a umožňuje samotné vykreslenie 2D/3D modelov za pomoci VTK knižníc. 
+
+\item \textbf{QDockWidget} \\
+Tento widget obsahuje všetky iformácie a nastavenia súvisiace s dátami. Každý logický celok má vlastný 'dock', ktorý sa dá vrámci okna premiestňovať a ukotvovať buď na ľavej alebo na pravej strane okna. Taktiež sa dajú v prípade potreby minimalizovať.
+
+\item \textbf{QTreeWidget} \\ 
+Všetky dáta, či už pôvodné alebo vysegmentované pomocou programe, sa nachádzajú v zozname, z ktorého sa dá vybrať ktoré dáta budú vykreslené. QTreeWidget bol použitý aby sme vykreslované dáta vedeli zadeliť do logických celkov, napríklad či ide o 2D alebo 3D dáta.
+
+\item \textbf{QVector} \\
+Trieda QVector definuje dynamické polia, je šablónovou triedou.
+%, čo znamená že
+Ukladá premenné do susedných miesta v pamäti a poskytuje rýchly indexový prístup. Je použitá v prípadoch keď nie je potrebné odstraňovať prvky zvnútra QVectora.
+
+\item \textbf{QFile, QFileDialog} \\
+Tieto triedy slúžia v programe na otváranie, načítavanie, ukladanie a manipuláciu s dátami.
+
+\end{itemize}
 
 \subsubsection{VTK}
 
-\subsubsection{Qt}
+Visualization Toolkit (VTK) sú vôľne dostupnými knižnicami, ktoré v programe slúžíia na zobrazovanie a interakciu s 2D aj 3D dátami. Najviac využité knižnice:
+
+\begin{itemize}
+\item \textbf{vtkSmartPointer} \\
+Táto šablónová trieda, slúži ako pointer nre VTK triedy. Jehou úlohou je zlepšíť manažment s pamäťou, čo znamená, že v prípade ak sú dáta mimo rozsahu alebo sa nikde nepoužívajú tak budú automaticky odstránené. Teda uľahčuje pracovať s dátami bez varovných hlášok.
+
+\item \textbf{vtkPolyData} \\
+V objektoch tejto triedy sú zadefinované vykreslované dáta, či už sa jedná o 2D alebo 3D dáta. V tejto triede môžu byť uložené informácie o tom akým spôsobom budú dáta reprezentované - geometrické informácie o štruktúre vykreslovaných dát. Takýmito informáciami môžu byť napríklad body, bunky, vektory, čiary, polygonálne alebo trojuholníkové pásy.
+
+\item \textbf{vtkPolyDataMapper} \\
+\item \textbf{vtkActor} \\
+\item \textbf{vtkRenderer} \\
+\end{itemize}
+
+
 
 
 

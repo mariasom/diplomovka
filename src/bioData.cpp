@@ -689,13 +689,6 @@ void bioData::createSubsurfGB() {
 	QLabel *sigmaLabel = new QLabel(tr("Size of (linear) time steps:"));
 	QLabel *tauLabel = new QLabel(tr("Size of (non-linear) time steps:"));
 	QLabel *kLabel = new QLabel(tr("Sensitivity coeficient:"));
-	/*QStringList comboItems = QStringList() << tr("Original Data") <<
-		tr("Otsu's Threshold method") <<
-		tr("Kapur's Threshold method") <<
-		tr("Niblack's Threshold method") <<
-		tr("Brensen's Threshold method");
-	dataCBox->addItems(comboItems);
-	dataCBox->setDisabled(true);*/
 
 	sigmaSubsurf->setRange(0.0001, 1000.0);
 	sigmaSubsurf->setDecimals(5);
@@ -710,8 +703,6 @@ void bioData::createSubsurfGB() {
 	kSubsurf->setSingleStep(0.01);
 	kSubsurf->setValue(255 * 255);
 
-	//subsurfLayout->addWidget(dataLabel, 0, 0);
-	//subsurfLayout->addWidget(dataCBox, 0, 1);
 	subsurfLayout->addWidget(sigmaLabel, 1, 0);
 	subsurfLayout->addWidget(sigmaSubsurf, 1, 1);
 	subsurfLayout->addWidget(tauLabel, 2, 0);
