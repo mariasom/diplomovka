@@ -30,6 +30,7 @@ public:
 	void createSubsurfGB();
 	void createDistanceGB();
 	void createColorsGB();
+	void createtestGB();
 	void set3DWidget();
 	void update3DWidget();
 	void set2DWidget();
@@ -44,6 +45,8 @@ public slots:
 	void actionOpenFile();
 	void actionClose();
 	void actionpgm();
+	void actionvtkbinary();
+	void actionvtkascii();
 	void actionAdvanced();
 	void otsuClicked();
 	void kapuraClicked();
@@ -58,6 +61,7 @@ public slots:
 	void actionFileInfo();
 	void actionData();
 	void actionFilters();
+	void testClicked();
 	//void createDockWindows();
 	//void keyDown();
 	//void keyUp();
@@ -83,6 +87,10 @@ private:
 	QDoubleSpinBox *kSubsurf;
 	QGroupBox *subsurfGroupBox;
 	QGroupBox *distanceGroupBox;
+	QPushButton *distanceButton;
+	QPushButton *sDistanceButton;
+	QPushButton *testingButton;
+	QGroupBox *testGroupBox;
 
 	QTabWidget *innerTabs;
 	QDoubleSpinBox *scaleSpinBox_x;

@@ -22,6 +22,8 @@ bioData::bioData(QWidget *parent)
 	niblackButton = new QPushButton;
 	boundaryButton = new QPushButton;
 	subsurfButton = new QPushButton;
+	distanceButton = new QPushButton;
+	sDistanceButton = new QPushButton;
 	//dataListView = new QListWidget;
 	dataTree = new QTreeWidget;
 	useOData = new QCheckBox;
@@ -32,6 +34,7 @@ bioData::bioData(QWidget *parent)
 	sigmaSubsurf = new QDoubleSpinBox;
 	tauSubsurf = new QDoubleSpinBox;
 	kSubsurf = new QDoubleSpinBox;
+	testingButton = new QPushButton;
 
 	originalCol->setChecked(true);
 	originalCol->setDisabled(true);
@@ -62,6 +65,9 @@ bioData::bioData(QWidget *parent)
 	connect(this->niblackButton, SIGNAL(clicked()), this, SLOT(niblackClicked()));
 	connect(this->boundaryButton, SIGNAL(clicked()), this, SLOT(boundaryClicked()));
 	connect(this->subsurfButton, SIGNAL(clicked()), this, SLOT(subsurfClicked()));
+	connect(this->distanceButton, SIGNAL(clicked()), this, SLOT(actionDistFunc()));
+	connect(this->sDistanceButton, SIGNAL(clicked()), this, SLOT(actionSignDistFunc()));
+	connect(this->testingButton, SIGNAL(clicked()), this, SLOT(testClicked()));
 	//connect(this->dataUp, SIGNAL(clicked()), this, SLOT(dataUpClicked()));
 	//connect(this->dataDown, SIGNAL(clicked()), this, SLOT(dataDownClicked()));
 	//connect(this->dataListView, SIGNAL(currentRowChanged(int)), this, SLOT(listIndexChanged(int)));
@@ -191,6 +197,43 @@ void bioData::actionpgm() {
 			tr("Images (*.pgm)"));
 		cout << fileName1.toStdString() << endl;
 		fTmp->save_ascii(fileName1, dataTree->currentIndex().row());
+	}
+	else {
+		QMessageBox mbox;
+		mbox.setText("ERROR");
+		mbox.exec();
+	}
+}
+// save vtk binary.
+void bioData::actionvtkbinary() {
+	if (parent3D == dataTree->currentItem()->parent()) {
+		int i = dataTree->currentItem()->indexOfChild(dataTree->currentItem());
+		QString tmp = dataTree->currentItem()->text(0) + ".vtp";
+		QString fileName1 = QFileDialog::getSaveFileName(this, tr("Save File"),
+			tmp,
+			tr("VTK Files (*.vtk *.vtp)"));
+		cout << fileName1.toStdString() << endl;
+		fTmp->saveVtk(fileName1, dataTree->currentIndex().row(), true);
+		//fTmp->save_ascii(fileName1, dataTree->currentIndex().row());
+	}
+	else {
+		QMessageBox mbox;
+		mbox.setText("ERROR");
+		mbox.exec();
+	}
+}
+
+// save vtk ascii.
+void bioData::actionvtkascii() {
+	if (parent3D == dataTree->currentItem()->parent()) {
+		int i = dataTree->currentItem()->indexOfChild(dataTree->currentItem());
+		QString tmp = dataTree->currentItem()->text(0) + ".vtp";
+		QString fileName1 = QFileDialog::getSaveFileName(this, tr("Save File"),
+			tmp,
+			tr("VTK Files (*.vtk *.vtp)"));
+		cout << fileName1.toStdString() << endl;
+		fTmp->saveVtk(fileName1, dataTree->currentIndex().row(), false);
+		//fTmp->save_ascii(fileName1, dataTree->currentIndex().row());
 	}
 	else {
 		QMessageBox mbox;
@@ -426,9 +469,12 @@ void bioData::createSubsurfDock() {
 		QDockWidget::DockWidgetVerticalTitleBar);
 	QWidget* multiWidget = new QWidget();
 	QGridLayout *filterLayout = new QGridLayout;
+	createDistanceGB();
 	createSubsurfGB();
-
+	createtestGB();
+	filterLayout->addWidget(distanceGroupBox);
 	filterLayout->addWidget(subsurfGroupBox);
+	filterLayout->addWidget(testGroupBox);
 	multiWidget->setLayout(filterLayout);
 	subsurfDock->setWidget(multiWidget);
 	addDockWidget(Qt::RightDockWidgetArea, subsurfDock);
@@ -683,7 +729,6 @@ void bioData::createDockWidgets() {
 
 void bioData::createSubsurfGB() {
 	subsurfGroupBox = new QGroupBox(tr("SUBSURF"));
-	int size = 60;
 
 	QGridLayout *subsurfLayout = new QGridLayout;
 	QLabel *sigmaLabel = new QLabel(tr("Size of (linear) time steps:"));
@@ -714,4 +759,62 @@ void bioData::createSubsurfGB() {
 	subsurfLayout->addWidget(subsurfButton, 4, 1);
 
 	subsurfGroupBox->setLayout(subsurfLayout);
+}
+
+void bioData::createDistanceGB() {
+	distanceGroupBox = new QGroupBox(tr("Distance Functions"));
+
+	QGridLayout *distLayout = new QGridLayout;
+	QLabel *distLab = new QLabel(tr("Distance function:"));
+	QLabel *sDistLabel = new QLabel(tr("Sign distance function:"));
+
+	distanceButton->setText("Apply");
+	sDistanceButton->setText("Apply");
+
+	distLayout->addWidget(distLab, 0,0);
+	distLayout->addWidget(distanceButton, 0, 1);
+	distLayout->addWidget(sDistLabel, 1, 0);
+	distLayout->addWidget(sDistanceButton, 1, 1);
+
+	distanceGroupBox->setLayout(distLayout);
+}
+
+void bioData::createtestGB() {
+	testGroupBox = new QGroupBox(tr("Testing"));
+
+	QGridLayout *testLayout = new QGridLayout;
+	testingButton->setText("testing");
+	testLayout->addWidget(testingButton);
+
+	testGroupBox->setLayout(testLayout);
+}
+
+void bioData::testClicked() {
+
+	if (parent2D == dataTree->currentItem()->parent()) {
+		filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
+		QVector<double> tmp = filter.subSurf(
+			filter.distFunctSign(
+				filter.boundary(filter.dataToDouble(fTmp->getFiltData(dataTree->currentIndex().row())))),
+			filter.changeRangeOfData(
+				filter.dataToInt(fTmp->getFiltData(dataTree->currentIndex().row()))),
+			sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());
+
+		fTmp->add3DData(tmp);
+		fTmp->create3Ddata(fTmp->get3DData(fTmp->getSize3DData() - 1));
+
+		if (widget3D == nullptr)
+			set3DWidget();
+		else
+			update3DWidget();
+		widget3D->setWindowTitle("Subsurf(3D)");
+		QString txt = dataTree->currentItem()->text(dataTree->currentIndex().column());
+		addSubItem(parent3D, txt + "_subsurf");
+	}
+	else {
+		QMessageBox mbox;
+		mbox.setText("ERROR! \nYou can't apply SUBSURF on 3D data.");
+		mbox.exec();
+	}
+
 }

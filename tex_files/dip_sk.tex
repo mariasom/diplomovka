@@ -115,14 +115,15 @@
 
 V rôznych vedných disciplínach ale aj v bežnom živote sa používajú rôzne aplikácie spracovania obrazov. Spracovanie obrazov je metóda, ktorá pomocou rôznych matematických operácii a algoritmov upravuje obrazové dáta rôznych formátov a pomáha z nich získavať užitočné informácie. Obrazové dáta je potrebné zobraziť, či už pred alebo po modifikácií. 
 
-Cieľom práce je vytvorenie softvéru, ktorý slúži na vizualizáciu a segmentáciu obrazov získaných digitálnym mikroskopom, konkrétne sa jedná o biologické dáta a to obrazy makrofágov. Takéto dáta môžu obsahovať šum, ktorý je potrebné odstrániť pre lepšie rozoznanie objektov na dátach. 
+Cieľom práce je vytvorenie softvéru, ktorý slúži na vizualizáciu a segmentáciu obrazov získaných konfokálnym laserovým mikroskopom, konkrétne sa jedná o biologické dáta a to obrazy makrofágov. Takéto dáta môžu obsahovať šum, ktorý je potrebné odstrániť pre lepšie rozoznanie objektov na dátach. 
  
-Z biologického hľadiska, je maktofág typ bielej krvinky, ktorá hrá dôležitú úlohu pri ochrane imunitného systému a homeostázy. Avšak disfunkčné makrofágy menia svoje účinky a u ľudí môžu spôsobovať závažné ochorenia ako sú napríklad  chronické ochorenia, ktoré vediú k častým infekciám alebo sa môžu podielať na postupe rakoviny. Makrofág mení svoj tvar keď sa približuje smerom k rane. Táto zmena tvaru je spôsobená objektami, ktoré sa nachádzajú v blízkosti makrofágu, ako napríklad tkanivovými bunkami alebo medzibunkovou hmotou.
-Segmentácia obrazov môže byť užitočným nástrojom na porozumenie spôsobu inteakcie medzi makrofágmi a bunkami, ktoré ho obklopujú, avšak takáto segmetácia môže byť náročnou úlohou, kvôli ich nepravidelnému tvaru.
+Z biologického hľadiska, je maktofág typ bielej krvinky, ktorá hrá dôležitú úlohu pri ochrane imunitného systému a homeostázy. Avšak disfunkčné makrofágy menia svoje účinky a u ľudí môžu spôsobovať závažné ochorenia ako sú napríklad  zaápalové ochorenia, ktoré vediú k častým infekciám alebo sa môžu podielať na postupe rakoviny. Makrofág mení svoj tvar keď sa približuje smerom k rane. Táto zmena tvaru je spôsobená objektami, ktoré sa nachádzajú v blízkosti makrofágu, ako napríklad tkanivovými bunkami alebo medzibunkovou hmotou.
+Segmentácia obrazov môže byť užitočným nástrojom na porozumenie spôsobu interakcie medzi makrofágmi a bunkami, ktoré ho obklopujú, avšak takáto segmentácia môže byť náročnou úlohou, kvôli ich nepravidelnému tvaru.
 
-Mikroskopové dáta makrofágov, s ktorými pracujeme v tejto práci, sú makrofágy priesvitnej larvy danio pruhovanej. Táto larva bola poranená a cytoplazmy makrofágov sú zafarbené zeleným svetielkujúcim proteínom(kaede) pre lepšiu viditeľnosť pod mikroskopom. Pôvodné dáta makrofágov sú získané v časovom úseku 5 hodín a s časovým krokom 4 minúty. Následne dané trojdimenzionálne obrazové dáta sú premietnuté do roviny za použitia maximálnej intenziy približne zo 70 rezov, z ktorých vzniknú dvojdimenzionálne obrazové dáta. 
+Mikroskopové dáta makrofágov, s ktorými pracujeme v tejto práci, sú makrofágy priesvitného embrya zebricky pruhovanej (\textit{lat.} danio rerio). Táto larva bola poranená a cytoplazmy makrofágov sú zafarbené zeleným svetielkujúcim proteínom (kaede) pre lepšiu viditeľnosť pod mikroskopom. Pôvodné dáta makrofágov sú získané v časovom úseku 5 hodín a s časovým krokom 4 minúty. Následne dané trojdimenzionálne obrazové dáta sú premietnuté do roviny za použitia maximálnej intenziy približne zo 70 rezov, z ktorých vzniknú dvojdimenzionálne obrazové dáta. 
 %vo formáte tiff.
-V tejto práci sa zaoberáme časťami/výrezmi takýchto dát, na ktorých sa nachádza jeden makrofág a používame rôzne metódy na segmentáciu buď automatické alebo semi-automatické. Softvér by mal byť intuitívny a teda určený aj užívateľom, ktorí implementovaným algoritmom nemusia rozumieť. 
+
+V tejto práci sa zaoberáme časťami/výrezmi takýchto dát, na ktorých sa nachádza jeden makrofág a používame rôzne metódy na segmentáciu, buď automatické alebo semi-automatické. Softvér by mal byť intuitívny, a teda určený aj užívateľom, ktorí implementovaným algoritmom nemusia rozumieť. 
   
 Práca je rozdelená do viacerých častí, v ktorých je podrobnejšie popísaná funkcionalita programu spolu s užívateľským prostredím, použitými algoritmami, knižnicami.
 
@@ -139,29 +140,34 @@ V poslednej časti sa nachádzajú výsledky, ku ktorým sme v práci dospeli a 
  
 %Skúmané dáta pochadzajú pôvodne z  a sú z
 
-\newpage
+%\newpage
 
 \section{Segmentácie obrazov}
 
-Hlavnou úlohou pri segmentácii makrofágov je odstránenie šumu, ktorý môže byť spôsobený premietnutím dát z trojdimenzionálneho priestoru do roviny alebo bunkami nachádzajúcimi sa v okolí makrofágu alebo zmenou tvaru v čase.
+%
 
-Segmentácia takýchto dát je náročnou úlohou pretože makrofágy majú nepravidelné tvary, ktoré sa ťažko spracovávajú. Preto sme vybrali niekoľko druhov prahovacích metód, ktoré sme skombinovali spolu s metódou segmentácie subjektívnych plôch a aplikovali sme ich na testovacie dáta.
+Hlavnou úlohou pri segmentácii makrofágov, je rozlíšenie pozadia a objektu na obrazových dátach. Táto úloha môže byť sťažená kvôli strate intenzity na hranách alebo šumu, ktorý sa môže na dátach nachádzať.
+
+%Hlavnou úlohou pri segmentácii makrofágov je odstránenie šumu, ktorý môže byť spôsobený premietnutím dát z trojdimenzionálneho priestoru do roviny alebo bunkami nachádzajúcimi sa v okolí makrofágu alebo zmenou tvaru v čase.
+
+Segmentácia takýchto dát je náročnou úlohou pretože makrofágy majú nepravidelné tvary s meniacou sa intenzitou, ktoré sa ťažko spracovávajú. Preto sme vybrali niekoľko druhov prahovacích metód, ktoré sme skombinovali spolu s metódou segmentácie subjektívnych plôch a aplikovali sme ich na testované dáta.
 
 \subsection{Globálne prahovanie}
 
-Globálne prahovacie metódy sú založéné na histograme, daných čiernobielych(?)obrazových dát $I$. Ich úlohou je nájsť jediný optimálnu prahovú hodnotu $q$, ktorá zadefinuje každý pixel obrazu buď do popredia (ako objekt na dátach) alebo ako pozadie. Teda všetky pixely sú zatriedené do dvoch disjunktných množín $C_0$ a $C_1$, kde množina $C_0$ obsahuje všetky pixle nachádzajúce sa medzi hodntami $(0, 1, \dots , q)$ a $C_1$ obsahuje všetky zvyšné pixle nachádzajúce sa na intervale $(q+1, \dots , K-1)$, teda
+ Úlohou globálnych ptahovacích metód je nájsť jedinú optimálnu prahovú hodnotu $q$, v našom prípade šedotónových obrazových dát, ktorá zadefinuje každý pixel obrazu buď do popredia (ako objekt na dátach) alebo ako pozadie. Mnohé z týchto metód sú založené na histograme. Teda všetky pixely sú zatriedené do dvoch disjunktných množín $C_0$ a $C_1$, kde množina $C_0$ obsahuje všetky pixle nachádzajúce sa medzi hodntami $(0, 1, \dots , q)$ a $C_1$ obsahuje všetky zvyšné pixle nachádzajúce sa na intervale $(q+1, \dots , K-1)$, teda
 
 \begin{equation*}
 (u, v) \in \begin{cases} C_0 & \text{ak} \hspace{1em} I(u,v) \leq q \hspace{1em} \text{(pozadie)} \\  C_1 & \text{ak} \hspace{1em} I(u,v) \geq q \hspace{1em} \text{(objekt)} \end{cases}.
 \end{equation*}
 
-Treba si uvedomiť, že tieto hodnoty sa musia vymeniť vzhľadom na to akej farby je pozadie a akej objekt.
+%preformulovat
+Treba si uvedomiť, že tieto hodnoty závisia od toho, či je pozadie bledé a objekt tmavý alebo naopak.
 
-Prahovacie metódy založené na histograme, sú zvyčajne jednoduché a účinné, pretože pracujú s malým množstvom dát. V našom prípade sa jedná o 256 odtieňov sivej. Dajú sa rozdeliť na 2 hlavné kategórie: štatistické metódy a také, ktoré sú založené na tvare.
+Prahovacie metódy založené na histograme sú zvyčajne jednoduché a účinné, pretože pracujú s malým množstvom dát. V našom prípade sa jedná o 256 odtieňov sivej/šede. Dajú sa rozdeliť na 2 hlavné kategórie: štatistické metódy a také, ktoré sú založené na tvare.
 
 
 \subsubsection{Otsuho metóda}
-Otsuho metóda je automatická prahovacia metóda, ktorá rozdeľuje obrázok na 2 rôzne triedy pomocou prahu $q$ na objekt a pozadie. Základnou myšlienkou tejto metódy je nájsť prah $q$ taký, že jeho nestálosť v každej z tried, je tak malá ako je len možné, kde sa prahová hodnota pri ktorej sa súčet tried nachádza na jej minime. Táto metóda je tiež známa ako (within class variance preklad??). V tomto prípade sa dá ukázať, že táto úloha môže byť zmenená na maximalizačnú úlohu (between class variance preklad??), ktorá je výpočtovo menej náročná, keďže je spracovávaný len čiernobiely(grayscale?) obraz. Ak by išlo o farebný(RGB??) obaz, musel by byť rozdelený na jednotlivé intenzity a výsledkom by bolo viac prahových hodnôt $(q_1, \ldots, q_n)$, kde $n$ reprezentuje počet intenzít v danom obraze.
+Otsuho metóda patrí medzi automatické  prahovacie metódy, ktorá rozdeľuje obrazové dáta na 2 rôzne triedy pomocou prahu $q$ $-$ na objekt a pozadie. Hlavnou myšlienkou tejto metódy je nájsť prah $q$ taký, že výsledné distribúcie tried sú čo najlepšie oddelené, čo znamená, že príslušné histogramy majú čo najmenší rozptyl(sú čo njužšie). Na výpočet prahu $q$ sa používa metóda známa ako vnútro$-$triedna variancia(within class variance), kde sa pomocou tohoto výpočtu hľadá minimum. V tomto prípade sa dá ukázať, že táto úloha môže byť zmenená na maximalizačnú úlohu, tiež známu ako medzi$-$triedna variancia(between class variance), ktorá je výpočtovo menej náročná, keďže sú spracovávané len šedotónové obrazové dáta. Ak by išlo o farebný RGB obaz, musel by byť rozdelený na jednotlivé intenzity a výsledkom by bolo viac prahových hodnôt $(q_1, \ldots, q_n)$, kde $n$ reprezentuje počet intenzít v danom obraze.
 
 Nech $K$ je maximálna intenzita obrazu a hodnoty normalizovaného histogramu, budú vypočítané ako
 %\begin{equation*}
@@ -173,17 +179,37 @@ p_i = \frac{h_i}{N}, \hspace{10mm}  \sum_{i=1}^{N} p_i = 1,
 \end{equation*}
 
 kde $i$ je konkrétny level intenzity $(0 \leq i \leq K)$, $N$ je celkový počet pixelov na obraze, $h_i$ predstavuje histogram. 
-%Preto v prípade, že je histogram bimodálny, tak budú existovať len dve triedy a objekt na obraze bude vysegmentovaný takmer dokonale.
+Keďže v našom prípade máme len 2 triedy $C_0$ a $C_1$ a vzniknutý histogram sa tiež nazýva bimodálnym.
 
-Optimálny prah $q^*$ nájdeme cez maximalizáciu rozptylu medzi pozadím a objektom v histograme pomocou between class variance, ktorá je definovaná
+Na definíciu tried $C_0$ a $C_1$ je potrebné vypočítať stredné hodnoty $\mu_0$ a $\mu_1$ definované ako
 
 \begin{equation*}
-\sigma^2_1(q*) = \max_{1 \leq q < K} \sigma^2_1(q),
+\mu_0 =  \sum_{i=1}^{q}\frac{i p_i}{\omega_0(q)}, \hspace{10mm} \mu_1 =  \sum_{i=q + 1}^{K}\frac{i p_i}{\omega_1(q)},
 \end{equation*}
 
-kde $\sigma_1$ označuje rozptyl a $K$ je maximálna intenzita obrazu.
+kde $\omega_0(q)$ a $\omega_1(q)$ sú rozdelenia pravdepodobnosti pre triedy $C_0$ a $C_1$. Teraz môžeme zadefiovať rozptyl pre obe triedy
 
-Otsuho metóda dokáže dobre rozlíšiť dáta s makrofágmi, v prípade že dáta neobsahujú výrazný šum aj v prípade keď sa na dátach nachádzajú tenké časti alebo súzložito tvarované. Avšak ak je intenzita šumu pozadia porovnateľná s intenzitou, táto metóda môže spôsobiť rozdelenie objektu a stratiť niektoré časti objektu, keďže je do úvahy braná len intenzita obrazu.
+\begin{equation*}
+\sigma_0 = \omega_0(\mu_0 + \mu_T), \hspace{10mm} \sigma_1 =  \omega_1(\mu_1 + \mu_T),
+\end{equation*}
+
+kde $ \mu_T = \omega_0\mu_0 + \omega_1\mu_1$. Následne zadefinujeme Otsuho medzi$-$triednu varianciu ako
+
+\begin{equation*}
+\sigma^2 = \sigma_0 + \sigma_1.
+\end{equation*}
+
+%Preto v prípade, že je histogram bimodálny, tak budú existovať len dve triedy a objekt na obraze bude vysegmentovaný takmer dokonale.
+Z hodnoty medzi$-$triednej variancie, pomocou maximalizácie rozptylu medzi pozadím a objektom v histograme, nájdeme optimálny prah $q^*$, ktorý je definovaný ako
+%Optimálny prah $q^*$ nájdeme cez maximalizáciu rozptylu medzi pozadím a objektom v histograme pomocou medzi$-$triednej variancie, ktorá je definovaná ako
+
+\begin{equation*}
+\sigma^2(q*) = \max_{1 \leq q < K} \sigma^2_1(q),
+\end{equation*}
+
+kde $\sigma$ označuje rozptyl a $K$ je maximálna intenzita obrazu.
+
+Otsuho metóda dokáže dobre rozlíšiť dáta s makrofágmi, v prípade že dáta neobsahujú výrazný šum aj v prípade keď sa na dátach nachádzajú tenké časti alebo sú zložito tvarované. Avšak ak je intenzita šumu pozadia porovnateľná s intenzitou, táto metóda môže spôsobiť rozdelenie objektu a stratiť niektoré časti objektu, keďže je do úvahy braná len intenzita obrazu.
 
 %predpokladá, že originálne obrazové dáta obsahujú dáta z dvoch
 %rôznych pixelvých tried, kde rozdelenie intenzít nie je známe. Cieľom tejto metódy je nájsť prah $q$, ktorý rozdelí dáta na popredie(objekt) a pozadie.
@@ -203,29 +229,29 @@ Otsuho metóda dokáže dobre rozlíšiť dáta s makrofágmi, v prípade že d�
 %Eqn. (2.11)–(2.12)). The combined width of the two distributions is measured
 %by the within-class variance
 
-\subsubsection{Maximálna prahová hodnota enntropie}
+\subsubsection{Prahovanie pomocou maximálnej entropie}
 
-Entropia je dôležitým pojmom v teórií informácií a najmä pri kompresií dát. Je to štatistická miera, ktorá kvantifikuje priemerné množstvo informácií obsiahnutých v  "správe" \\ generovanej dátami generovanými stochasticky. Entropia je definovaná ako
+Entropia je dôležitým pojmom v teórii informácií a najmä pri kompresii dát. Je to štatistická miera, ktorá kvantifikuje priemerné množstvo informácií obsiahnutých v  "správe" \\ obsahujúce stochasticky generované dáta. Entropia je definovaná ako
 
 \begin{equation*}
 H(I)= -\sum_{u,v} p(g)log_b(p(g)),
 \end{equation*}
 
-kde $g$ is pravdepodobnosť každej intenzity, $p(g)$ je rozdelenie pravdepodobnsti, $b$ je logaritmický základ, ktorý zvolíme buď $b=10$ alebo $b=e$ aby boli dosiahnuté čo najlepšie výsledky. Hodnota entropie $H$ bude vždy nadobúdať zápornú hodnotu, pretože argument logaritmu, sú pravdepodobnosti, ktoré patria intervalu $(0,1)$.
+kde $g$ je intenzita v pixli u,v, $p(g)$ je pravdepodobnst intenzity v normalizovanom histograme, $b$ je logaritmický základ, ktorý zvolíme buď $b=10$ alebo $b=e$ aby boli dosiahnuté čo najlepšie výsledky. Hodnota entropie $H$ bude vždy nadobúdať kladnú hodnotu, pretože argument logaritmu, sú pravdepodobnosti, ktoré patria intervalu $(0,1)$ z čoho vyplýva že hodnotaa logaritmu bude vzdy zaporna. %SKONTROOLOVAT
 
 Z dôvodu hľadania maximálnej hodnoty entropie, potrebujeme definovať entropie pre každú triedu
 
 %\begin{equation*}
 %\begin{array}{l}
 \begin{equation*}
-H_0(q) =  -\frac{1}{P_0(q}S_0(q)+log(P_0(q)) \\
+H_0(q) =  -\frac{1}{P_0(q)}S_0(q)+log(P_0(q)) \\
 \end{equation*}
 \begin{equation*}
 H_1(q) =  -\frac{1}{1-P_0(q)}S_1(q)+log(1-P_0(q)),
 \end{equation*}
 %\end{array}
 %\end{equation*}
-kde $P_0$ predstavuje kumulatívnu pravdepodobnosť a $S_0$, $S_1$ sú sumačné podmienky.
+kde $P_0$ predstavuje kumulatívnu pravdepodobnosť a $S_0$, $S_1$ sú sumačné podmienky. 
 Kumulatívna pravdepodobnosť $P_0$ je definovaná ako
 \begin{equation*}
 	P_0(q) = \begin{cases} p(0) & \text{pre } q = 0 \\
@@ -244,11 +270,13 @@ a sumačné podmienky $S_0$, $S_1$ sú predpočítané a definované ako
         \end{cases}       	 
 \end{equation*}
 
-Táto metóda je jednoduchá a účinná, pretože závisí len od histogrmu obrazu. %Zosegmentované dáta môžu
+Táto metóda je jednoduchá a účinná, pretože závisí len od histogarmu obrazu. %Zosegmentované dáta môžu 
+Tiez znama ako Kapurova (strana 20 je tam poznamka)
+*PRIDAT AKO SA RATA CELKOVA ENTROPIA + *
 
 \subsection{Lokálne adaptívne prahovanie}
 
-Lokálne adaptívne prahovanie namiesto jednej prahovej hodnoty pre celý obraz, používa adaptívne prahovanie, ktoré určuje meniiacu sa prahovú hodnotu $Q(u,v)$ pre každú polohu obrazu. Tieto hodoty zodpovedajú každému pixelu $I(u,v)$ zodpovedajúcemu danému obrazu. Nasledujúce metódy sa líšia iba s ohľadom na to, akým spôsobom sú získané prahy $Q$ zo vstupného obrázku. 
+Lokálne adaptívne prahovanie namiesto jednej prahovej hodnoty pre celý obraz, používa adaptívne prahovanie, ktoré určuje meniacu sa prahovú hodnotu $Q(u,v)$ pre každú polohu obrazu. Tieto hodoty zodpovedajú každému pixelu $I(u,v)$ zodpovedajúcemu danému obrazu. Nasledujúce metódy sa líšia iba s ohľadom na to, akým spôsobom sú získané prahy $Q$ zo vstupného obrázku. 
 
 \subsubsection{Bernsenova metóda}
 
@@ -266,7 +294,9 @@ sú minimálnou a maximálnou hodnotou intenzity, na nejakom fixne danom okolí 
 Q(u,v) \gets \frac{I_{min}(u,v) + I_{max}(u,v)}{2}
 \end{equation}
 
-Táto operácia sa vykonáva tak dlho, až pokým lokálny kontrast $c(u, v) = I_{max}(u, v) − I_{min}(u, v)$ sa nachachádza nad preddefinovaným limtom $c_{min}$. Ak $c(u, v) < c_{min}$, tak pixle
+Táto operácia sa vykonáva tak dlho, až pokým lokálny kontrast $c(u, v) = I_{max}(u, v) − I_{min}(u, v)$ sa nachachádza nad preddefinovaným limtom $c_{min}$. Ak $c(u, v) < c_{min}$, tak pixle..
+
+*DOPISAT*
 %This is done as long as the local contrast c(u, v) = Imax(u, v)−Imin(u, v) is above
 %some predefined limit cmin. If c(u, v) < cmin, the pixels in the corresponding
 %image region are assumed to belong to a single class and are (by default)
@@ -283,15 +313,62 @@ Táto operácia sa vykonáva tak dlho, až pokým lokálny kontrast $c(u, v) = I
 *rovnica vedenia tepla + diskretizacia*
 \subsection{Metóda subjektívnych plôch (SUBSURF)}
 
-Klasická metóda sujektívnych plôch je definovaná
+*POPISAT*
+
+Klasická metóda sujektívnych plôch je definovaná ako
 
 \begin{equation}
-u_t = |\nabla u|\nabla.(g \frac{\nabla u}{|\nabla u|}),
+u_t = \sqrt{\epsilon^2 + |\nabla u|^2}\nabla.(g \frac{\nabla u}{\sqrt{\epsilon^2 + |\nabla u|^2}}),
 \end{equation}
 
-kde $u$ 
+%\begin{equation}
+%|\nabla u| = \sqrt{\epsilon^2 + |\nabla u|^2}
+%\end{equation}
 
-\newpage
+%kde $u$ 
+
+\begin{equation}
+\frac{1}{|\nabla u^{n-1}|_{\epsilon}}.\frac{u^n-u^{n-1}}{\tau} = \nabla.(g^0\frac{\nabla u^n}{|\nabla u^{n-1}|_{\epsilon}}),
+\end{equation}
+
+\begin{equation}
+\int_{p}\frac{1}{|\nabla u^{n-1}|_{\epsilon}}.\frac{u^n-u^{n-1}}{\tau}dx = \int_{p}\nabla.(g^0\frac{\nabla u^n}{|\nabla u_p^{n-1}|_{\epsilon}})dx,
+\end{equation}
+
+Green -$>$
+\begin{equation}
+\int_{p}\frac{1}{|\nabla u^{n-1}|_{\epsilon}}.\frac{u_p^n-u_p^{n-1}}{\tau}dx = \int_{\partial p} g^0\frac{\nabla u^n}{|\nabla u_p^{n-1}|_{\epsilon}}\vec{n}_pds,
+\end{equation}
+
+\begin{equation}
+\frac{m(p)}{|\nabla u_p^{n-1}|_{\epsilon}\tau}(u_p^n-u_p^{n-1}) = \sum_{q \in N(p)}\int_{e_{pq}}g_{pq}^0\frac{\nabla u^n}{|\nabla u_{pq}^{n-1}|_{\epsilon}}\vec{n}_{pq}ds,
+\end{equation}
+
+\begin{equation}
+\frac{m(p)}{|\nabla u_p^{n-1}|_{\epsilon}\tau}(u_p^n-u_p^{n-1}) = \sum_{q \in N(p)}\int_{e_{pq}}g_{pq}^0\frac{u_q^n - u_p^n}{d_{pq}}.\frac{1}{|\nabla u_{pq}^{n-1}|_{\epsilon}}ds,
+\end{equation}
+
+\begin{equation}
+\frac{m(p)}{|\nabla u_p^{n-1}|_{\epsilon}\tau}(u_p^n-u_p^{n-1}) = \sum_{q \in N(p)}
+g_{pq}^0T_{pq}\frac{1}{|\nabla u_{pq}^{n-1}|_{\epsilon}}(u_p^n-u_p^{n-1}),
+\end{equation}
+
+\begin{equation}
+u_p^n-u_p^{n-1} =\frac{|\nabla u_p^{n-1}|_{\epsilon}\tau}{m(p)} \sum_{q \in N(p)}
+g_{pq}^0T_{pq}\frac{1}{|\nabla u_{pq}^{n-1}|_{\epsilon}}(u_p^n-u_p^{n-1}),
+\end{equation}
+
+\begin{equation}
+u+p^{n-1} = u_p^n + \sum_{q \in N(p)}\frac{|\nabla u_p^{n-1}|_{\epsilon}\tau}{m(p)} \frac{g_{pq}^0T_{pq}}{|\nabla u_{pq}^{n-1}|_{\epsilon}} (u_p^n-u_p^{n-1}),
+\end{equation}
+
+\begin{equation}
+u+p^{n-1} = (1 + \sum a_{pq})u_p^n -  \sum a_{pq}u_q^n,
+\end{equation}
+
+
+
+%\newpage
 \section{Softvér}
 
 Na implementáciu a vytvorenie prostredia, bol zvolený objektovo orientovaný prístup jazyka C++, spolu s knižnicami Qt, ktoré obsahujú veľa užitočných tried a boli užitočným nástrojom pri vytváraní užívateľského prostredia a VTK knižnicami, ktoré slúžia na zobrazovanie a manipuláciu s dátami.
@@ -349,13 +426,13 @@ V objektoch tejto triedy sú zadefinované vykreslované dáta, či už sa jedn�
 
 
 
-\newpage
+%\newpage
 \section{Výsledky}
 
-\newpage
+%\newpage
 \section{Záver}
 
-\newpage
+%\newpage
 \begin{thebibliography}{50}
 \end{thebibliography}
 

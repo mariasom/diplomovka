@@ -268,3 +268,20 @@ void source::create3Ddata(QVector<double> z) {
 	//polydata->SetVerts(vertices);
 	polydata->SetStrips(triangles);
 }
+
+void source::saveVtk(QString fileName, int index, bool binary) {
+	vtkSmartPointer<vtkXMLPolyDataWriter> writer =
+		vtkSmartPointer<vtkXMLPolyDataWriter>::New();
+	create3Ddata(get3DData(index));
+	QByteArray ba = fileName.toLocal8Bit();
+	const char *cstr = ba.data();
+	writer->SetFileName(cstr);
+	writer->SetInputData(polydata);
+
+	if(binary)
+		writer->SetDataModeToBinary();
+	else
+		writer->SetDataModeToAscii();
+
+	writer->Write();
+}
