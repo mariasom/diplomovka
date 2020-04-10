@@ -61,7 +61,14 @@ public slots:
 	void actionFileInfo();
 	void actionData();
 	void actionFilters();
+	void deleteClicked();
+	void resetViewClicked();
+	void actionCloseFiles();
+	void twoDClicked();
+	void threeDClicked();
+
 	void testClicked();
+
 	//void createDockWindows();
 	//void keyDown();
 	//void keyUp();
@@ -91,7 +98,12 @@ private:
 	QPushButton *sDistanceButton;
 	QPushButton *testingButton;
 	QGroupBox *testGroupBox;
-
+	QPushButton *twoDButton;
+	QPushButton *threeDButton;
+	QPushButton *resetViewButton; 
+	QPushButton *delSelButton;
+	QPushButton *openWinButton;
+	
 	QTabWidget *innerTabs;
 	QDoubleSpinBox *scaleSpinBox_x;
 	QDoubleSpinBox *scaleSpinBox_y;

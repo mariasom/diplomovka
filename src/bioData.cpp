@@ -35,6 +35,11 @@ bioData::bioData(QWidget *parent)
 	tauSubsurf = new QDoubleSpinBox;
 	kSubsurf = new QDoubleSpinBox;
 	testingButton = new QPushButton;
+	delSelButton = new QPushButton;
+	openWinButton = new QPushButton;
+	resetViewButton = new QPushButton;
+	twoDButton = new QPushButton;
+	threeDButton = new QPushButton;
 
 	originalCol->setChecked(true);
 	originalCol->setDisabled(true);
@@ -67,6 +72,12 @@ bioData::bioData(QWidget *parent)
 	connect(this->subsurfButton, SIGNAL(clicked()), this, SLOT(subsurfClicked()));
 	connect(this->distanceButton, SIGNAL(clicked()), this, SLOT(actionDistFunc()));
 	connect(this->sDistanceButton, SIGNAL(clicked()), this, SLOT(actionSignDistFunc()));
+	connect(this->testingButton, SIGNAL(clicked()), this, SLOT(testClicked()));
+	connect(this->delSelButton, SIGNAL(clicked()), this, SLOT(deleteClicked()));
+	connect(this->resetViewButton, SIGNAL(clicked()), this, SLOT(resetViewClicked()));
+	connect(this->twoDButton, SIGNAL(clicked()), this, SLOT(twoDClicked()));
+	connect(this->threeDButton, SIGNAL(clicked()), this, SLOT(threeDClicked()));
+
 	connect(this->testingButton, SIGNAL(clicked()), this, SLOT(testClicked()));
 	//connect(this->dataUp, SIGNAL(clicked()), this, SLOT(dataUpClicked()));
 	//connect(this->dataDown, SIGNAL(clicked()), this, SLOT(dataDownClicked()));
@@ -417,8 +428,28 @@ void bioData::createListDock() {
 	dataTree->setHeaderHidden(true);
 	dataTree->setColumnCount(1);
 	listLayout->addWidget(dataTree, 0, 0, 2, 2);
-	listLayout->addWidget(Label, 2, 0, 2, 1);
-	listLayout->addWidget(useOData, 2, 1, 2, 1);
+	// listLayout->addWidget(Label, 2, 0, 2, 1);
+	// listLayout->addWidget(useOData, 2, 1, 2, 1);
+	delSelButton->setText("DELETE SELECTED");
+	openWinButton->setText("OPEN IN NEW WINDOW");
+	resetViewButton->setText("RESET VIEW");
+	resetViewButton->setToolTip("Or Press R on keyboard.");
+	twoDButton->setText("2D");
+	twoDButton->setCheckable(true);
+	threeDButton->setText("3D");
+	threeDButton->setCheckable(true);
+	openWinButton->setDisabled(true);
+	listLayout->addWidget(resetViewButton, 2, 0);
+	// listLayout->addWidget(delSelButton, 3, 0, 2, 1);
+	QHBoxLayout *tmplayout = new QHBoxLayout();
+
+	tmplayout->addWidget(twoDButton);
+	tmplayout->addWidget(threeDButton);
+
+	listLayout->addLayout(tmplayout,2,1);
+
+	listLayout->addWidget(delSelButton, 3, 0);
+	listLayout->addWidget(openWinButton, 3, 1);
 
 	multiWidget->setLayout(listLayout);
 	listDock->setWidget(multiWidget);
@@ -791,9 +822,10 @@ void bioData::createtestGB() {
 
 void bioData::testClicked() {
 
-	if (parent2D == dataTree->currentItem()->parent()) {
+	if (parent3D == dataTree->currentItem()->parent()) {
 		filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
-		QVector<double> tmp = filter.subSurf(
+		w->setViewerWidget();
+		/*QVector<double> tmp = filter.subSurf(
 			filter.distFunctSign(
 				filter.boundary(filter.dataToDouble(fTmp->getFiltData(dataTree->currentIndex().row())))),
 			filter.changeRangeOfData(
@@ -806,10 +838,13 @@ void bioData::testClicked() {
 		if (widget3D == nullptr)
 			set3DWidget();
 		else
-			update3DWidget();
-		widget3D->setWindowTitle("Subsurf(3D)");
+			update3DWidget();*/
+		/*widget3D->setWindowTitle("Subsurf(3D)");
 		QString txt = dataTree->currentItem()->text(dataTree->currentIndex().column());
-		addSubItem(parent3D, txt + "_subsurf");
+		addSubItem(parent3D, txt + "_subsurf");*/
+		QMessageBox mbox;
+		mbox.setText("Style updated.");
+		mbox.exec();
 	}
 	else {
 		QMessageBox mbox;
@@ -817,4 +852,53 @@ void bioData::testClicked() {
 		mbox.exec();
 	}
 
+}
+
+void bioData::deleteClicked() {
+
+}
+
+void bioData::resetViewClicked () {
+
+	if (parent2D == dataTree->currentItem()->parent())
+		w->resetCam(true);
+	else 
+		w->resetCam(false);
+}
+
+// nedokoncene
+void bioData::actionCloseFiles() {
+	qApp->processEvents();
+
+	// vymaze aktualny tab
+	if (mdiArea->subWindowList().length() > 0) //ak je pocet tabov vacsi ako 0
+	{
+		mdiArea->closeAllSubWindows();
+		listDock->hide();
+	}
+	else {
+		QMessageBox mbox;
+		mbox.setText("ERROR! NO DATA ARE LOADED!");
+		mbox.exec();
+	}
+}
+
+void bioData::twoDClicked() {
+	twoDButton->setChecked(true);
+	threeDButton->setChecked(false);
+
+	if (parent2D == dataTree->currentItem()->parent())
+		w->set2DView(true);
+	else
+		w->set2DView(false);
+}
+
+void bioData::threeDClicked() {
+	threeDButton->setChecked(true);
+	twoDButton->setChecked(false);
+
+	if (parent2D == dataTree->currentItem()->parent())
+		w->set3DView(true);
+	else
+		w->set3DView(false);
 }

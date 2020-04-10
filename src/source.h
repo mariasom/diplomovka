@@ -55,6 +55,7 @@ protected:
 	QStringList file;
 	vtkSmartPointer<vtkPoints> points;
 	vtkSmartPointer<vtkPolyData> polydata;
+	vtkSmartPointer<vtkPolyData> polydata2D;
 	vtkSmartPointer<vtkUnsignedCharArray> colors;
 	vtkSmartPointer<vtkImageMapToColors> scalarValuesToColors;
 	vtkSmartPointer<vtkLookupTable> colorLookupTable;
@@ -74,6 +75,7 @@ public:
 	QVector<unsigned char> getFiltData(int i) { return dataFilt.at(i); };
 	QVector<double> get3DData(int i) { return data3DFilt.at(i); };
 	vtkSmartPointer<vtkImageData> getImageData() { return image; };
+	// vtkSmartPointer<vtkPolyData> getImageData() { return polydata2D; };
 	int getWidth() { return width; };
 	int getHeight() { return height; };
 	vtkSmartPointer<vtkPolyData> getPolydata() { return polydata; };

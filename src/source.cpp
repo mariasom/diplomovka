@@ -6,6 +6,7 @@ source::source() {
 	colors = vtkSmartPointer<vtkUnsignedCharArray>::New();
 	colorLookupTable = vtkSmartPointer<vtkLookupTable>::New();
 	image = vtkSmartPointer<vtkImageData>::New();
+	polydata2D = vtkSmartPointer<vtkPolyData>::New();
 }
 
 source::~source()
@@ -135,10 +136,13 @@ void source::setPoints(QVector<unsigned char> &setData, int p) {
 
 	// cez body
 
-	/*points->SetNumberOfPoints(width*height);
-	for (int j = 0; j < height; j++)
-		for (int i = 0; i < width; i++) {
-			points->SetPoint(j * width + i, i, j,0);
+	/*int widthR = width + 2 * p;
+	int heightR = height + 2 * p;
+
+	points->SetNumberOfPoints(widthR*heightR);
+	for (int j = 0; j < heightR; j++)
+		for (int i = 0; i < widthR; i++) {
+			points->SetPoint(j * widthR + i, i, j,0);
 		}
 
 	vtkSmartPointer<vtkPolyData> pointsPolydata =
@@ -155,28 +159,28 @@ void source::setPoints(QVector<unsigned char> &setData, int p) {
 
 	vtkSmartPointer<vtkUnsignedCharArray> color =
 		vtkSmartPointer<vtkUnsignedCharArray>::New();
-	color->SetNumberOfValues(width*height);
+	color->SetNumberOfValues(widthR*heightR);
 
-	for (int j = 0; j < width; j++)
+	for (int j = 0; j < widthR; j++)
 	{
-		for (int i = 0; i < height; i++)
+		for (int i = 0; i < heightR; i++)
 		{
-			 color->SetValue(j * width + i,(unsigned char)data[j * width + i]);
-			 std::cout << color->GetValue(j * width + i) << " ";
+			 color->SetValue(j * widthR + i,(unsigned char)data[j * widthR + i]);
+			 std::cout << (int)color->GetValue(j * widthR + i) << " ";
 		}
 		std::cout << std::endl;
 	}
-	
-	polydata->GetPointData()->SetScalars(color);
-	polydata->Modified();*/
 
-	 int widthR = width + 2 * p;
+	polydata2D->GetPointData()->SetScalars(color);
+	polydata2D->Modified();*/
+
+	int widthR = width + 2 * p;
 	int heightR = height + 2 * p;
 
 	image->SetDimensions(widthR, heightR, 1);
 	image->SetOrigin(.5, .5, 0);
 	image->AllocateScalars(VTK_UNSIGNED_CHAR, 1);
-	
+
 	for (int j = 0; j < widthR; j++)
 	{
 		for (int i = 0; i < heightR; i++)

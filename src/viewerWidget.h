@@ -36,6 +36,9 @@
 
 #include <vtkXMLPolyDataWriter.h>
 
+#include <vtkAxesActor.h>
+#include <vtkOrientationMarkerWidget.h>
+
 class viewerWidget : public QWidget {
 	Q_OBJECT
 
@@ -53,7 +56,7 @@ public:
 	void setScrollArea3D();
 	void setScrollArea();
 	void setViewerWidget2D(vtkSmartPointer<vtkImageData> image, QString fName);
-	//void setViewerWidget(vtkSmartPointer<vtkPolyData> polyData, QString fName);
+	//void setViewerWidget2D(vtkSmartPointer<vtkPolyData> polyData, QString fName);
 	QScrollArea *getScrollArea2D() { return _scrollArea2D; }
 	QScrollArea *getScrollArea3D() { return _scrollArea3D; }
 	QScrollArea *getScrollArea() { return _scrollArea; }
@@ -61,9 +64,14 @@ public:
 	void updateViewerWidget3D();
 	void updateViewerWidget();
 	void setViewerWidget3D(vtkSmartPointer<vtkPolyData> polydata);
-	void setViewerWidget(vtkSmartPointer<vtkPolyData> polydata);
+	void setViewerWidget();
+	void resetCam(bool dimensions);
+	void set2DView(bool dimensions);
+	void set3DView(bool dimensions);
 
 private:
+	vtkSmartPointer<vtkInteractorStyleImage> imageStyle;
+
 	//global variables for 2D data/image/threshold ect data.
 	QVTKOpenGLNativeWidget* qW2D;
 	QScrollArea* _scrollArea2D;

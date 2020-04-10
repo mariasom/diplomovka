@@ -4,6 +4,8 @@ viewerWidget::viewerWidget(QWidget *parent) : QWidget(parent) {
 	setAttribute(Qt::WA_StaticContents);
 	qW2D = new QVTKOpenGLNativeWidget(this);
 	qW3D = new QVTKOpenGLNativeWidget(this);
+
+	imageStyle = vtkSmartPointer<vtkInteractorStyleImage>::New();
 }
 
 viewerWidget::~viewerWidget() {
@@ -52,18 +54,33 @@ void viewerWidget::setScrollArea3D() {
 	// VTK/Qt wedded
 	qW->GetRenderWindow()->AddRenderer(renderer);
 }*/
-
+// void viewerWidget::setViewerWidget2D(vtkSmartPointer<vtkPolyData> image, QString fName) {
 void viewerWidget::setViewerWidget2D(vtkSmartPointer<vtkImageData> image, QString fName) {
+
 	//vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
 	qW2D->SetRenderWindow(renderWindow2D);
 
-	vtkSmartPointer<vtkInteractorStyleImage> imageStyle =
-		vtkSmartPointer<vtkInteractorStyleImage>::New();
+	// vtkSmartPointer<vtkInteractorStyleImage> imageStyle = vtkSmartPointer<vtkInteractorStyleImage>::New();
 	//imageStyle->SetInteractionMode(1);
 	imageStyle->SetInteractionModeToImage2D();
 	//imageStyle->StartRotate();
 	//std::cout << imageStyle->GetInteractionMode() << std::endl;
 	qW2D->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
+
+	/*vtkSmartPointer<vtkPolyDataMapper> mapper =
+		vtkSmartPointer<vtkPolyDataMapper>::New();
+	mapper->SetInputData(image);
+
+	actor2D = vtkSmartPointer<vtkActor>::New();
+	actor2D->SetMapper(mapper);
+
+	renderer2D = vtkSmartPointer<vtkRenderer>::New();
+	renderWindow2D->AddRenderer(renderer2D);
+
+	renderer2D->GetViewProps()->RemoveAllItems();
+	renderer2D->AddActor(actor2D);
+	renderer2D->SetBackground(1, 1, 1);
+	renderer2D->ResetCamera();*/
 
 	//vtkSmartPointer<vtkImageReslice> reslice = vtkSmartPointer<vtkImageReslice>::New();
 	//reslice->SetInputData(image);
@@ -71,10 +88,9 @@ void viewerWidget::setViewerWidget2D(vtkSmartPointer<vtkImageData> image, QStrin
 	//reslice->SetInterpolate(0);
 	//reslice->Update();
 
-	vtkSmartPointer<vtkDataSetMapper> mapper =
-		vtkSmartPointer<vtkDataSetMapper>::New();
-	//mapper->InterpolateScalarsBeforeMappingOn();
-	//mapper->SetInputData(reslice->GetOutput());
+	vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+	mapper->InterpolateScalarsBeforeMappingOn();
+	// mapper->SetInputData(reslice->GetOutput());
 	mapper->SetInputData(image);
 
 	actor2D = vtkSmartPointer<vtkActor>::New();
@@ -120,21 +136,35 @@ void viewerWidget::setViewerWidget3D(vtkSmartPointer<vtkPolyData> polydata) {
 	renderer3D->AddActor(actor3D);
 	renderer3D->SetBackground(.1, .2, .3);
 
+	/*vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
+		vtkSmartPointer<vtkRenderWindowInteractor>::New();
+	renderWindowInteractor->SetRenderWindow(renderWindow3D);
+
+	vtkSmartPointer<vtkAxesActor> axes =
+		vtkSmartPointer<vtkAxesActor>::New();
+
+	vtkSmartPointer<vtkOrientationMarkerWidget> widget =
+		vtkSmartPointer<vtkOrientationMarkerWidget>::New();
+	widget->SetOutlineColor(0.9300, 0.5700, 0.1300);
+	widget->SetOrientationMarker(axes);
+	widget->SetInteractor(renderWindowInteractor);
+	widget->SetViewport(0.0, 0.0, 0.4, 0.4);
+	widget->SetEnabled(1);
+	widget->InteractiveOn();
+
+	// renderer3D->ResetCamera();*/
+
 	qW3D->GetRenderWindow()->AddRenderer(renderer3D);
 }
 
-void viewerWidget::setViewerWidget(vtkSmartPointer<vtkPolyData> polydata) {
-	// qW3D->SetRenderWindow(renderWindow3D);
+void viewerWidget::setViewerWidget() {
 
-	vtkSmartPointer<vtkXMLPolyDataWriter> writer =
-		vtkSmartPointer<vtkXMLPolyDataWriter>::New();
-	writer->SetFileName("test.vtp");
-	writer->SetInputData(polydata);
-
-	//writer->SetDataModeToBinary();
-	//writer->SetDataModeToAscii();
-
-	writer->Write();
+	
+	//imageStyle->SetInteractionMode(1);
+	imageStyle->SetInteractionModeToImageSlicing();
+	//imageStyle->StartRotate();
+	//std::cout << imageStyle->GetInteractionMode() << std::endl;
+	qW3D->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
 
 	// Sample quadric function
 	// vtkSmartPointer<vtkQuadric> quadric = vtkSmartPointer<vtkQuadric>::New();
@@ -232,4 +262,37 @@ void viewerWidget::setViewerWidget(vtkSmartPointer<vtkPolyData> polydata) {
 	renderer->AddViewProp(axes);
 
 	qW3D->GetRenderWindow()->AddRenderer(renderer);*/
+}
+
+void viewerWidget::resetCam(bool dimensions) {
+	if (dimensions) {
+		renderer2D->ResetCamera();
+		renderWindow2D->Render();
+	}
+	else {
+		renderer3D->ResetCamera();
+		renderWindow3D->Render();
+	}
+}
+
+void viewerWidget::set2DView(bool dimensions) {
+	if (dimensions) {
+		imageStyle->SetInteractionModeToImage2D();
+		qW2D->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
+	}
+	else {
+		imageStyle->SetInteractionModeToImage2D();
+		qW2D->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
+	}
+}
+
+void viewerWidget::set3DView(bool dimensions) {
+	if (dimensions) {
+		imageStyle->SetInteractionModeToImage3D();
+		qW2D->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
+	}
+	else {
+		imageStyle->SetInteractionModeToImage3D();
+		qW3D->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
+	}
 }
