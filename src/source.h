@@ -37,6 +37,7 @@
 #include <vtkProperty.h>
 #include <vtkImageInterpolator.h>
 #include <vtkXMLPolyDataWriter.h>
+#include <vtkFloatArray.h>
 
 //sing namespace std;
 
@@ -89,4 +90,5 @@ public:
 	void add3DData(QVector<double> &addData);
 	void save_ascii(QString fileName, int index);
 	void saveVtk(QString fileName, int index, bool binary);
+	void colorPolyData();
 };

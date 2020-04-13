@@ -72,7 +72,6 @@ bioData::bioData(QWidget *parent)
 	connect(this->subsurfButton, SIGNAL(clicked()), this, SLOT(subsurfClicked()));
 	connect(this->distanceButton, SIGNAL(clicked()), this, SLOT(actionDistFunc()));
 	connect(this->sDistanceButton, SIGNAL(clicked()), this, SLOT(actionSignDistFunc()));
-	connect(this->testingButton, SIGNAL(clicked()), this, SLOT(testClicked()));
 	connect(this->delSelButton, SIGNAL(clicked()), this, SLOT(deleteClicked()));
 	connect(this->resetViewButton, SIGNAL(clicked()), this, SLOT(resetViewClicked()));
 	connect(this->twoDButton, SIGNAL(clicked()), this, SLOT(twoDClicked()));
@@ -694,6 +693,8 @@ void bioData::actionDistFunc() {
 void bioData::set3DWidget() {
 	widget3D = new QWidget(mdiArea);
 	parent3D = new QTreeWidgetItem();
+	threeDButton->setChecked(true);
+	twoDButton->setChecked(false);
 	parent3D->setText(0, "3D");
 	dataTree->addTopLevelItem(parent3D);
 	w->setScrollArea3D();
@@ -718,6 +719,8 @@ void bioData::update3DWidget() {
 void bioData::set2DWidget() {
 	widget2D = new QWidget(mdiArea); 
 	parent2D = new QTreeWidgetItem();
+	twoDButton->setChecked(true);
+	threeDButton->setChecked(false);
 	parent2D->setText(0, "2D");
 	dataTree->addTopLevelItem(parent2D);
 	w->setScrollArea2D();
@@ -822,10 +825,26 @@ void bioData::createtestGB() {
 
 void bioData::testClicked() {
 
-	if (parent3D == dataTree->currentItem()->parent()) {
+	//if (parent3D == dataTree->currentItem()->parent()) {
 		filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
-		w->setViewerWidget();
-		/*QVector<double> tmp = filter.subSurf(
+
+		QVector<double> tmp = filter.subSurf(
+			filter.distFunctSign(
+				filter.boundary(filter.dataToDouble(fTmp->getFiltData(dataTree->currentIndex().row())))),
+			filter.changeRangeOfData(
+				filter.dataToInt(fTmp->getFiltData(dataTree->currentIndex().row()))),
+			sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());
+
+		fTmp->add3DData(tmp);
+		fTmp->create3Ddata(fTmp->get3DData(dataTree->currentIndex().row()));
+		w->contours3D(fTmp->getPolydata(),20);
+	/*if (parent2D == dataTree->currentItem()->parent()) {
+
+		filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
+		
+			fTmp->setPoints(fTmp->getFiltData(dataTree->currentIndex().row()));
+			w->setViewerWidget(fTmp->getImageData());
+			/*QVector<double> tmp = filter.subSurf(
 			filter.distFunctSign(
 				filter.boundary(filter.dataToDouble(fTmp->getFiltData(dataTree->currentIndex().row())))),
 			filter.changeRangeOfData(
@@ -845,12 +864,12 @@ void bioData::testClicked() {
 		QMessageBox mbox;
 		mbox.setText("Style updated.");
 		mbox.exec();
-	}
-	else {
-		QMessageBox mbox;
-		mbox.setText("ERROR! \nYou can't apply SUBSURF on 3D data.");
-		mbox.exec();
-	}
+	//}
+	//else {
+	//	QMessageBox mbox;
+	//	mbox.setText("ERROR! \nYou can't apply SUBSURF on 3D data.");
+	//	mbox.exec();
+	//}
 
 }
 

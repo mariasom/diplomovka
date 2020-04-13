@@ -267,10 +267,79 @@ void source::create3Ddata(QVector<double> z) {
 			triangles->InsertNextCell(triangle);
 		}
 
+	vtkSmartPointer<vtkNamedColors> colors =
+		vtkSmartPointer<vtkNamedColors>::New();
+
+/*	vtkSmartPointer<vtkFloatArray> scalars =
+		vtkSmartPointer<vtkFloatArray>::New();
+	scalars->SetNumberOfTuples(points->GetNumberOfPoints());
+	double bounds[6];
+    points->GetBounds(bounds);
+	for (int j = 0; j < height; j++) {
+		for (int i = 0; i < width; i++)
+		{
+			if((bounds[5] - bounds[4])/2 < z[width * j + i])
+				scalars->SetTuple1(j * width + i, 0);
+			else
+				scalars->SetTuple1(j * width + i, 50);
+			std::cout << abs(points->GetBounds()[4]) + z[width * j + i] << " ";
+		}
+		std::cout << endl;
+	}*/
 
 	polydata->SetPoints(points);
+	// polydata->GetPointData()->SetScalars(scalars);
 	//polydata->SetVerts(vertices);
 	polydata->SetStrips(triangles);
+	colorPolyData();
+}
+
+void source::colorPolyData() {
+	colors->SetNumberOfComponents(3);
+	colors->SetName("Colors");
+	colors->SetNumberOfTuples(polydata->GetNumberOfPoints());
+	double bounds[6];
+	polydata->GetBounds(bounds);
+	colorLookupTable->SetTableRange(bounds[4], bounds[5]);
+	colorLookupTable->Build();
+
+	// Generate the colors for each point based on the color map
+	unsigned char colore[3];
+	double *tmpColor;
+	vtkSmartPointer<vtkColorTransferFunction> color = vtkSmartPointer<vtkColorTransferFunction>::New();
+	color->AddRGBPoint(0.0, 0.0, 0.0, 0.5);
+	color->AddRGBPoint(0.1, 0.0, 0.0, 1.0);
+	color->AddRGBPoint(0.35, 0.0, 1.0, 1.0);
+	color->AddRGBPoint(0.65, 1.0, 1.0, 0.0);
+	color->AddRGBPoint(0.9, 1.0, 0.0, 0.0);
+	color->AddRGBPoint(1.0, 0.5, 0.0, 0.0);
+
+	std::cout << polydata->GetNumberOfPoints() << endl;
+	std::cout << width * height << endl;
+	for (int i = 0; i < polydata->GetNumberOfPoints(); i++)
+	{
+		double colora;
+		double p[3];
+		polydata->GetPoint(i, p);
+		colora = /*1 -*/ ((p[2] - bounds[4]) / (bounds[5] - bounds[4]));
+
+		tmpColor = color->GetColor(colora);
+		colore[0] = tmpColor[0] * 255;
+		colore[1] = tmpColor[1] * 255;
+		colore[2] = tmpColor[2] * 255;
+		colors->SetTypedTuple(i, colore);
+	}
+
+	int maxCol = 255;
+	for (int i = 0; i <= maxCol; i++)
+	{
+		double *rgb;
+		rgb = color->GetColor(static_cast<double>(i) / maxCol);
+		colorLookupTable->SetTableValue(i, rgb);
+	}
+
+	polydata->GetPointData()->SetScalars(colors);
+	polydata->Modified();
 }
 
 void source::saveVtk(QString fileName, int index, bool binary) {

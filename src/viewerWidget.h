@@ -39,6 +39,19 @@
 #include <vtkAxesActor.h>
 #include <vtkOrientationMarkerWidget.h>
 
+#include <vtkOutlineFilter.h>
+#include <vtkProperty.h>
+#include <vtkTexture.h>
+
+#include <vtkShepardMethod.h>
+#include <vtkProbeFilter.h>
+
+#include <vtkFloatArray.h>
+
+#include <vtkTransformPolyDataFilter.h>
+#include <vtkVoxelContoursToSurfaceFilter.h>
+#include <vtkTransform.h>
+
 class viewerWidget : public QWidget {
 	Q_OBJECT
 
@@ -64,10 +77,11 @@ public:
 	void updateViewerWidget3D();
 	void updateViewerWidget();
 	void setViewerWidget3D(vtkSmartPointer<vtkPolyData> polydata);
-	void setViewerWidget();
+	void setViewerWidget(vtkSmartPointer<vtkImageData> image);
 	void resetCam(bool dimensions);
 	void set2DView(bool dimensions);
 	void set3DView(bool dimensions);
+	void contours3D(vtkSmartPointer<vtkPolyData> polydata, int numOfCont);
 
 private:
 	vtkSmartPointer<vtkInteractorStyleImage> imageStyle;

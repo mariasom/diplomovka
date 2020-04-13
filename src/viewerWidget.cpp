@@ -60,7 +60,7 @@ void viewerWidget::setViewerWidget2D(vtkSmartPointer<vtkImageData> image, QStrin
 	//vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
 	qW2D->SetRenderWindow(renderWindow2D);
 
-	// vtkSmartPointer<vtkInteractorStyleImage> imageStyle = vtkSmartPointer<vtkInteractorStyleImage>::New();
+	//vtkSmartPointer<vtkInteractorStyleImage> imageStyle = vtkSmartPointer<vtkInteractorStyleImage>::New();
 	//imageStyle->SetInteractionMode(1);
 	imageStyle->SetInteractionModeToImage2D();
 	//imageStyle->StartRotate();
@@ -124,6 +124,7 @@ void viewerWidget::setViewerWidget3D(vtkSmartPointer<vtkPolyData> polydata) {
 	qW3D->SetRenderWindow(renderWindow3D);
 	vtkSmartPointer<vtkPolyDataMapper> mapper =
 		vtkSmartPointer<vtkPolyDataMapper>::New();
+	mapper->ScalarVisibilityOff();
 	mapper->SetInputData(polydata);
 
 	actor3D = vtkSmartPointer<vtkActor>::New();
@@ -157,111 +158,97 @@ void viewerWidget::setViewerWidget3D(vtkSmartPointer<vtkPolyData> polydata) {
 	qW3D->GetRenderWindow()->AddRenderer(renderer3D);
 }
 
-void viewerWidget::setViewerWidget() {
+void viewerWidget::contours3D(vtkSmartPointer<vtkPolyData> polydata, int numOfCont) {
+	qW3D->SetRenderWindow(renderWindow3D);
 
-	
-	//imageStyle->SetInteractionMode(1);
-	imageStyle->SetInteractionModeToImageSlicing();
-	//imageStyle->StartRotate();
-	//std::cout << imageStyle->GetInteractionMode() << std::endl;
-	qW3D->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
+	double bounds[6];
+	polydata->GetBounds(bounds);
+	std::cout << "xmin: " << bounds[0] << " "
+		<< "xmax: " << bounds[1] << std::endl
+		<< "ymin: " << bounds[2] << " "
+		<< "ymax: " << bounds[3] << std::endl
+		<< "zmin: " << bounds[4] << " "
+		<< "zmax: " << bounds[5] << std::endl;
+	vtkSmartPointer<vtkContourFilter> contour = vtkSmartPointer<vtkContourFilter>::New();
+	contour->SetInputData(polydata);
 
-	// Sample quadric function
-	// vtkSmartPointer<vtkQuadric> quadric = vtkSmartPointer<vtkQuadric>::New();
-	// quadric->SetCoefficients(1, 2, 3, 0, 1, 0, 0, 0, 0, 0);
-
-	// vtkSmartPointer<vtkSampleFunction> sample = vtkSmartPointer<vtkSampleFunction>::New();
-	// sample->SetSampleDimensions(40, 40, 40);
-	// sample->SetImplicitFunction(quadric);
-
-	// Generate implicit surface
-	/*vtkSmartPointer <vtkContourFilter> contour = vtkSmartPointer<vtkContourFilter>::New();
-	contour->SetInputData(sample->GetOutput());
-	double range[2];
-	range[0] = 1.0; range[1] = 6.0;
-	contour->GenerateValues(3, range);
-
-	// Map contour
+	// contour->SetNumberOfContours(10);
+	contour->ComputeNormalsOn();
+	//for (int i = 0; i < 18; i++) {
+	// contour->SetValue(0, 255);
+	//}
+	double getRange = abs(bounds[5] - bounds[4]);
+	std:cout << getRange << endl;
+	contour->GenerateValues(20,0, getRange*10);
+	contour->GetUseScalarTree();
 	vtkSmartPointer<vtkPolyDataMapper> contourMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-	contourMapper->SetInputData(contour->GetOutput());
-	contourMapper->SetScalarRange(0, 7);
+	contourMapper->SetInputConnection(contour->GetOutputPort());
+	// contourMapper->ScalarVisibilityOff();
+	contourMapper->SetScalarRange(polydata->GetScalarRange());
 
 	vtkSmartPointer<vtkActor> contourActor = vtkSmartPointer<vtkActor>::New();
+	contourActor->GetProperty()->SetLineWidth(2);
 	contourActor->SetMapper(contourMapper);
 
-
-	/*vtkSmartPointer<vtkContourFilter> contour = vtkSmartPointer<vtkContourFilter>::New();
-	contour->SetInputData(polydata);
-	// contour->SetInputConnection();
-	contour->SetValue(0,1.2);
-
-	vtkSmartPointer<vtkPolyDataMapper> contourMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-	// contourMapper->SetInputData(contour->GetOutput());
-	// contourMapper->SetInputConnection(contour->GetOutputPort());
-	contourMapper->SetScalarRange(polydata->GetScalarRange());
-	//polydata->GetScalarRange();
-
-	vtkSmartPointer <vtkActor> contourActor = vtkSmartPointer<vtkActor>::New();
-	contourActor->SetMapper(contourMapper);*/
-
-	/*vtkSmartPointer<vtkPolyDataMapper> mapper =
-		vtkSmartPointer<vtkPolyDataMapper>::New();
-	mapper->SetInputData(sample->GetOutput(0));
-
-	actor3D = vtkSmartPointer<vtkActor>::New();
-	actor3D->SetMapper(mapper);
-
-	renderer3D = vtkSmartPointer<vtkRenderer>::New();
-	renderWindow3D->AddRenderer(renderer3D);
-
 	renderer3D->GetViewProps()->RemoveAllItems();
-	renderer3D->AddActor(actor3D);
-	renderer3D->SetBackground(1.0, 1.0, 1.0);
+	renderer3D->AddActor(contourActor);
+	renderer3D->SetBackground(.1, .2, .3);
 
 	qW3D->GetRenderWindow()->AddRenderer(renderer3D);
 
-	/*qW->SetRenderWindow(renderWindow);
+}
 
-	// warp plane
-	vtkSmartPointer<vtkWarpScalar> warp = vtkSmartPointer<vtkWarpScalar>::New();
-	warp->SetInputData(polydata);
-	warp->SetScaleFactor(0.0);
+void viewerWidget::setViewerWidget(vtkSmartPointer<vtkImageData> image) {
+	// 2D contour
+	qW2D->SetRenderWindow(renderWindow2D);
+
+	vtkSmartPointer<vtkNamedColors> colors =
+		vtkSmartPointer<vtkNamedColors>::New();
+
+	vtkSmartPointer<vtkContourFilter> contourFilter =
+		vtkSmartPointer<vtkContourFilter>::New();
+	contourFilter->SetInputData(image);
+	contourFilter->GenerateValues(1, 10, 10); // (numContours, rangeStart, rangeEnd)
+
+	// Map the contours to graphical primitives
+	vtkSmartPointer<vtkPolyDataMapper> contourMapper =
+		vtkSmartPointer<vtkPolyDataMapper>::New();
+	contourMapper->SetInputConnection(contourFilter->GetOutputPort());
+
+	// Create an actor for the contours
+	vtkSmartPointer<vtkActor> contourActor =
+		vtkSmartPointer<vtkActor>::New();
+	contourActor->SetMapper(contourMapper);
+	contourActor->GetProperty()->SetLineWidth(5);
+
+	// Create the outline
+	vtkSmartPointer<vtkOutlineFilter> outlineFilter =
+		vtkSmartPointer<vtkOutlineFilter>::New();
+	outlineFilter->SetInputData(image);
+
+	vtkSmartPointer<vtkPolyDataMapper> outlineMapper =
+		vtkSmartPointer<vtkPolyDataMapper>::New();
+	outlineMapper->SetInputConnection(outlineFilter->GetOutputPort());
+	vtkSmartPointer<vtkActor> outlineActor =
+		vtkSmartPointer<vtkActor>::New();
+	outlineActor->SetMapper(outlineMapper);
+	outlineActor->GetProperty()->SetColor(0, .5, 0);
+	outlineActor->GetProperty()->SetLineWidth(3);
+
+	vtkSmartPointer<vtkTexture> texture =
+		vtkSmartPointer<vtkTexture>::New();
+	texture->SetInputData(image);
 
 	// Visualize
-	vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
-	mapper->SetInputConnection(warp->GetOutputPort());
 
-	actor = vtkSmartPointer<vtkActor>::New();
-	//actor->GetProperty()->SetPointSize(4);
-	actor->SetMapper(mapper);
+	renderer2D->GetViewProps()->RemoveAllItems();
+	renderer2D->AddActor(contourActor);
+	renderer2D->AddActor(outlineActor);
+	renderer2D->SetBackgroundTexture(texture);
+	renderWindow2D->Render();
+	renderer2D->ResetCamera();
 
-	renderer = vtkSmartPointer<vtkRenderer>::New();
-	renderWindow3D->AddRenderer(renderer3D);
-
-	renderer3D->GetViewProps()->RemoveAllItems();
-	renderer3D->AddActor(actor3D);
-	renderer3D->SetBackground(.1, .2, .3);
- 
-
-	renderer->AddActor(actor);
-	renderer->SetBackground(.3, .6, .3);
-	renderWindow->Render();
-
-	vtkSmartPointer<vtkInteractorStyleTrackballCamera> style = vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
-	//qW->GetRenderWindow()->SetInteractorStyle(style);
-
-	// add & render CubeAxes
-	vtkSmartPointer<vtkCubeAxesActor2D> axes = vtkSmartPointer<vtkCubeAxesActor2D>::New();
-	axes->SetInputData(warp->GetOutput());
-	axes->SetFontFactor(3.0);
-	axes->SetFlyModeToNone();
-	axes->SetCamera(renderer->GetActiveCamera());
-
-	vtkSmartPointer<vtkAxisActor2D> xAxis = axes->GetXAxisActor2D();
-	//xAxis->SetAdjustLabels(1);
-	renderer->AddViewProp(axes);
-
-	qW3D->GetRenderWindow()->AddRenderer(renderer);*/
+	qW2D->GetRenderWindow()->AddRenderer(renderer2D);
 }
 
 void viewerWidget::resetCam(bool dimensions) {
@@ -279,10 +266,15 @@ void viewerWidget::set2DView(bool dimensions) {
 	if (dimensions) {
 		imageStyle->SetInteractionModeToImage2D();
 		qW2D->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
+		renderWindow2D->Render();
 	}
 	else {
 		imageStyle->SetInteractionModeToImage2D();
 		qW2D->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
+		renderWindow3D->Render();
+		QMessageBox mbox;
+		mbox.setText("here i am");
+		mbox.exec();
 	}
 }
 
@@ -290,9 +282,11 @@ void viewerWidget::set3DView(bool dimensions) {
 	if (dimensions) {
 		imageStyle->SetInteractionModeToImage3D();
 		qW2D->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
+		renderWindow2D->Render();
 	}
 	else {
 		imageStyle->SetInteractionModeToImage3D();
 		qW3D->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
+		renderWindow3D->Render();
 	}
 }
