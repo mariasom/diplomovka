@@ -23,14 +23,6 @@ public:
 	//void visualize();
 	void setTabWidget();
 	//void createInfoGroupBox();
-	void createFileDock(QString name, QString path, int width, int height);
-	void createListDock();
-	void createFilterDock();
-	void createSubsurfDock();
-	void createSubsurfGB();
-	void createDistanceGB();
-	void createColorsGB();
-	void createtestGB();
 	void set3DWidget();
 	void update3DWidget();
 	void set2DWidget();
@@ -40,33 +32,66 @@ public:
 	void keyDownEvent(QKeyEvent *event);
 	void addSubItem(QTreeWidgetItem *parent, QString name);
 
+	// groupboxes
+	void createSubsurfGB();
+	// void createDistanceGB();
+	void createColorsGB();
+	void createtestGB();
+	void createGlobThrshldGB();
+	void createLocThrshldGB();
+	void initialConditionsGB();
+
+	// docks
+	void createFileDock(QString name, QString path, int width, int height);
+	void createListDock();
+	void createFilter2DDock();
+	void createFilter3DDock();
+	// void createSubsurfDock();
+
 public slots:
 	virtual void slotExit();
+
+	void listIndexChanged(int i);
+	void treeIndexChanged(QTreeWidgetItem *itm, int i);
+	// void actionFilters();
+
+	// upper menu actions
+	void actionHistLog();
+	void actionAll();
+	void actionFileInfo();
+	void actionData();
 	void actionOpenFile();
 	void actionClose();
 	void actionpgm();
 	void actionvtkbinary();
 	void actionvtkascii();
+	void action2DFilters();
+	void action3DFilters();
+	void action2DOptions();
+	void action3DOptions();
 	void actionAdvanced();
+	void actionCloseFiles();
+
+	// buttons actions
 	void otsuClicked();
 	void kapuraClicked();
 	void niblackClicked();
-	void boundaryClicked();
+	//void boundaryClicked();
+	void bernsenClicked();
 	void subsurfClicked();
-	void listIndexChanged(int i);
-	void treeIndexChanged(QTreeWidgetItem *itm, int i);
 	void actionSignDistFunc();
 	void actionDistFunc();
-	void actionAll();
-	void actionFileInfo();
-	void actionData();
-	void actionFilters();
-	void deleteClicked();
-	void resetViewClicked();
-	void actionCloseFiles();
 	void twoDClicked();
 	void threeDClicked();
+	void deleteClicked();
+	void resetViewClicked();
+	void setDefaultValues();
+	void saveScreenShot();
+	void thresholdInitConClicked();
 
+	// others
+
+	// testing
 	void testClicked();
 
 	//void createDockWindows();
@@ -75,56 +100,76 @@ public slots:
 
 private:
 	Ui::bioData *ui;
-	QMdiArea *mdiArea;
+	QMdiArea *mdiArea; 
 	QWidget *widget2D = nullptr;
 	QWidget *widget3D = nullptr;
 	QGridLayout *gridLayout2D;
 	QGridLayout *gridLayout3D;
+
+	// docks
 	QDockWidget *fileDock;
-	QDockWidget *filterDock;
+	QDockWidget *filter2DDock;
+	QDockWidget *filter3DDock;
 	QDockWidget *listDock;
 	QDockWidget *subsurfDock;
-	QTreeWidget *dataTree;
-	QTreeWidgetItem *parent2D;
-	QTreeWidgetItem *parent3D;
-	QComboBox *dataCBox;
-	QPushButton *subsurfButton;
-	QDoubleSpinBox *sigmaSubsurf;
-	QDoubleSpinBox *tauSubsurf;
-	QDoubleSpinBox *kSubsurf;
+
+	// groupboxes
 	QGroupBox *subsurfGroupBox;
 	QGroupBox *distanceGroupBox;
-	QPushButton *distanceButton;
-	QPushButton *sDistanceButton;
-	QPushButton *testingButton;
+	QGroupBox *globThreshGroupBox;
+	QGroupBox *locThreshGroupBox;
 	QGroupBox *testGroupBox;
-	QPushButton *twoDButton;
-	QPushButton *threeDButton;
-	QPushButton *resetViewButton; 
-	QPushButton *delSelButton;
-	QPushButton *openWinButton;
-	
-	QTabWidget *innerTabs;
-	QDoubleSpinBox *scaleSpinBox_x;
-	QDoubleSpinBox *scaleSpinBox_y;
-	QDoubleSpinBox *scaleSpinBox_z;
-	QSpinBox *backgroundSB;
-	QSpinBox *foregroundSB;;
-	QComboBox *colorComboBox;
+	QGroupBox *filterGB;
+	QGroupBox *colorsGB;
 	QGroupBox *scaleGroupBox;
 	QGroupBox *colorGroupBox;
 	QGroupBox *listGroupBox;
-	QGroupBox *filterGB;
-	QGroupBox *colorsGB;
+	QGroupBox *fileGroupBox;
+	QGroupBox *initConGroupBox;
+
+	// treewidget + its items
+	QTreeWidget *dataTree;
+	QTreeWidgetItem *parent2D;
+	QTreeWidgetItem *parent3D;
+
+	// buttons
+	QPushButton *otsuButton;
+	QPushButton *kapuraButton;
+	QPushButton *niblackButton;
+	QPushButton *distanceButton;
+	QPushButton *sDistanceButton;
+	QPushButton *testingButton;
+	QPushButton *subsurfButton;
+	QPushButton *twoDButton;
+	QPushButton *threeDButton;
+	QPushButton *resetViewButton;
+	QPushButton *delSelButton;
+	QPushButton *openWinButton;
+	QPushButton *bernsenButton;
 	QPushButton *scalePushButton;
 	QPushButton *colorPushButton;
 	QPushButton *dataUp;
 	QPushButton *dataDown;
-	QPushButton *otsuButton;
-	QPushButton *kapuraButton;
-	QPushButton *niblackButton;
-	QPushButton *boundaryButton;
-	QGroupBox *fileGroupBox;
+	QPushButton *defaultValuesButton;
+	QPushButton *screenshotButton;
+	QPushButton *thresholdInitConButton;
+
+	// comboboxes
+	QComboBox *dataCBox;
+	QComboBox *colorComboBox;
+
+	// spinboxes
+	QDoubleSpinBox *sigmaSubsurf;
+	QDoubleSpinBox *tauSubsurf;
+	QDoubleSpinBox *kSubsurf;
+	QDoubleSpinBox *niblackTimeStepSB;
+	QSpinBox *niblackMaskSB;
+	QSpinBox *bernsenMaskSB;
+	
+	// garbage
+	QTabWidget *innerTabs;
+	QSpinBox *backgroundSB;
+	QSpinBox *foregroundSB;;
 	QListWidget *dataListView;
 	QCheckBox *useOData;
 	QCheckBox *originalCol;

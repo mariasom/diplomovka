@@ -10,7 +10,7 @@ bioData::bioData(QWidget *parent)
 	this->ui->actionAll->setChecked(true);
 	this->ui->actionFileInfo->setChecked(true);
 	this->ui->actionData->setChecked(true);
-	this->ui->actionFilters->setChecked(true);
+	this->ui->action2DFilters->setChecked(true);
 	advanced = true;
 	this->ui->actionAdvanced->setDisabled(true);
 	this->ui->menuTabs->setDisabled(true);
@@ -20,7 +20,7 @@ bioData::bioData(QWidget *parent)
 	otsuButton = new QPushButton;
 	kapuraButton = new QPushButton;
 	niblackButton = new QPushButton;
-	boundaryButton = new QPushButton;
+	bernsenButton = new QPushButton;
 	subsurfButton = new QPushButton;
 	distanceButton = new QPushButton;
 	sDistanceButton = new QPushButton;
@@ -40,7 +40,15 @@ bioData::bioData(QWidget *parent)
 	resetViewButton = new QPushButton;
 	twoDButton = new QPushButton;
 	threeDButton = new QPushButton;
+	bernsenButton = new QPushButton;
+	niblackTimeStepSB = new QDoubleSpinBox;
+	niblackMaskSB = new QSpinBox;
+	bernsenMaskSB = new QSpinBox;
+	screenshotButton = new QPushButton;
+	defaultValuesButton = new QPushButton;
+	thresholdInitConButton = new QPushButton;
 
+	setDefaultValues();
 	originalCol->setChecked(true);
 	originalCol->setDisabled(true);
 	useOData->setChecked(true);
@@ -68,7 +76,7 @@ bioData::bioData(QWidget *parent)
 	connect(this->otsuButton, SIGNAL(clicked()), this, SLOT(otsuClicked()));
 	connect(this->kapuraButton, SIGNAL(clicked()), this, SLOT(kapuraClicked()));
 	connect(this->niblackButton, SIGNAL(clicked()), this, SLOT(niblackClicked()));
-	connect(this->boundaryButton, SIGNAL(clicked()), this, SLOT(boundaryClicked()));
+	connect(this->bernsenButton, SIGNAL(clicked()), this, SLOT(bernsenClicked()));
 	connect(this->subsurfButton, SIGNAL(clicked()), this, SLOT(subsurfClicked()));
 	connect(this->distanceButton, SIGNAL(clicked()), this, SLOT(actionDistFunc()));
 	connect(this->sDistanceButton, SIGNAL(clicked()), this, SLOT(actionSignDistFunc()));
@@ -76,8 +84,13 @@ bioData::bioData(QWidget *parent)
 	connect(this->resetViewButton, SIGNAL(clicked()), this, SLOT(resetViewClicked()));
 	connect(this->twoDButton, SIGNAL(clicked()), this, SLOT(twoDClicked()));
 	connect(this->threeDButton, SIGNAL(clicked()), this, SLOT(threeDClicked()));
+	connect(this->resetViewButton, SIGNAL(clicked()), this, SLOT(resetViewClicked()));
+	connect(this->defaultValuesButton, SIGNAL(clicked()), this, SLOT(setDefaultValues()));
+	connect(this->screenshotButton, SIGNAL(clicked()), this, SLOT(saveScreenShot()));
+	connect(this->thresholdInitConButton, SIGNAL(clicked()), this, SLOT(thresholdInitConClicked()));
 
 	connect(this->testingButton, SIGNAL(clicked()), this, SLOT(testClicked()));
+
 	//connect(this->dataUp, SIGNAL(clicked()), this, SLOT(dataUpClicked()));
 	//connect(this->dataDown, SIGNAL(clicked()), this, SLOT(dataDownClicked()));
 	//connect(this->dataListView, SIGNAL(currentRowChanged(int)), this, SLOT(listIndexChanged(int)));
@@ -170,9 +183,9 @@ void bioData::actionOpenFile()
 
 	createFileDock(list[list.length() - 1], filePath, fTmp->getWidth(), fTmp->getHeight());
 	createListDock();
-	createFilterDock();
-	createSubsurfDock();
-	QMainWindow::tabifyDockWidget(filterDock, subsurfDock);
+	createFilter2DDock();
+	createFilter3DDock();
+	QMainWindow::tabifyDockWidget(filter2DDock, subsurfDock);
 	this->ui->menuTabs->setDisabled(false);
 
 	if (widget2D == nullptr)
@@ -335,13 +348,25 @@ void bioData::actionAll() {
 	else {
 		if (this->ui->actionAll->isChecked()) {
 			listDock->show();
-			filterDock->show();
+			filter2DDock->show();
 			fileDock->show();
+			subsurfDock->show();
+			this->ui->actionFileInfo->setChecked(true);
+			this->ui->actionData->setChecked(true);
+			this->ui->action2DFilters->setChecked(true);
+			createSubsurfGB();
+			initialConditionsGB();
+			createColorsGB();
+			createtestGB(); 
 		}
 		else if (!(this->ui->actionAll->isChecked())) {
 			listDock->hide();
-			filterDock->hide();
+			filter2DDock->hide();
 			fileDock->hide();
+			subsurfDock->hide();
+			this->ui->actionFileInfo->setChecked(false);
+			this->ui->actionData->setChecked(false);
+			this->ui->action2DFilters->setChecked(false);
 		}
 		else {
 			mbox.setText("something went wrong!");
@@ -390,24 +415,55 @@ void bioData::actionData() {
 	}
 }
 
-void bioData::actionFilters() {
+void bioData::action2DFilters() {
 
 	QMessageBox mbox;
 	if (filePath.isEmpty()) {
 		return;
 	}
 	else {
-		if (this->ui->actionFilters->isChecked()) {
-			filterDock->show();
+		if (this->ui->action2DFilters->isChecked()) {
+			filter2DDock->show();
 		}
-		else if (!(this->ui->actionFilters->isChecked())) {
-			filterDock->hide();
+		else if (!(this->ui->action2DFilters->isChecked())) {
+			filter2DDock->hide();
 		}
 		else {
 			mbox.setText("something went wrong!");
 			mbox.exec();
 		}
 	}
+}
+
+void bioData::action3DFilters() {
+	QMessageBox mbox;
+	if (filePath.isEmpty()) {
+		return;
+	}
+	else {
+		if (this->ui->action3DFilters->isChecked()) {
+			filter3DDock->show();
+		}
+		else if (!(this->ui->action3DFilters->isChecked())) {
+			filter3DDock->hide();
+		}
+		else {
+			mbox.setText("something went wrong!");
+			mbox.exec();
+		}
+	}
+}
+
+void bioData::action2DOptions() {
+
+}
+
+void bioData::action3DOptions() {
+
+}
+
+void bioData::actionHistLog() {
+
 }
 
 void bioData::createListDock() {
@@ -433,63 +489,54 @@ void bioData::createListDock() {
 	openWinButton->setText("OPEN IN NEW WINDOW");
 	resetViewButton->setText("RESET VIEW");
 	resetViewButton->setToolTip("Or Press R on keyboard.");
+	screenshotButton->setText("SAVE SCREENSHOT");
+	defaultValuesButton->setText("SET DEFAULT VALUES");
+	defaultValuesButton->setToolTip("Sets options for all filters to default values.");
 	twoDButton->setText("2D");
 	twoDButton->setCheckable(true);
 	threeDButton->setText("3D");
 	threeDButton->setCheckable(true);
 	openWinButton->setDisabled(true);
-	listLayout->addWidget(resetViewButton, 2, 0);
-	// listLayout->addWidget(delSelButton, 3, 0, 2, 1);
 	QHBoxLayout *tmplayout = new QHBoxLayout();
-
 	tmplayout->addWidget(twoDButton);
 	tmplayout->addWidget(threeDButton);
 
+	listLayout->addWidget(resetViewButton, 2, 0);
 	listLayout->addLayout(tmplayout,2,1);
-
 	listLayout->addWidget(delSelButton, 3, 0);
 	listLayout->addWidget(openWinButton, 3, 1);
+	listLayout->addWidget(screenshotButton, 4, 0);
+	listLayout->addWidget(defaultValuesButton, 4, 1);
 
 	multiWidget->setLayout(listLayout);
 	listDock->setWidget(multiWidget);
 	addDockWidget(Qt::RightDockWidgetArea, listDock);
 }
 
-void bioData::createFilterDock() {
-	filterDock = new QDockWidget(tr("2D Filters"), this);
-	filterDock->setAllowedAreas(Qt::LeftDockWidgetArea |
+void bioData::createFilter2DDock() {
+	filter2DDock = new QDockWidget(tr("2D Filters"), this);
+	filter2DDock->setAllowedAreas(Qt::LeftDockWidgetArea |
 		Qt::RightDockWidgetArea |
 		Qt::BottomDockWidgetArea);
-	filterDock->setFeatures(QDockWidget::DockWidgetClosable |
+	filter2DDock->setFeatures(QDockWidget::DockWidgetClosable |
 		QDockWidget::DockWidgetMovable |
 		QDockWidget::DockWidgetVerticalTitleBar);
 
 	QWidget* multiWidget = new QWidget();
 	QGridLayout *filterLayout = new QGridLayout;
-	QLabel *otsuLabel = new QLabel(tr("Between-class variance:"));
-	QLabel *kapurLabel = new QLabel(tr("Maximum entropy thresholding:"));
-	QLabel *niblackLabel = new QLabel(tr("Niblack's original method:"));
-	QLabel *boundaryLabel = new QLabel(tr("Bernsen's method:"));
+	
+	createGlobThrshldGB();
+	createLocThrshldGB();
 
-	otsuButton->setText("Apply");
-	filterLayout->addWidget(otsuLabel,0,0);
-	filterLayout->addWidget(otsuButton, 0, 1);
-	kapuraButton->setText("Apply");
-	filterLayout->addWidget(kapurLabel, 1, 0);
-	filterLayout->addWidget(kapuraButton, 1, 1);
-	niblackButton->setText("Apply");
-	filterLayout->addWidget(niblackLabel, 2, 0);
-	filterLayout->addWidget(niblackButton, 2, 1);
-	boundaryButton->setText("Apply");
-	filterLayout->addWidget(boundaryLabel, 3, 0);
-	filterLayout->addWidget(boundaryButton, 3, 1);
+	filterLayout->addWidget(globThreshGroupBox);
+	filterLayout->addWidget(locThreshGroupBox);
 	   	 
 	multiWidget->setLayout(filterLayout);
-	filterDock->setWidget(multiWidget);
-	addDockWidget(Qt::RightDockWidgetArea, filterDock);
+	filter2DDock->setWidget(multiWidget);
+	addDockWidget(Qt::RightDockWidgetArea, filter2DDock);
 }
 
-void bioData::createSubsurfDock() {
+void bioData::createFilter3DDock() {
 	subsurfDock = new QDockWidget(tr("3D Filters"), this);
 	subsurfDock->setAllowedAreas(Qt::LeftDockWidgetArea |
 		Qt::RightDockWidgetArea |
@@ -499,10 +546,10 @@ void bioData::createSubsurfDock() {
 		QDockWidget::DockWidgetVerticalTitleBar);
 	QWidget* multiWidget = new QWidget();
 	QGridLayout *filterLayout = new QGridLayout;
-	createDistanceGB();
+	initialConditionsGB();
 	createSubsurfGB();
 	createtestGB();
-	filterLayout->addWidget(distanceGroupBox);
+	filterLayout->addWidget(initConGroupBox);
 	filterLayout->addWidget(subsurfGroupBox);
 	filterLayout->addWidget(testGroupBox);
 	multiWidget->setLayout(filterLayout);
@@ -547,8 +594,8 @@ void bioData::kapuraClicked() {
 }
 
 void bioData::niblackClicked() {
-	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData(),7);
-	QVector<unsigned char> tmp = filter.dataToChar(filter.niblackThreshold(filter.changeRangeOfData(filter.dataToInt(fTmp->getOrigData()))));
+	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData(),niblackMaskSB->value());
+	QVector<unsigned char> tmp = filter.dataToChar(filter.niblackThreshold(filter.changeRangeOfData(filter.dataToInt(fTmp->getOrigData())), niblackTimeStepSB->value()));
 	fTmp->addFiltData(tmp);
 	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
 	if (widget2D == nullptr)
@@ -612,9 +659,9 @@ void bioData::createColorsGB() {
 	colorsGB->setLayout(colorLayout);
 }
 
-void bioData::boundaryClicked() {
+void bioData::bernsenClicked() {
 
-	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData(), 1);
+	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData(), bernsenMaskSB->value());
 	QVector<double> tmp = filter.bernsenThreshold(filter.dataToDouble(fTmp->getOrigData()));
 	//QVector<double> tmp = filter.boundary(filter.dataToDouble(fTmp->getOrigData()), filter.otsuFilter());
 	fTmp->addFiltData(filter.dataToChar(tmp));
@@ -624,7 +671,7 @@ void bioData::boundaryClicked() {
 		set2DWidget();
 	else
 		update2DWidget();
-	widget2D->setWindowTitle("Boundary");
+	widget2D->setWindowTitle("Bernsen");
 	addSubItem(parent2D, fName + "_bernsen");
 	
 //	fTmp->create3Ddata(filter.heatImpl(filter.changeRangeOfData(
@@ -769,19 +816,6 @@ void bioData::createSubsurfGB() {
 	QLabel *tauLabel = new QLabel(tr("Size of (non-linear) time steps:"));
 	QLabel *kLabel = new QLabel(tr("Sensitivity coeficient:"));
 
-	sigmaSubsurf->setRange(0.0001, 1000.0);
-	sigmaSubsurf->setDecimals(5);
-	sigmaSubsurf->setSingleStep(0.01);
-	sigmaSubsurf->setValue(0.25);
-	tauSubsurf->setRange(0.0001, 1000.0);
-	tauSubsurf->setDecimals(5);
-	tauSubsurf->setSingleStep(0.01);
-	tauSubsurf->setValue(1.0);
-	kSubsurf->setRange(0.00001, 999999.0);
-	kSubsurf->setDecimals(2);
-	kSubsurf->setSingleStep(0.01);
-	kSubsurf->setValue(255 * 255);
-
 	subsurfLayout->addWidget(sigmaLabel, 1, 0);
 	subsurfLayout->addWidget(sigmaSubsurf, 1, 1);
 	subsurfLayout->addWidget(tauLabel, 2, 0);
@@ -795,22 +829,26 @@ void bioData::createSubsurfGB() {
 	subsurfGroupBox->setLayout(subsurfLayout);
 }
 
-void bioData::createDistanceGB() {
-	distanceGroupBox = new QGroupBox(tr("Distance Functions"));
+void bioData::initialConditionsGB() {
+	initConGroupBox = new QGroupBox(tr("Initial Conditions"));
 
-	QGridLayout *distLayout = new QGridLayout;
+	QGridLayout *initConLayout = new QGridLayout;
 	QLabel *distLab = new QLabel(tr("Distance function:"));
 	QLabel *sDistLabel = new QLabel(tr("Sign distance function:"));
+	QLabel *thresholdLabel = new QLabel(tr("Sign distance function:"));
 
 	distanceButton->setText("Apply");
 	sDistanceButton->setText("Apply");
+	thresholdInitConButton->setText("Apply");
 
-	distLayout->addWidget(distLab, 0,0);
-	distLayout->addWidget(distanceButton, 0, 1);
-	distLayout->addWidget(sDistLabel, 1, 0);
-	distLayout->addWidget(sDistanceButton, 1, 1);
+	initConLayout->addWidget(distLab, 0,0);
+	initConLayout->addWidget(distanceButton, 0, 1);
+	initConLayout->addWidget(sDistLabel, 1, 0);
+	initConLayout->addWidget(sDistanceButton, 1, 1);
+	initConLayout->addWidget(thresholdLabel, 2, 0);
+	initConLayout->addWidget(thresholdInitConButton, 2, 1);
 
-	distanceGroupBox->setLayout(distLayout);
+	initConGroupBox->setLayout(initConLayout);
 }
 
 void bioData::createtestGB() {
@@ -902,6 +940,7 @@ void bioData::actionCloseFiles() {
 	}
 }
 
+// nefunguje 
 void bioData::twoDClicked() {
 	twoDButton->setChecked(true);
 	threeDButton->setChecked(false);
@@ -912,6 +951,7 @@ void bioData::twoDClicked() {
 		w->set2DView(false);
 }
 
+// nefunguje
 void bioData::threeDClicked() {
 	threeDButton->setChecked(true);
 	twoDButton->setChecked(false);
@@ -920,4 +960,91 @@ void bioData::threeDClicked() {
 		w->set3DView(true);
 	else
 		w->set3DView(false);
+}
+
+void bioData::createGlobThrshldGB() {
+	globThreshGroupBox = new QGroupBox(tr("Global histogram-based thresholding"));
+
+	QGridLayout *layout = new QGridLayout;
+	QLabel *otsuLabel = new QLabel(tr("Between-class variance:"));
+	QLabel *kapurLabel = new QLabel(tr("Maximum entropy thresholding:"));
+
+	otsuButton->setText("Apply");
+	layout->addWidget(otsuLabel, 0, 0);
+	layout->addWidget(otsuButton, 0, 1);
+	kapuraButton->setText("Apply");
+	layout->addWidget(kapurLabel, 1, 0);
+	layout->addWidget(kapuraButton, 1, 1);
+
+	globThreshGroupBox->setLayout(layout);
+}
+
+void bioData::createLocThrshldGB() {
+	locThreshGroupBox = new QGroupBox(tr("Local adaptive thresholding"));
+
+	QGridLayout *layout = new QGridLayout;
+	QGroupBox *niblackGBox = new QGroupBox(tr("Niblack's  method"));
+	QGridLayout *subNLayout = new QGridLayout;
+	QLabel *timeStepLab = new QLabel(tr("Time step size:"));
+	QLabel *niblackMaskLabel = new QLabel(tr("Mask size:"));
+	niblackButton->setText("Apply");
+	subNLayout->addWidget(timeStepLab, 1, 0);
+	subNLayout->addWidget(niblackTimeStepSB, 1, 1);
+	subNLayout->addWidget(niblackMaskLabel, 2, 0);
+	subNLayout->addWidget(niblackMaskSB,2, 1);
+	subNLayout->addWidget(niblackButton, 3, 1);
+	niblackGBox->setLayout(subNLayout);
+
+	QGroupBox *bernsenGBox = new QGroupBox(tr("Bernsen's method"));
+	QGridLayout *subBLayout = new QGridLayout;
+	QLabel *bernsenMaskLabel = new QLabel(tr("Mask size:"));
+	bernsenButton->setText("Apply");
+	subBLayout->addWidget(bernsenMaskLabel, 1, 0);
+	subBLayout->addWidget(bernsenMaskSB, 1, 1);
+	subBLayout->addWidget(bernsenButton, 3, 1);
+	bernsenGBox->setLayout(subBLayout);
+
+	layout->addWidget(niblackGBox);
+	layout->addWidget(bernsenGBox);
+	locThreshGroupBox->setLayout(layout);
+}
+
+void bioData::setDefaultValues() {
+	// subsurf param
+	sigmaSubsurf->setRange(0.0001, 1000.0);
+	sigmaSubsurf->setDecimals(5);
+	sigmaSubsurf->setSingleStep(0.01);
+	sigmaSubsurf->setValue(0.25);
+	tauSubsurf->setRange(0.0001, 1000.0);
+	tauSubsurf->setDecimals(5);
+	tauSubsurf->setSingleStep(0.01);
+	tauSubsurf->setValue(1.0);
+	kSubsurf->setRange(0.00001, 999999.0);
+	kSubsurf->setDecimals(2);
+	kSubsurf->setSingleStep(0.01);
+	kSubsurf->setValue(255 * 255);
+
+	// niblack param
+	niblackTimeStepSB->setRange(0.0001, 1000.0);
+	niblackTimeStepSB->setDecimals(5);
+	niblackTimeStepSB->setSingleStep(0.01);
+	niblackTimeStepSB->setValue(1.0);
+	niblackMaskSB->setRange(1, 50);
+	niblackMaskSB->setValue(8);
+	
+	// bernsen param
+	bernsenMaskSB->setRange(1, 50);
+	bernsenMaskSB->setValue(1);
+}
+
+void bioData::saveScreenShot() {
+	if (parent2D == dataTree->currentItem()->parent())
+		w->saveScreenShot(true);
+	else
+		w->saveScreenShot(false);
+}
+
+void bioData::thresholdInitConClicked() {
+
+
 }

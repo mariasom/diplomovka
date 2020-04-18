@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>599</width>
-    <height>387</height>
+    <width>872</width>
+    <height>691</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,7 +21,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>599</width>
+     <width>872</width>
      <height>21</height>
     </rect>
    </property>
@@ -38,6 +38,8 @@
        <string>2D</string>
       </property>
       <addaction name="actionpgm"/>
+      <addaction name="actionVTK_File_ascii"/>
+      <addaction name="actionVTK_File_binary"/>
      </widget>
      <widget class="QMenu" name="menu3D">
       <property name="title">
@@ -67,7 +69,11 @@
      <addaction name="separator"/>
      <addaction name="actionFileInfo"/>
      <addaction name="actionData"/>
-     <addaction name="actionFilters"/>
+     <addaction name="action2DFilters"/>
+     <addaction name="action3DFilters"/>
+     <addaction name="action2DOptions"/>
+     <addaction name="action3DOptions"/>
+     <addaction name="actionHistory"/>
     </widget>
     <addaction name="actionAdvanced"/>
     <addaction name="menuTabs"/>
@@ -122,16 +128,6 @@
     <string>Documentation</string>
    </property>
   </action>
-  <action name="actionDistanced_Function">
-   <property name="text">
-    <string>Distanced Function</string>
-   </property>
-  </action>
-  <action name="actionSign_Distanced_Function">
-   <property name="text">
-    <string>Sign Distanced Function</string>
-   </property>
-  </action>
   <action name="actionFileInfo">
    <property name="checkable">
     <bool>true</bool>
@@ -148,12 +144,12 @@
     <string>Data</string>
    </property>
   </action>
-  <action name="actionFilters">
+  <action name="action2DFilters">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Filters</string>
+    <string>2D Filters</string>
    </property>
   </action>
   <action name="actionAll">
@@ -170,6 +166,45 @@
    </property>
   </action>
   <action name="actionVTKbinary">
+   <property name="text">
+    <string>VTK File (binary)</string>
+   </property>
+  </action>
+  <action name="action3DFilters">
+   <property name="text">
+    <string>3D Filters</string>
+   </property>
+  </action>
+  <action name="action2DOptions">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>2D Options</string>
+   </property>
+  </action>
+  <action name="action3DOptions">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>3D Options</string>
+   </property>
+  </action>
+  <action name="actionHistory">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>History Log</string>
+   </property>
+  </action>
+  <action name="actionVTK_File_ascii">
+   <property name="text">
+    <string>VTK File (ascii)</string>
+   </property>
+  </action>
+  <action name="actionVTK_File_binary">
    <property name="text">
     <string>VTK File (binary)</string>
    </property>
@@ -258,38 +293,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionDistanced_Function</sender>
-   <signal>triggered()</signal>
-   <receiver>bioData</receiver>
-   <slot>actionDistFunc()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>299</x>
-     <y>193</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionSign_Distanced_Function</sender>
-   <signal>triggered()</signal>
-   <receiver>bioData</receiver>
-   <slot>actionSignDistFunc()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>299</x>
-     <y>193</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>actionAll</sender>
    <signal>changed()</signal>
    <receiver>bioData</receiver>
@@ -338,7 +341,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionFilters</sender>
+   <sender>action2DFilters</sender>
    <signal>changed()</signal>
    <receiver>bioData</receiver>
    <slot>actionFilters()</slot>
@@ -385,6 +388,70 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>action2DOptions</sender>
+   <signal>changed()</signal>
+   <receiver>bioData</receiver>
+   <slot>action2DOption()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>435</x>
+     <y>345</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action3DFilters</sender>
+   <signal>changed()</signal>
+   <receiver>bioData</receiver>
+   <slot>action3DFilters()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>435</x>
+     <y>345</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action3DOptions</sender>
+   <signal>changed()</signal>
+   <receiver>bioData</receiver>
+   <slot>action3DOption()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>435</x>
+     <y>345</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionHistory</sender>
+   <signal>changed()</signal>
+   <receiver>bioData</receiver>
+   <slot>actioHistLog()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>435</x>
+     <y>345</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>actionOpenFile()</slot>
@@ -394,13 +461,15 @@
   <slot>actionCloseFiles()</slot>
   <slot>actionDoc()</slot>
   <slot>actionAbout()</slot>
-  <slot>actionDistFunc()</slot>
-  <slot>actionSignDistFunc()</slot>
   <slot>actionData()</slot>
-  <slot>actionFilters()</slot>
+  <slot>action2DFilters()</slot>
   <slot>actionAll()</slot>
   <slot>actionFileInfo()</slot>
   <slot>actionvtkbinary()</slot>
   <slot>actionvtkascii()</slot>
+  <slot>actioHistLog()</slot>
+  <slot>action3DOption()</slot>
+  <slot>action2DOption()</slot>
+  <slot>action3DFilters()</slot>
  </slots>
 </ui>

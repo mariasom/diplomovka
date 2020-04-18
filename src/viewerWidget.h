@@ -52,6 +52,9 @@
 #include <vtkVoxelContoursToSurfaceFilter.h>
 #include <vtkTransform.h>
 
+#include <vtkWindowToImageFilter.h>
+#include <vtkPNGWriter.h>
+
 class viewerWidget : public QWidget {
 	Q_OBJECT
 
@@ -82,6 +85,7 @@ public:
 	void set2DView(bool dimensions);
 	void set3DView(bool dimensions);
 	void contours3D(vtkSmartPointer<vtkPolyData> polydata, int numOfCont);
+	void saveScreenShot(bool dimensions);
 
 private:
 	vtkSmartPointer<vtkInteractorStyleImage> imageStyle;

@@ -27,7 +27,7 @@ private:
 	QVector<double> antireflection(QVector<double> data);
 	QVector<double> updateReflection(QVector<double> data);
 	QVector<double> pow2(QVector<double> data);
-	void tmp_save(QString fileName, QVector<double> data, int w, int h);
+	// void tmp_save(QString fileName, QVector<double> data, int w, int h);
 
 
 public:
@@ -50,8 +50,8 @@ public:
 	QVector<double> distFunctSign(QVector<double> data);
 	QVector<QVector<float>> makeTables(int K, QVector<float> histN);
 	QVector<double> subSurf(QVector<double> data, QVector<double> tData, double sigma, double tau, double k); //sigma - size of lin. time steps, tau - nonlinear time steps, k - sensitivity coeficient
-	QVector<double> heatImpl(QVector<double> data);
-	QVector<double> niblackThreshold(QVector<double> data);
+	QVector<double> heatImpl(QVector<double> data, double timeStep);
+	QVector<double> niblackThreshold(QVector<double> data, double timeStep);
 	QVector<double> reflection(QVector<double> data);
 	QVector<double> bernsenThreshold(QVector<double> data);
 };

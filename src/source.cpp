@@ -224,7 +224,6 @@ void source::save_ascii(QString fileName, int index) {
 		}
 		stream << endl;
 	}
-
 	outputFile.close();
 }
 

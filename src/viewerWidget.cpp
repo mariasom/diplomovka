@@ -195,7 +195,6 @@ void viewerWidget::contours3D(vtkSmartPointer<vtkPolyData> polydata, int numOfCo
 	renderer3D->SetBackground(.1, .2, .3);
 
 	qW3D->GetRenderWindow()->AddRenderer(renderer3D);
-
 }
 
 void viewerWidget::setViewerWidget(vtkSmartPointer<vtkImageData> image) {
@@ -289,4 +288,26 @@ void viewerWidget::set3DView(bool dimensions) {
 		qW3D->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
 		renderWindow3D->Render();
 	}
+}
+
+void viewerWidget::saveScreenShot(bool dimensions) {
+	vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
+		vtkSmartPointer<vtkWindowToImageFilter>::New();
+	if (dimensions)
+		windowToImageFilter->SetInput(renderWindow2D);
+	else 
+		windowToImageFilter->SetInput(renderWindow3D);
+	// windowToImageFilter->SetMagnification(3); //set the resolution of the output image (3 times the current resolution of vtk render window)
+	windowToImageFilter->SetInputBufferTypeToRGBA(); //also record the alpha (transparency) channel
+	windowToImageFilter->ReadFrontBufferOff(); // read from the back buffer
+	windowToImageFilter->Update();
+
+	QString screenShot = QFileDialog::getSaveFileName(this, "Save file", "", ".png");
+	screenShot += ".png";
+
+	vtkSmartPointer<vtkPNGWriter> writer =
+		vtkSmartPointer<vtkPNGWriter>::New();
+	writer->SetFileName(screenShot.toStdString().c_str());
+	writer->SetInputConnection(windowToImageFilter->GetOutputPort());
+	writer->Write();
 }

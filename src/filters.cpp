@@ -19,19 +19,9 @@ filters::filters(int widthOrig, int heightOrig, QVector<unsigned char> oData, in
 
 QVector<double> filters::dataToDouble(QVector<unsigned char> oData) {
 	QVector<double> tmp;
-	tmp.resize(width*height);
-
-	for (int j = 0; j < width; j++) {
-		for (int i = 0; i < height; i++) {
-			tmp[j * width + i] = (int)oData.at(j * width + i)*1.0;
-		}
-	}
-	return tmp;
-	
-	/*QVector<double> tmp;
 	tmp.reserve(oData.size());
 	std::copy(oData.cbegin(), oData.cend(), std::back_inserter(tmp));
-	return tmp;*/
+	return tmp;
 }
 
 QVector<int> filters::dataToInt(QVector<unsigned char> oData) {
@@ -201,7 +191,6 @@ QVector<double> filters::boundary(QVector<double> data, int threshold) {
 		tmp = createNewData(dataToChar(data), threshold);
 	else
 		tmp = dataToChar(data);
-
 	tmp1.resize(width*height);
 
 	for (int j = 0; j < width; j++) {
@@ -215,7 +204,7 @@ QVector<double> filters::boundary(QVector<double> data, int threshold) {
 	return tmp1;
 }
 
-QVector<double> filters::reflection(QVector<double> data) {		 //v tejto funkcii ratam s tym ze p = 1 (uz nie uz funguje vseobecne)
+QVector<double> filters::reflection(QVector<double> data) {	
 	QVector<double> reflected;
 	reflected.resize(widthR * heightR);
 	reflected.fill(0);
@@ -260,29 +249,6 @@ QVector<double> filters::updateReflection(QVector<double> data) {
 			reflected[j + widthR * (p - k - 1)] = data.at(j + widthR * (p + k));
 			reflected[j + widthR * (width + p + k)] = data.at(j + widthR * (width + p - k - 1));
 		}
-
-	/*for (int i = 0; i < heightR; i++) {
-		for (int j = 0; j < widthR; j++) {
-
-			if (i == 0 || i == heightR - 1) {				//hore a dole
-				if (i == 0)
-					reflected[j + widthR * i] = data.at(j + widthR * (i + 1));
-				else
-					reflected[j + widthR * i] = data.at(j + widthR * (i - 1));
-			}
-			else {
-				if (j == 0 || j == widthR - 1) {			//vpravo a vlavoo
-					if (j == 0)
-						reflected[j + widthR * i] = data.at((j + 1) + widthR * (i));
-					else
-						reflected[j + widthR * i] = data.at((j - 1) + widthR * (i));
-				}
-				else {
-					reflected[j + widthR * i] = data.at(widthR * (i) + (j));// data.at(j + widthR * i);
-				}
-			}
-		}
-	}*/
 	return reflected;
 }
 
@@ -481,7 +447,7 @@ QVector<double> filters::an(QVector<double> data, bool eps) {
 	return pole;
 }
 
-QVector<double> filters::heatImpl(QVector<double> data) {
+QVector<double> filters::heatImpl(QVector<double> data, double timeStep) {
 	QVector<double> un, up;
 	un.resize(width*height);
 	un.fill(0);
@@ -491,19 +457,15 @@ QVector<double> filters::heatImpl(QVector<double> data) {
 	int itermax = 1000;
 	double tau = 1.0;
 	double h = 1.0;
-	double a = tau / (h * h);
+	// double a = tau / (h * h);
 	double rez = pow(10, 6);
 	double w = 1.15;
-	// prerobit na do ~ while
-	// do {
-	for(int iter = 1; iter <= itermax; iter++) {
-		// (*Print["HE: krok=", 1., ", iter=", iter, " rez=", rez]; *)
-		std::cout << " HE: krok: " << 1. << " iter: " << iter << " rez: " << rez << std::endl;
 
+	for(int iter = 1; iter <= itermax; iter++) {
 		for (int j = p; j < heightR - p; j++) {
 			for (int i = p; i < widthR - p; i++) {
-				double tmp = (1. / (1. + 4 * a))*(up.at(j * widthR + i) +
-					a * (un.at(j * widthR + (i + 1)) +
+				double tmp = (1. / (1. + 4 * timeStep))*(up.at(j * widthR + i) +
+					timeStep * (un.at(j * widthR + (i + 1)) +
 						un.at(j * widthR + (i - 1)) +
 						un.at((j + 1) * widthR + i) +
 						un.at((j - 1) * widthR + i)));
@@ -515,8 +477,8 @@ QVector<double> filters::heatImpl(QVector<double> data) {
 		rez = 0;
 		for (int j = p; j < heightR - p; j++) {
 			for (int i = p; i < widthR - p; i++) {
-				double tmp = (1. + 4 * a) * un.at(j * widthR + i) -
-					a * (un.at(j * widthR + (i + 1)) +
+				double tmp = (1. + 4 * timeStep) * un.at(j * widthR + i) -
+					timeStep * (un.at(j * widthR + (i + 1)) +
 						un.at(j * widthR + (i - 1)) + 
 						un.at((j - 1) * widthR + i) +
 						un.at((j + 1) * widthR + i)) -
@@ -524,12 +486,12 @@ QVector<double> filters::heatImpl(QVector<double> data) {
 				rez += tmp * tmp;
 			}
 		}
-		if (rez < tol)
+		if (rez < tol) {
+			std::cout << " HE: iter: " << iter << " rez: " << rez << std::endl;
 			break;
-	} // while ();
-	// un = antireflection(un);
+		}
+	} 
 	up = un;
-
 	return up;
 }
 
@@ -548,11 +510,11 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, do
 	double tol = 0.5;
 	int itermax = 100;
 	double h = 1.0;
-	double a = tau / (h*h);
+	// double a = timeStep;
 	double epsilon = 0.001;
 	double w = 1.15;
 
-	uk1 = heatImpl(tData);
+	uk1 = heatImpl(tData, tau);
 	// uk1 = reflection(uk1);
 
 	qepm = ae(uk1, true);
@@ -585,10 +547,10 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, do
 						(1. / qn.at(j * widthR + i)) * qnpm.at(j * widthR + i);
 
 					double tmp = (up.at(j * widthR + i) -
-						(-a * avg)*(qepm.at(j * widthR + i) * un.at(j * widthR + (i + 1)) * (1. / qe.at(j * widthR + i)) +
+						(-tau * avg)*(qepm.at(j * widthR + i) * un.at(j * widthR + (i + 1)) * (1. / qe.at(j * widthR + i)) +
 							un.at(j * widthR + (i - 1)) * qwpm.at(j * widthR + i) * (1. / qw.at(j * widthR + i)) +
 							un.at((j + 1) * widthR + i) * qnpm.at(j * widthR + i) * (1. / qn.at(j * widthR + i)) +
-							un.at((j - 1) * widthR + i) * qspm.at(j * widthR + i) * (1. / qs.at(j * widthR + i)))) / (1 + a * tmps*avg);
+							un.at((j - 1) * widthR + i) * qspm.at(j * widthR + i) * (1. / qs.at(j * widthR + i)))) / (1 + tau * tmps*avg);
 
 					un[j * widthR + i] = un.at(j * widthR + i) + w * (tmp - un.at(j * widthR + i));
 				}
@@ -604,8 +566,8 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, do
 						+ (1. / qw.at(j * widthR + i)) * qwpm.at(j * widthR + i)
 						+ (1. / qs.at(j * widthR + i)) * qspm.at(j * widthR + i)
 						+ (1. / qn.at(j * widthR + i)) * qnpm.at(j * widthR + i);
-					double tmp = (up.at(j * widthR + i) - ((1 + a * tmps*avg)* un.at(j * widthR + i) + 
-						(-a * avg)*(qepm.at(j * widthR + i) * un.at(j * widthR + (i + 1)) * (1. / qe.at(j * widthR + i))
+					double tmp = (up.at(j * widthR + i) - ((1 + tau * tmps*avg)* un.at(j * widthR + i) +
+						(-tau * avg)*(qepm.at(j * widthR + i) * un.at(j * widthR + (i + 1)) * (1. / qe.at(j * widthR + i))
 							+ un.at(j * widthR + (i - 1)) * qwpm.at(j * widthR + i) * (1. / qw.at(j * widthR + i)) +
 							un.at((j + 1) * widthR + i) * qnpm.at(j * widthR + i) * (1. / qn.at(j * widthR + i)) +
 							un.at((j - 1) * widthR + i) * qspm.at(j * widthR + i) * (1. / qs.at(j * widthR + i)))));
@@ -624,14 +586,11 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, do
 	return uf;
 }
 
-QVector<double> filters::niblackThreshold(QVector<double> data) {
+QVector<double> filters::niblackThreshold(QVector<double> data, double timeStep) {
 	QVector<double> tmp, tmp1, tmp2, thresholds;
 	double TT = 20, r = p*p;
-	tmp1 = heatImpl(data); //u
-	tmp2 = heatImpl(pow2(data)); //uu
-
-	tmp_save("heatImpl.pgm", changeRangeOfData(tmp1), width, height);
-	tmp_save("heatImpl2.pgm", changeRangeOfData(tmp2), width, height);
+	tmp1 = heatImpl(data, timeStep); //u
+	tmp2 = heatImpl(pow2(data), timeStep); //uu
 
 	// tmp1 = reflection(tmp1); 
 	// tmp2 = reflection(tmp2);
@@ -649,7 +608,6 @@ QVector<double> filters::niblackThreshold(QVector<double> data) {
 	for (int i = p; i < height + p; i++)
 		for (int j = p; j < width + p; j++) 
 			thresholds[j * widthR + i] = tmp1[j * widthR + i] + 0.18*tmp2[j * widthR + i];  //thresholds
-	tmp_save("thresholds.pgm", changeRangeOfData(thresholds), width, height);
 	tmp = reflection(data);
 
 	double cminv = 50/255.;
@@ -692,27 +650,6 @@ QVector<double> filters::pow2(QVector<double> data) {
 	return tmp;
 }
 
-void filters::tmp_save(QString fileName,QVector<double> data, int w, int h) {
-	QFile outputFile(fileName);
-	outputFile.open(QIODevice::WriteOnly);
-	if (!outputFile.isOpen())
-		return;
-
-	QTextStream stream(&outputFile);
-	stream << "P2" << endl;
-	stream << w << " " << h << endl;
-	stream << 255 << endl;
-
-	for (int j = 0; j < width; j++) {
-		for (int i = 0; i < height; i++) {
-			stream << (int)data.at(j * width + i) << " ";
-		}
-		stream << endl;
-	}
-
-	outputFile.close();
-}
-
 QVector<double> filters::bernsenThreshold(QVector<double> data) {
 	QVector<double> tmp;
 	QVector<double> R;
@@ -739,9 +676,6 @@ QVector<double> filters::bernsenThreshold(QVector<double> data) {
 				tmp[j * widthR + i] = (Imax + Imin)/2.;
 			else
 				tmp[j * widthR + i] = q;
-
-
-
 		}
 	}
 	tmp = antireflection(tmp);
