@@ -511,10 +511,10 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, do
 	int itermax = 100;
 	double h = 1.0;
 	// double a = timeStep;
-	double epsilon = 0.001;
+	double epsilon = pow(10,-6);
 	double w = 1.15;
 
-	uk1 = heatImpl(tData, tau);
+	uk1 = heatImpl(tData, sigma);
 	// uk1 = reflection(uk1);
 
 	qepm = ae(uk1, true);
@@ -681,6 +681,21 @@ QVector<double> filters::bernsenThreshold(QVector<double> data) {
 	tmp = antireflection(tmp);
 
 	return tmp;
+}
+
+QVector<double> filters::thresholdFunction(QVector<unsigned char> initConData) {
+	QVector<double> z;
+	z.resize(height*width);
+	z.fill(-1);
+
+	for (int j = 0; j < width; j++) {
+		for (int i = 0; i < height; i++) {
+			if ((int)initConData[j * width + i] != 0)
+				z[j * width + i] = 1.;
+		}
+	}
+
+	return z;
 }
 
 /*QVector<double> filters::makeCircReg(int i, int j, int r) {

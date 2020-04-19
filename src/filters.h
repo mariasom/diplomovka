@@ -53,5 +53,6 @@ public:
 	QVector<double> heatImpl(QVector<double> data, double timeStep);
 	QVector<double> niblackThreshold(QVector<double> data, double timeStep);
 	QVector<double> reflection(QVector<double> data);
+	QVector<double> thresholdFunction(QVector<unsigned char> initConData);
 	QVector<double> bernsenThreshold(QVector<double> data);
 };

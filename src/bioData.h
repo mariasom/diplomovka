@@ -40,12 +40,18 @@ public:
 	void createGlobThrshldGB();
 	void createLocThrshldGB();
 	void initialConditionsGB();
+	void createcontour3DGB();
+	void createcontour2DGB();
 
 	// docks
 	void createFileDock(QString name, QString path, int width, int height);
 	void createListDock();
 	void createFilter2DDock();
 	void createFilter3DDock();
+	void createOptions2DDock();
+	void createOptions3DDock();
+	void createHistoryLogDock();
+
 	// void createSubsurfDock();
 
 public slots:
@@ -88,6 +94,10 @@ public slots:
 	void setDefaultValues();
 	void saveScreenShot();
 	void thresholdInitConClicked();
+	void contour3DClicked();
+	void contour2DClicked();
+	void contour2DwIDClicked();
+	void contour3DwDClicked();
 
 	// others
 
@@ -110,8 +120,11 @@ private:
 	QDockWidget *fileDock;
 	QDockWidget *filter2DDock;
 	QDockWidget *filter3DDock;
+	QDockWidget *options2DDock;
+	QDockWidget *options3DDock;
 	QDockWidget *listDock;
 	QDockWidget *subsurfDock;
+	QDockWidget *historyDock;
 
 	// groupboxes
 	QGroupBox *subsurfGroupBox;
@@ -126,6 +139,8 @@ private:
 	QGroupBox *listGroupBox;
 	QGroupBox *fileGroupBox;
 	QGroupBox *initConGroupBox;
+	QGroupBox *contour3DGroupBox;
+	QGroupBox *contour2DGroupBox;
 
 	// treewidget + its items
 	QTreeWidget *dataTree;
@@ -153,10 +168,14 @@ private:
 	QPushButton *defaultValuesButton;
 	QPushButton *screenshotButton;
 	QPushButton *thresholdInitConButton;
+	QPushButton *contour3DButton;
+	QPushButton *contour2DButton;
+	QPushButton *contour2DwIDButton;
+	QPushButton *contour3DwDButton;
 
 	// comboboxes
 	QComboBox *dataCBox;
-	QComboBox *colorComboBox;
+	QComboBox *initialCBox;
 
 	// spinboxes
 	QDoubleSpinBox *sigmaSubsurf;
@@ -165,6 +184,7 @@ private:
 	QDoubleSpinBox *niblackTimeStepSB;
 	QSpinBox *niblackMaskSB;
 	QSpinBox *bernsenMaskSB;
+	QSpinBox *numCont3DSB;
 	
 	// garbage
 	QTabWidget *innerTabs;

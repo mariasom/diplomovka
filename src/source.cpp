@@ -306,6 +306,7 @@ void source::colorPolyData() {
 	unsigned char colore[3];
 	double *tmpColor;
 	vtkSmartPointer<vtkColorTransferFunction> color = vtkSmartPointer<vtkColorTransferFunction>::New();
+
 	color->AddRGBPoint(0.0, 0.0, 0.0, 0.5);
 	color->AddRGBPoint(0.1, 0.0, 0.0, 1.0);
 	color->AddRGBPoint(0.35, 0.0, 1.0, 1.0);
@@ -313,15 +314,11 @@ void source::colorPolyData() {
 	color->AddRGBPoint(0.9, 1.0, 0.0, 0.0);
 	color->AddRGBPoint(1.0, 0.5, 0.0, 0.0);
 
-	std::cout << polydata->GetNumberOfPoints() << endl;
-	std::cout << width * height << endl;
-	for (int i = 0; i < polydata->GetNumberOfPoints(); i++)
-	{
+	for (int i = 0; i < polydata->GetNumberOfPoints(); i++) {
 		double colora;
 		double p[3];
 		polydata->GetPoint(i, p);
 		colora = /*1 -*/ ((p[2] - bounds[4]) / (bounds[5] - bounds[4]));
-
 		tmpColor = color->GetColor(colora);
 		colore[0] = tmpColor[0] * 255;
 		colore[1] = tmpColor[1] * 255;

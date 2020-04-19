@@ -1,5 +1,7 @@
 #include "viewerWidget.h"
 
+// vtkStandardNewMacro(MouseInteractorStyle2);
+
 viewerWidget::viewerWidget(QWidget *parent) : QWidget(parent) {
 	setAttribute(Qt::WA_StaticContents);
 	qW2D = new QVTKOpenGLNativeWidget(this);
@@ -116,7 +118,7 @@ void viewerWidget::updateViewerWidget2D() {
 void viewerWidget::updateViewerWidget3D() {
 	renderer3D->GetViewProps()->RemoveAllItems();
 	renderer3D->AddActor(actor3D);
-	renderer3D->SetBackground(0,0,0);
+	renderer3D->SetBackground(.1, .2, .3);
 	renderWindow3D->Render();
 }
 
@@ -124,7 +126,7 @@ void viewerWidget::setViewerWidget3D(vtkSmartPointer<vtkPolyData> polydata) {
 	qW3D->SetRenderWindow(renderWindow3D);
 	vtkSmartPointer<vtkPolyDataMapper> mapper =
 		vtkSmartPointer<vtkPolyDataMapper>::New();
-	mapper->ScalarVisibilityOff();
+	//mapper->ScalarVisibilityOff();
 	mapper->SetInputData(polydata);
 
 	actor3D = vtkSmartPointer<vtkActor>::New();
@@ -137,53 +139,27 @@ void viewerWidget::setViewerWidget3D(vtkSmartPointer<vtkPolyData> polydata) {
 	renderer3D->AddActor(actor3D);
 	renderer3D->SetBackground(.1, .2, .3);
 
-	/*vtkSmartPointer<vtkRenderWindowInteractor> renderWindowInteractor =
-		vtkSmartPointer<vtkRenderWindowInteractor>::New();
-	renderWindowInteractor->SetRenderWindow(renderWindow3D);
-
-	vtkSmartPointer<vtkAxesActor> axes =
-		vtkSmartPointer<vtkAxesActor>::New();
-
-	vtkSmartPointer<vtkOrientationMarkerWidget> widget =
-		vtkSmartPointer<vtkOrientationMarkerWidget>::New();
-	widget->SetOutlineColor(0.9300, 0.5700, 0.1300);
-	widget->SetOrientationMarker(axes);
-	widget->SetInteractor(renderWindowInteractor);
-	widget->SetViewport(0.0, 0.0, 0.4, 0.4);
-	widget->SetEnabled(1);
-	widget->InteractiveOn();
-
-	// renderer3D->ResetCamera();*/
-
 	qW3D->GetRenderWindow()->AddRenderer(renderer3D);
 }
 
-void viewerWidget::contours3D(vtkSmartPointer<vtkPolyData> polydata, int numOfCont) {
+void viewerWidget::contours3D(vtkSmartPointer<vtkPolyData> polydata, int numOfCont, bool background) {
 	qW3D->SetRenderWindow(renderWindow3D);
 
 	double bounds[6];
 	polydata->GetBounds(bounds);
-	std::cout << "xmin: " << bounds[0] << " "
-		<< "xmax: " << bounds[1] << std::endl
-		<< "ymin: " << bounds[2] << " "
-		<< "ymax: " << bounds[3] << std::endl
-		<< "zmin: " << bounds[4] << " "
-		<< "zmax: " << bounds[5] << std::endl;
 	vtkSmartPointer<vtkContourFilter> contour = vtkSmartPointer<vtkContourFilter>::New();
 	contour->SetInputData(polydata);
-
-	// contour->SetNumberOfContours(10);
+	contour->GenerateTrianglesOff();
 	contour->ComputeNormalsOn();
-	//for (int i = 0; i < 18; i++) {
-	// contour->SetValue(0, 255);
-	//}
+
 	double getRange = abs(bounds[5] - bounds[4]);
-	std:cout << getRange << endl;
-	contour->GenerateValues(20,0, getRange*10);
+	contour->GenerateValues(numOfCont, 0, getRange*10);
 	contour->GetUseScalarTree();
 	vtkSmartPointer<vtkPolyDataMapper> contourMapper = vtkSmartPointer<vtkPolyDataMapper>::New();
 	contourMapper->SetInputConnection(contour->GetOutputPort());
-	// contourMapper->ScalarVisibilityOff();
+	if(background)
+		contourMapper->ScalarVisibilityOff();
+	contourMapper->InterpolateScalarsBeforeMappingOn();
 	contourMapper->SetScalarRange(polydata->GetScalarRange());
 
 	vtkSmartPointer<vtkActor> contourActor = vtkSmartPointer<vtkActor>::New();
@@ -191,34 +167,35 @@ void viewerWidget::contours3D(vtkSmartPointer<vtkPolyData> polydata, int numOfCo
 	contourActor->SetMapper(contourMapper);
 
 	renderer3D->GetViewProps()->RemoveAllItems();
+	if(background)
+		renderer3D->AddActor(actor3D);
 	renderer3D->AddActor(contourActor);
 	renderer3D->SetBackground(.1, .2, .3);
 
 	qW3D->GetRenderWindow()->AddRenderer(renderer3D);
+	qW3D->GetRenderWindow()->Render();
 }
 
-void viewerWidget::setViewerWidget(vtkSmartPointer<vtkImageData> image) {
-	// 2D contour
+void viewerWidget::contours2D(vtkSmartPointer<vtkImageData> image, bool background) {
 	qW2D->SetRenderWindow(renderWindow2D);
-
-	vtkSmartPointer<vtkNamedColors> colors =
-		vtkSmartPointer<vtkNamedColors>::New();
 
 	vtkSmartPointer<vtkContourFilter> contourFilter =
 		vtkSmartPointer<vtkContourFilter>::New();
 	contourFilter->SetInputData(image);
-	contourFilter->GenerateValues(1, 10, 10); // (numContours, rangeStart, rangeEnd)
+	contourFilter->GenerateValues(1, 10, 10);
 
-	// Map the contours to graphical primitives
+	// contours for the macrophages
 	vtkSmartPointer<vtkPolyDataMapper> contourMapper =
 		vtkSmartPointer<vtkPolyDataMapper>::New();
 	contourMapper->SetInputConnection(contourFilter->GetOutputPort());
 
-	// Create an actor for the contours
+	//Create an actor for the contours
 	vtkSmartPointer<vtkActor> contourActor =
 		vtkSmartPointer<vtkActor>::New();
 	contourActor->SetMapper(contourMapper);
-	contourActor->GetProperty()->SetLineWidth(5);
+	contourMapper->ScalarVisibilityOff();
+	contourActor->GetProperty()->SetColor(1, 0, 0);
+	contourActor->GetProperty()->SetLineWidth(2);
 
 	// Create the outline
 	vtkSmartPointer<vtkOutlineFilter> outlineFilter =
@@ -228,26 +205,25 @@ void viewerWidget::setViewerWidget(vtkSmartPointer<vtkImageData> image) {
 	vtkSmartPointer<vtkPolyDataMapper> outlineMapper =
 		vtkSmartPointer<vtkPolyDataMapper>::New();
 	outlineMapper->SetInputConnection(outlineFilter->GetOutputPort());
+
+	//Create an actor for the outline
 	vtkSmartPointer<vtkActor> outlineActor =
 		vtkSmartPointer<vtkActor>::New();
 	outlineActor->SetMapper(outlineMapper);
-	outlineActor->GetProperty()->SetColor(0, .5, 0);
-	outlineActor->GetProperty()->SetLineWidth(3);
-
-	vtkSmartPointer<vtkTexture> texture =
-		vtkSmartPointer<vtkTexture>::New();
-	texture->SetInputData(image);
-
-	// Visualize
+	outlineActor->GetProperty()->SetColor(1, 0.5, 0);
+	outlineActor->GetProperty()->SetLineWidth(2);
 
 	renderer2D->GetViewProps()->RemoveAllItems();
+	if(background) 
+		renderer2D->AddActor(actor2D);
+	else
+		renderer2D->AddActor(outlineActor);
 	renderer2D->AddActor(contourActor);
-	renderer2D->AddActor(outlineActor);
-	renderer2D->SetBackgroundTexture(texture);
-	renderWindow2D->Render();
+    renderWindow2D->Render();
 	renderer2D->ResetCamera();
 
 	qW2D->GetRenderWindow()->AddRenderer(renderer2D);
+
 }
 
 void viewerWidget::resetCam(bool dimensions) {
@@ -271,9 +247,6 @@ void viewerWidget::set2DView(bool dimensions) {
 		imageStyle->SetInteractionModeToImage2D();
 		qW2D->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
 		renderWindow3D->Render();
-		QMessageBox mbox;
-		mbox.setText("here i am");
-		mbox.exec();
 	}
 }
 
@@ -297,9 +270,9 @@ void viewerWidget::saveScreenShot(bool dimensions) {
 		windowToImageFilter->SetInput(renderWindow2D);
 	else 
 		windowToImageFilter->SetInput(renderWindow3D);
-	// windowToImageFilter->SetMagnification(3); //set the resolution of the output image (3 times the current resolution of vtk render window)
-	windowToImageFilter->SetInputBufferTypeToRGBA(); //also record the alpha (transparency) channel
-	windowToImageFilter->ReadFrontBufferOff(); // read from the back buffer
+	// windowToImageFilter->SetMagnification(3); 
+	windowToImageFilter->SetInputBufferTypeToRGBA(); 
+	windowToImageFilter->ReadFrontBufferOff(); 
 	windowToImageFilter->Update();
 
 	QString screenShot = QFileDialog::getSaveFileName(this, "Save file", "", ".png");
@@ -310,4 +283,91 @@ void viewerWidget::saveScreenShot(bool dimensions) {
 	writer->SetFileName(screenShot.toStdString().c_str());
 	writer->SetInputConnection(windowToImageFilter->GetOutputPort());
 	writer->Write();
+}
+
+void viewerWidget::hoverContour(vtkSmartPointer<vtkPolyData> polydata, int numOfCont, bool background) {
+	qW3D->SetRenderWindow(renderWindow3D);
+
+	double bounds[6];
+	polydata->GetBounds(bounds);
+	std::cout << "Bounds: "
+		<< bounds[0] << ", " << bounds[1] << " "
+		<< bounds[2] << ", " << bounds[3] << " "
+		<< bounds[4] << ", " << bounds[5] << std::endl;
+
+	vtkSmartPointer<vtkPlane> plane =
+		vtkSmartPointer<vtkPlane>::New();
+	plane->SetOrigin((bounds[1] + bounds[0]) / 2.0,
+		(bounds[3] + bounds[2]) / 2.0,
+		bounds[4]);
+	plane->SetNormal(0, 0, 1);
+	// plane->SetOrigin(0, 0, bounds[5]);
+	
+	// Create cutter
+	double high = plane->EvaluateFunction((bounds[1] + bounds[0]) / 2.0,
+		(bounds[3] + bounds[2]) / 2.0,
+		bounds[5]);
+
+	vtkSmartPointer<vtkCutter> cutter =
+		vtkSmartPointer<vtkCutter>::New();
+	cutter->SetInputData(polydata);
+	cutter->SetCutFunction(plane);
+	cutter->GenerateValues(numOfCont, .99, .99 * high);
+	cutter->SetReferenceCount(2);
+
+	vtkSmartPointer<vtkPolyDataMapper> cutterMapper =
+		vtkSmartPointer<vtkPolyDataMapper>::New();
+	cutterMapper->SetInputConnection(cutter->GetOutputPort());
+	cutterMapper->ScalarVisibilityOff();
+
+	// Create cut actor
+	vtkSmartPointer<vtkActor> cutterActor =
+		vtkSmartPointer<vtkActor>::New();
+	//cutterActor->GetProperty()->SetColor(0,1,1);
+	cutterActor->GetProperty()->SetLineWidth(2);
+	cutterActor->SetMapper(cutterMapper);
+
+	// Create plane actor
+	vtkSmartPointer<vtkPlaneSource> planeSource =
+		vtkSmartPointer<vtkPlaneSource>::New();
+	planeSource->SetNormal(1, 0, 0);
+	planeSource->SetOrigin(0, 0, -10);
+	planeSource->Update();
+
+	// Create a mapper and actor.
+	vtkSmartPointer<vtkPolyDataMapper> planeSourceMapper =
+		vtkSmartPointer<vtkPolyDataMapper>::New();
+	planeSourceMapper->SetInputConnection(planeSource->GetOutputPort());
+
+	vtkSmartPointer<vtkActor> planeSourceActor =
+		vtkSmartPointer<vtkActor>::New();
+	planeSourceActor->SetMapper(planeSourceMapper);
+
+	renderer3D->GetViewProps()->RemoveAllItems();
+	if (background)
+		renderer3D->AddActor(actor3D);
+	//renderer3D->AddActor(planeSourceActor);
+	renderer3D->AddActor(cutterActor);
+
+	renderer3D->SetBackground(.1, .2, .3);
+
+	// Create the widget
+	/*vtkSmartPointer<vtkHoverWidget> hoverWidget =
+		vtkSmartPointer<vtkHoverWidget>::New();
+	hoverWidget->SetInteractor(qW3D->GetRenderWindow()->GetInteractor());
+	hoverWidget->SetTimerDuration(500);
+
+	// Create a callback to listen to the widget's two VTK events
+	vtkSmartPointer<vtkHoverCallback> hoverCallback =
+		vtkSmartPointer<vtkHoverCallback>::New();
+	hoverWidget->AddObserver(vtkCommand::TimerEvent, hoverCallback);
+	hoverWidget->AddObserver(vtkCommand::EndInteractionEvent, hoverCallback);
+
+	//hoverWidget->On();
+	qW3D->GetRenderWindow()->Render();
+	*/
+
+	qW3D->GetRenderWindow()->AddRenderer(renderer3D);
+	qW3D->GetRenderWindow()->Render();
+	//hoverWidget->On();
 }

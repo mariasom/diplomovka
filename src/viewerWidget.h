@@ -55,6 +55,16 @@
 #include <vtkWindowToImageFilter.h>
 #include <vtkPNGWriter.h>
 
+#include <vtkPropPicker.h>
+#include <vtkSphereSource.h>
+
+#include <vtkHoverWidget.h>
+#include <vtkCommand.h>
+
+#include <vtkCutter.h>
+#include <vtkPlane.h>
+#include <vtkPlaneSource.h>
+
 class viewerWidget : public QWidget {
 	Q_OBJECT
 
@@ -84,8 +94,10 @@ public:
 	void resetCam(bool dimensions);
 	void set2DView(bool dimensions);
 	void set3DView(bool dimensions);
-	void contours3D(vtkSmartPointer<vtkPolyData> polydata, int numOfCont);
+	void contours3D(vtkSmartPointer<vtkPolyData> polydata, int numOfCont, bool background = true);
+	void contours2D(vtkSmartPointer<vtkImageData> image, bool background = true);
 	void saveScreenShot(bool dimensions);
+	void hoverContour(vtkSmartPointer<vtkPolyData> polydata, int numOfCont, bool background = true);
 
 private:
 	vtkSmartPointer<vtkInteractorStyleImage> imageStyle;
@@ -112,4 +124,74 @@ private:
 	vtkSmartPointer<vtkActor> actor;
 
 	//public slots:
+};
+
+
+/*class MouseInteractorStyle2 : public vtkInteractorStyleTrackballCamera
+{
+public:
+	static MouseInteractorStyle2* New();
+	vtkTypeMacro(MouseInteractorStyle2, vtkInteractorStyleTrackballCamera);
+
+	virtual void OnLeftButtonDown() override
+	{
+		int* clickPos = this->GetInteractor()->GetEventPosition();
+
+		// Pick from this location.
+		vtkSmartPointer<vtkPropPicker>  picker =
+			vtkSmartPointer<vtkPropPicker>::New();
+		picker->Pick(clickPos[0], clickPos[1], 0, this->GetDefaultRenderer());
+
+		double* pos = picker->GetPickPosition();
+		std::cout << "Pick position (world coordinates) is: "
+			<< pos[0] << " " << pos[1]
+			<< " " << pos[2] << std::endl;
+
+		std::cout << "Picked actor: " << picker->GetActor() << std::endl;
+		//Create a sphere
+		vtkSmartPointer<vtkSphereSource> sphereSource =
+			vtkSmartPointer<vtkSphereSource>::New();
+		sphereSource->SetCenter(pos[0], pos[1], pos[2]);
+		sphereSource->SetRadius(0.1);
+
+		//Create a mapper and actor
+		vtkSmartPointer<vtkPolyDataMapper> mapper =
+			vtkSmartPointer<vtkPolyDataMapper>::New();
+		mapper->SetInputConnection(sphereSource->GetOutputPort());
+
+		vtkSmartPointer<vtkActor> actor =
+			vtkSmartPointer<vtkActor>::New();
+		actor->SetMapper(mapper);
+
+		this->GetDefaultRenderer()->AddActor(actor);
+		// Forward events
+		vtkInteractorStyleTrackballCamera::OnLeftButtonDown();
+	}
+
+private:
+
+};*/
+
+class vtkHoverCallback : public vtkCommand
+{
+public:
+	static vtkHoverCallback *New()
+	{
+		return new vtkHoverCallback;
+	}
+
+	vtkHoverCallback() {}
+
+	virtual void Execute(vtkObject*, unsigned long event, void *vtkNotUsed(calldata))
+	{
+		switch (event)
+		{
+		case vtkCommand::TimerEvent:
+			std::cout << "TimerEvent -> the mouse stopped moving and the widget hovered" << std::endl;
+			break;
+		case vtkCommand::EndInteractionEvent:
+			std::cout << "EndInteractionEvent -> the mouse started to move" << std::endl;
+			break;
+		}
+	}
 };
