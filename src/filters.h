@@ -55,4 +55,5 @@ public:
 	QVector<double> reflection(QVector<double> data);
 	QVector<double> thresholdFunction(QVector<unsigned char> initConData);
 	QVector<double> bernsenThreshold(QVector<double> data);
+	QVector<unsigned char> dataDifference(QVector<unsigned char> tData);
 };

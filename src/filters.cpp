@@ -712,3 +712,16 @@ QVector<double> filters::thresholdFunction(QVector<unsigned char> initConData) {
 		}
 
 }*/
+
+QVector<unsigned char> filters::dataDifference(QVector<unsigned char> tData) {
+	QVector<unsigned char> newData;
+	newData.resize(width*height);
+
+	for (int j = 0; j < width; j++) {
+		for (int i = 0; i < height; i++) {
+			newData[j * width + i] = (unsigned char)((int)((origData.at(j * width + i) + tData.at(j * width + i)) / 2. + 0.5));
+		}
+	}
+
+	return newData;
+}

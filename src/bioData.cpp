@@ -53,6 +53,7 @@ bioData::bioData(QWidget *parent)
 	numCont3DSB = new QSpinBox;
 	contour2DwIDButton = new QPushButton;
 	contour3DwDButton = new QPushButton;
+	differenceButton = new QPushButton;
 
 	setDefaultValues();
 	originalCol->setChecked(true);
@@ -98,6 +99,7 @@ bioData::bioData(QWidget *parent)
 	connect(this->contour2DButton, SIGNAL(clicked()), this, SLOT(contour2DClicked()));
 	connect(this->contour2DwIDButton, SIGNAL(clicked()), this, SLOT(contour2DwIDClicked()));
 	connect(this->contour3DwDButton, SIGNAL(clicked()), this, SLOT(contour3DwDClicked()));
+	connect(this->differenceButton, SIGNAL(clicked()), this, SLOT(differenceClicked()));
 
 	connect(this->testingButton, SIGNAL(clicked()), this, SLOT(testClicked()));
 
@@ -646,33 +648,6 @@ void bioData::treeIndexChanged(QTreeWidgetItem *itm, int i) {
 		}
 }
 
-void bioData::createColorsGB() {
-	colorsGB = new QGroupBox(tr("Colors"));
-
-	QGridLayout *colorLayout = new QGridLayout;
-	QLabel *backgroundLab = new QLabel(tr("Background: "));
-	QLabel *foregroundLab = new QLabel(tr("Foreground: "));
-	QLabel *label = new QLabel(tr("Use default color settings: "));
-
-	foregroundSB->setRange(0, 255);
-	foregroundSB->setSingleStep(1);
-	foregroundSB->setValue(207);
-	foregroundSB->setDisabled(true);
-	backgroundSB->setRange(0, 255);
-	backgroundSB->setSingleStep(1);
-	backgroundSB->setValue(0);
-	backgroundSB->setDisabled(true);
-
-	colorLayout->addWidget(backgroundLab, 0, 0);
-	colorLayout->addWidget(backgroundSB, 0, 1);
-	colorLayout->addWidget(foregroundLab, 1, 0);
-	colorLayout->addWidget(foregroundSB, 1, 1);
-	colorLayout->addWidget(label, 2, 0);
-	colorLayout->addWidget(originalCol, 2, 1);
-
-	colorsGB->setLayout(colorLayout);
-}
-
 void bioData::bernsenClicked() {
 
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData(), bernsenMaskSB->value());
@@ -1069,9 +1044,14 @@ void bioData::createOptions2DDock() {
 		QDockWidget::DockWidgetMovable |
 		QDockWidget::DockWidgetVerticalTitleBar);
 	QWidget* multiWidget = new QWidget();
-	QGridLayout *layout = new QGridLayout;
+	QGridLayout *layout = new QGridLayout; 
+	QLabel *differenceLab = new QLabel(tr("Difference:"));
+	differenceLab->setToolTip("Creates new boundary condition for the segmentation.\n Takes 1/2 of the selected thresholded data and 1/2 and makes mean.");
+	differenceButton->setText("Apply");
 	createcontour2DGB();
-	layout->addWidget(contour2DGroupBox);
+	layout->addWidget(differenceLab, 1, 0);
+	layout->addWidget(differenceButton, 1, 1);
+	layout->addWidget(contour2DGroupBox,2,0,2,2);
 	// layout->setColumnStretch(1,1);
 	multiWidget->setLayout(layout);
 	options2DDock->setWidget(multiWidget);
@@ -1117,7 +1097,6 @@ void bioData::createHistoryLogDock() {
 }
 
 void bioData::contour3DClicked() {
-
 	if (parent3D == dataTree->currentItem()->parent()) {
 		filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
 
@@ -1185,4 +1164,18 @@ void bioData::contour3DwDClicked() {
 		w->contours3D(fTmp->getPolydata(), numCont3DSB->value());
 		widget3D->update();
 	}
+}
+
+void bioData::differenceClicked() {
+	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
+	fTmp->addFiltData(filter.dataDifference(fTmp->getFiltData(dataTree->currentIndex().row())));
+	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
+	if (widget2D == nullptr)
+		set2DWidget();
+	else
+		update2DWidget();
+	// Set the window title
+	widget2D->setWindowTitle("Difference");
+	addSubItem(parent2D, fName + "_difference");
+	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
 }

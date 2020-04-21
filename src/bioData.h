@@ -98,6 +98,7 @@ public slots:
 	void contour2DClicked();
 	void contour2DwIDClicked();
 	void contour3DwDClicked();
+	void differenceClicked();
 
 	// others
 
@@ -172,6 +173,7 @@ private:
 	QPushButton *contour2DButton;
 	QPushButton *contour2DwIDButton;
 	QPushButton *contour3DwDButton;
+	QPushButton *differenceButton;
 
 	// comboboxes
 	QComboBox *dataCBox;
