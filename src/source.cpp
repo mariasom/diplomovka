@@ -36,11 +36,19 @@ void source::load(QString path)
 	QString fileType = stream.readLine();
 	sLength = fileType.length();
 	sSize = fileType.size();
+	std::cout << line.toStdString() << endl;
 
-	// width and height
+	// width and height or comment
 	line = stream.readLine();
 	sLength += line.length();
 	sSize += line.size();
+	std::cout << line.toStdString() << endl;
+	if (line.contains('#')) {	//line is comment
+		line = line = stream.readLine();
+		sLength += line.length();
+		sSize += line.size();
+		std::cout << line.toStdString() << endl;
+	}
 	QStringList sList = line.split(' ', QString::SkipEmptyParts);
 	width = sList[0].toInt();
 	height = sList[1].toInt();
@@ -48,7 +56,7 @@ void source::load(QString path)
 	line = stream.readLine();
 	sLength += line.length();
 	sSize += line.size();
-	std::cout << sLength << std::endl;
+	std::cout << line.toStdString() << endl;
 	if (!line.contains(".pgm", Qt::CaseSensitive)) {
 		fileName = getFileName(path);
 		maxCol = line.toInt();	
@@ -98,6 +106,7 @@ void source::readAscii(QString path) {
 	std::cout << splt.length() << std::endl;
 	for (int i = 0; i < splt.length(); i++) {
 		data[i] = (unsigned char)splt[i].toInt();
+		std::cout << (int)data[i] << " ";
 	}
 	  
 	file.close();
@@ -179,6 +188,7 @@ void source::setPoints(QVector<unsigned char> &setData, int p) {
 
 	image->SetDimensions(widthR, heightR, 1);
 	image->SetOrigin(.5, .5, 0);
+	//image->SetSpacing(widthR, heightR, widthR*heightR);
 	image->AllocateScalars(VTK_UNSIGNED_CHAR, 1);
 
 	for (int j = 0; j < widthR; j++)
@@ -336,6 +346,16 @@ void source::colorPolyData() {
 
 	polydata->GetPointData()->SetScalars(colors);
 	polydata->Modified();
+}
+
+void source::displayOnPlane(vtkSmartPointer<vtkPolyData> data) {
+	
+	for (int j = 0; j < height; j++)
+		for (int i = 0; i < width; i++) {
+			points->SetPoint(j * width + i, i, j, 0 );
+		}
+
+
 }
 
 void source::saveVtk(QString fileName, int index, bool binary) {

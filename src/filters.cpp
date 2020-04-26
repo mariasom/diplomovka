@@ -89,22 +89,22 @@ int filters::otsuFilter() {
 	float varMax = 0;
 
 	for (int t = 0; t < 256; t++) {
-		wB += hist[t];               // Weight Background (probability distribution)
+		wB += hist[t];               
 		if (wB == 0) 
 			continue;
 
-		wF = total - wB;             // Weight Foreground (probability distribution)
+		wF = total - wB;             
 		if (wF == 0) 
 			break;
 
 		sumB += (float)(t * hist[t]);
 
-		float mB = sumB / wB;            // Mean Background
-		float mF = (sum - sumB) / wF;    // Mean Foreground
+		float mB = sumB / wB;            
+		float mF = (sum - sumB) / wF;    
 
-		float varBetween = (float)wB * (float)wF * (mB - mF) * (mB - mF);		// Calculate Between Class Variance
+		float varBetween = (float)wB * (float)wF * (mB - mF) * (mB - mF);		
 
-		if (varBetween > varMax) {		// Check if new maximum found
+		if (varBetween > varMax) {	
 			varMax = varBetween;
 			threshold = t;
 		}
@@ -358,12 +358,12 @@ QVector<double> filters::aw(QVector<double> data, bool eps) {
 			uy = (data.at((j - 1) * widthR + i) + data.at((j - 1) * widthR + (i - 1))
 				- data.at((j + 1) * widthR + i) - data.at((j + 1) * widthR + (i - 1))) / (4 * h);
 
-			double s = sqrt(ux*ux + uy * uy);
-			if (eps = true) {
-				pole[j * widthR + i] = (1. / (1 + k * s * s));
+			double s = ux*ux + uy * uy;
+			if (eps) {
+				pole[j * widthR + i] = (1. / (1 + k * s));
 			}
 			else 
-				pole[j * widthR + i] = (sqrt(ux *ux + uy * uy + epsilon * epsilon));
+				pole[j * widthR + i] = (sqrt(s + epsilon * epsilon));
 		}
 	}
 	return pole;
@@ -384,12 +384,12 @@ QVector<double> filters::ae(QVector<double> data, bool eps) {
 			uy = (data.at((j + 1) * widthR + (i + 1)) + data.at((j + 1) * widthR + i)
 				- data.at((j - 1) * widthR + (i + 1)) - data.at((j - 1) * widthR + i)) / (4 * h);
 
-			double s = sqrt(ux*ux + uy * uy);
-			if (eps = true) {
-				pole[j * widthR + i] = (1. / (1 + k * s * s));
+			double s = ux*ux + uy * uy;
+			if (eps) {
+				pole[j * widthR + i] = (1. / (1 + k * s));
 			}
 			else
-				pole[j * widthR + i] = (sqrt(ux *ux + uy * uy + epsilon * epsilon));
+				pole[j * widthR + i] = (sqrt(s + epsilon * epsilon));
 		}
 	}
 	return pole;
@@ -410,12 +410,12 @@ QVector<double> filters::as(QVector<double> data, bool eps) {
 			ux = (data.at(j * widthR + (i + 1)) + data.at((j - 1) * widthR + (i + 1))
 				- data.at((j - 1) * widthR + (i - 1)) - data.at(j * widthR + (i - 1))) / (4 * h);
 
-			double s = sqrt(ux*ux + uy * uy);
-			if (eps = true) {
-				pole[j * widthR + i] = (1. / (1 + k * s * s));
+			double s = ux*ux + uy * uy;
+			if (eps) {
+				pole[j * widthR + i] = (1. / (1 + k * s));
 			}
 			else
-				pole[j * widthR + i] = (sqrt(ux *ux + uy * uy + epsilon * epsilon));
+				pole[j * widthR + i] = (sqrt(s+ epsilon * epsilon));
 		}
 	}
 	return pole;
@@ -434,14 +434,14 @@ QVector<double> filters::an(QVector<double> data, bool eps) {
 		for (int j = 1; j < heightR - 1; j++) {
 			uy = (data.at((j + 1) * widthR + i) - data.at(j * widthR + i)) / h;
 			ux = (data.at((j + 1) * widthR + (i - 1)) + data.at(j * widthR + (i - 1))
-				- data.at((j + 1) * widthR + (i + 1)) - data.at((j + 1) * widthR + i)) / (4 * h);
+				- data.at((j + 1) * widthR + (i + 1)) - data.at(j * widthR + (i + 1))) / (4 * h);
 
-			double s = sqrt(ux*ux + uy * uy);
-			if (eps = true) {
-				pole[j * widthR + i] = (1. / (1 + k * s * s));
+			double s = ux*ux + uy * uy;
+			if (eps) {
+				pole[j * widthR + i] = (1. / (1 + k * s));
 			}
 			else
-				pole[j * widthR + i] = (sqrt(ux *ux + uy * uy + epsilon * epsilon));
+				pole[j * widthR + i] = (sqrt(s + epsilon * epsilon));
 		}
 	}
 	return pole;
@@ -592,9 +592,6 @@ QVector<double> filters::niblackThreshold(QVector<double> data, double timeStep)
 	tmp1 = heatImpl(data, timeStep); //u
 	tmp2 = heatImpl(pow2(data), timeStep); //uu
 
-	// tmp1 = reflection(tmp1); 
-	// tmp2 = reflection(tmp2);
-
 	for (int i = p; i < height + p; i++)
 		for (int j = p; j < width + p; j++) {
 			tmp2[j * widthR + i] = sqrt(tmp2[j * widthR + i] - pow(tmp1[j * widthR + i], 2));
@@ -616,7 +613,7 @@ QVector<double> filters::niblackThreshold(QVector<double> data, double timeStep)
 			double min = 10, max = -1;
 			for (int ii = i - p; ii <= i + p; ii++)
 				for (int jj = j - p; jj <= j + p; jj++) 
-					//if(pow(i-ii,2)+pow(j-jj,2)<=p*p) 
+					if(pow(i-ii,2)+pow(j-jj,2)<=p*p) 
 					{
 						if (tmp[jj * widthR + ii] < min)
 							min = tmp.at(jj * widthR + ii);
@@ -629,7 +626,7 @@ QVector<double> filters::niblackThreshold(QVector<double> data, double timeStep)
 		}
 	}
 
-	for (int i = p; i < height + p; i++)		//final thresholding
+	for (int i = p; i < height + p; i++)		
 		for (int j = p; j < width + p; j++) 
 			if (tmp[j * widthR + i] <= thresholds[j * widthR + i])
 				tmp1[j * widthR + i] = 0;
@@ -651,11 +648,13 @@ QVector<double> filters::pow2(QVector<double> data) {
 }
 
 QVector<double> filters::bernsenThreshold(QVector<double> data) {
-	QVector<double> tmp;
-	QVector<double> R;
+	QVector<double> tmp, cont, thrshld;
+	int cmin = 60;
 	int r = p;
 	//r = p;
 	tmp = reflection(data);
+	cont.resize(tmp.length());
+	thrshld.resize(tmp.length());
 	int q = 0; //	kedze mame vzdy tmave pozadie
 	for (int j = 0; j < widthR; j++) {
 		for (int i = 0; i < heightR; i++) {
@@ -670,14 +669,20 @@ QVector<double> filters::bernsenThreshold(QVector<double> data) {
 							Imax = tmp.at(jj * widthR + ii);
 					}
 				}
-			c = Imax - Imin;
-			int cmin = 60;
-			if (c >= cmin)
-				tmp[j * widthR + i] = (Imax + Imin)/2.;
-			else
-				tmp[j * widthR + i] = q;
+			cont[j * widthR + i] = Imax - Imin;
+			thrshld[j * widthR + i] = (Imax + Imin)/2.;
 		}
 	}
+
+	for (int j = 0; j < widthR; j++) {
+		for (int i = 0; i < heightR; i++) {
+			if (cont[j * widthR + i] >= cmin)
+				tmp[j * widthR + i] = 255;
+			else
+				tmp[j * widthR + i] = 0;
+		}
+	}
+
 	tmp = antireflection(tmp);
 
 	return tmp;

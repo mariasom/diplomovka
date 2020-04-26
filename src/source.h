@@ -91,4 +91,5 @@ public:
 	void save_ascii(QString fileName, int index);
 	void saveVtk(QString fileName, int index, bool binary);
 	void colorPolyData();
+	void displayOnPlane(vtkSmartPointer<vtkPolyData> data);
 };

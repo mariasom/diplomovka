@@ -35,13 +35,13 @@ public:
 	// groupboxes
 	void createSubsurfGB();
 	// void createDistanceGB();
-	void createColorsGB();
 	void createtestGB();
 	void createGlobThrshldGB();
 	void createLocThrshldGB();
 	void initialConditionsGB();
 	void createcontour3DGB();
 	void createcontour2DGB();
+	void createHeatEqGB();
 
 	// docks
 	void createFileDock(QString name, QString path, int width, int height);
@@ -73,8 +73,6 @@ public slots:
 	void actionvtkascii();
 	void action2DFilters();
 	void action3DFilters();
-	void action2DOptions();
-	void action3DOptions();
 	void actionAdvanced();
 	void actionCloseFiles();
 
@@ -99,6 +97,7 @@ public slots:
 	void contour2DwIDClicked();
 	void contour3DwDClicked();
 	void differenceClicked();
+	void heatEquationClicked();
 
 	// others
 
@@ -142,6 +141,7 @@ private:
 	QGroupBox *initConGroupBox;
 	QGroupBox *contour3DGroupBox;
 	QGroupBox *contour2DGroupBox;
+	QGroupBox *HeatEqGroupBox;
 
 	// treewidget + its items
 	QTreeWidget *dataTree;
@@ -174,6 +174,7 @@ private:
 	QPushButton *contour2DwIDButton;
 	QPushButton *contour3DwDButton;
 	QPushButton *differenceButton;
+	QPushButton *heatEquationButton;
 
 	// comboboxes
 	QComboBox *dataCBox;
@@ -184,6 +185,7 @@ private:
 	QDoubleSpinBox *tauSubsurf;
 	QDoubleSpinBox *kSubsurf;
 	QDoubleSpinBox *niblackTimeStepSB;
+	QDoubleSpinBox *heatEqSB;
 	QSpinBox *niblackMaskSB;
 	QSpinBox *bernsenMaskSB;
 	QSpinBox *numCont3DSB;

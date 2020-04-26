@@ -140,7 +140,7 @@ V poslednej časti sa nachádzajú výsledky, ku ktorým sme v práci dospeli a 
  
 %Skúmané dáta pochadzajú pôvodne z  a sú z
 
-%\newpage
+\newpage
 
 \section{Segmentácie obrazov}
 
@@ -156,9 +156,9 @@ Segmentácia takýchto dát je náročnou úlohou pretože makrofágy majú nepr
 
  Úlohou globálnych ptahovacích metód je nájsť jedinú optimálnu prahovú hodnotu $q$, v našom prípade šedotónových obrazových dát, ktorá zadefinuje každý pixel obrazu buď do popredia (ako objekt na dátach) alebo ako pozadie. Mnohé z týchto metód sú založené na histograme. Teda všetky pixely sú zatriedené do dvoch disjunktných množín $C_0$ a $C_1$, kde množina $C_0$ obsahuje všetky pixle nachádzajúce sa medzi hodntami $(0, 1, \dots , q)$ a $C_1$ obsahuje všetky zvyšné pixle nachádzajúce sa na intervale $(q+1, \dots , K-1)$, teda
 
-\begin{equation*}
+\begin{equation}
 (u, v) \in \begin{cases} C_0 & \text{ak} \hspace{1em} I(u,v) \leq q \hspace{1em} \text{(pozadie)} \\  C_1 & \text{ak} \hspace{1em} I(u,v) \geq q \hspace{1em} \text{(objekt)} \end{cases}.
-\end{equation*}
+\end{equation}
 
 %preformulovat
 Treba si uvedomiť, že tieto hodnoty závisia od toho, či je pozadie bledé a objekt tmavý alebo naopak.
@@ -174,38 +174,46 @@ Nech $K$ je maximálna intenzita obrazu a hodnoty normalizovaného histogramu, b
 %p_i^c = \frac{h_i^c}{N}, \hspace{10mm}  \sum_{i=1}^{N} p_i^c = 1, \hspace{10mm} c = \begin{cases} 1, 2, 3 & \text{pre farebné obrazy} \\ 1 & \text{pre čiernobiele obrazy} \end{cases},
 %\end{equation*}
 
-\begin{equation*}
+\begin{equation}
 p_i = \frac{h_i}{N}, \hspace{10mm}  \sum_{i=1}^{N} p_i = 1,
-\end{equation*}
+\end{equation}
 
 kde $i$ je konkrétny level intenzity $(0 \leq i \leq K)$, $N$ je celkový počet pixelov na obraze, $h_i$ predstavuje histogram. 
 Keďže v našom prípade máme len 2 triedy $C_0$ a $C_1$ a vzniknutý histogram sa tiež nazýva bimodálnym.
 
 Na definíciu tried $C_0$ a $C_1$ je potrebné vypočítať stredné hodnoty $\mu_0$ a $\mu_1$ definované ako
 
-\begin{equation*}
+\begin{equation}
 \mu_0 =  \sum_{i=1}^{q}\frac{i p_i}{\omega_0(q)}, \hspace{10mm} \mu_1 =  \sum_{i=q + 1}^{K}\frac{i p_i}{\omega_1(q)},
-\end{equation*}
+\end{equation}
 
-kde $\omega_0(q)$ a $\omega_1(q)$ sú rozdelenia pravdepodobnosti pre triedy $C_0$ a $C_1$. Teraz môžeme zadefiovať rozptyl pre obe triedy
+kde $\omega_0(q)$ a $\omega_1(q)$ sú sumy definované ako
 
-\begin{equation*}
-\sigma_0 = \omega_0(\mu_0 + \mu_T), \hspace{10mm} \sigma_1 =  \omega_1(\mu_1 + \mu_T),
-\end{equation*}
+\begin{equation}
+\omega_0(q) = \sum_{i=1}^{q} p_i, \hspace{10mm} \omega_1(q) =  \sum_{i=q + 1}^{K} p_i,
+\end{equation}
 
-kde $ \mu_T = \omega_0\mu_0 + \omega_1\mu_1$. Následne zadefinujeme Otsuho medzi$-$triednu varianciu ako
+ rozdelenia pravdepodobnosti pre triedy $C_0$ a $C_1$. Následne vypočítame smerodajné odchýlky $\sigma_0$ a $\sigma_1$, pomocou ktorých vieme zadefinovať 
+ %Teraz môžeme zadefiovať rozptyl pre obe triedy
+%
+%\begin{equation*}
+%\sigma_0 = \omega_0(\mu_0 + \mu_T), \hspace{10mm} \sigma_1 =  \omega_1(\mu_1 + \mu_T),
+%\end{equation*}
+%
+%kde $ \mu_T = \omega_0\mu_0 + \omega_1\mu_1$. 
+medzi$-$triednu varianciu ako sumu
 
-\begin{equation*}
+\begin{equation}
 \sigma^2 = \sigma_0 + \sigma_1.
-\end{equation*}
+\end{equation}
 
 %Preto v prípade, že je histogram bimodálny, tak budú existovať len dve triedy a objekt na obraze bude vysegmentovaný takmer dokonale.
 Z hodnoty medzi$-$triednej variancie, pomocou maximalizácie rozptylu medzi pozadím a objektom v histograme, nájdeme optimálny prah $q^*$, ktorý je definovaný ako
 %Optimálny prah $q^*$ nájdeme cez maximalizáciu rozptylu medzi pozadím a objektom v histograme pomocou medzi$-$triednej variancie, ktorá je definovaná ako
 
-\begin{equation*}
+\begin{equation}
 \sigma^2(q*) = \max_{1 \leq q < K} \sigma^2_1(q),
-\end{equation*}
+\end{equation}
 
 kde $\sigma$ označuje rozptyl a $K$ je maximálna intenzita obrazu.
 
@@ -233,46 +241,52 @@ Otsuho metóda dokáže dobre rozlíšiť dáta s makrofágmi, v prípade že d�
 
 Entropia je dôležitým pojmom v teórii informácií a najmä pri kompresii dát. Je to štatistická miera, ktorá kvantifikuje priemerné množstvo informácií obsiahnutých v  "správe" \\ obsahujúce stochasticky generované dáta. Entropia je definovaná ako
 
-\begin{equation*}
+\begin{equation}
 H(I)= -\sum_{u,v} p(g)log_b(p(g)),
-\end{equation*}
+\end{equation}
 
-kde $g$ je intenzita v pixli u,v, $p(g)$ je pravdepodobnst intenzity v normalizovanom histograme, $b$ je logaritmický základ, ktorý zvolíme buď $b=10$ alebo $b=e$ aby boli dosiahnuté čo najlepšie výsledky. Hodnota entropie $H$ bude vždy nadobúdať kladnú hodnotu, pretože argument logaritmu, sú pravdepodobnosti, ktoré patria intervalu $(0,1)$ z čoho vyplýva že hodnotaa logaritmu bude vzdy zaporna. %SKONTROOLOVAT
+kde $g$ je intenzita v pixli u,v, $p(g)$ je pravdepodobnst intenzity v normalizovanom histograme, $b$ je logaritmický základ, ktorý zvolíme buď $b=10$ alebo $b=e$ aby boli dosiahnuté čo najlepšie výsledky. Hodnota entropie $H$ bude vždy nadobúdať kladnú hodnotu, pretože argument logaritmu sú pravdepodobnosti, ktoré patria intervalu $(0,1)$ z čoho vyplýva že hodnota logaritmu bude vždy zaporná. 
 
 Z dôvodu hľadania maximálnej hodnoty entropie, potrebujeme definovať entropie pre každú triedu
 
 %\begin{equation*}
 %\begin{array}{l}
-\begin{equation*}
+\begin{equation}
 H_0(q) =  -\frac{1}{P_0(q)}S_0(q)+log(P_0(q)) \\
-\end{equation*}
-\begin{equation*}
+\end{equation}
+\begin{equation}
 H_1(q) =  -\frac{1}{1-P_0(q)}S_1(q)+log(1-P_0(q)),
-\end{equation*}
+\end{equation}
 %\end{array}
 %\end{equation*}
-kde $P_0$ predstavuje kumulatívnu pravdepodobnosť a $S_0$, $S_1$ sú sumačné podmienky. 
+kde $P_0$ predstavuje kumulatívnu pravdepodobnosť a $S_0$, $S_1$ sú vopred vyrátané sumy. 
+ 
+Celková entropia pre daný prah $q$ je daná ako
+
+\begin{equation}
+H(q) =  H_0(q) + H_1(q);
+\end{equation}  
+ 
 Kumulatívna pravdepodobnosť $P_0$ je definovaná ako
-\begin{equation*}
+\begin{equation}
 	P_0(q) = \begin{cases} p(0) & \text{pre } q = 0 \\
                             P_0(q-1) + p(q)         & \text{pre } 0 < q < K ,     %
         \end{cases}
- \end{equation*} 
+ \end{equation} 
 a sumačné podmienky $S_0$, $S_1$ sú predpočítané a definované ako
- \begin{equation*}   
+ \begin{equation}   
     S_0(q) = \begin{cases} p(0).log(p(0))) & \text{pre } q = 0 \\
                             S_0(q-1) + p(q)log(p(q))         & \text{pre } 0 < q < K      
         \end{cases}
-        \end{equation*}
-\begin{equation*}
+        \end{equation}
+\begin{equation}
 	S_1(q) = \begin{cases} 0 & \text{pre } q = L-1 \\
                             S_0(q+1) + p(q+1)log(p(q+1))         & \text{pre } 0 \leq q < K -1      %
         \end{cases}       	 
-\end{equation*}
+\end{equation}
 
 Táto metóda je jednoduchá a účinná, pretože závisí len od histogarmu obrazu. %Zosegmentované dáta môžu 
-Tiez znama ako Kapurova (strana 20 je tam poznamka)
-*PRIDAT AKO SA RATA CELKOVA ENTROPIA + *
+Entropia ako kritérium na voľbu prahu v obrazových dátach má dlhú tradíciu a navrhnutých bolo viacero metód. Vyššie uvedená metóda je jednou zo starších metód a bola navrhnutá  matematikom J. N. Kapurom.
 
 \subsection{Lokálne adaptívne prahovanie}
 
@@ -280,7 +294,7 @@ Lokálne adaptívne prahovanie namiesto jednej prahovej hodnoty pre celý obraz,
 
 \subsubsection{Bernsenova metóda}
 
-Táto metóda, určuje prah dynamicky pre každú polohu na obraze $(u,v)$, založená na minimálnej a maximálnej intenzite nachádzajúcej sa v okolí $R(u,v)$. Ak 
+Táto metóda, ktorá určuje prah dynamicky pre každú polohu na obrazových dátach $(u,v)$, je založená na minimálnej a maximálnej intenzite nachádzajúcej sa v okolí $R(u,v)$. Ak 
 \begin{equation}
 \begin{array}{l}
 I_{min}(u,v) = \min\limits_{(i,j)\in R(u,v)} I(i,j),  \\
@@ -294,51 +308,188 @@ sú minimálnou a maximálnou hodnotou intenzity, na nejakom fixne danom okolí 
 Q(u,v) \gets \frac{I_{min}(u,v) + I_{max}(u,v)}{2}
 \end{equation}
 
-Táto operácia sa vykonáva tak dlho, až pokým lokálny kontrast $c(u, v) = I_{max}(u, v) − I_{min}(u, v)$ sa nachachádza nad preddefinovaným limtom $c_{min}$. Ak $c(u, v) < c_{min}$, tak pixle..
-
-*DOPISAT*
-%This is done as long as the local contrast c(u, v) = Imax(u, v)−Imin(u, v) is above
-%some predefined limit cmin. If c(u, v) < cmin, the pixels in the corresponding
-%image region are assumed to belong to a single class and are (by default)
-%assigned to the background.
-%The whole process is summarized in Alg. 2.7. The main function provides
-%a control parameter bg to select the proper default threshold ¯q, which is set to
-%K in case of a dark background (bg = dark) and to 0 for a bright background
-%(bg = bright). The support region R may be square or circular, typically with
-%a radius r = 15. The choice of the minimum contrast limit cmin depends on
-%the type of imagery and the noise level (cmin = 15 is a suitable value to start
-%with).
+Táto operácia sa vykonáva tak dlho, až pokým lokálny kontrast $c(u, v) = I_{max}(u, v) − I_{min}(u, v)$ sa nachachádza nad preddefinovaným limtom $c_{min}$. Ak $c(u, v) < c_{min}$, tak sa predpokladá, že pixle zodpovedajúce jednej oblasti patria do jednej triedy a sú automaticky priradené do pozadia. 
 
 \subsubsection{Niblackova metóda}
-*rovnica vedenia tepla + diskretizacia*
-\subsection{Metóda subjektívnych plôch (SUBSURF)}
+Prah $Q(u, v)$ pri Niblackovej metóde sa mení ako funkcia lokálneho priemeru intenzít $\mu_R(u,v)$ a smerodajnú odchýlku $\sigma_R(u,v)$, v tvare
 
-*POPISAT*
+\begin{equation} \label{eq:nbO}
+Q(u,v) = \mu_R(u,v) + \kappa\sigma_R(u,v).
+\end{equation}
 
-Klasická metóda sujektívnych plôch je definovaná ako
+Lokálny prah je určený pridaním konštanty $\kappa \geq 0$ k smerodajnej odchýlke $\sigma_R(u,v)$ a lokálneho priemeru $\mu_R(u,v)$.Na získanie $\sigma_R(u,v)$ a $\mu_R(u,v)$ sme použili rovnicu vedenia tepla, tiež známu ako lineárno-difúznu rovnicu. Táto rovnica je považovaná za najstaršiu filtračnú metódu v spracovaní obrazu, založenú na PDR.
+
+Budeme hľadať funkciu $u(x, t)$, kde $x \in \Omega$, $t \in [0, T]$ a PDR je definovaná v tvare
 
 \begin{equation}
+\frac{\partial u(x, t)}{\partial t} = \Delta u(x,t),
+\end{equation}
+
+s Neumanovými okrajovými podmienkami na hranici $\partial \Omega$ v tvare
+
+\begin{equation}
+\frac{\partial u(x, t)}{\partial \vec{n}} = 0,
+\end{equation}
+
+kde $\vec{n}$ je jednotková vonkajšia normála ku hranici $\partial \Omega$ a počiatočnou podmienkou 
+
+\begin{equation}
+u(x, 0) = u^0(x),
+\end{equation}
+
+ktorá je určená počiatočnými obrazovými dátami.
+
+Výpočet pre lokálny prah je definovaný na oblasti $R$ so stredom v $(u, v)$. Polomer oblasti $R$ by mala byť čo najväčšia, aspoň tak veľká ako štruktúra, ktorú sa vyprahovaním snažíme získať, ale dostatočne malá na zachytenie zmien (nerovností) pozadia. 
+
+Jeden z problémov, ktorý môže nastať pre malé hodnoty smerodajnej odchýlky $\sigma_R(u,v)$ (získané na oblastiach v obrazových dátach s takmer konštantnou intenzitou), prah bude mať hodnotu blízku lokálnemu priemeru, čo spôsobí, že segmentácia je pomerne citlivá na nízku amplitúdu šumu ("ghosting"). Pomocou jednoduchej modifikácie rovnice (\ref{eq:nbO}) pridaním konštanty $d$, ktorá zabezpečí minimálnu vzdialenosť od priemeru v tvare
+
+\begin{equation}
+Q(u,v) = \mu_R(u,v) + \kappa\sigma_R(u,v) + d,
+\end{equation}
+
+kde $d \geq 0$.
+
+*PRIDAT AKE SU OPTIMALNE HODNOTY $\kappa$ a $d$*
+
+%One problem is that, for small values of σR (aslacing Eqn. (2.63) by
+%Q(u, v) = μR(u, v) + κ · σR(u, v) + d, (2.64)
+%with d ≥ 0, in the range 2, . . . , 20 for typical 8-bit images.
+
+
+\subsection{Metóda subjektívnych plôch (SUBSURF)} 
+
+Metóda subjektívnych plôch (SUBSURF) je vysoko účinnou segmentačnou metódou, ktorá dokáže účinne nájsť chýbajúce hranice objektu alebo odstrániť šum z pozadia. Avšak kvalita výsledku segmentácie závisí od voľby počiatočnej podmienky. Keďže väčšina makrofágov má zložitý tvar, môžeme predpokladať, že metóda SUBSURF by nefungovala poriadne a ak by nebola vhodne zvolená počiatočná podmienka. Za počiatočnú podmienku zvolíme dáta, na ktoré bola aplikovaná niektorá z vyššie uvedených prahovacích metód.
+
+Použitá metóda má tvar
+
+\begin{equation} \label{eq:subsurf}
 u_t = \sqrt{\epsilon^2 + |\nabla u|^2}\nabla.(g \frac{\nabla u}{\sqrt{\epsilon^2 + |\nabla u|^2}}),
 \end{equation}
 
-%\begin{equation}
-%|\nabla u| = \sqrt{\epsilon^2 + |\nabla u|^2}
-%\end{equation}
-
-%kde $u$ 
+kde $\epsilon$ je modelovacím parametrom a $u$ je vyvýjajúca sa level funkcia. Funkcia $g$ reprezentuje takzvaný hranový detektor a má tvar
 
 \begin{equation}
+g(s) = \frac{1}{1+Ks^2}, K > 0,
+\end{equation}
+
+kde $s = |\nabla G_\sigma*I^0|$. Zhľadený gradient $\nabla G_\sigma*I^0$ získame napríklad aplikovaním jedného kroku vedenia tepla.
+
+
+%regions of approximately constant intensity), the threshold will be close to the
+%local average, which makes the segmentation quite sensitive to low-amplitude
+%noise (“ghosting”). A simple improvement is to secure a minimum distance from
+%te mean by adding a constant offset d, i.e., rep
+
+
+\newpage
+\section{Numerické schémy}
+
+Vo šeobecnosti môže byť numerická schéma vysvetlená ako algoritmický popis, ktorý nájde správne riešenie matematického problému. Pri implementácii boli použité nasledujúce numerické schémy:
+
+\begin{itemize}
+\item Implicitná metóda pre rovnicu vedenia tepla,
+\item Semi$-$implicitná metóda pre SUBSURF.
+\end{itemize}
+
+\subsection{Implicitná metóda pre rovnicu vedenia tepla}
+
+Pri implicitnej metóde, budeme časovú deriváciu aproximovať pomocou spätnej diferencie a pravú stranu rovnice berieme v novom časovom kroku $n$. Má tvar
+
+\begin{equation} \label{eq:ihe}
+\frac{u^n - u^{n-1}}{\tau} = \Delta u^n = \nabla . (\nabla u^n)
+\end{equation}
+
+a pre ľubovoľnú veľkosť časového kroku je bezpodmienečne stabilná. 
+
+*OBRAZOK S OZNACENIM HRAN*
+
+Rovnicu (\ref{eq:ihe}) zintegrujeme cez konečný objem $p$ a dostaneme rovnicu v tvare
+
+\begin{equation} 
+\int_p\frac{u^n - u^{n-1}}{\tau} dx = \int_p\nabla . (\nabla u^n)dx.
+\end{equation}
+
+Na pravú stranu rovnice aplikujeme Greenovu vetu a dostaneme
+
+\begin{equation} 
+\int_p\nabla . (\nabla u^n)dx = \int_{\partial p} \nabla u^n \vec{n}_pdS,
+\end{equation}
+
+kde $\vec{n}_p$ je jednotkovou vonkajšou normálou ku hranici konečného objemu p.
+Pretože platí
+
+\begin{equation} 
+\int_{\partial p} \nabla u^n \vec{n_p}dS = \sum_{q\in N(p)}\int_{e_{pq}} \nabla u^n \vec{n}_{pq}dS,
+\end{equation}
+
+vieme napísať slabú konečno-objemovú formuláciu úlohy
+
+\begin{equation} 
+\int_p\frac{u^n - u^{n-1}}{\tau} dx = \sum_{q\in N(p)}\int_{e_{pq}} \nabla u^n \vec{n}_{pq}dS = \sum_{q\in N(p)}\int_{e_{pq}} \frac{\partial u^n}{\partial \vec{n}_{pq}} dS,
+\end{equation}
+
+Riešenie v MKO chápeme ako po častiach konštantnú funkciu na konečných objemoch $p$, označíme $u_p^n$. Preto vieme ľavú stranu rovnice napísať ako 
+
+\begin{equation} 
+\int_p\frac{u^n - u^{n-1}}{\tau} dx = \frac{u^n_q - u^n_p}{\tau} m(p).
+\end{equation}
+
+Pravá strana reprezentuje prietok (flux) cez hranicu $e_{pq}$ v smere normály $\vec{n}_{pq}$. Člen ľavej strany $\nabla u^n \vec{n}_{pq}$ aproximujeme na hrane $e_{pq}$ konečnou diferenciou v bode $x_{pq}$ nasledovne
+
+\begin{equation}
+\nabla u^n \vec{n}_{pq} \approx \frac{u^n_p - u^{n-1}_p}{d_{pq}}.
+\end{equation}
+
+V časovom kroku $n$ aproximáciu $x_{pq}$ použijeme na celej hrane $e_{qp}$ a dostaneme
+
+\begin{equation}
+\sum_{q\in N(p)} \int_{e_{pq}} \nabla u^n \vec{n}_{pq} dS \approx \sum_{q\in N(p)} m(e_{pq})\frac{u^n_p - u^{n-1}_p}{d_{pq}}.
+\end{equation}
+
+Po dosadení dostávame implicitnú schému  
+
+\begin{equation}
+\frac{m(p)(u_p^n -u_p^{n - 1})}{\tau} = \sum_{q \in N(p)} m(e_{pq})(u_q^n - u_p^n) = \nabla . (\nabla u^n)
+\end{equation}
+
+kde platia vzťahy $m(p) = h^2, m(e_{pq}) = h, d_{pq} = h$. Po dosadení dostaneme lineárny rovnicový systém
+
+\begin{equation}
+u_p^n + \frac{\tau}{m(p)}\sum_{q \in N(p)} (u_q^n - u_p^n) = u_p^{n - 1}.
+\end{equation}
+
+Pri implicitnej schéme platí bezpodmienečná stabilita (diskrétny princím minima a maxima), čo znamená, že ak pre ľubovoľnú voľbu priestorového kroku $h$ a časového kroku $\tau$, platí $u_{min} \leq u_p^{n - 1} \leq u_{max}$ potom platí aj pre $u_{min} \leq u_p^{n} \leq u_{max}$. Riešenie lineárneho systému upravíme do nasledovneho tvaru
+
+\begin{equation} \label{eq:eihe}
+(1 + \frac{\tau}{h^2} \sum_{q \in N(p)}1)u_p^n - \frac{\tau}{h^2} \sum_{q \in N(p)}u_q^n = u_p^{n - 1}.
+\end{equation}
+
+Rovnicu (\ref{eq:eihe}) dostaneme na každom konečnom objeme $p$. Následne schému riešime pomocou superrelaxačnej metódy (SOR). 
+
+\subsection{Semi$-$implicitná metóda pre SUBSURF}
+
+V prvom rade urobíme Semi$-$implicitnú časovú diskretizáciu, tak že rovnicu (\ref{eq:subsurf}) vydelíme členom $\sqrt{\epsilon^2 + |\nabla u|^2}$ a dostaneme
+
+\begin{equation} \label{eq:cdsubsurf}
 \frac{1}{|\nabla u^{n-1}|_{\epsilon}}.\frac{u^n-u^{n-1}}{\tau} = \nabla.(g^0\frac{\nabla u^n}{|\nabla u^{n-1}|_{\epsilon}}),
 \end{equation}
+
+kde $g^0 = g(|\nabla G_{\sigma}*I^0|)$ a $|\nabla G_{\sigma}*I^0|$ predstavuje zhladený gradient. Teraz spravíme priestorovú diskretizáciu pomocou metód konečných objemov, čo znamená, že zintegrujeme rovnicu (\ref{eq:cdsubsurf}) cez konečný objem $p$ a dostaneme
 
 \begin{equation}
 \int_{p}\frac{1}{|\nabla u^{n-1}|_{\epsilon}}.\frac{u^n-u^{n-1}}{\tau}dx = \int_{p}\nabla.(g^0\frac{\nabla u^n}{|\nabla u_p^{n-1}|_{\epsilon}})dx,
 \end{equation}
 
-Green -$>$
-\begin{equation}
-\int_{p}\frac{1}{|\nabla u^{n-1}|_{\epsilon}}.\frac{u_p^n-u_p^{n-1}}{\tau}dx = \int_{\partial p} g^0\frac{\nabla u^n}{|\nabla u_p^{n-1}|_{\epsilon}}\vec{n}_pds,
+Následne na pravú stranu rovnice aplikujeme Greenovu vetu
+
+\begin{equation} \label{greensubsurf}
+\int_{p}\frac{1}{|\nabla u^{n-1}|_{\epsilon}}.\frac{u_p^n-u_p^{n-1}}{\tau}dx = \int_{\partial p} g^0\frac{\nabla u^n}{|\nabla u_p^{n-1}|_{\epsilon}}\vec{n_{pq}}_pdS,
 \end{equation}
+
+Derivácia v smere vonkajšej normály ku konečnému objemu $p$ je v rovnici (\ref{greensubsurf}) vyjadrená ako $\nabla u^n.\vec{n_{pq}} = \frac{\partial u^n }{\partial \vec{n_{p}}}$. Na ľavej strane rovnice (\ref{greensubsurf}) budeme uvažovať konštantnú reprezentáciu riešenia a jeho gradientu. Normálovú deriváciu z pravej strany rovnice nahradíme konečnou diferenciou
+
+
+
 
 \begin{equation}
 \frac{m(p)}{|\nabla u_p^{n-1}|_{\epsilon}\tau}(u_p^n-u_p^{n-1}) = \sum_{q \in N(p)}\int_{e_{pq}}g_{pq}^0\frac{\nabla u^n}{|\nabla u_{pq}^{n-1}|_{\epsilon}}\vec{n}_{pq}ds,
@@ -366,9 +517,7 @@ u+p^{n-1} = u_p^n + \sum_{q \in N(p)}\frac{|\nabla u_p^{n-1}|_{\epsilon}\tau}{m(
 u+p^{n-1} = (1 + \sum a_{pq})u_p^n -  \sum a_{pq}u_q^n,
 \end{equation}
 
-
-
-%\newpage
+\newpage
 \section{Softvér}
 
 Na implementáciu a vytvorenie prostredia, bol zvolený objektovo orientovaný prístup jazyka C++, spolu s knižnicami Qt, ktoré obsahujú veľa užitočných tried a boli užitočným nástrojom pri vytváraní užívateľského prostredia a VTK knižnicami, ktoré slúžia na zobrazovanie a manipuláciu s dátami.
@@ -421,18 +570,22 @@ V objektoch tejto triedy sú zadefinované vykreslované dáta, či už sa jedn�
 \item \textbf{vtkRenderer} \\
 \end{itemize}
 
+\subsection{Grafické užívateľské rozhranie}
+
+V tejto sekcii sa oboznámime s vizuálnou stránkou vytvoreného softvéru a popíšeme funkcionalitu. Pri tvorbe programu sme sa zamerali na to aby bol čo najjednoduchší a vedel ho ovládať aj niekto, kto sa do danej problematiky až tak do hĺbky nevyzná. Grafické rozhranie(GUI) je vytvorené pomocou Qt knižníc.
+
+Pri otvorení programu sa zobrazí okno, v ktorom sa nachádza horná lišta s položkami File, Settings a Help. V každej z týchto položieksa nachádzajú možnosti
 
 
 
 
-
-%\newpage
+\newpage
 \section{Výsledky}
 
-%\newpage
+\newpage
 \section{Záver}
 
-%\newpage
+\newpage
 \begin{thebibliography}{50}
 \end{thebibliography}
 

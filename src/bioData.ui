@@ -71,8 +71,6 @@
      <addaction name="actionData"/>
      <addaction name="action2DFilters"/>
      <addaction name="action3DFilters"/>
-     <addaction name="action2DOptions"/>
-     <addaction name="action3DOptions"/>
      <addaction name="actionHistory"/>
     </widget>
     <addaction name="actionAdvanced"/>
@@ -124,6 +122,9 @@
    </property>
   </action>
   <action name="actionDocumentation">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Documentation</string>
    </property>
@@ -171,6 +172,9 @@
    </property>
   </action>
   <action name="action3DFilters">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>3D Filters</string>
    </property>
@@ -344,7 +348,7 @@
    <sender>action2DFilters</sender>
    <signal>changed()</signal>
    <receiver>bioData</receiver>
-   <slot>actionFilters()</slot>
+   <slot>action2DFilters()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -389,42 +393,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>action2DOptions</sender>
-   <signal>changed()</signal>
-   <receiver>bioData</receiver>
-   <slot>action2DOption()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>435</x>
-     <y>345</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>action3DFilters</sender>
    <signal>changed()</signal>
    <receiver>bioData</receiver>
    <slot>action3DFilters()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>435</x>
-     <y>345</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>action3DOptions</sender>
-   <signal>changed()</signal>
-   <receiver>bioData</receiver>
-   <slot>action3DOption()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>

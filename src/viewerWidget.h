@@ -65,6 +65,8 @@
 #include <vtkPlane.h>
 #include <vtkPlaneSource.h>
 
+#include <vtkImageResliceMapper.h>
+
 class viewerWidget : public QWidget {
 	Q_OBJECT
 

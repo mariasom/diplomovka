@@ -58,8 +58,6 @@ void viewerWidget::setScrollArea3D() {
 }*/
 // void viewerWidget::setViewerWidget2D(vtkSmartPointer<vtkPolyData> image, QString fName) {
 void viewerWidget::setViewerWidget2D(vtkSmartPointer<vtkImageData> image, QString fName) {
-
-	//vtkNew<vtkGenericOpenGLRenderWindow> renderWindow;
 	qW2D->SetRenderWindow(renderWindow2D);
 
 	//vtkSmartPointer<vtkInteractorStyleImage> imageStyle = vtkSmartPointer<vtkInteractorStyleImage>::New();
@@ -69,20 +67,28 @@ void viewerWidget::setViewerWidget2D(vtkSmartPointer<vtkImageData> image, QStrin
 	//std::cout << imageStyle->GetInteractionMode() << std::endl;
 	qW2D->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle);
 
-	/*vtkSmartPointer<vtkPolyDataMapper> mapper =
-		vtkSmartPointer<vtkPolyDataMapper>::New();
+	//vtkSmartPointer<vtkImageResliceMapper> imageResliceMapper = vtkSmartPointer<vtkImageResliceMapper>::New();
+	//imageResliceMapper->SetInputData(image);
+
+	//vtkSmartPointer<vtkImageSlice> imageSlice = vtkSmartPointer<vtkImageSlice>::New();
+	//imageSlice->SetMapper(imageResliceMapper);
+	//imageSlice->GetProperty()->SetInterpolationTypeToNearest();
+
+	vtkSmartPointer<vtkDataSetMapper> mapper =
+		vtkSmartPointer<vtkDataSetMapper>::New();
+	mapper->ClearColorArrays();
 	mapper->SetInputData(image);
 
 	actor2D = vtkSmartPointer<vtkActor>::New();
 	actor2D->SetMapper(mapper);
 
 	renderer2D = vtkSmartPointer<vtkRenderer>::New();
-	renderWindow2D->AddRenderer(renderer2D);
 
 	renderer2D->GetViewProps()->RemoveAllItems();
+	renderWindow2D->AddRenderer(renderer2D);
 	renderer2D->AddActor(actor2D);
 	renderer2D->SetBackground(1, 1, 1);
-	renderer2D->ResetCamera();*/
+	renderer2D->ResetCamera();
 
 	//vtkSmartPointer<vtkImageReslice> reslice = vtkSmartPointer<vtkImageReslice>::New();
 	//reslice->SetInputData(image);
@@ -90,20 +96,13 @@ void viewerWidget::setViewerWidget2D(vtkSmartPointer<vtkImageData> image, QStrin
 	//reslice->SetInterpolate(0);
 	//reslice->Update();
 
-	vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
-	mapper->InterpolateScalarsBeforeMappingOn();
+	// vtkSmartPointer<vtkDataSetMapper> mapper = vtkSmartPointer<vtkDataSetMapper>::New();
 	// mapper->SetInputData(reslice->GetOutput());
-	mapper->SetInputData(image);
+	// mapper->SetInputData(image);
+	// mapper->InterpolateScalarsBeforeMappingOff();
 
-	actor2D = vtkSmartPointer<vtkActor>::New();
-	actor2D->SetMapper(mapper);
-
-	renderer2D = vtkSmartPointer<vtkRenderer>::New();
-
-	renderWindow2D->AddRenderer(renderer2D);
-	renderer2D->AddActor(actor2D);
-	renderer2D->SetBackground(1, 1, 1);
-	renderer2D->ResetCamera();
+	// actor2D = vtkSmartPointer<vtkActor>::New();
+	// actor2D->SetMapper(mapper);
 
 	qW2D->GetRenderWindow()->AddRenderer(renderer2D);
 }

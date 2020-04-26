@@ -11,6 +11,8 @@ bioData::bioData(QWidget *parent)
 	this->ui->actionFileInfo->setChecked(true);
 	this->ui->actionData->setChecked(true);
 	this->ui->action2DFilters->setChecked(true);
+	this->ui->action3DFilters->setChecked(true);
+	this->ui->actionHistory->setChecked(true);
 	advanced = true;
 	this->ui->actionAdvanced->setDisabled(true);
 	this->ui->menuTabs->setDisabled(true);
@@ -54,6 +56,8 @@ bioData::bioData(QWidget *parent)
 	contour2DwIDButton = new QPushButton;
 	contour3DwDButton = new QPushButton;
 	differenceButton = new QPushButton;
+	heatEqSB = new QDoubleSpinBox;
+	heatEquationButton = new QPushButton;
 
 	setDefaultValues();
 	originalCol->setChecked(true);
@@ -100,6 +104,7 @@ bioData::bioData(QWidget *parent)
 	connect(this->contour2DwIDButton, SIGNAL(clicked()), this, SLOT(contour2DwIDClicked()));
 	connect(this->contour3DwDButton, SIGNAL(clicked()), this, SLOT(contour3DwDClicked()));
 	connect(this->differenceButton, SIGNAL(clicked()), this, SLOT(differenceClicked()));
+	connect(this->heatEquationButton, SIGNAL(clicked()), this, SLOT(heatEquationClicked()));
 
 	connect(this->testingButton, SIGNAL(clicked()), this, SLOT(testClicked()));
 
@@ -367,18 +372,24 @@ void bioData::actionAll() {
 			filter2DDock->show();
 			fileDock->show();
 			subsurfDock->show();
+			historyDock->show();
 			this->ui->actionFileInfo->setChecked(true);
 			this->ui->actionData->setChecked(true);
 			this->ui->action2DFilters->setChecked(true);
+			this->ui->action3DFilters->setChecked(true);
+			this->ui->actionHistory->setChecked(true);
 		}
 		else if (!(this->ui->actionAll->isChecked())) {
 			listDock->hide();
-			filter2DDock->hide();
+			filter2DDock->hide(); 
 			fileDock->hide();
 			subsurfDock->hide();
+			historyDock->hide();
 			this->ui->actionFileInfo->setChecked(false);
 			this->ui->actionData->setChecked(false);
 			this->ui->action2DFilters->setChecked(false);
+			this->ui->action3DFilters->setChecked(false);
+			this->ui->actionHistory->setChecked(false);
 		}
 		else {
 			mbox.setText("something went wrong!");
@@ -454,6 +465,25 @@ void bioData::action3DFilters() {
 	}
 	else {
 		if (this->ui->action3DFilters->isChecked()) {
+			subsurfDock->show();
+		}
+		else if (!(this->ui->action3DFilters->isChecked())) {
+			subsurfDock->hide();
+		}
+		else {
+			mbox.setText("something went wrong!");
+			mbox.exec();
+		}
+	}
+}
+
+void bioData::actionHistLog() {
+	QMessageBox mbox;
+	if (filePath.isEmpty()) {
+		return;
+	}
+	else {
+		if (this->ui->action3DFilters->isChecked()) {
 			filter3DDock->show();
 		}
 		else if (!(this->ui->action3DFilters->isChecked())) {
@@ -464,18 +494,6 @@ void bioData::action3DFilters() {
 			mbox.exec();
 		}
 	}
-}
-
-void bioData::action2DOptions() {
-
-}
-
-void bioData::action3DOptions() {
-
-}
-
-void bioData::actionHistLog() {
-
 }
 
 void bioData::createListDock() {
@@ -526,7 +544,7 @@ void bioData::createListDock() {
 }
 
 void bioData::createFilter2DDock() {
-	filter2DDock = new QDockWidget(tr("2D Filters"), this);
+	filter2DDock = new QDockWidget(tr("Thresholding"), this);
 	filter2DDock->setAllowedAreas(Qt::LeftDockWidgetArea |
 		Qt::RightDockWidgetArea |
 		Qt::BottomDockWidgetArea);
@@ -884,7 +902,23 @@ void bioData::testClicked() {
 }
 
 void bioData::deleteClicked() {
+	QMessageBox mbox;
+	qApp->processEvents();
 
+	// ak je v liste uz len jeden riadok, tak rovno zavrie cely tab
+	if (dataTree->topLevelItemCount() == 1 && parent2D->childCount() == 1) {
+		dataTree->model()->removeRow(dataTree->currentIndex().row());
+		actionClose();
+	}
+	// delete selected
+	else if (dataListView->currentRow() == 0) //Original data
+	{
+		mbox.setText("It is not possible to remove original data when list is not empty");
+		mbox.exec();
+	}
+	else {
+		dataTree->model()->removeRow(dataTree->currentIndex().row());
+	}
 }
 
 void bioData::resetViewClicked () {
@@ -1046,6 +1080,8 @@ void bioData::createOptions2DDock() {
 	QWidget* multiWidget = new QWidget();
 	QGridLayout *layout = new QGridLayout; 
 	QLabel *differenceLab = new QLabel(tr("Difference:"));
+	QLabel *heLab = new QLabel(tr("One step of Heat Equation:"));
+	QLabel *originalDataLab = new QLabel(tr("Process original data:"));
 	differenceLab->setToolTip("Creates new boundary condition for the segmentation.\n Takes 1/2 of the selected thresholded data and 1/2 and makes mean.");
 	differenceButton->setText("Apply");
 	createcontour2DGB();
@@ -1078,6 +1114,20 @@ void bioData::createOptions3DDock() {
 	multiWidget->setLayout(layout);
 	options3DDock->setWidget(multiWidget);
 	addDockWidget(Qt::RightDockWidgetArea, options3DDock);
+}
+
+void bioData::createHeatEqGB() {
+	HeatEqGroupBox = new QGroupBox(tr("Heat Equation"));
+
+	QGridLayout *layout = new QGridLayout;
+	QLabel *HeatEqTimeStepLab = new QLabel(tr("Time Step: "));
+	contour2DButton->setText("Show");
+	contour2DwIDButton->setText("Show");
+	layout->addWidget(HeatEqTimeStepLab, 1, 0);
+	layout->addWidget(heatEqSB, 1, 1);
+	layout->addWidget(contour2DwIDButton, 2, 1);
+
+	contour2DGroupBox->setLayout(layout);
 }
 
 void bioData::createHistoryLogDock() {
@@ -1179,3 +1229,19 @@ void bioData::differenceClicked() {
 	addSubItem(parent2D, fName + "_difference");
 	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
 }
+
+void bioData::heatEquationClicked() {
+	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
+	fTmp->addFiltData(filter.dataToChar(filter.heatImpl(filter.dataToDouble(fTmp->getFiltData(dataTree->currentIndex().row())), heatEqSB->value())));
+	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
+	if (widget2D == nullptr)
+		set2DWidget();
+	else
+		update2DWidget();
+	// Set the window title
+	widget2D->setWindowTitle("Heat Equation");
+	addSubItem(parent2D, fName + "_heatEq");
+	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
+
+}
+
