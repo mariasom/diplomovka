@@ -510,7 +510,6 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, do
 	double tol = 0.5;
 	int itermax = 100;
 	double h = 1.0;
-	// double a = timeStep;
 	double epsilon = pow(10,-6);
 	double w = 1.15;
 
@@ -522,17 +521,15 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, do
 	qspm = as(uk1, true);
 	qnpm = an(uk1, true);
 
-	qe = ae(un, false);
-	qw = aw(un, false);
-	qs = as(un, false);
-	qn = an(un, false);
-
 	for (int t = 0; t < 200; t++) {
 		double rez = pow(10,6);
 
+		qe = ae(un, false);
+		qw = aw(un, false);
+		qs = as(un, false);
+		qn = an(un, false);
+
 		for (int iter = 0; iter < itermax; iter++) {
-			// (*Print["krok=", t, ", iter=", iter, " rez=", rez]; *)
-			// std::cout << "krok: " << t << " iter: " << iter << " rez: " << rez << std::endl;
 
 			for (int i = 1; i < widthR - 1; i++) {
 				for (int j = 1; j < heightR - 1; j++) {

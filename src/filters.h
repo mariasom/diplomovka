@@ -24,7 +24,7 @@ private:
 	QVector<double> ae(QVector<double> data, bool eps);
 	double M(QVector<double> u,int i, int j, int p, int q);
 	double findmax(double m1, double m2);
-	QVector<double> antireflection(QVector<double> data);
+	// QVector<double> antireflection(QVector<double> data);
 	QVector<double> updateReflection(QVector<double> data);
 	QVector<double> pow2(QVector<double> data);
 	// void tmp_save(QString fileName, QVector<double> data, int w, int h);
@@ -38,6 +38,7 @@ public:
 	QVector<unsigned char> getFiltDat() { return charData; };
 	int otsuFilter();
 	int kapuraFilter();
+	QVector<double> antireflection(QVector<double> data);
 	QVector<double> boundary(QVector<double> data, int threshold = -1);
 	QVector<unsigned char> createNewData(QVector<unsigned char> data, int threshold);
 	QVector<double> dataToDouble(QVector<unsigned char> oData);

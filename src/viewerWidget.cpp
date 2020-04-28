@@ -117,6 +117,8 @@ void viewerWidget::updateViewerWidget2D() {
 void viewerWidget::updateViewerWidget3D() {
 	renderer3D->GetViewProps()->RemoveAllItems();
 	renderer3D->AddActor(actor3D);
+	if(axes)
+		renderer3D->AddActor(cubeAxesActor);
 	renderer3D->SetBackground(.1, .2, .3);
 	renderWindow3D->Render();
 }
@@ -134,9 +136,27 @@ void viewerWidget::setViewerWidget3D(vtkSmartPointer<vtkPolyData> polydata) {
 	renderer3D = vtkSmartPointer<vtkRenderer>::New();
 	renderWindow3D->AddRenderer(renderer3D);
 
+
 	renderer3D->GetViewProps()->RemoveAllItems();
+	// renderer3D->GetActiveCamera()->Azimuth(30);
+	// renderer3D->GetActiveCamera()->Elevation(30);
 	renderer3D->AddActor(actor3D);
 	renderer3D->SetBackground(.1, .2, .3);
+	if (axes)
+		addAxes(polydata);
+	renderer3D->ResetCamera();
+
+	/*vtkSmartPointer<vtkAxesActor> axes =
+		vtkSmartPointer<vtkAxesActor>::New();
+
+	vtkSmartPointer<vtkOrientationMarkerWidget> widget =
+		vtkSmartPointer<vtkOrientationMarkerWidget>::New();
+	widget->SetOutlineColor(0.9300, 0.5700, 0.1300);
+	widget->SetOrientationMarker(axes);
+	widget->SetInteractor(qW3D->GetRenderWindow()->GetInteractor());
+	widget->SetViewport(0.0, 0.0, 0.4, 0.4);
+	widget->SetEnabled(1);
+	widget->InteractiveOn();*/
 
 	qW3D->GetRenderWindow()->AddRenderer(renderer3D);
 }
@@ -170,6 +190,9 @@ void viewerWidget::contours3D(vtkSmartPointer<vtkPolyData> polydata, int numOfCo
 		renderer3D->AddActor(actor3D);
 	renderer3D->AddActor(contourActor);
 	renderer3D->SetBackground(.1, .2, .3);
+	if (axes)
+		addAxes(polydata);
+	renderer3D->ResetCamera();
 
 	qW3D->GetRenderWindow()->AddRenderer(renderer3D);
 	qW3D->GetRenderWindow()->Render();
@@ -369,4 +392,44 @@ void viewerWidget::hoverContour(vtkSmartPointer<vtkPolyData> polydata, int numOf
 	qW3D->GetRenderWindow()->AddRenderer(renderer3D);
 	qW3D->GetRenderWindow()->Render();
 	//hoverWidget->On();
+}
+
+void viewerWidget::addAxes(vtkSmartPointer<vtkPolyData> polydata) {
+	axes = true;
+	cubeAxesActor =
+		vtkSmartPointer<vtkCubeAxesActor>::New();
+	cubeAxesActor->SetUseTextActor3D(1);
+	cubeAxesActor->SetBounds(polydata->GetBounds());
+	cubeAxesActor->SetCamera(renderer3D->GetActiveCamera());
+	cubeAxesActor->GetTitleTextProperty(0)->SetColor(1, 1, 1);
+	cubeAxesActor->GetTitleTextProperty(0)->SetFontSize(50);
+	cubeAxesActor->GetLabelTextProperty(0)->SetColor(1, 1, 1);
+
+	cubeAxesActor->GetTitleTextProperty(1)->SetColor(1, 1, 1);
+	cubeAxesActor->GetLabelTextProperty(1)->SetColor(1, 1, 1);
+
+	cubeAxesActor->GetTitleTextProperty(2)->SetColor(1, 1, 1);
+	cubeAxesActor->GetLabelTextProperty(2)->SetColor(1, 1, 1);
+
+	cubeAxesActor->DrawXGridlinesOn();
+	cubeAxesActor->DrawYGridlinesOn();
+	cubeAxesActor->DrawZGridlinesOn();
+	cubeAxesActor->SetGridLineLocation(
+		cubeAxesActor->VTK_GRID_LINES_FURTHEST);
+
+	cubeAxesActor->XAxisMinorTickVisibilityOff();
+	cubeAxesActor->YAxisMinorTickVisibilityOff();
+	cubeAxesActor->ZAxisMinorTickVisibilityOff();
+
+	cubeAxesActor->SetFlyModeToStaticEdges();
+	renderer3D->AddActor(cubeAxesActor);
+	renderWindow3D->Render();
+}
+
+void viewerWidget::removeAxes() {
+	axes = false;
+	renderer3D->GetViewProps()->RemoveAllItems();
+	renderer3D->AddActor(actor3D);
+	renderer3D->SetBackground(.1, .2, .3);
+	renderWindow3D->Render();		
 }

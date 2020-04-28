@@ -67,6 +67,13 @@
 
 #include <vtkImageResliceMapper.h>
 
+#include <vtkOrientationMarkerWidget.h>
+#include <vtkAxesActor.h>
+#include <vtkPropAssembly.h>
+
+#include <vtkCubeAxesActor.h>
+#include <vtkCamera.h>
+
 class viewerWidget : public QWidget {
 	Q_OBJECT
 
@@ -100,6 +107,8 @@ public:
 	void contours2D(vtkSmartPointer<vtkImageData> image, bool background = true);
 	void saveScreenShot(bool dimensions);
 	void hoverContour(vtkSmartPointer<vtkPolyData> polydata, int numOfCont, bool background = true);
+	void addAxes(vtkSmartPointer<vtkPolyData> polydata);
+	void removeAxes();
 
 private:
 	vtkSmartPointer<vtkInteractorStyleImage> imageStyle;
@@ -117,6 +126,7 @@ private:
 	vtkNew<vtkGenericOpenGLRenderWindow> renderWindow3D;
 	vtkSmartPointer<vtkRenderer> renderer3D;
 	vtkSmartPointer<vtkActor> actor3D;
+	vtkSmartPointer<vtkCubeAxesActor> cubeAxesActor;
 
 	//global variables for other functions.
 	QVTKOpenGLNativeWidget* qW;
@@ -125,7 +135,8 @@ private:
 	vtkSmartPointer<vtkRenderer> renderer;
 	vtkSmartPointer<vtkActor> actor;
 
-	//public slots:
+	// other
+	bool axes = false;
 };
 
 

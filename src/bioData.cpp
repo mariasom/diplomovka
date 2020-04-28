@@ -29,7 +29,7 @@ bioData::bioData(QWidget *parent)
 	//dataListView = new QListWidget;
 	dataTree = new QTreeWidget;
 	useOData = new QCheckBox;
-	originalCol = new QCheckBox;
+	axesCB = new QCheckBox;
 	foregroundSB = new QSpinBox;
 	backgroundSB = new QSpinBox;
 	dataCBox = new QComboBox;
@@ -60,8 +60,7 @@ bioData::bioData(QWidget *parent)
 	heatEquationButton = new QPushButton;
 
 	setDefaultValues();
-	originalCol->setChecked(true);
-	originalCol->setDisabled(true);
+	axesCB->setChecked(false);
 	useOData->setChecked(true);
 	useOData->setDisabled(true);
 
@@ -105,6 +104,7 @@ bioData::bioData(QWidget *parent)
 	connect(this->contour3DwDButton, SIGNAL(clicked()), this, SLOT(contour3DwDClicked()));
 	connect(this->differenceButton, SIGNAL(clicked()), this, SLOT(differenceClicked()));
 	connect(this->heatEquationButton, SIGNAL(clicked()), this, SLOT(heatEquationClicked()));
+	connect(this->axesCB, SIGNAL(clicked(bool)), this, SLOT(AxesChange(bool)));
 
 	connect(this->testingButton, SIGNAL(clicked()), this, SLOT(testClicked()));
 
@@ -1085,9 +1085,12 @@ void bioData::createOptions2DDock() {
 	differenceLab->setToolTip("Creates new boundary condition for the segmentation.\n Takes 1/2 of the selected thresholded data and 1/2 and makes mean.");
 	differenceButton->setText("Apply");
 	createcontour2DGB();
+	createHeatEqGB();
+
 	layout->addWidget(differenceLab, 1, 0);
 	layout->addWidget(differenceButton, 1, 1);
-	layout->addWidget(contour2DGroupBox,2,0,2,2);
+	layout->addWidget(HeatEqGroupBox,2,0);
+	layout->addWidget(contour2DGroupBox, 2, 1);
 	// layout->setColumnStretch(1,1);
 	multiWidget->setLayout(layout);
 	options2DDock->setWidget(multiWidget);
@@ -1105,11 +1108,13 @@ void bioData::createOptions3DDock() {
 
 	QWidget* multiWidget = new QWidget();
 	QGridLayout *layout = new QGridLayout;
+	QLabel *AxesLab = new QLabel(tr("Axes: "));
 
 	createcontour3DGB();
 	createtestGB();
-
-	layout->addWidget(contour3DGroupBox);
+	layout->addWidget(AxesLab,0, 0);
+	layout->addWidget(axesCB, 0, 1);
+	layout->addWidget(contour3DGroupBox,1,0,2,2);
 	layout->addWidget(testGroupBox);
 	multiWidget->setLayout(layout);
 	options3DDock->setWidget(multiWidget);
@@ -1121,13 +1126,12 @@ void bioData::createHeatEqGB() {
 
 	QGridLayout *layout = new QGridLayout;
 	QLabel *HeatEqTimeStepLab = new QLabel(tr("Time Step: "));
-	contour2DButton->setText("Show");
-	contour2DwIDButton->setText("Show");
+	heatEquationButton->setText("Show");
 	layout->addWidget(HeatEqTimeStepLab, 1, 0);
 	layout->addWidget(heatEqSB, 1, 1);
-	layout->addWidget(contour2DwIDButton, 2, 1);
+	layout->addWidget(heatEquationButton, 2, 1);
 
-	contour2DGroupBox->setLayout(layout);
+	HeatEqGroupBox->setLayout(layout);
 }
 
 void bioData::createHistoryLogDock() {
@@ -1182,10 +1186,10 @@ void bioData::createcontour2DGB() {
 	QLabel *Lab1 = new QLabel(tr("Contour on data: "));
 	contour2DButton->setText("Show");
 	contour2DwIDButton->setText("Show");
-	layout->addWidget(Lab,1,0);
-	layout->addWidget(contour2DButton,1,1);
-	layout->addWidget(Lab1,2,0);
-	layout->addWidget(contour2DwIDButton, 2, 1);
+	layout->addWidget(Lab,0,0);
+	layout->addWidget(contour2DButton,0,1);
+	layout->addWidget(Lab1,1,0);
+	layout->addWidget(contour2DwIDButton, 1, 1);
 
 	contour2DGroupBox->setLayout(layout);
 }
@@ -1232,7 +1236,7 @@ void bioData::differenceClicked() {
 
 void bioData::heatEquationClicked() {
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
-	fTmp->addFiltData(filter.dataToChar(filter.heatImpl(filter.dataToDouble(fTmp->getFiltData(dataTree->currentIndex().row())), heatEqSB->value())));
+	fTmp->addFiltData(filter.dataToChar(filter.antireflection(filter.heatImpl(filter.dataToDouble(fTmp->getFiltData(dataTree->currentIndex().row())), heatEqSB->value()))));
 	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
 	if (widget2D == nullptr)
 		set2DWidget();
@@ -1242,6 +1246,18 @@ void bioData::heatEquationClicked() {
 	widget2D->setWindowTitle("Heat Equation");
 	addSubItem(parent2D, fName + "_heatEq");
 	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
-
 }
 
+void bioData::AxesChange(bool checked) {
+	if (parent3D == dataTree->currentItem()->parent()) 
+		if (checked) {
+			filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
+			fTmp->create3Ddata(fTmp->get3DData(dataTree->currentIndex().row()));
+			w->addAxes(fTmp->getPolydata());
+			widget3D->update();
+		}
+		else {
+			w->removeAxes();
+			widget3D->update();
+		}
+}

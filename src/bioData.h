@@ -100,7 +100,8 @@ public slots:
 	void heatEquationClicked();
 
 	// others
-
+	void AxesChange(bool checked);
+	
 	// testing
 	void testClicked();
 
@@ -189,14 +190,16 @@ private:
 	QSpinBox *niblackMaskSB;
 	QSpinBox *bernsenMaskSB;
 	QSpinBox *numCont3DSB;
+
+	//checkboxes
+	QCheckBox *useOData;
+	QCheckBox *axesCB;
 	
 	// garbage
 	QTabWidget *innerTabs;
 	QSpinBox *backgroundSB;
 	QSpinBox *foregroundSB;;
 	QListWidget *dataListView;
-	QCheckBox *useOData;
-	QCheckBox *originalCol;
 	int _index = 0;
 	source *_file;
 	source *fTmp;

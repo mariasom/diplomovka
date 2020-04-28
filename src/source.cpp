@@ -187,7 +187,7 @@ void source::setPoints(QVector<unsigned char> &setData, int p) {
 	int heightR = height + 2 * p;
 
 	image->SetDimensions(widthR, heightR, 1);
-	image->SetOrigin(.5, .5, 0);
+	image->SetOrigin(widthR + .5, widthR + .5, 0);
 	//image->SetSpacing(widthR, heightR, widthR*heightR);
 	image->AllocateScalars(VTK_UNSIGNED_CHAR, 1);
 
@@ -354,8 +354,6 @@ void source::displayOnPlane(vtkSmartPointer<vtkPolyData> data) {
 		for (int i = 0; i < width; i++) {
 			points->SetPoint(j * width + i, i, j, 0 );
 		}
-
-
 }
 
 void source::saveVtk(QString fileName, int index, bool binary) {
