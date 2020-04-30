@@ -59,6 +59,7 @@ public slots:
 
 	void listIndexChanged(int i);
 	void treeIndexChanged(QTreeWidgetItem *itm, int i);
+	void colorIndexChanged(int i);
 	// void actionFilters();
 
 	// upper menu actions
@@ -69,8 +70,10 @@ public slots:
 	void actionOpenFile();
 	void actionClose();
 	void actionpgm();
-	void actionvtkbinary();
-	void actionvtkascii();
+	void action3Dvtkbinary();
+	void action3Dvtkascii();
+	void action2Dvtkbinary();
+	void action2Dvtkascii();
 	void action2DFilters();
 	void action3DFilters();
 	void actionAdvanced();
@@ -180,6 +183,7 @@ private:
 	// comboboxes
 	QComboBox *dataCBox;
 	QComboBox *initialCBox;
+	QComboBox *colorCBox;
 
 	// spinboxes
 	QDoubleSpinBox *sigmaSubsurf;

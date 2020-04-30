@@ -38,15 +38,15 @@
        <string>2D</string>
       </property>
       <addaction name="actionpgm"/>
-      <addaction name="actionVTK_File_ascii"/>
-      <addaction name="actionVTK_File_binary"/>
+      <addaction name="action2Dvtkascii"/>
+      <addaction name="action2Dvtkbinary"/>
      </widget>
      <widget class="QMenu" name="menu3D">
       <property name="title">
        <string>3D</string>
       </property>
-      <addaction name="actionVTKascii"/>
-      <addaction name="actionVTKbinary"/>
+      <addaction name="action3Dvtkascii"/>
+      <addaction name="action3Dvtkbinary"/>
      </widget>
      <addaction name="menu2D"/>
      <addaction name="menu3D"/>
@@ -161,12 +161,12 @@
     <string>All</string>
    </property>
   </action>
-  <action name="actionVTKascii">
+  <action name="action3Dvtkascii">
    <property name="text">
     <string>VTK File (ascii)</string>
    </property>
   </action>
-  <action name="actionVTKbinary">
+  <action name="action3Dvtkbinary">
    <property name="text">
     <string>VTK File (binary)</string>
    </property>
@@ -203,12 +203,12 @@
     <string>History Log</string>
    </property>
   </action>
-  <action name="actionVTK_File_ascii">
+  <action name="action2Dvtkascii">
    <property name="text">
     <string>VTK File (ascii)</string>
    </property>
   </action>
-  <action name="actionVTK_File_binary">
+  <action name="action2Dvtkbinary">
    <property name="text">
     <string>VTK File (binary)</string>
    </property>
@@ -361,10 +361,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionVTKascii</sender>
+   <sender>action3Dvtkascii</sender>
    <signal>triggered()</signal>
    <receiver>bioData</receiver>
-   <slot>actionvtkascii()</slot>
+   <slot>action3Dvtkascii()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -377,10 +377,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionVTKbinary</sender>
+   <sender>action3Dvtkbinary</sender>
    <signal>triggered()</signal>
    <receiver>bioData</receiver>
-   <slot>actionvtkbinary()</slot>
+   <slot>action3Dvtkbinary()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -424,6 +424,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>action2Dvtkascii</sender>
+   <signal>triggered()</signal>
+   <receiver>bioData</receiver>
+   <slot>action2Dvtkascii()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>435</x>
+     <y>345</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action2Dvtkbinary</sender>
+   <signal>triggered()</signal>
+   <receiver>bioData</receiver>
+   <slot>action2Dvtkbinary()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>435</x>
+     <y>345</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>actionOpenFile()</slot>
@@ -437,11 +469,13 @@
   <slot>action2DFilters()</slot>
   <slot>actionAll()</slot>
   <slot>actionFileInfo()</slot>
-  <slot>actionvtkbinary()</slot>
-  <slot>actionvtkascii()</slot>
+  <slot>action3Dvtkbinary()</slot>
+  <slot>action3Dvtkascii()</slot>
   <slot>actioHistLog()</slot>
   <slot>action3DOption()</slot>
   <slot>action2DOption()</slot>
   <slot>action3DFilters()</slot>
+  <slot>action2Dvtkbinary()</slot>
+  <slot>action2Dvtkascii()</slot>
  </slots>
 </ui>

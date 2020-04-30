@@ -50,6 +50,7 @@ bioData::bioData(QWidget *parent)
 	defaultValuesButton = new QPushButton;
 	thresholdInitConButton = new QPushButton;
 	initialCBox = new QComboBox;
+	colorCBox = new QComboBox;
 	contour2DButton = new QPushButton;
 	contour3DButton = new QPushButton;
 	numCont3DSB = new QSpinBox;
@@ -58,6 +59,9 @@ bioData::bioData(QWidget *parent)
 	differenceButton = new QPushButton;
 	heatEqSB = new QDoubleSpinBox;
 	heatEquationButton = new QPushButton;
+
+	// parent3D = new QTreeWidgetItem();
+	// parent2D = new QTreeWidgetItem();
 
 	setDefaultValues();
 	axesCB->setChecked(false);
@@ -105,6 +109,7 @@ bioData::bioData(QWidget *parent)
 	connect(this->differenceButton, SIGNAL(clicked()), this, SLOT(differenceClicked()));
 	connect(this->heatEquationButton, SIGNAL(clicked()), this, SLOT(heatEquationClicked()));
 	connect(this->axesCB, SIGNAL(clicked(bool)), this, SLOT(AxesChange(bool)));
+	connect(this->colorCBox, SIGNAL(currentIndexChanged(int)), this, SLOT(colorIndexChanged(int)));
 
 	connect(this->testingButton, SIGNAL(clicked()), this, SLOT(testClicked()));
 
@@ -194,7 +199,6 @@ void bioData::actionOpenFile() {
 	fName = list[list.length() - 1].split('.')[0];
 
 	w = new viewerWidget();
-
 	createFileDock(list[list.length() - 1], filePath, fTmp->getWidth(), fTmp->getHeight());
 	createListDock();
 	createFilter2DDock();
@@ -248,8 +252,8 @@ void bioData::actionpgm() {
 	}
 }
 
-// save vtk binary.
-void bioData::actionvtkbinary() {
+// save 3D vtk binary.
+void bioData::action3Dvtkbinary() {
 	if (parent3D == dataTree->currentItem()->parent()) {
 		int i = dataTree->currentItem()->indexOfChild(dataTree->currentItem());
 		QString tmp = dataTree->currentItem()->text(0) + ".vtp";
@@ -257,7 +261,7 @@ void bioData::actionvtkbinary() {
 			tmp,
 			tr("VTK Files (*.vtk *.vtp)"));
 		cout << fileName1.toStdString() << endl;
-		fTmp->saveVtk(fileName1, dataTree->currentIndex().row(), true);
+		fTmp->saveVtk3D(fileName1, dataTree->currentIndex().row(), true);
 		//fTmp->save_ascii(fileName1, dataTree->currentIndex().row());
 	}
 	else {
@@ -267,8 +271,8 @@ void bioData::actionvtkbinary() {
 	}
 }
 
-// save vtk ascii.
-void bioData::actionvtkascii() {
+// save 3D vtk ascii.
+void bioData::action3Dvtkascii() {
 	if (parent3D == dataTree->currentItem()->parent()) {
 		int i = dataTree->currentItem()->indexOfChild(dataTree->currentItem());
 		QString tmp = dataTree->currentItem()->text(0) + ".vtp";
@@ -276,8 +280,44 @@ void bioData::actionvtkascii() {
 			tmp,
 			tr("VTK Files (*.vtk *.vtp)"));
 		cout << fileName1.toStdString() << endl;
-		fTmp->saveVtk(fileName1, dataTree->currentIndex().row(), false);
+		fTmp->saveVtk3D(fileName1, dataTree->currentIndex().row(), false);
 		//fTmp->save_ascii(fileName1, dataTree->currentIndex().row());
+	}
+	else {
+		QMessageBox mbox;
+		mbox.setText("ERROR");
+		mbox.exec();
+	}
+}
+
+// save 2D vtk binary.
+void bioData::action2Dvtkbinary() {
+	if (parent2D == dataTree->currentItem()->parent()) {
+		int i = dataTree->currentItem()->indexOfChild(dataTree->currentItem());
+		QString tmp = dataTree->currentItem()->text(0) + ".vti";
+		QString fileName1 = QFileDialog::getSaveFileName(this, tr("Save File"),
+			tmp,
+			tr("VTK Files (*.vtk *.vti)"));
+		cout << fileName1.toStdString() << endl;
+		fTmp->saveVtk2D(fileName1, dataTree->currentIndex().row(), true);
+	}
+	else {
+		QMessageBox mbox;
+		mbox.setText("ERROR");
+		mbox.exec();
+	}
+}
+
+// save 2D vtk ascii.
+void bioData::action2Dvtkascii() {
+	if (parent2D == dataTree->currentItem()->parent()) {
+		int i = dataTree->currentItem()->indexOfChild(dataTree->currentItem());
+		QString tmp = dataTree->currentItem()->text(0) + ".vti";
+		QString fileName1 = QFileDialog::getSaveFileName(this, tr("Save File"),
+			tmp,
+			tr("VTK Files (*.vtk *.vti)"));
+		cout << fileName1.toStdString() << endl;
+		fTmp->saveVtk2D(fileName1, dataTree->currentIndex().row(), false);
 	}
 	else {
 		QMessageBox mbox;
@@ -706,9 +746,15 @@ void bioData::subsurfClicked() {
 		filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
 		QVector<double> tmp;
 		if (initialCBox->currentIndex() == 0) {
-			tmp = filter.subSurf(
+			/*tmp = filter.subSurf(
 				filter.distFunctSign(
 					filter.boundary(filter.dataToDouble(fTmp->getFiltData(dataTree->currentIndex().row())))),
+				filter.changeRangeOfData(
+					filter.dataToInt(fTmp->getFiltData(dataTree->currentIndex().row()))),
+				sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());*/
+			tmp = filter.subSurf(
+				filter.distFunctSign(
+					filter.dataToDouble(fTmp->getFiltData(dataTree->currentIndex().row()))),
 				filter.changeRangeOfData(
 					filter.dataToInt(fTmp->getFiltData(dataTree->currentIndex().row()))),
 				sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());
@@ -722,6 +768,7 @@ void bioData::subsurfClicked() {
 
 		fTmp->add3DData(tmp);
 		fTmp->create3Ddata(fTmp->get3DData(fTmp->getSize3DData() - 1));
+		fTmp->colorPolyData(colorCBox->currentIndex());
 
 		if (widget3D == nullptr)
 			set3DWidget();
@@ -777,7 +824,7 @@ void bioData::set3DWidget() {
 }
 
 void bioData::update3DWidget() {
-	w->updateViewerWidget3D();
+	//w->updateViewerWidget3D();
 	options3DDock->show();
 	widget3D->update();
 	widget3D->show();
@@ -820,6 +867,7 @@ void bioData::actionSignDistFunc() {
 	QVector<double> tmp = filter.distFunctSign(filter.dataToDouble(fTmp->getFiltData(dataTree->currentIndex().row()))); // treba opravit
 	fTmp->add3DData(tmp);
 	fTmp->create3Ddata(fTmp->get3DData(fTmp->getSize3DData() - 1));
+	fTmp->colorPolyData(colorCBox->currentIndex());
 
 	if (widget3D == nullptr)
 		set3DWidget();
@@ -842,7 +890,8 @@ void bioData::createSubsurfGB() {
 	QLabel *kLabel = new QLabel(tr("Sensitivity coeficient:"));
 	QLabel *initConLabel = new QLabel(tr("Initial condition:"));
 
-	initialCBox->addItems(QStringList() << "Sign distance function" << "Result of threshold function");
+	initialCBox->addItems(QStringList() << "Sign distance function"  << "Result of threshold function");
+	colorCBox->addItems(QStringList() << "Black & White" << "Rainbow");
 
 	subsurfLayout->addWidget(initConLabel, 1, 0);
 	subsurfLayout->addWidget(initialCBox, 1, 1);
@@ -1109,12 +1158,15 @@ void bioData::createOptions3DDock() {
 	QWidget* multiWidget = new QWidget();
 	QGridLayout *layout = new QGridLayout;
 	QLabel *AxesLab = new QLabel(tr("Axes: "));
+	QLabel *colorLab = new QLabel(tr("Colors: "));
 
 	createcontour3DGB();
 	createtestGB();
 	layout->addWidget(AxesLab,0, 0);
 	layout->addWidget(axesCB, 0, 1);
-	layout->addWidget(contour3DGroupBox,1,0,2,2);
+	layout->addWidget(colorLab, 1, 0);
+	layout->addWidget(colorCBox, 1, 1);
+	layout->addWidget(contour3DGroupBox,2,0,2,2);
 	layout->addWidget(testGroupBox);
 	multiWidget->setLayout(layout);
 	options3DDock->setWidget(multiWidget);
@@ -1224,6 +1276,7 @@ void bioData::differenceClicked() {
 	filters filter(fTmp->getWidth(), fTmp->getHeight(), fTmp->getOrigData());
 	fTmp->addFiltData(filter.dataDifference(fTmp->getFiltData(dataTree->currentIndex().row())));
 	fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
+	fTmp->colorPolyData(colorCBox->currentIndex());
 	if (widget2D == nullptr)
 		set2DWidget();
 	else
@@ -1259,5 +1312,13 @@ void bioData::AxesChange(bool checked) {
 		else {
 			w->removeAxes();
 			widget3D->update();
+		}
+}
+
+void bioData::colorIndexChanged(int i) {
+	if (parent3D != nullptr)
+		if( parent3D == dataTree->currentItem()->parent()) {
+			fTmp->colorPolyData(i);
+			w->updateViewerWidget3D();
 		}
 }

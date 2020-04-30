@@ -37,6 +37,7 @@
 #include <vtkProperty.h>
 #include <vtkImageInterpolator.h>
 #include <vtkXMLPolyDataWriter.h>
+#include <vtkXMLImageDataWriter.h>
 #include <vtkFloatArray.h>
 
 //sing namespace std;
@@ -52,7 +53,7 @@ protected:
 	int maxCol;
 	bool binary = false;
 	qint64 sLength = 0;
-	qint64 sSize = 0;
+	int sSize = 0;
 	QStringList file;
 	vtkSmartPointer<vtkPoints> points;
 	vtkSmartPointer<vtkPolyData> polydata;
@@ -61,7 +62,7 @@ protected:
 	vtkSmartPointer<vtkImageMapToColors> scalarValuesToColors;
 	vtkSmartPointer<vtkLookupTable> colorLookupTable;
 	vtkSmartPointer<vtkImageData> image;
-
+	void setCol(vtkSmartPointer<vtkColorTransferFunction> color, int colorIndex);
 
 public:
 	source();
@@ -89,7 +90,8 @@ public:
 	void addFiltData(QVector<unsigned char> &addData);
 	void add3DData(QVector<double> &addData);
 	void save_ascii(QString fileName, int index);
-	void saveVtk(QString fileName, int index, bool binary);
-	void colorPolyData();
+	void saveVtk3D(QString fileName, int index, bool binary);
+	void saveVtk2D(QString fileName, int index, bool binary);
+	void colorPolyData(int colorIndex);
 	void displayOnPlane(vtkSmartPointer<vtkPolyData> data);
 };

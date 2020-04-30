@@ -447,6 +447,104 @@ QVector<double> filters::an(QVector<double> data, bool eps) {
 	return pole;
 }
 
+
+void filters::grad(QVector<double> data, double h, double k, double epsilon) {
+	qe.resize(widthR*heightR);
+	qw.resize(widthR*heightR);
+	qs.resize(widthR*heightR);
+	qn.resize(widthR*heightR);
+	qe.fill(0);
+	qw.fill(0);
+	qs.fill(0);
+	qn.fill(0);
+	double ux, uy;
+	double s;
+	for (int i = 1; i < widthR - 1; i++) {
+		for (int j = 1; j < heightR - 1; j++) {
+			// an
+			uy = (data.at((j + 1) * widthR + i) - data.at(j * widthR + i)) / h;
+			ux = (data.at((j + 1) * widthR + (i - 1)) + data.at(j * widthR + (i - 1))
+				- data.at((j + 1) * widthR + (i + 1)) - data.at(j * widthR + (i + 1))) / (4 * h);
+
+			s = ux * ux + uy * uy;
+			qn[j * widthR + i] = (sqrt(s + epsilon * epsilon));
+
+			// aw
+			ux = (data.at(j * widthR + (i - 1)) - data.at(j * widthR + i)) / h;
+			uy = (data.at((j - 1) * widthR + i) + data.at((j - 1) * widthR + (i - 1))
+				- data.at((j + 1) * widthR + i) - data.at((j + 1) * widthR + (i - 1))) / (4 * h);
+
+			s = ux * ux + uy * uy;
+			qw[j * widthR + i] = (sqrt(s + epsilon * epsilon));
+
+			// ae
+			ux = (data.at(j * widthR + (i + 1)) - data.at(j * widthR + i)) / h;
+			uy = (data.at((j + 1) * widthR + (i + 1)) + data.at((j + 1) * widthR + i)
+				- data.at((j - 1) * widthR + (i + 1)) - data.at((j - 1) * widthR + i)) / (4 * h);
+
+			s = ux * ux + uy * uy;
+			qe[j * widthR + i] = (sqrt(s + epsilon * epsilon));
+
+			// as
+			uy = (data.at((j - 1) * widthR + i) - data.at(j * widthR + i)) / h;
+			ux = (data.at(j * widthR + (i + 1)) + data.at((j - 1) * widthR + (i + 1))
+				- data.at((j - 1) * widthR + (i - 1)) - data.at(j * widthR + (i - 1))) / (4 * h);
+
+			s = ux * ux + uy * uy;
+			qs[j * widthR + i] = (sqrt(s + epsilon * epsilon));
+		}
+	}
+}
+
+void filters::grad2(QVector<double> data, double h, double k, double epsilon) {
+	qepm.resize(widthR*heightR);
+	qwpm.resize(widthR*heightR);
+	qspm.resize(widthR*heightR);
+	qnpm.resize(widthR*heightR);
+	qepm.fill(0);
+	qwpm.fill(0);
+	qspm.fill(0);
+	qnpm.fill(0);
+	double s;
+	double ux, uy;
+	for (int i = 1; i < widthR - 1; i++) {
+		for (int j = 1; j < heightR - 1; j++) {
+
+			// an
+			uy = (data.at((j + 1) * widthR + i) - data.at(j * widthR + i)) / h;
+			ux = (data.at((j + 1) * widthR + (i - 1)) + data.at(j * widthR + (i - 1))
+				- data.at((j + 1) * widthR + (i + 1)) - data.at(j * widthR + (i + 1))) / (4 * h);
+
+			s = ux * ux + uy * uy;
+			qnpm[j * widthR + i] = (1. / (1 + k * s));
+
+			// aw
+			ux = (data.at(j * widthR + (i - 1)) - data.at(j * widthR + i)) / h;
+			uy = (data.at((j - 1) * widthR + i) + data.at((j - 1) * widthR + (i - 1))
+				- data.at((j + 1) * widthR + i) - data.at((j + 1) * widthR + (i - 1))) / (4 * h);
+
+			s = ux * ux + uy * uy;
+			qwpm[j * widthR + i] = (1. / (1 + k * s));
+
+			// ae
+			ux = (data.at(j * widthR + (i + 1)) - data.at(j * widthR + i)) / h;
+			uy = (data.at((j + 1) * widthR + (i + 1)) + data.at((j + 1) * widthR + i)
+				- data.at((j - 1) * widthR + (i + 1)) - data.at((j - 1) * widthR + i)) / (4 * h);
+
+			s = ux * ux + uy * uy;
+			qepm[j * widthR + i] = (1. / (1 + k * s));
+
+			// as
+			uy = (data.at((j - 1) * widthR + i) - data.at(j * widthR + i)) / h;
+			ux = (data.at(j * widthR + (i + 1)) + data.at((j - 1) * widthR + (i + 1))
+				- data.at((j - 1) * widthR + (i - 1)) - data.at(j * widthR + (i - 1))) / (4 * h);
+
+			s = ux * ux + uy * uy;
+			qspm[j * widthR + i] = (1. / (1 + k * s));
+		}
+	}
+}
+
 QVector<double> filters::heatImpl(QVector<double> data, double timeStep) {
 	QVector<double> un, up;
 	un.resize(width*height);
@@ -496,8 +594,7 @@ QVector<double> filters::heatImpl(QVector<double> data, double timeStep) {
 }
 
 QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, double sigma, double tau, double k) {
-	QVector<double> uk1, up, un, uhe, up1;
-	QVector<double> qepm, qwpm, qspm, qnpm, qe, qw, qs, qn;
+	QVector<double> uk1, up, un, uhe, up1, avg;
 	QVector<double> uf;
 	uf.resize(width*height);
 	uk1.resize(width*height);
@@ -508,46 +605,48 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, do
 	un = up;
 	//pic[0] = data;
 	double tol = 0.5;
-	int itermax = 100;
+	int itermax = 1000;
 	double h = 1.0;
 	double epsilon = pow(10,-6);
 	double w = 1.15;
 
 	uk1 = heatImpl(tData, sigma);
-	// uk1 = reflection(uk1);
 
-	qepm = ae(uk1, true);
+	/*qepm = ae(uk1, true);
 	qwpm = aw(uk1, true);
 	qspm = as(uk1, true);
-	qnpm = an(uk1, true);
+	qnpm = an(uk1, true);*/
+	grad2(uk1, h, k, epsilon);
 
 	for (int t = 0; t < 200; t++) {
 		double rez = pow(10,6);
 
-		qe = ae(un, false);
+		grad(un, h, k, epsilon);
+		avg = countAvg();
+		/*qe = ae(un, false);
 		qw = aw(un, false);
 		qs = as(un, false);
-		qn = an(un, false);
+		qn = an(un, false);*/
 
 		for (int iter = 0; iter < itermax; iter++) {
 
 			for (int i = 1; i < widthR - 1; i++) {
 				for (int j = 1; j < heightR - 1; j++) {
-					double avg = (1. / 4.)*(qe.at(j * widthR + i)
+					/*double avg = (1. / 4.)*(qe.at(j * widthR + i)
 						+ qw.at(j * widthR + i)
 						+ qs.at(j * widthR + i)
-						+ qn.at(j * widthR + i));
+						+ qn.at(j * widthR + i));*/
 
-					double	tmps = (1. / qe.at(j * widthR + i)) * qepm.at(j * widthR + i) +
-						(1. / qw.at(j * widthR + i)) * qwpm.at(j * widthR + i) +
-						(1. / qs.at(j * widthR + i)) * qspm.at(j * widthR + i) +
-						(1. / qn.at(j * widthR + i)) * qnpm.at(j * widthR + i);
+					double	tmps = ( qepm.at(j * widthR + i) / qe.at(j * widthR + i)) +
+						(qwpm.at(j * widthR + i)/qw.at(j * widthR + i)) +
+						(qspm.at(j * widthR + i) / qs.at(j * widthR + i)) +
+						(qnpm.at(j * widthR + i)/ qn.at(j * widthR + i));
 
 					double tmp = (up.at(j * widthR + i) -
-						(-tau * avg)*(qepm.at(j * widthR + i) * un.at(j * widthR + (i + 1)) * (1. / qe.at(j * widthR + i)) +
+						(-tau * avg.at(j * widthR + i))*(qepm.at(j * widthR + i) * un.at(j * widthR + (i + 1)) * (1. / qe.at(j * widthR + i)) +
 							un.at(j * widthR + (i - 1)) * qwpm.at(j * widthR + i) * (1. / qw.at(j * widthR + i)) +
 							un.at((j + 1) * widthR + i) * qnpm.at(j * widthR + i) * (1. / qn.at(j * widthR + i)) +
-							un.at((j - 1) * widthR + i) * qspm.at(j * widthR + i) * (1. / qs.at(j * widthR + i)))) / (1 + tau * tmps*avg);
+							un.at((j - 1) * widthR + i) * qspm.at(j * widthR + i) * (1. / qs.at(j * widthR + i)))) / (1 + tau * tmps*avg.at(j * widthR + i));
 
 					un[j * widthR + i] = un.at(j * widthR + i) + w * (tmp - un.at(j * widthR + i));
 				}
@@ -555,16 +654,16 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, do
 			rez = 0.;
 			for (int i = 1; i < widthR - 1; i++) {
 				for (int j = 1; j < heightR - 1; j++) {
-					double avg = (1. / 4.)*(qe.at(j * widthR + i) 
+					/*double avg = (1. / 4.)*(qe.at(j * widthR + i) 
 						+ qw.at(j * widthR + i)
 						+ qs.at(j * widthR + i) 
-						+ qn.at(j * widthR + i));
-					double tmps = (1. / qe.at(j * widthR + i)) * qepm.at(j * widthR + i)
-						+ (1. / qw.at(j * widthR + i)) * qwpm.at(j * widthR + i)
-						+ (1. / qs.at(j * widthR + i)) * qspm.at(j * widthR + i)
-						+ (1. / qn.at(j * widthR + i)) * qnpm.at(j * widthR + i);
-					double tmp = (up.at(j * widthR + i) - ((1 + tau * tmps*avg)* un.at(j * widthR + i) +
-						(-tau * avg)*(qepm.at(j * widthR + i) * un.at(j * widthR + (i + 1)) * (1. / qe.at(j * widthR + i))
+						+ qn.at(j * widthR + i));*/
+					double tmps = (qepm.at(j * widthR + i) / qe.at(j * widthR + i))
+						+ (qwpm.at(j * widthR + i) / qw.at(j * widthR + i))
+						+ (qspm.at(j * widthR + i) / qs.at(j * widthR + i)) 
+						+ (qnpm.at(j * widthR + i) / qn.at(j * widthR + i));
+					double tmp = (up.at(j * widthR + i) - ((1 + tau * tmps*avg.at(j * widthR + i))* un.at(j * widthR + i) +
+						(-tau * avg.at(j * widthR + i))*(qepm.at(j * widthR + i) * un.at(j * widthR + (i + 1)) * (1. / qe.at(j * widthR + i))
 							+ un.at(j * widthR + (i - 1)) * qwpm.at(j * widthR + i) * (1. / qw.at(j * widthR + i)) +
 							un.at((j + 1) * widthR + i) * qnpm.at(j * widthR + i) * (1. / qn.at(j * widthR + i)) +
 							un.at((j - 1) * widthR + i) * qspm.at(j * widthR + i) * (1. / qs.at(j * widthR + i)))));
@@ -581,6 +680,21 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, do
 	}	
 	uf = antireflection(un);
 	return uf;
+}
+
+QVector<double> filters::countAvg() {
+	QVector<double> tmp;
+	tmp.resize(widthR*heightR);
+	double a = 1. / 4.;
+	for (int i = 1; i < widthR - 1; i++) {
+		for (int j = 1; j < heightR - 1; j++) {
+			tmp[j * widthR + i] = a*(qe.at(j * widthR + i)
+				+ qw.at(j * widthR + i)
+				+ qs.at(j * widthR + i)
+				+ qn.at(j * widthR + i));
+		}
+	}
+	return tmp;
 }
 
 QVector<double> filters::niblackThreshold(QVector<double> data, double timeStep) {

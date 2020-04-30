@@ -28,33 +28,34 @@ void source::load(QString path)
 	}
 	// read whole file
 	QTextStream stream(&inputFile);
-	QString line;
+	QString line, tmpstring;
 	//inputFile.close();
 	//file = wholeFile.split(QRegExp("\\s+"), QString::SkipEmptyParts);
 
 	// load header
 	QString fileType = stream.readLine();
-	sLength = fileType.length();
-	sSize = fileType.size();
-	std::cout << line.toStdString() << endl;
+	tmpstring = fileType + "\n";
+	sLength += tmpstring.length();
 
 	// width and height or comment
 	line = stream.readLine();
-	sLength += line.length();
+	tmpstring = line + "\n";
+	sLength += tmpstring.length();
 	sSize += line.size();
 	std::cout << line.toStdString() << endl;
 	if (line.contains('#')) {	//line is comment
 		line = line = stream.readLine();
-		sLength += line.length();
-		sSize += line.size();
-		std::cout << line.toStdString() << endl;
+		tmpstring = line + "\n";
+		sLength += tmpstring.length();
 	}
 	QStringList sList = line.split(' ', QString::SkipEmptyParts);
 	width = sList[0].toInt();
 	height = sList[1].toInt();
 
 	line = stream.readLine();
-	sLength += line.length();
+	tmpstring = line + "\n";
+	sLength += tmpstring.length();
+	// sLength += line.length();
 	sSize += line.size();
 	std::cout << line.toStdString() << endl;
 	if (!line.contains(".pgm", Qt::CaseSensitive)) {
@@ -98,7 +99,10 @@ void source::readAscii(QString path) {
 		return;
 	}
 	QTextStream input(&file);
-	input.seek(sLength);
+	std::cout << QString(" ").length() << std::endl;
+	std::cout << QString("17").length() << std::endl;
+
+	input.seek(sLength + 3);
 	QString wholeFile = input.readAll();
 	QStringList splt = wholeFile.split(QRegExp("\\s+"), QString::SkipEmptyParts);
 
@@ -300,10 +304,27 @@ void source::create3Ddata(QVector<double> z) {
 	// polydata->GetPointData()->SetScalars(scalars);
 	//polydata->SetVerts(vertices);
 	polydata->SetStrips(triangles);
-	colorPolyData();
+	//colorPolyData();
 }
 
-void source::colorPolyData() {
+
+void source::setCol(vtkSmartPointer<vtkColorTransferFunction> transferF,int colorIndex) {
+
+	if (colorIndex == 0) { // black&white //blue&red
+		transferF->AddRGBPoint(0.0, 0.0, 0.0, 0.0);
+		transferF->AddRGBPoint(1.0, 1, 1, 1);
+	}
+	else if (colorIndex == 1) { // colorfull
+		transferF->AddRGBPoint(0.0, 0.0, 0.0, 0.5);
+		transferF->AddRGBPoint(0.1, 0.0, 0.0, 1.0);
+		transferF->AddRGBPoint(0.35, 0.0, 1.0, 1.0);
+		transferF->AddRGBPoint(0.65, 1.0, 1.0, 0.0);
+		transferF->AddRGBPoint(0.9, 1.0, 0.0, 0.0);
+		transferF->AddRGBPoint(1.0, 0.5, 0.0, 0.0);
+	}
+}
+
+void source::colorPolyData(int colorIndex) {
 	colors->SetNumberOfComponents(3);
 	colors->SetName("Colors");
 	colors->SetNumberOfTuples(polydata->GetNumberOfPoints());
@@ -317,12 +338,7 @@ void source::colorPolyData() {
 	double *tmpColor;
 	vtkSmartPointer<vtkColorTransferFunction> color = vtkSmartPointer<vtkColorTransferFunction>::New();
 
-	color->AddRGBPoint(0.0, 0.0, 0.0, 0.5);
-	color->AddRGBPoint(0.1, 0.0, 0.0, 1.0);
-	color->AddRGBPoint(0.35, 0.0, 1.0, 1.0);
-	color->AddRGBPoint(0.65, 1.0, 1.0, 0.0);
-	color->AddRGBPoint(0.9, 1.0, 0.0, 0.0);
-	color->AddRGBPoint(1.0, 0.5, 0.0, 0.0);
+	setCol(color, colorIndex);
 
 	for (int i = 0; i < polydata->GetNumberOfPoints(); i++) {
 		double colora;
@@ -356,7 +372,7 @@ void source::displayOnPlane(vtkSmartPointer<vtkPolyData> data) {
 		}
 }
 
-void source::saveVtk(QString fileName, int index, bool binary) {
+void source::saveVtk3D(QString fileName, int index, bool binary) {
 	vtkSmartPointer<vtkXMLPolyDataWriter> writer =
 		vtkSmartPointer<vtkXMLPolyDataWriter>::New();
 	create3Ddata(get3DData(index));
@@ -369,6 +385,21 @@ void source::saveVtk(QString fileName, int index, bool binary) {
 		writer->SetDataModeToBinary();
 	else
 		writer->SetDataModeToAscii();
+	writer->Write();
+}
 
+void source::saveVtk2D(QString fileName, int index, bool binary) {
+	vtkSmartPointer<vtkXMLImageDataWriter> writer =
+		vtkSmartPointer<vtkXMLImageDataWriter>::New();
+	setPoints(getFiltData(index));
+	QByteArray ba = fileName.toLocal8Bit();
+	const char *cstr = ba.data();
+	writer->SetFileName(cstr);
+	writer->SetInputData(image);
+
+	if (binary)
+		writer->SetDataModeToBinary();
+	else
+		writer->SetDataModeToAscii();
 	writer->Write();
 }

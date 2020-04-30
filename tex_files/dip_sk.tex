@@ -117,17 +117,17 @@ V rôznych vedných disciplínach ale aj v bežnom živote sa používajú rôzn
 
 Cieľom práce je vytvorenie softvéru, ktorý slúži na vizualizáciu a segmentáciu obrazov získaných konfokálnym laserovým mikroskopom, konkrétne sa jedná o biologické dáta a to obrazy makrofágov. Takéto dáta môžu obsahovať šum, ktorý je potrebné odstrániť pre lepšie rozoznanie objektov na dátach. 
  
-Z biologického hľadiska, je maktofág typ bielej krvinky, ktorá hrá dôležitú úlohu pri ochrane imunitného systému a homeostázy. Avšak disfunkčné makrofágy menia svoje účinky a u ľudí môžu spôsobovať závažné ochorenia ako sú napríklad  zaápalové ochorenia, ktoré vediú k častým infekciám alebo sa môžu podielať na postupe rakoviny. Makrofág mení svoj tvar keď sa približuje smerom k rane. Táto zmena tvaru je spôsobená objektami, ktoré sa nachádzajú v blízkosti makrofágu, ako napríklad tkanivovými bunkami alebo medzibunkovou hmotou.
+Z biologického hľadiska, je maktofág typ bielej krvinky, ktorá hrá dôležitú úlohu pri ochrane imunitného systému a hemostázy. Avšak disfunkčné makrofágy menia svoje účinky a u ľudí môžu spôsobovať závažné ochorenia ako sú napríklad  zápalové ochorenia, ktoré vedú k častým infekciám alebo sa môžu podieľať na postupe rakoviny. Makrofág mení svoj tvar keď sa približuje smerom k rane. Táto zmena tvaru je spôsobená objektami, ktoré sa nachádzajú v blízkosti makrofágu, ako napríklad tkanivovými bunkami alebo medzibunkovou hmotou.
 Segmentácia obrazov môže byť užitočným nástrojom na porozumenie spôsobu interakcie medzi makrofágmi a bunkami, ktoré ho obklopujú, avšak takáto segmentácia môže byť náročnou úlohou, kvôli ich nepravidelnému tvaru.
 
-Mikroskopové dáta makrofágov, s ktorými pracujeme v tejto práci, sú makrofágy priesvitného embrya zebricky pruhovanej (\textit{lat.} danio rerio). Táto larva bola poranená a cytoplazmy makrofágov sú zafarbené zeleným svetielkujúcim proteínom (kaede) pre lepšiu viditeľnosť pod mikroskopom. Pôvodné dáta makrofágov sú získané v časovom úseku 5 hodín a s časovým krokom 4 minúty. Následne dané trojdimenzionálne obrazové dáta sú premietnuté do roviny za použitia maximálnej intenziy približne zo 70 rezov, z ktorých vzniknú dvojdimenzionálne obrazové dáta. 
+Mikroskopové dáta makrofágov, s ktorými pracujeme v tejto práci, sú makrofágy priesvitného embrya zebričky pruhovanej (\textit{lat.} danio rerio). Táto larva bola poranená a cytoplazmy makrofágov sú zafarbené zeleným svetielkujúcim proteínom (kaede) pre lepšiu viditeľnosť pod mikroskopom. Pôvodné dáta makrofágov sú získané v časovom úseku 5 hodín a s časovým krokom 4 minúty. Následne dané trojdimenzionálne obrazové dáta sú premietnuté do roviny za použitia maximálnej intenzity približne zo 70 rezov, z ktorých vzniknú dvoj-dimenzionálne obrazové dáta. 
 %vo formáte tiff.
 
 V tejto práci sa zaoberáme časťami/výrezmi takýchto dát, na ktorých sa nachádza jeden makrofág a používame rôzne metódy na segmentáciu, buď automatické alebo semi-automatické. Softvér by mal byť intuitívny, a teda určený aj užívateľom, ktorí implementovaným algoritmom nemusia rozumieť. 
   
 Práca je rozdelená do viacerých častí, v ktorých je podrobnejšie popísaná funkcionalita programu spolu s užívateľským prostredím, použitými algoritmami, knižnicami.
 
-Prvá časť je teoretická a venuje sa matematikým algoritmom využitých pri implementácii, založených na poznatkoch zo spracovania obrazov. Jedná sa o niekoľko automatických a semi-automatických segmentačných metód, ktoré sú kombináciou prahovacích metód a segmentačnej metódy subjektívnych plôch(SUBSURF).
+Prvá časť je teoretická a venuje sa matematickým algoritmom využitých pri implementácii, založených na poznatkoch zo spracovania obrazov. Jedná sa o niekoľko automatických a semi-automatických segmentačných metód, ktoré sú kombináciou prahovacích metód a segmentačnej metódy subjektívnych plôch(SUBSURF).
 
 Druhá časť sa zameriava na technológie a knižnice využité pri implementácii. Nachádza sa tam popis Qt knižníc, ktoré boli použité pri vytváraní užívateľského prostredia, VTK knižníc, ktoré boli využité na zobrazenie a manipuláciu s dátami. Popísané sú tu aj triedy, ktoré boli v programe najviac využité.
 
@@ -154,7 +154,7 @@ Segmentácia takýchto dát je náročnou úlohou pretože makrofágy majú nepr
 
 \subsection{Globálne prahovanie}
 
- Úlohou globálnych ptahovacích metód je nájsť jedinú optimálnu prahovú hodnotu $q$, v našom prípade šedotónových obrazových dát, ktorá zadefinuje každý pixel obrazu buď do popredia (ako objekt na dátach) alebo ako pozadie. Mnohé z týchto metód sú založené na histograme. Teda všetky pixely sú zatriedené do dvoch disjunktných množín $C_0$ a $C_1$, kde množina $C_0$ obsahuje všetky pixle nachádzajúce sa medzi hodntami $(0, 1, \dots , q)$ a $C_1$ obsahuje všetky zvyšné pixle nachádzajúce sa na intervale $(q+1, \dots , K-1)$, teda
+ Úlohou globálnych prahovacích metód je nájsť jedinú optimálnu prahovú hodnotu $q$, v našom prípade šedo-tónových obrazových dát, ktorá zadefinuje každý pixel obrazu buď do popredia (ako objekt na dátach) alebo ako pozadie. Mnohé z týchto metód sú založené na histograme. Teda všetky pixely sú zatriedené do dvoch disjunktných množín $C_0$ a $C_1$, kde množina $C_0$ obsahuje všetky pixle nachádzajúce sa medzi hodnotami $(0, 1, \dots , q)$ a $C_1$ obsahuje všetky zvyšné pixle nachádzajúce sa na intervale $(q+1, \dots , K-1)$, teda
 
 \begin{equation}
 (u, v) \in \begin{cases} C_0 & \text{ak} \hspace{1em} I(u,v) \leq q \hspace{1em} \text{(pozadie)} \\  C_1 & \text{ak} \hspace{1em} I(u,v) \geq q \hspace{1em} \text{(objekt)} \end{cases}.
@@ -167,7 +167,7 @@ Prahovacie metódy založené na histograme sú zvyčajne jednoduché a účinn�
 
 
 \subsubsection{Otsuho metóda}
-Otsuho metóda patrí medzi automatické  prahovacie metódy, ktorá rozdeľuje obrazové dáta na 2 rôzne triedy pomocou prahu $q$ $-$ na objekt a pozadie. Hlavnou myšlienkou tejto metódy je nájsť prah $q$ taký, že výsledné distribúcie tried sú čo najlepšie oddelené, čo znamená, že príslušné histogramy majú čo najmenší rozptyl(sú čo njužšie). Na výpočet prahu $q$ sa používa metóda známa ako vnútro$-$triedna variancia(within class variance), kde sa pomocou tohoto výpočtu hľadá minimum. V tomto prípade sa dá ukázať, že táto úloha môže byť zmenená na maximalizačnú úlohu, tiež známu ako medzi$-$triedna variancia(between class variance), ktorá je výpočtovo menej náročná, keďže sú spracovávané len šedotónové obrazové dáta. Ak by išlo o farebný RGB obaz, musel by byť rozdelený na jednotlivé intenzity a výsledkom by bolo viac prahových hodnôt $(q_1, \ldots, q_n)$, kde $n$ reprezentuje počet intenzít v danom obraze.
+Otsuho metóda patrí medzi automatické  prahovacie metódy, ktorá rozdeľuje obrazové dáta na 2 rôzne triedy pomocou prahu $q$ $-$ na objekt a pozadie. Hlavnou myšlienkou tejto metódy je nájsť prah $q$ taký, že výsledné distribúcie tried sú čo najlepšie oddelené, čo znamená, že príslušné histogramy majú čo najmenší rozptyl(sú čo najužšie). Na výpočet prahu $q$ sa používa metóda známa ako vnútro$-$triedna variancia(within class variance), kde sa pomocou tohoto výpočtu hľadá minimum. V tomto prípade sa dá ukázať, že táto úloha môže byť zmenená na maximalizačnú úlohu, tiež známu ako medzi$-$triedna variancia(between class variance), ktorá je výpočtovo menej náročná, keďže sú spracovávané len šedo-tónové obrazové dáta. Ak by išlo o farebný RGB obraz, musel by byť rozdelený na jednotlivé intenzity a výsledkom by bolo viac prahových hodnôt $(q_1, \ldots, q_n)$, kde $n$ reprezentuje počet intenzít v danom obraze.
 
 Nech $K$ je maximálna intenzita obrazu a hodnoty normalizovaného histogramu, budú vypočítané ako
 %\begin{equation*}
@@ -178,8 +178,8 @@ Nech $K$ je maximálna intenzita obrazu a hodnoty normalizovaného histogramu, b
 p_i = \frac{h_i}{N}, \hspace{10mm}  \sum_{i=1}^{N} p_i = 1,
 \end{equation}
 
-kde $i$ je konkrétny level intenzity $(0 \leq i \leq K)$, $N$ je celkový počet pixelov na obraze, $h_i$ predstavuje histogram. 
-Keďže v našom prípade máme len 2 triedy $C_0$ a $C_1$ a vzniknutý histogram sa tiež nazýva bimodálnym.
+kde $i$ je konkrétny level intenzity $(0 \leq i \leq K)$, $N$ je celkový počet pixlov na obraze, $h_i$ predstavuje histogram. 
+Keďže v našom prípade máme len 2 triedy $C_0$ a $C_1$ a vzniknutý histogram sa tiež nazýva bi-modálnym.
 
 Na definíciu tried $C_0$ a $C_1$ je potrebné vypočítať stredné hodnoty $\mu_0$ a $\mu_1$ definované ako
 
@@ -245,7 +245,7 @@ Entropia je dôležitým pojmom v teórii informácií a najmä pri kompresii d�
 H(I)= -\sum_{u,v} p(g)log_b(p(g)),
 \end{equation}
 
-kde $g$ je intenzita v pixli u,v, $p(g)$ je pravdepodobnst intenzity v normalizovanom histograme, $b$ je logaritmický základ, ktorý zvolíme buď $b=10$ alebo $b=e$ aby boli dosiahnuté čo najlepšie výsledky. Hodnota entropie $H$ bude vždy nadobúdať kladnú hodnotu, pretože argument logaritmu sú pravdepodobnosti, ktoré patria intervalu $(0,1)$ z čoho vyplýva že hodnota logaritmu bude vždy zaporná. 
+kde $g$ je intenzita v pixle u,v, $p(g)$ je pravdepodobnosť intenzity v normalizovanom histograme, $b$ je logaritmický základ, ktorý zvolíme buď $b=10$ alebo $b=e$ aby boli dosiahnuté čo najlepšie výsledky. Hodnota entropie $H$ bude vždy nadobúdať kladnú hodnotu, pretože argument logaritmu sú pravdepodobnosti, ktoré patria intervalu $(0,1)$ z čoho vyplýva že hodnota logaritmu bude vždy záporná. 
 
 Z dôvodu hľadania maximálnej hodnoty entropie, potrebujeme definovať entropie pre každú triedu
 
@@ -290,7 +290,7 @@ Entropia ako kritérium na voľbu prahu v obrazových dátach má dlhú tradíci
 
 \subsection{Lokálne adaptívne prahovanie}
 
-Lokálne adaptívne prahovanie namiesto jednej prahovej hodnoty pre celý obraz, používa adaptívne prahovanie, ktoré určuje meniacu sa prahovú hodnotu $Q(u,v)$ pre každú polohu obrazu. Tieto hodoty zodpovedajú každému pixelu $I(u,v)$ zodpovedajúcemu danému obrazu. Nasledujúce metódy sa líšia iba s ohľadom na to, akým spôsobom sú získané prahy $Q$ zo vstupného obrázku. 
+Lokálne adaptívne prahovanie namiesto jednej prahovej hodnoty pre celý obraz, používa adaptívne prahovanie, ktoré určuje meniacu sa prahovú hodnotu $Q(u,v)$ pre každú polohu obrazu. Tieto hodnoty zodpovedajú každému pixlu $I(u,v)$ zodpovedajúcemu danému obrazu. Nasledujúce metódy sa líšia iba s ohľadom na to, akým spôsobom sú získané prahy $Q$ zo vstupného obrázku. 
 
 \subsubsection{Bernsenova metóda}
 
@@ -302,13 +302,13 @@ I_{max}(u,v) = \max\limits_{(i,j)\in R(u,v)} I(i,j),
 \end{array}
 \end{equation}
 
-sú minimálnou a maximálnou hodnotou intenzity, na nejakom fixne danom okolí $R$ so stredom na pozícií $(u,v)$. Prahovú hodnotu dostaneme pomocou aritmetického priemeru nájdeneho minima a maxima daného okolia 
+sú minimálnou a maximálnou hodnotou intenzity, na nejakom fixne danom okolí $R$ so stredom na pozícií $(u,v)$. Prahovú hodnotu dostaneme pomocou aritmetického priemeru nájdeného minima a maxima daného okolia 
 
 \begin{equation}
 Q(u,v) \gets \frac{I_{min}(u,v) + I_{max}(u,v)}{2}
 \end{equation}
 
-Táto operácia sa vykonáva tak dlho, až pokým lokálny kontrast $c(u, v) = I_{max}(u, v) − I_{min}(u, v)$ sa nachachádza nad preddefinovaným limtom $c_{min}$. Ak $c(u, v) < c_{min}$, tak sa predpokladá, že pixle zodpovedajúce jednej oblasti patria do jednej triedy a sú automaticky priradené do pozadia. 
+Táto operácia sa vykonáva tak dlho, až pokým lokálny kontrast $c(u, v) = I_{max}(u, v) − I_{min}(u, v)$ sa nachádza nad preddefinovaným limitom $c_{min}$. Ak $c(u, v) < c_{min}$, tak sa predpokladá, že pixle zodpovedajúce jednej oblasti patria do jednej triedy a sú automaticky priradené do pozadia. 
 
 \subsubsection{Niblackova metóda}
 Prah $Q(u, v)$ pri Niblackovej metóde sa mení ako funkcia lokálneho priemeru intenzít $\mu_R(u,v)$ a smerodajnú odchýlku $\sigma_R(u,v)$, v tvare
@@ -366,7 +366,7 @@ Použitá metóda má tvar
 u_t = \sqrt{\epsilon^2 + |\nabla u|^2}\nabla.(g \frac{\nabla u}{\sqrt{\epsilon^2 + |\nabla u|^2}}),
 \end{equation}
 
-kde $\epsilon$ je modelovacím parametrom a $u$ je vyvýjajúca sa level funkcia. Funkcia $g$ reprezentuje takzvaný hranový detektor a má tvar
+kde $\epsilon$ je modelovacím parametrom a $u$ je vyvíjajúca sa level funkcia. Funkcia $g$ reprezentuje takzvaný hranový detektor a má tvar
 
 \begin{equation}
 g(s) = \frac{1}{1+Ks^2}, K > 0,
@@ -384,7 +384,7 @@ kde $s = |\nabla G_\sigma*I^0|$. Zhľadený gradient $\nabla G_\sigma*I^0$ získ
 \newpage
 \section{Numerické schémy}
 
-Vo šeobecnosti môže byť numerická schéma vysvetlená ako algoritmický popis, ktorý nájde správne riešenie matematického problému. Pri implementácii boli použité nasledujúce numerické schémy:
+Vo všeobecnosti môže byť numerická schéma vysvetlená ako algoritmický popis, ktorý nájde správne riešenie matematického problému. Pri implementácii boli použité nasledujúce numerické schémy:
 
 \begin{itemize}
 \item Implicitná metóda pre rovnicu vedenia tepla,
@@ -403,7 +403,7 @@ a pre ľubovoľnú veľkosť časového kroku je bezpodmienečne stabilná.
 
 *OBRAZOK S OZNACENIM HRAN*
 
-Rovnicu (\ref{eq:ihe}) zintegrujeme cez konečný objem $p$ a dostaneme rovnicu v tvare
+Rovnicu (\ref{eq:ihe}) integrujeme cez konečný objem $p$ a dostaneme rovnicu v tvare
 
 \begin{equation} 
 \int_p\frac{u^n - u^{n-1}}{\tau} dx = \int_p\nabla . (\nabla u^n)dx.
@@ -458,23 +458,23 @@ kde platia vzťahy $m(p) = h^2, m(e_{pq}) = h, d_{pq} = h$. Po dosadení dostane
 u_p^n + \frac{\tau}{m(p)}\sum_{q \in N(p)} (u_q^n - u_p^n) = u_p^{n - 1}.
 \end{equation}
 
-Pri implicitnej schéme platí bezpodmienečná stabilita (diskrétny princím minima a maxima), čo znamená, že ak pre ľubovoľnú voľbu priestorového kroku $h$ a časového kroku $\tau$, platí $u_{min} \leq u_p^{n - 1} \leq u_{max}$ potom platí aj pre $u_{min} \leq u_p^{n} \leq u_{max}$. Riešenie lineárneho systému upravíme do nasledovneho tvaru
+Pri implicitnej schéme platí bezpodmienečná stabilita (diskrétny princíp minima a maxima), čo znamená, že ak pre ľubovoľnú voľbu priestorového kroku $h$ a časového kroku $\tau$, platí $u_{min} \leq u_p^{n - 1} \leq u_{max}$ potom platí aj pre $u_{min} \leq u_p^{n} \leq u_{max}$. Riešenie lineárneho systému upravíme do nasledovného tvaru
 
 \begin{equation} \label{eq:eihe}
 (1 + \frac{\tau}{h^2} \sum_{q \in N(p)}1)u_p^n - \frac{\tau}{h^2} \sum_{q \in N(p)}u_q^n = u_p^{n - 1}.
 \end{equation}
 
-Rovnicu (\ref{eq:eihe}) dostaneme na každom konečnom objeme $p$. Následne schému riešime pomocou superrelaxačnej metódy (SOR). 
+Rovnicu (\ref{eq:eihe}) dostaneme na každom konečnom objeme $p$. Následne schému riešime pomocou super-relaxačnej metódy (SOR). 
 
 \subsection{Semi$-$implicitná metóda pre SUBSURF}
 
-V prvom rade urobíme Semi$-$implicitnú časovú diskretizáciu, tak že rovnicu (\ref{eq:subsurf}) vydelíme členom $\sqrt{\epsilon^2 + |\nabla u|^2}$ a dostaneme
+V prvom rade urobíme semi$-$implicitnú časovú diskretizáciu, tak že rovnicu (\ref{eq:subsurf}) vydelíme členom $\sqrt{\epsilon^2 + |\nabla u|^2}$ a dostaneme
 
 \begin{equation} \label{eq:cdsubsurf}
 \frac{1}{|\nabla u^{n-1}|_{\epsilon}}.\frac{u^n-u^{n-1}}{\tau} = \nabla.(g^0\frac{\nabla u^n}{|\nabla u^{n-1}|_{\epsilon}}),
 \end{equation}
 
-kde $g^0 = g(|\nabla G_{\sigma}*I^0|)$ a $|\nabla G_{\sigma}*I^0|$ predstavuje zhladený gradient. Teraz spravíme priestorovú diskretizáciu pomocou metód konečných objemov, čo znamená, že zintegrujeme rovnicu (\ref{eq:cdsubsurf}) cez konečný objem $p$ a dostaneme
+kde $g^0 = g(|\nabla G_{\sigma}*I^0|)$ a $|\nabla G_{\sigma}*I^0|$ predstavuje zhľadený gradient. Teraz spravíme priestorovú diskretizáciu pomocou metód konečných objemov, čo znamená, že zintegrujeme rovnicu (\ref{eq:cdsubsurf}) cez konečný objem $p$ a dostaneme
 
 \begin{equation}
 \int_{p}\frac{1}{|\nabla u^{n-1}|_{\epsilon}}.\frac{u^n-u^{n-1}}{\tau}dx = \int_{p}\nabla.(g^0\frac{\nabla u^n}{|\nabla u_p^{n-1}|_{\epsilon}})dx,
@@ -523,14 +523,14 @@ u+p^{n-1} = (1 + \sum a_{pq})u_p^n -  \sum a_{pq}u_q^n,
 Na implementáciu a vytvorenie prostredia, bol zvolený objektovo orientovaný prístup jazyka C++, spolu s knižnicami Qt, ktoré obsahujú veľa užitočných tried a boli užitočným nástrojom pri vytváraní užívateľského prostredia a VTK knižnicami, ktoré slúžia na zobrazovanie a manipuláciu s dátami.
 
 \subsection{Qt}
-Užívateľské rozhranie je vytvorené pomocou Qt knižníc, ktoré sú jedným z najpoužívanejších cross-platformových frameworkov na vytváranie užívateľského prostredia(GUI). Majú aj veľa predprogramovaných knižníc ktoré programátorovi ulahčia prácu. Sú naimplementované v jazyku C++. 
+Užívateľské rozhranie je vytvorené pomocou Qt knižníc, ktoré sú jedným z najpoužívanejších cross-platformových frameworkov na vytváranie užívateľského prostredia(GUI). Majú aj veľa predprogramovaných knižníc ktoré programátorovi uľahčia prácu. Sú naimplementované v jazyku C++. 
 
 *doplnit ako funguju signaly a sloty*
 
 Najčastejšie využívané Qt knižnice v projekte:
 \begin{itemize}
 \item \textbf{QMdiArea}\\ 
-Táto trieda zohráva jednu z najdôležitejších funkcií v programe. Funkcie tejto triedy fungujú v podstate ako správca okien pre MDI okná, čo v našom prípade znamená, že umožňuje vytvárať podokná pomocou triedy, v ktorých sa v programe nachádzajú ďaľšie Qt triedy slúžíace na vykreslovanie 2D a 3D dát, s ktorými program pracuje. V programe je použité kaskádové usporiadanie takýchto podokien, čo znamená že vykreslovacie okná sa môžu navzájom prekrývať, dajú sa minimalizovať/maximalizovať vrámci hlavného okna a zavrieť.
+Táto trieda zohráva jednu z najdôležitejších funkcií v programe. Funkcie tejto triedy fungujú v podstate ako správca okien pre MDI okná, čo v našom prípade znamená, že umožňuje vytvárať podokná pomocou triedy, v ktorých sa v programe nachádzajú ďalšie Qt triedy slúžiace na vykresľovanie 2D a 3D dát, s ktorými program pracuje. V programe je použité kaskádové usporiadanie takýchto podokien, čo znamená že vykresľovacie okná sa môžu navzájom prekrývať, dajú sa minimalizovať/maximalizovať vrámci hlavného okna a zavrieť.
 
 \item \textbf{QScrollArea} \\
 QScrollArea sa nachádza v každom podokne widgetu QMidiArea. Zabezpečuje možnosť priblížiť/oddialiť a posúvať vizualizované dáta.  
@@ -539,10 +539,10 @@ QScrollArea sa nachádza v každom podokne widgetu QMidiArea. Zabezpečuje možn
 Widget tejto triedy sa nachádza v každej QScrollAree a umožňuje samotné vykreslenie 2D/3D modelov za pomoci VTK knižníc. 
 
 \item \textbf{QDockWidget} \\
-Tento widget obsahuje všetky iformácie a nastavenia súvisiace s dátami. Každý logický celok má vlastný 'dock', ktorý sa dá vrámci okna premiestňovať a ukotvovať buď na ľavej alebo na pravej strane okna. Taktiež sa dajú v prípade potreby minimalizovať.
+Tento widget obsahuje všetky informácie a nastavenia súvisiace s dátami. Každý logický celok má vlastný 'dock', ktorý sa dá vrámci okna premiestňovať a ukotvovať buď na ľavej alebo na pravej strane okna. Taktiež sa dajú v prípade potreby minimalizovať.
 
 \item \textbf{QTreeWidget} \\ 
-Všetky dáta, či už pôvodné alebo vysegmentované pomocou programe, sa nachádzajú v zozname, z ktorého sa dá vybrať ktoré dáta budú vykreslené. QTreeWidget bol použitý aby sme vykreslované dáta vedeli zadeliť do logických celkov, napríklad či ide o 2D alebo 3D dáta.
+Všetky dáta, či už pôvodné alebo vysegmentované pomocou programe, sa nachádzajú v zozname, z ktorého sa dá vybrať ktoré dáta budú vykreslené. QTreeWidget bol použitý aby sme vykresľované dáta vedeli zadeliť do logických celkov, napríklad či ide o 2D alebo 3D dáta.
 
 \item \textbf{QVector} \\
 Trieda QVector definuje dynamické polia, je šablónovou triedou.
@@ -556,14 +556,14 @@ Tieto triedy slúžia v programe na otváranie, načítavanie, ukladanie a manip
 
 \subsubsection{VTK}
 
-Visualization Toolkit (VTK) sú vôľne dostupnými knižnicami, ktoré v programe slúžíia na zobrazovanie a interakciu s 2D aj 3D dátami. Najviac využité knižnice:
+Visualization Toolkit (VTK) sú voľne dostupnými knižnicami, ktoré v programe slúžia na zobrazovanie a interakciu s 2D aj 3D dátami. Najviac využité knižnice:
 
 \begin{itemize}
 \item \textbf{vtkSmartPointer} \\
-Táto šablónová trieda, slúži ako pointer nre VTK triedy. Jehou úlohou je zlepšíť manažment s pamäťou, čo znamená, že v prípade ak sú dáta mimo rozsahu alebo sa nikde nepoužívajú tak budú automaticky odstránené. Teda uľahčuje pracovať s dátami bez varovných hlášok.
+Táto šablónová trieda, slúži ako pointer pre VTK triedy. Jeho úlohou je zlepšiť manažment s pamäťou, čo znamená, že v prípade ak sú dáta mimo rozsahu alebo sa nikde nepoužívajú tak budú automaticky odstránené. Teda uľahčuje pracovať s dátami bez varovných hlášok.
 
 \item \textbf{vtkPolyData} \\
-V objektoch tejto triedy sú zadefinované vykreslované dáta, či už sa jedná o 2D alebo 3D dáta. V tejto triede môžu byť uložené informácie o tom akým spôsobom budú dáta reprezentované - geometrické informácie o štruktúre vykreslovaných dát. Takýmito informáciami môžu byť napríklad body, bunky, vektory, čiary, polygonálne alebo trojuholníkové pásy.
+V objektoch tejto triedy sú zadefinované vykresľované dáta, či už sa jedná o 2D alebo 3D dáta. V tejto triede môžu byť uložené informácie o tom akým spôsobom budú dáta reprezentované - geometrické informácie o štruktúre vykresľovaných dát. Takýmito informáciami môžu byť napríklad body, bunky, vektory, čiary, polygonálne alebo trojuholníkové pásy.
 
 \item \textbf{vtkPolyDataMapper} \\
 \item \textbf{vtkActor} \\
@@ -574,7 +574,7 @@ V objektoch tejto triedy sú zadefinované vykreslované dáta, či už sa jedn�
 
 V tejto sekcii sa oboznámime s vizuálnou stránkou vytvoreného softvéru a popíšeme funkcionalitu. Pri tvorbe programu sme sa zamerali na to aby bol čo najjednoduchší a vedel ho ovládať aj niekto, kto sa do danej problematiky až tak do hĺbky nevyzná. Grafické rozhranie(GUI) je vytvorené pomocou Qt knižníc.
 
-Pri otvorení programu sa zobrazí okno, v ktorom sa nachádza horná lišta s položkami File, Settings a Help. V každej z týchto položieksa nachádzajú možnosti
+Pri otvorení programu sa zobrazí okno, v ktorom sa nachádza horná lišta s položkami File, Settings a Help. V každej z týchto položiek sa nachádzajú možnosti
 
 
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.27)  27 APR 2020 00:38
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.27)  30 APR 2020 17:56
 entering extended mode
 **./dip_sk.tex
 (dip_sk.tex
@@ -647,7 +647,13 @@ Non-PDF special ignored!
 \tf@toc=\write4
 \openout4 = `dip_sk.toc'.
 
- [2] [3] [4]
+ [2]
+Overfull \hbox (0.90984pt too wide) in paragraph at lines 130--131
+[]\OT1/cmr/m/n/10.95 Prva cast[] je te-ore-ticka a ve-nuje sa ma-te-ma-tick
+ym al-go-rit-mom vyuzitych pri im-ple-mentacii,
+ []
+
+[3] [4]
 Overfull \hbox (6.6272pt too wide) in paragraph at lines 196--205
 []\OT1/cmr/m/n/10.95 rozdelenia prav-de-po-dob-nosti pre triedy $\OML/cmm/m/it/
 10.95 C[]$ \OT1/cmr/m/n/10.95 a $\OML/cmm/m/it/10.95 C[]$\OT1/cmr/m/n/10.95 . N
@@ -681,6 +687,12 @@ Overfull \hbox (8.92276pt too wide) in paragraph at lines 526--527
  []
 
 [11]
+Overfull \hbox (9.8321pt too wide) in paragraph at lines 562--564
+\OT1/cmr/m/n/10.95 Tato sablonova trieda, sluzi ako po-in-ter pre VTK tri
+edy. Jeho ulohou je zlepsit[] manazment
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 568--569
 
  []
@@ -721,7 +733,7 @@ Here is how much of TeX's memory you used:
  16765 multiletter control sequences out of 15000+200000
  11752 words of font info for 44 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,10n,42p,1040b,541s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 48i,10n,42p,1043b,541s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Fi
 les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKT
@@ -733,7 +745,7 @@ cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsl10.
 pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/
 Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program F
 iles/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on dip_sk.pdf (15 pages, 225766 bytes).
+Output written on dip_sk.pdf (15 pages, 225780 bytes).
 PDF statistics:
  276 PDF objects out of 1000 (max. 8388607)
  78 named destinations out of 1000 (max. 500000)
