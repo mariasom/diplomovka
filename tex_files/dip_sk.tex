@@ -15,17 +15,23 @@
 
 %male popisy obrazkov a~grafika
 \usepackage[font=small,margin=0.5cm]{caption} % margin reguluje okraje popisu obrazka (v pripade, ze je na sirku strany a~ma viac ako 1 riadok)
-\usepackage[dvips]{graphicx}
+%\usepackage[dvips]{graphicx}
 \usepackage{wrapfig}
+%\usepackage[pdftex]{graphicx}
 \usepackage[usenames,dvipsnames]{color}
 \usepackage{epstopdf}   %bez tohto pdflatex nezoberie eps obazky
+
+\usepackage{graphicx}
+%\usepackage{url}
+%\usepackage[hidelinks, breaklinks]{hyperref}
+%\usepackage{float}
 
 %grid obrazkov
 \usepackage{subfig}
 
 %farebne tabulky
 \usepackage{colortbl}
-\usepackage[table]{xcolor}
+%\usepackage[table]{xcolor}
 %na otacanie tabuliek
 \usepackage{rotating}
 
@@ -308,14 +314,16 @@ sú minimálnou a maximálnou hodnotou intenzity, na nejakom fixne danom okolí 
 Q(u,v) \gets \frac{I_{min}(u,v) + I_{max}(u,v)}{2}
 \end{equation}
 
-Táto operácia sa vykonáva tak dlho, až pokým lokálny kontrast $c(u, v) = I_{max}(u, v) − I_{min}(u, v)$ sa nachádza nad preddefinovaným limitom $c_{min}$. Ak $c(u, v) < c_{min}$, tak sa predpokladá, že pixle zodpovedajúce jednej oblasti patria do jednej triedy a sú automaticky priradené do pozadia. 
+Táto operácia je vykonávaná tak dlho, až kým lokálny kontrast $c(u, v) = I_{max}(u, v) − I_{min}(u, v)$ nie je väčší ako preddefinovaný limit $c_{min}$. Ak $c(u, v) < c_{min}$, tak predpokladáme, že pixle zodpovedajúce jednej oblasti patria do tej istej triedy a sú automaticky priradené do pozadia. 
 
 \subsubsection{Niblackova metóda}
-Prah $Q(u, v)$ pri Niblackovej metóde sa mení ako funkcia lokálneho priemeru intenzít $\mu_R(u,v)$ a smerodajnú odchýlku $\sigma_R(u,v)$, v tvare
+Prah $Q(u, v)$ pri Niblackovej metóde sa mení ako funkcia lokálneho priemeru intenzít $\mu_R(u,v)$ a smerodajnej odchýlky $\sigma_R(u,v)$, v tvare
 
 \begin{equation} \label{eq:nbO}
 Q(u,v) = \mu_R(u,v) + \kappa\sigma_R(u,v).
 \end{equation}
+
+ *PREFORMULOVAT*
 
 Lokálny prah je určený pridaním konštanty $\kappa \geq 0$ k smerodajnej odchýlke $\sigma_R(u,v)$ a lokálneho priemeru $\mu_R(u,v)$.Na získanie $\sigma_R(u,v)$ a $\mu_R(u,v)$ sme použili rovnicu vedenia tepla, tiež známu ako lineárno-difúznu rovnicu. Táto rovnica je považovaná za najstaršiu filtračnú metódu v spracovaní obrazu, založenú na PDR.
 
@@ -339,7 +347,7 @@ u(x, 0) = u^0(x),
 
 ktorá je určená počiatočnými obrazovými dátami.
 
-Výpočet pre lokálny prah je definovaný na oblasti $R$ so stredom v $(u, v)$. Polomer oblasti $R$ by mala byť čo najväčšia, aspoň tak veľká ako štruktúra, ktorú sa vyprahovaním snažíme získať, ale dostatočne malá na zachytenie zmien (nerovností) pozadia. 
+Výpočet pre lokálny prah je definovaný na oblasti $R$ so stredom v $(u, v)$. Polomer oblasti $R$ by mala byť čo najväčšia, aspoň tak veľká ako štruktúra, ktorú sa vyprahovaním snažíme získať, ale dostatočne malá na zachytenie zmien (nerovností) pozadia. *AKO SUVISI ROVNICA VEDENIA TEPLA*
 
 Jeden z problémov, ktorý môže nastať pre malé hodnoty smerodajnej odchýlky $\sigma_R(u,v)$ (získané na oblastiach v obrazových dátach s takmer konštantnou intenzitou), prah bude mať hodnotu blízku lokálnemu priemeru, čo spôsobí, že segmentácia je pomerne citlivá na nízku amplitúdu šumu ("ghosting"). Pomocou jednoduchej modifikácie rovnice (\ref{eq:nbO}) pridaním konštanty $d$, ktorá zabezpečí minimálnu vzdialenosť od priemeru v tvare
 
@@ -347,9 +355,7 @@ Jeden z problémov, ktorý môže nastať pre malé hodnoty smerodajnej odchýlk
 Q(u,v) = \mu_R(u,v) + \kappa\sigma_R(u,v) + d,
 \end{equation}
 
-kde $d \geq 0$.
-
-*PRIDAT AKE SU OPTIMALNE HODNOTY $\kappa$ a $d$*
+kde $d \geq 0$. V našom prípade, sme parameter $\kappa$ nastavili na $\kappa = 0.18$ a pre konštantu $d$ sme použili $d = 20$. Takto nastavené parametre dávali v našom prípade veľmi dobré výsledky.
 
 %One problem is that, for small values of σR (aslacing Eqn. (2.63) by
 %Q(u, v) = μR(u, v) + κ · σR(u, v) + d, (2.64)
@@ -358,7 +364,7 @@ kde $d \geq 0$.
 
 \subsection{Metóda subjektívnych plôch (SUBSURF)} 
 
-Metóda subjektívnych plôch (SUBSURF) je vysoko účinnou segmentačnou metódou, ktorá dokáže účinne nájsť chýbajúce hranice objektu alebo odstrániť šum z pozadia. Avšak kvalita výsledku segmentácie závisí od voľby počiatočnej podmienky. Keďže väčšina makrofágov má zložitý tvar, môžeme predpokladať, že metóda SUBSURF by nefungovala poriadne a ak by nebola vhodne zvolená počiatočná podmienka. Za počiatočnú podmienku zvolíme dáta, na ktoré bola aplikovaná niektorá z vyššie uvedených prahovacích metód.
+Metóda subjektívnych plôch (SUBSURF) je vysoko účinnou segmentačnou metódou, ktorá dokáže účinne nájsť chýbajúce hranice objektu alebo odstrániť šum z pozadia. Avšak kvalita výsledku segmentácie závisí od voľby počiatočnej podmienky. Keďže väčšina makrofágov má zložitý tvar, môžeme predpokladať, že metóda SUBSURF by nedávala správne výsledky ak by nebola vhodne zvolená počiatočná podmienka. Za počiatočnú podmienku zvolíme dáta, na ktoré bola aplikovaná niektorá z vyššie uvedených prahovacích metód.
 
 Použitá metóda má tvar
 
@@ -384,12 +390,14 @@ kde $s = |\nabla G_\sigma*I^0|$. Zhľadený gradient $\nabla G_\sigma*I^0$ získ
 \newpage
 \section{Numerické schémy}
 
-Vo všeobecnosti môže byť numerická schéma vysvetlená ako algoritmický popis, ktorý nájde správne riešenie matematického problému. Pri implementácii boli použité nasledujúce numerické schémy:
+Pri vytváraní numerickej schémy sme pre časovú diskretizáciu použili implicitnú a semi$-$implicitnú schému a pri priestorovej diskretizácii bola použitá metóda konečných objemov.
 
-\begin{itemize}
-\item Implicitná metóda pre rovnicu vedenia tepla,
-\item Semi$-$implicitná metóda pre SUBSURF.
-\end{itemize}
+%Vo všeobecnosti môže byť numerická schéma vysvetlená ako algoritmický popis, ktorý nájde správne riešenie matematického problému. Pri implementácii boli použité nasledujúce numerické schémy:
+
+%\begin{itemize}
+%\item Implicitná metóda pre rovnicu vedenia tepla,
+%\item Semi$-$implicitná metóda pre SUBSURF.
+%\end{itemize}
 
 \subsection{Implicitná metóda pre rovnicu vedenia tepla}
 
@@ -401,7 +409,14 @@ Pri implicitnej metóde, budeme časovú deriváciu aproximovať pomocou spätne
 
 a pre ľubovoľnú veľkosť časového kroku je bezpodmienečne stabilná. 
 
-*OBRAZOK S OZNACENIM HRAN*
+\begin{figure}[h!]
+ \begin{center} 
+ \includegraphics[scale=0.40]{pics/hrany.pdf}
+\caption{Detail siete spolu s označením. V strede sa nachádza pixel $p$, susedné pixle sú označené ako $q_i$, kde $q_i = 1, 2, 3, 4$, hrany medzi pixlami označíme ako $e_{pq}$, $x_p$ a $x_q$ sú body. }
+\end{center} 
+\label{fig:hrany}
+\end{figure}
+
 
 Rovnicu (\ref{eq:ihe}) integrujeme cez konečný objem $p$ a dostaneme rovnicu v tvare
 
@@ -412,20 +427,20 @@ Rovnicu (\ref{eq:ihe}) integrujeme cez konečný objem $p$ a dostaneme rovnicu v
 Na pravú stranu rovnice aplikujeme Greenovu vetu a dostaneme
 
 \begin{equation} 
-\int_p\nabla . (\nabla u^n)dx = \int_{\partial p} \nabla u^n \vec{n}_pdS,
+\int_p\nabla . (\nabla u^n)dx = \int_{\partial p} \nabla u^n . \vec{n}_pdS,
 \end{equation}
 
 kde $\vec{n}_p$ je jednotkovou vonkajšou normálou ku hranici konečného objemu p.
 Pretože platí
 
 \begin{equation} 
-\int_{\partial p} \nabla u^n \vec{n_p}dS = \sum_{q\in N(p)}\int_{e_{pq}} \nabla u^n \vec{n}_{pq}dS,
+\int_{\partial p} \nabla u^n \vec{n_p}dS = \sum_{q\in N(p)}\int_{e_{pq}} \nabla u^n . \vec{n}_{pq}dS,
 \end{equation}
 
 vieme napísať slabú konečno-objemovú formuláciu úlohy
 
 \begin{equation} 
-\int_p\frac{u^n - u^{n-1}}{\tau} dx = \sum_{q\in N(p)}\int_{e_{pq}} \nabla u^n \vec{n}_{pq}dS = \sum_{q\in N(p)}\int_{e_{pq}} \frac{\partial u^n}{\partial \vec{n}_{pq}} dS,
+\int_p\frac{u^n - u^{n-1}}{\tau} dx = \sum_{q\in N(p)}\int_{e_{pq}} \nabla u^n . \vec{n}_{pq}dS = \sum_{q\in N(p)}\int_{e_{pq}} \frac{\partial u^n}{\partial \vec{n}_{pq}} dS,
 \end{equation}
 
 Riešenie v MKO chápeme ako po častiach konštantnú funkciu na konečných objemoch $p$, označíme $u_p^n$. Preto vieme ľavú stranu rovnice napísať ako 
@@ -434,28 +449,28 @@ Riešenie v MKO chápeme ako po častiach konštantnú funkciu na konečných ob
 \int_p\frac{u^n - u^{n-1}}{\tau} dx = \frac{u^n_q - u^n_p}{\tau} m(p).
 \end{equation}
 
-Pravá strana reprezentuje prietok (flux) cez hranicu $e_{pq}$ v smere normály $\vec{n}_{pq}$. Člen ľavej strany $\nabla u^n \vec{n}_{pq}$ aproximujeme na hrane $e_{pq}$ konečnou diferenciou v bode $x_{pq}$ nasledovne
+Pravá strana reprezentuje tok (flux) cez hranicu $e_{pq}$ v smere normály $\vec{n}_{pq}$. Člen ľavej strany $\nabla u^n . \vec{n}_{pq}$ aproximujeme na hrane $e_{pq}$ konečnou diferenciou v bode $x_{pq}$ nasledovne
 
 \begin{equation}
-\nabla u^n \vec{n}_{pq} \approx \frac{u^n_p - u^{n-1}_p}{d_{pq}}.
+\nabla u^n . \vec{n}_{pq} \approx \frac{u^n_q - u^n_p}{d_{pq}}.
 \end{equation}
 
 V časovom kroku $n$ aproximáciu $x_{pq}$ použijeme na celej hrane $e_{qp}$ a dostaneme
 
 \begin{equation}
-\sum_{q\in N(p)} \int_{e_{pq}} \nabla u^n \vec{n}_{pq} dS \approx \sum_{q\in N(p)} m(e_{pq})\frac{u^n_p - u^{n-1}_p}{d_{pq}}.
+\sum_{q\in N(p)} \int_{e_{pq}} \nabla u^n \vec{n}_{pq} dS \approx \sum_{q\in N(p)} m(e_{pq})\frac{u^n_q - u^n_p}{d_{pq}}.
 \end{equation}
 
 Po dosadení dostávame implicitnú schému  
 
 \begin{equation}
-\frac{m(p)(u_p^n -u_p^{n - 1})}{\tau} = \sum_{q \in N(p)} m(e_{pq})(u_q^n - u_p^n) = \nabla . (\nabla u^n)
+\frac{m(p)(u_p^n -u_p^{n - 1})}{\tau} = \sum_{q \in N(p)} m(e_{pq})\frac{(u_q^n - u_p^n)}{d_{pq}}
 \end{equation}
 
 kde platia vzťahy $m(p) = h^2, m(e_{pq}) = h, d_{pq} = h$. Po dosadení dostaneme lineárny rovnicový systém
 
 \begin{equation}
-u_p^n + \frac{\tau}{m(p)}\sum_{q \in N(p)} (u_q^n - u_p^n) = u_p^{n - 1}.
+u_p^n + \frac{\tau}{h^2}\sum_{q \in N(p)} (u_q^n - u_p^n) = u_p^{n - 1}.
 \end{equation}
 
 Pri implicitnej schéme platí bezpodmienečná stabilita (diskrétny princíp minima a maxima), čo znamená, že ak pre ľubovoľnú voľbu priestorového kroku $h$ a časového kroku $\tau$, platí $u_{min} \leq u_p^{n - 1} \leq u_{max}$ potom platí aj pre $u_{min} \leq u_p^{n} \leq u_{max}$. Riešenie lineárneho systému upravíme do nasledovného tvaru
@@ -464,11 +479,11 @@ Pri implicitnej schéme platí bezpodmienečná stabilita (diskrétny princíp m
 (1 + \frac{\tau}{h^2} \sum_{q \in N(p)}1)u_p^n - \frac{\tau}{h^2} \sum_{q \in N(p)}u_q^n = u_p^{n - 1}.
 \end{equation}
 
-Rovnicu (\ref{eq:eihe}) dostaneme na každom konečnom objeme $p$. Následne schému riešime pomocou super-relaxačnej metódy (SOR). 
+Rovnicu (\ref{eq:eihe}) dostaneme na každom konečnom objeme $p$. Následne schému riešime pomocou super-relaxačnej metódy (eng. Successive Over-Relaxation method - SOR). 
 
-\subsection{Semi$-$implicitná metóda pre SUBSURF}
+\subsection{Numerická schéma pre SUBSURF}
 
-V prvom rade urobíme semi$-$implicitnú časovú diskretizáciu, tak že rovnicu (\ref{eq:subsurf}) vydelíme členom $\sqrt{\epsilon^2 + |\nabla u|^2}$ a dostaneme
+V prvom rade urobíme úpravu do divergentného tvaru, tak že rovnicu (\ref{eq:subsurf}) vydelíme členom $\sqrt{\epsilon^2 + |\nabla u|^2}$ a dostaneme
 
 \begin{equation} \label{eq:cdsubsurf}
 \frac{1}{|\nabla u^{n-1}|_{\epsilon}}.\frac{u^n-u^{n-1}}{\tau} = \nabla.(g^0\frac{\nabla u^n}{|\nabla u^{n-1}|_{\epsilon}}),
@@ -486,23 +501,25 @@ Následne na pravú stranu rovnice aplikujeme Greenovu vetu
 \int_{p}\frac{1}{|\nabla u^{n-1}|_{\epsilon}}.\frac{u_p^n-u_p^{n-1}}{\tau}dx = \int_{\partial p} g^0\frac{\nabla u^n}{|\nabla u_p^{n-1}|_{\epsilon}}\vec{n_{pq}}_pdS,
 \end{equation}
 
-Derivácia v smere vonkajšej normály ku konečnému objemu $p$ je v rovnici (\ref{greensubsurf}) vyjadrená ako $\nabla u^n.\vec{n_{pq}} = \frac{\partial u^n }{\partial \vec{n_{p}}}$. Na ľavej strane rovnice (\ref{greensubsurf}) budeme uvažovať konštantnú reprezentáciu riešenia a jeho gradientu. Normálovú deriváciu z pravej strany rovnice nahradíme konečnou diferenciou
-
-
-
+Derivácia v smere vonkajšej normály ku konečnému objemu $p$ je v rovnici (\ref{greensubsurf}) reprezentovaná ako $\nabla u^n.\vec{n_{pq}}$. Na ľavej strane rovnice (\ref{greensubsurf}) budeme uvažovať konštantnú reprezentáciu riešenia a jeho gradientu. Normálovú deriváciu z pravej strany rovnice nahradíme konečnou diferenciou hodnotami, ktoré reprezentujú hodnoty na hranách konečného objemu $p$. Nasledovne
 
 \begin{equation}
-\frac{m(p)}{|\nabla u_p^{n-1}|_{\epsilon}\tau}(u_p^n-u_p^{n-1}) = \sum_{q \in N(p)}\int_{e_{pq}}g_{pq}^0\frac{\nabla u^n}{|\nabla u_{pq}^{n-1}|_{\epsilon}}\vec{n}_{pq}ds,
+\frac{m(p)}{|\nabla u_p^{n-1}|_{\epsilon}}\frac{u_p^n-u_p^{n-1}}{\tau} = \sum_{q \in N(p)}\int_{e_{pq}}g_{pq}^0\frac{u_q^n - u_p^n}{d_{pq}}.\frac{1}{|\nabla u_{pq}^{n-1}|_{\epsilon}}ds.
 \end{equation}
 
+Vyčíslením integrálu v časovom kroku $n$ aproximáciu $x_{pq}$ použijeme na celej hrane $e_{qp}$ a dostaneme
+
 \begin{equation}
-\frac{m(p)}{|\nabla u_p^{n-1}|_{\epsilon}\tau}(u_p^n-u_p^{n-1}) = \sum_{q \in N(p)}\int_{e_{pq}}g_{pq}^0\frac{u_q^n - u_p^n}{d_{pq}}.\frac{1}{|\nabla u_{pq}^{n-1}|_{\epsilon}}ds,
+\frac{m(p)}{|\nabla u_p^{n-1}|_{\epsilon}}\frac{u_p^n-u_p^{n-1}}{\tau} = \sum_{q \in N(p)}g_{pq}^0\frac{u_q^n - u_p^n}{d_{pq}}.\frac{m(e_{pq})}{|\nabla u_{pq}^{n-1}|_{\epsilon}}.
 \end{equation}
+
+Keďže ide o pixelovú sieť, ktorá má hranu $h$, vieme do schémy dosadiť
 
 \begin{equation}
 \frac{m(p)}{|\nabla u_p^{n-1}|_{\epsilon}\tau}(u_p^n-u_p^{n-1}) = \sum_{q \in N(p)}
 g_{pq}^0T_{pq}\frac{1}{|\nabla u_{pq}^{n-1}|_{\epsilon}}(u_p^n-u_p^{n-1}),
 \end{equation}
+
 
 \begin{equation}
 u_p^n-u_p^{n-1} =\frac{|\nabla u_p^{n-1}|_{\epsilon}\tau}{m(p)} \sum_{q \in N(p)}
@@ -517,15 +534,15 @@ u+p^{n-1} = u_p^n + \sum_{q \in N(p)}\frac{|\nabla u_p^{n-1}|_{\epsilon}\tau}{m(
 u+p^{n-1} = (1 + \sum a_{pq})u_p^n -  \sum a_{pq}u_q^n,
 \end{equation}
 
+Ako počiatočnú podmienku
+
 \newpage
 \section{Softvér}
 
 Na implementáciu a vytvorenie prostredia, bol zvolený objektovo orientovaný prístup jazyka C++, spolu s knižnicami Qt, ktoré obsahujú veľa užitočných tried a boli užitočným nástrojom pri vytváraní užívateľského prostredia a VTK knižnicami, ktoré slúžia na zobrazovanie a manipuláciu s dátami.
 
 \subsection{Qt}
-Užívateľské rozhranie je vytvorené pomocou Qt knižníc, ktoré sú jedným z najpoužívanejších cross-platformových frameworkov na vytváranie užívateľského prostredia(GUI). Majú aj veľa predprogramovaných knižníc ktoré programátorovi uľahčia prácu. Sú naimplementované v jazyku C++. 
-
-*doplnit ako funguju signaly a sloty*
+Užívateľské rozhranie je vytvorené pomocou Qt knižníc, ktoré sú jedným z najpoužívanejších cross-platformových frameworkov na vytváranie užívateľského prostredia (GUI). Majú aj veľa predprogramovaných knižníc ktoré programátorovi uľahčia prácu. Sú naimplementované v jazyku C++. 
 
 Najčastejšie využívané Qt knižnice v projekte:
 \begin{itemize}
@@ -556,34 +573,91 @@ Tieto triedy slúžia v programe na otváranie, načítavanie, ukladanie a manip
 
 \subsubsection{VTK}
 
-Visualization Toolkit (VTK) sú voľne dostupnými knižnicami, ktoré v programe slúžia na zobrazovanie a interakciu s 2D aj 3D dátami. Najviac využité knižnice:
+Visualization Toolkit (VTK) sú voľne dostupnými knižnicami, ktoré v programe slúžia na zobrazovanie a interakciu s 2D aj 3D dátami. Spomenieme niektoré knižnice, ktoré hrajú dôležitú úlohu pri našej implementácii.
 
 \begin{itemize}
 \item \textbf{vtkSmartPointer} \\
 Táto šablónová trieda, slúži ako pointer pre VTK triedy. Jeho úlohou je zlepšiť manažment s pamäťou, čo znamená, že v prípade ak sú dáta mimo rozsahu alebo sa nikde nepoužívajú tak budú automaticky odstránené. Teda uľahčuje pracovať s dátami bez varovných hlášok.
 
+\item \textbf{vtkPoints} \\
+Je triedou reprezentujúcou zoskupenie trojíc $(x, y, z)$ 3D bodov a manipuláciou s uloženými bodmi.
+ 
+\item \textbf{vtkPolygon} \\
+Uľahčuje vytváranie buniek $n$-stranného mnohouholníka v rovine. V našom prípade ide o štvoruholníky, znázorňujúce diskrétnu sieť. Každý štvoruholník reprezentuje jeden pixel načítaných obrazových dát.     
+ 
+\item \textbf{vtkTriangles} \\
+Umožňuje vytvorenie trojuholníkových buniek v priestore.
+
+\item \textbf{vtkCellArray} \\
+Objekty triedy vtkCellArray zabezpečujú prepojenie samostatných buniek rôznych typov, v našej implementácii sa jedná o bunky trojuholníkové (vtkTriangles) a štvorcové (vtkPolygon). Štruktúra tejto triedy je reprezentovaná celočíselným poľom so štruktúrou v tvare: $(n,id_1,id_2, \dots,id_n, n,id_1,id_2, \dots,id_n, \dots)$, kde $n$ je počet bodov, nachádzajúcich sa v bunke a $id$ je index z pridruženého zoznamu bodov.
+
 \item \textbf{vtkPolyData} \\
 V objektoch tejto triedy sú zadefinované vykresľované dáta, či už sa jedná o 2D alebo 3D dáta. V tejto triede môžu byť uložené informácie o tom akým spôsobom budú dáta reprezentované - geometrické informácie o štruktúre vykresľovaných dát. Takýmito informáciami môžu byť napríklad body, bunky, vektory, čiary, polygonálne alebo trojuholníkové pásy.
 
+\item \textbf{vtkColorTransferFunction} \\
+Je to trieda, ktorá nám slúži na definíciu farebných prechodov cez farebné modely RGB alebo HSV v po častiach spojitom priestore. 
+
 \item \textbf{vtkPolyDataMapper} \\
+Je triedou, zabezpečujúcou tzv. 'namapovanie' čo znamená, že zadefinuje, vlastnosti polydát definovaných ako objekt triedy vtkPolyData, ktoré sú potrebné pri následnom vykreslení.
+
 \item \textbf{vtkActor} \\
+Táto trieda reprezentuje, geometriu a vlastnosti vykresľovaných dát na zobrazovanej scéne. Odkazuje na geometriu uloženú ako objekt triedy na vtkPolyDataMapper a dedí funkcie súvisiace s pozíciou a orientáciou vykresľovaných dát. Tieto informácie sú uložené v transformačnej matici o veľkosti $4x4$, ktorá zabezpečuje rotácie vo všetkých smeroch $(x, y, z)$, škálovanie objektov atď..
+
 \item \textbf{vtkRenderer} \\
+Trieda zabezpečujúca samotné vykresľovanie dát. Stará sa o prevod geometrie, špecifikuje svetelné podmienky a orientáciu kamery. Tiež vykonáva transformáciu súradníc medzi svetovými súradnicami, súradnicami zobrazenia (t.j. súradnicový systém počítačovej grafiky) a súradnicami displeja (t.j.  súradnice obrazovky displeja).
+
+\item \textbf{vtkCutter} \\
+Trieda vtkCutter, je filtrovacou triedou, ktorá pomocou implicitnej funkcie zabezpečuje vykresľovanie, viacerých alebo jedného rezu cez trojdimenzionálne dáta. Vo VTK na rezanie (eng. cutting) znamená zredukovanie dimenzie o jedna. V našom prípade išlo o 3D dáta, ktoré sme rezali pomocou roviny. 
+
+\item \textbf{vtkCubeAxesActor} \\
+Pomocou tejto triedy, sú zobrazované hranice vykresľovaných dát spolu s označeniami osí a  hodnotami nachádzajúcimi sa v smeroch $x, y, z$ - výška, šírka a hĺbka.
+
+\item \textbf{vtkInteractorStyleJoystickCamera}, \textbf{vtkInteractorStyleImage}  \\
+Tieto dve triedy umožňujú prepínanie interakcie objektu s prostredím, v našom prípade išlo o odobranie možnosti rotácie pri 2D obrazových dátach.
+
+\item \textbf{vtkXMLPolyDataWriter} \\
+Extrahuje dáta typu vtkPolydata do súboru. Štandardný formát vytvoreného súboru je \textit{.vtp}. 
 \end{itemize}
+
+\subsection{Rozdelenie projektu do tried}
+
+Projekt je rozdelený do viacerých súborov(tried) dodržiavajúcej zásady objektovo-orientovaného programovania, z ktorých každá zabezpečuje funkcionalitu inej časti programu. Nasledovne:
+
+\begin{itemize}
+\item Trieda \textbf{bioData}, spája všetky triedy a definuje užívateľské rozhranie.
+\item V \textbf{source} sa načítavajú dáta zo súborov, vytvárajú sa dáta na následné zobrazenie spolu so zafarbením.   
+\item V triede \textbf{filters}, sú definované všetky filtrovacie funkcie spolu s počiatočnými a okrajovými podmienkami vstupujúcimi do SUBSURFu.
+\item \textbf{ViewerWidget} zabezpečuje vykresľovanie samotných 2D aj 3D dát.
+\item Trieda \textbf{window} uchováva, hodnoty nastavené v užívateľskom rozhraní pre každé okno osobitne.
+
+\end{itemize}
+
 
 \subsection{Grafické užívateľské rozhranie}
 
 V tejto sekcii sa oboznámime s vizuálnou stránkou vytvoreného softvéru a popíšeme funkcionalitu. Pri tvorbe programu sme sa zamerali na to aby bol čo najjednoduchší a vedel ho ovládať aj niekto, kto sa do danej problematiky až tak do hĺbky nevyzná. Grafické rozhranie(GUI) je vytvorené pomocou Qt knižníc.
 
-Pri otvorení programu sa zobrazí okno, v ktorom sa nachádza horná lišta s položkami File, Settings a Help. V každej z týchto položiek sa nachádzajú možnosti
+Pri otvorení programu sa zobrazí okno, v ktorom sa nachádza horná lišta s položkami File, Settings a Help zvyšok bude načítaný až po otvorení. V každej z týchto položiek sa nachádzajú ďalšie možnosti. Položka File obsahuje možnosti: Open, Save, Close Files a Close.
 
+Po zvolení možnosti Open, sa otvorí dialógové okno, z ktorého sa dajú vybrať obrazové súbory typu .pgm (portable gray map). Po zvolení súboru sa zobrazí celé užívateľské prostredie aj so zvolenými dátami. Na pravej ľavej strane sú zobrazené načítané dáta. Na pravej strane, sa nachádzajú informácie o dátach, zoznam spracovávaných dát v programe pre 2D aj 3D dáta, možnosti pre 2D a 3D dáta spolu so všetkými implementovanými filtrami, prahovacími metódami a možnosťami pre zobrazenie uložených vo viacerých taboch. 
 
+*PRIDAT OBRAZOK UICKA PO NACITANI DAT*
+
+V prvom tabe  s možnosťami, sa nachádzajú štyri implementované prahovacie algoritmy, ktoré vstupujú  následne ako okrajová podmienka do segmentačnej metódy. Ide o dva globálne prahovacie algoritmy, ktoré závisia len na histograme a teda neberie na vstup žiadne parametre. 
 
 
 \newpage
 \section{Výsledky}
+\subsection{Okrajové podmienky}
+
+V projekte sú implementované štyri rôzne prahovacie metódy, ktoré by mohli slúžiť ako okrajová podmienka na vstup do segmentačnej metódy.
+
+\subsection{Počiatočné podmienky}
 
 \newpage
 \section{Záver}
+
+%Cieľom tejto práce, bolo nájsť 
 
 \newpage
 \begin{thebibliography}{50}

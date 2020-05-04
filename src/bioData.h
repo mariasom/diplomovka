@@ -6,6 +6,7 @@
 #include "viewerWidget.h"
 #include "source.h"
 #include "filters.h"
+#include "subWin.h"
 #include <filesystem>
 #include <QKeyEvent>
 #include <QDockWidget>
@@ -20,6 +21,7 @@ public:
 	~bioData() {};
 	bool eventFilter(QObject *obj, QEvent *event);
 	bool QScrollAreaEventFilter(QObject *obj, QEvent *event);
+	void setRangeValLab();
 	//void visualize();
 	void setTabWidget();
 	//void createInfoGroupBox();
@@ -31,6 +33,7 @@ public:
 	void keyUpEvent(QKeyEvent *event);
 	void keyDownEvent(QKeyEvent *event);
 	void addSubItem(QTreeWidgetItem *parent, QString name);
+	void initWin(QString path);
 
 	// groupboxes
 	void createSubsurfGB();
@@ -42,6 +45,7 @@ public:
 	void createcontour3DGB();
 	void createcontour2DGB();
 	void createHeatEqGB();
+	void createrManOptContourGB();
 
 	// docks
 	void createFileDock(QString name, QString path, int width, int height);
@@ -101,6 +105,9 @@ public slots:
 	void contour3DwDClicked();
 	void differenceClicked();
 	void heatEquationClicked();
+	void contour3DPClicked();
+	void contour3DPwDClicked();
+	void manOptContClicked();
 
 	// others
 	void AxesChange(bool checked);
@@ -115,10 +122,10 @@ public slots:
 private:
 	Ui::bioData *ui;
 	QMdiArea *mdiArea; 
-	QWidget *widget2D = nullptr;
-	QWidget *widget3D = nullptr;
-	QGridLayout *gridLayout2D;
-	QGridLayout *gridLayout3D;
+	QWidget *widget = nullptr;
+	//QWidget *widget3D = nullptr;
+	QGridLayout *gridLayout;
+	//QGridLayout *gridLayout3D;
 
 	// docks
 	QDockWidget *fileDock;
@@ -146,11 +153,12 @@ private:
 	QGroupBox *contour3DGroupBox;
 	QGroupBox *contour2DGroupBox;
 	QGroupBox *HeatEqGroupBox;
+	QGroupBox *manOptContourGB;
 
 	// treewidget + its items
 	QTreeWidget *dataTree;
-	QTreeWidgetItem *parent2D;
-	QTreeWidgetItem *parent3D;
+	QTreeWidgetItem *parent2D = nullptr;
+	QTreeWidgetItem *parent3D = nullptr;
 
 	// buttons
 	QPushButton *otsuButton;
@@ -179,6 +187,10 @@ private:
 	QPushButton *contour3DwDButton;
 	QPushButton *differenceButton;
 	QPushButton *heatEquationButton;
+	QPushButton *contour3DPButton;
+	QPushButton *contour3DPwDButton;
+	QPushButton *manOptContourButton;
+	QPushButton *contourOnOGButton;
 
 	// comboboxes
 	QComboBox *dataCBox;
@@ -191,6 +203,7 @@ private:
 	QDoubleSpinBox *kSubsurf;
 	QDoubleSpinBox *niblackTimeStepSB;
 	QDoubleSpinBox *heatEqSB;
+	QDoubleSpinBox *contourZConSB;
 	QSpinBox *niblackMaskSB;
 	QSpinBox *bernsenMaskSB;
 	QSpinBox *numCont3DSB;
@@ -199,15 +212,19 @@ private:
 	QCheckBox *useOData;
 	QCheckBox *axesCB;
 	
+	// other
+	QLabel *rangeLab;
 	// garbage
 	QTabWidget *innerTabs;
 	QSpinBox *backgroundSB;
 	QSpinBox *foregroundSB;;
 	QListWidget *dataListView;
 	int _index = 0;
-	source *_file;
+	QVector<source*> _file;
 	source *fTmp;
-	viewerWidget *w;
+	QVector<viewerWidget*> _vWidget;
+	// QVector<subWin*> _winParam;
+	viewerWidget* w;
 	QString fName;
 	QString filePath;
 	bool advanced = false;

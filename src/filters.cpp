@@ -618,7 +618,7 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, do
 	qnpm = an(uk1, true);*/
 	grad2(uk1, h, k, epsilon);
 
-	for (int t = 0; t < 200; t++) {
+	for (int t = 0; t < 50; t++) {
 		double rez = pow(10,6);
 
 		grad(un, h, k, epsilon);
@@ -632,10 +632,6 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, do
 
 			for (int i = 1; i < widthR - 1; i++) {
 				for (int j = 1; j < heightR - 1; j++) {
-					/*double avg = (1. / 4.)*(qe.at(j * widthR + i)
-						+ qw.at(j * widthR + i)
-						+ qs.at(j * widthR + i)
-						+ qn.at(j * widthR + i));*/
 
 					double	tmps = ( qepm.at(j * widthR + i) / qe.at(j * widthR + i)) +
 						(qwpm.at(j * widthR + i)/qw.at(j * widthR + i)) +
@@ -654,10 +650,6 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, do
 			rez = 0.;
 			for (int i = 1; i < widthR - 1; i++) {
 				for (int j = 1; j < heightR - 1; j++) {
-					/*double avg = (1. / 4.)*(qe.at(j * widthR + i) 
-						+ qw.at(j * widthR + i)
-						+ qs.at(j * widthR + i) 
-						+ qn.at(j * widthR + i));*/
 					double tmps = (qepm.at(j * widthR + i) / qe.at(j * widthR + i))
 						+ (qwpm.at(j * widthR + i) / qw.at(j * widthR + i))
 						+ (qspm.at(j * widthR + i) / qs.at(j * widthR + i)) 
@@ -699,17 +691,19 @@ QVector<double> filters::countAvg() {
 
 QVector<double> filters::niblackThreshold(QVector<double> data, double timeStep) {
 	QVector<double> tmp, tmp1, tmp2, thresholds;
-	double TT = 20, r = p*p;
+	double TT = 20/255., r = p*p;
+	double m = 70 / 255.;
+	double d = 20 / 255.;
 	tmp1 = heatImpl(data, timeStep); //u
 	tmp2 = heatImpl(pow2(data), timeStep); //uu
 
 	for (int i = p; i < height + p; i++)
 		for (int j = p; j < width + p; j++) {
 			tmp2[j * widthR + i] = sqrt(tmp2[j * widthR + i] - pow(tmp1[j * widthR + i], 2));
-			if (tmp2[j * widthR + i] < TT / 255. && tmp1[j * widthR + i] < 70 / 255.)
-				tmp2[j * widthR + i] = tmp2[j * widthR + i] + 30 / 255.;
-			if (tmp2[j * widthR + i] < TT / 255. && tmp1[j * widthR + i] >= 70 / 255.)
-				tmp2[j * widthR + i] = tmp2[j * widthR + i] - 30 / 255.;
+			if (tmp2[j * widthR + i] < TT && tmp1[j * widthR + i] < m)
+				tmp2[j * widthR + i] = tmp2[j * widthR + i] + d;
+			if (tmp2[j * widthR + i] < TT && tmp1[j * widthR + i] >= m)
+				tmp2[j * widthR + i] = tmp2[j * widthR + i] - d;
 		}
 
 	thresholds.resize(tmp1.size());
@@ -724,8 +718,7 @@ QVector<double> filters::niblackThreshold(QVector<double> data, double timeStep)
 			double min = 10, max = -1;
 			for (int ii = i - p; ii <= i + p; ii++)
 				for (int jj = j - p; jj <= j + p; jj++) 
-					if(pow(i-ii,2)+pow(j-jj,2)<=p*p) 
-					{
+					if(pow(i-ii,2)+pow(j-jj,2)<=p*p) {
 						if (tmp[jj * widthR + ii] < min)
 							min = tmp.at(jj * widthR + ii);
 						if (tmp[jj * widthR + ii] > max)
@@ -772,8 +765,7 @@ QVector<double> filters::bernsenThreshold(QVector<double> data) {
 			double Imin = 10, Imax = -1, c;
 			for (int ii = i - r; ii <= i + r; ii++)
 				for (int jj = j - r; jj <= j + r; jj++) {
-					if (pow(i - ii, 2) + pow(j - jj, 2) <= r * r)
-					{
+					if (pow(i - ii, 2) + pow(j - jj, 2) <= r * r) {
 						if (tmp[jj * widthR + ii] < Imin)
 							Imin = tmp.at(jj * widthR + ii);
 						if (tmp[jj * widthR + ii] > Imax)
@@ -813,21 +805,6 @@ QVector<double> filters::thresholdFunction(QVector<unsigned char> initConData) {
 
 	return z;
 }
-
-/*QVector<double> filters::makeCircReg(int i, int j, int r) {
-
-	for (int ii = i - r; ii <= i + r; ii++)
-		for (int jj = j - r; jj <= j + r; jj++) {
-			if (pow(i - ii, 2) + pow(j - jj, 2) <= r * r)
-			{
-				if (tmp[jj * widthR + ii] < min)
-					min = tmp.at(jj * widthR + ii);
-				if (tmp[jj * widthR + ii] > max)
-					max = tmp.at(jj * widthR + ii);
-			}
-		}
-
-}*/
 
 QVector<unsigned char> filters::dataDifference(QVector<unsigned char> tData) {
 	QVector<unsigned char> newData;
