@@ -319,6 +319,7 @@ void viewerWidget::cut1Contour(vtkSmartPointer<vtkPolyData> polydata, double zVa
 	cutterMapper->SetInputConnection(cutter->GetOutputPort());
 	cutterMapper->ScalarVisibilityOff();
 
+	cutterActor->SetPosition(0, 0, 0);
 	cutterActor->GetProperty()->SetLineWidth(2);
 	cutterActor->SetMapper(cutterMapper);
 	cutterActor->GetProperty()->SetColor(1, 0, 0);
@@ -334,7 +335,9 @@ void viewerWidget::cut1Contour(vtkSmartPointer<vtkPolyData> polydata, double zVa
 
 void viewerWidget::optContourOnID(double zValue) {
 	renderer->GetViewProps()->RemoveAllItems();
+	cutterActor->GetProperty()->SetLineWidth(3);
 	cutterActor->SetPosition(0, 0, abs(zValue));
+	// cutterActor->GetProperty()->SetColor(1, 0, 0);
 	renderer->AddActor(actor2D);
 	renderer->AddActor(cutterActor);
 	renderer->SetBackground(1, 1, 1);

@@ -64,6 +64,8 @@ bioData::bioData(QWidget *parent)
 	manOptContourButton = new QPushButton;
 	rangeLab = new 	QLabel;
 	contourZConSB = new QDoubleSpinBox;
+	optContDispButton = new QPushButton;
+	historyText = new QPlainTextEdit;
 	// parent3D = new QTreeWidgetItem();
 	// parent2D = new QTreeWidgetItem();
 
@@ -109,6 +111,7 @@ bioData::bioData(QWidget *parent)
 	connect(this->contour3DPButton, SIGNAL(clicked()), this, SLOT(contour3DPClicked()));
 	connect(this->contour3DPwDButton, SIGNAL(clicked()), this, SLOT(contour3DPwDClicked()));
 	connect(this->manOptContourButton, SIGNAL(clicked()), this, SLOT(manOptContClicked()));
+	connect(this->optContDispButton, SIGNAL(clicked()), this, SLOT(optContDispClicked()));
 	connect(this->testingButton, SIGNAL(clicked()), this, SLOT(testClicked()));
 
 	//connect(this->dataUp, SIGNAL(clicked()), this, SLOT(dataUpClicked()));
@@ -214,7 +217,7 @@ void bioData::initWin(QString path) {
 	_vWidget.at(_vWidget.size() - 1)->setScrollArea();
 
 	if (widget == nullptr) {
-		createFileDock(list[list.length() - 1], filePath, tmpFile->getWidth(), tmpFile->getHeight());
+		//createFileDock(list[list.length() - 1], filePath, tmpFile->getWidth(), tmpFile->getHeight());
 		createListDock();
 		createFilter2DDock();
 		createFilter3DDock();
@@ -226,6 +229,9 @@ void bioData::initWin(QString path) {
 		QMainWindow::tabifyDockWidget(filter2DDock, options3DDock);
 		QMainWindow::tabifyDockWidget(filter2DDock, historyDock);
 	}
+	historyText->appendPlainText("File name: " + fName);
+	historyText->appendPlainText("File path: " + filePath);
+	historyText->appendPlainText("Width: " + QString::number(tmpFile->getWidth()) + " Height: " + QString::number(tmpFile->getHeight()));
 	widget = new QWidget(mdiArea);
 	gridLayout = new QGridLayout(widget);
 	dataTree->model()->removeColumns(0, dataTree->columnCount());
@@ -233,24 +239,24 @@ void bioData::initWin(QString path) {
 	parent2D->setText(0, "2D");
 	parent3D = new QTreeWidgetItem();
 	parent3D->setText(0, "3D");
-	dataTree->model()->removeColumns(0, dataTree->columnCount());
+	// dataTree->model()->removeColumns(0, dataTree->columnCount());
 	dataTree->addTopLevelItem(parent2D);
 	dataTree->addTopLevelItem(parent3D);
+	parent3D->setHidden(true);
 	mdiArea->addSubWindow(widget);
 	options3DDock->hide();
 	options2DDock->hide();
 	setDefaultValues();
+	twoDClicked();
 	_file.at(_file.size() - 1)->setPoints(tmpFile->getOrigData());
 	gridLayout->addWidget(_vWidget.at(_vWidget.size() - 1)->getScrollArea());
 	_vWidget.at(_vWidget.size() - 1)->setViewerWidget2D(tmpFile->getImageData(), tmpFile->getFileName(fName));
 
-	widget->setWindowTitle("Original Data");
+	// widget->setWindowTitle("Original Data");
 	addSubItem(parent2D, fName + "_original_data");
 
 	widget->show();
 	widget->showMaximized();
-	
-
 
 	//window *winTmp = new window(scaleSpinBox_x->value(), scaleSpinBox_y->value(), scaleSpinBox_z->value(), colorSpinBox_min->value(), colorSpinBox_max->value(), colorComboBox->currentIndex());
 	//_tabParam.resize(_tabParam.size() + 1);
@@ -280,6 +286,8 @@ void bioData::initWin(QString path) {
 }
 
 void bioData::addSubItem(QTreeWidgetItem *parent, QString name) {
+	if (parent->isHidden())
+		parent->setHidden(false);
 	QTreeWidgetItem *itm = new QTreeWidgetItem();
 	itm->setText(0, name);
 	parent->addChild(itm);
@@ -679,8 +687,10 @@ void bioData::createFilter3DDock() {
 void bioData::otsuClicked() {
 
 	filters filter(_file.at(_file.size() - 1)->getWidth(), _file.at(_file.size() - 1)->getHeight(), _file.at(_file.size() - 1)->getOrigData());
-	_file.at(_file.size() - 1)->addFiltData(filter.createNewData(_file.at(_file.size() - 1)->getOrigData(), filter.otsuFilter()));
+	int otsuThr = filter.otsuFilter();
+	_file.at(_file.size() - 1)->addFiltData(filter.createNewData(_file.at(_file.size() - 1)->getOrigData(), otsuThr));
 	_file.at(_file.size() - 1)->setPoints(_file.at(_file.size() - 1)->getFiltData(_file.at(_file.size() - 1)->getSizeFiltData() - 1));
+	historyText->appendPlainText("Otsu's threshold: " + QString::number(otsuThr));
 	//if (widget == nullptr)
 	//	set2DWidget();
 	//else
@@ -701,9 +711,10 @@ void bioData::otsuClicked() {
 void bioData::kapuraClicked() {
 
 	filters filter(_file.at(_file.size() - 1)->getWidth(), _file.at(_file.size() - 1)->getHeight(), _file.at(_file.size() - 1)->getOrigData());
-	//filter.histogram();
-	_file.at(_file.size() - 1)->addFiltData(filter.createNewData(_file.at(_file.size() - 1)->getOrigData(), filter.kapuraFilter()));
+	int kapurThr = filter.kapuraFilter();
+	_file.at(_file.size() - 1)->addFiltData(filter.createNewData(_file.at(_file.size() - 1)->getOrigData(), kapurThr));
 	_file.at(_file.size() - 1)->setPoints(_file.at(_file.size() - 1)->getFiltData(_file.at(_file.size() - 1)->getSizeFiltData() - 1));
+	historyText->appendPlainText("Maximum entropy threshold: " + QString::number(kapurThr));
 	// if (widget2D == nullptr)
 	//	set2DWidget();
 	// else
@@ -744,15 +755,14 @@ void bioData::treeIndexChanged(QTreeWidgetItem *itm, int i) {
 			options2DDock->show();
 			options3DDock->hide();
 			_vWidget.at(_vWidget.size() - 1)->updateViewerWidget2D();
-			widget->showMaximized();
+			twoDClicked();
 		}
 		else if (itm->parent() == parent3D) {
-			fTmp->create3Ddata(fTmp->get3DData(dataTree->currentIndex().row()));
+			_file.at(_file.size() - 1)->create3Ddata(_file.at(_file.size() - 1)->get3DData(dataTree->currentIndex().row()));
 			options2DDock->hide();
 			options3DDock->show();
-			setRangeValLab();
 			_vWidget.at(_vWidget.size() - 1)->updateViewerWidget3D();
-			widget->showMaximized();
+			threeDClicked();
 		}
 }
 
@@ -795,12 +805,6 @@ void bioData::subsurfClicked() {
 		filters filter(_file.at(_file.size() - 1)->getWidth(), _file.at(_file.size() - 1)->getHeight(), _file.at(_file.size() - 1)->getOrigData());
 		QVector<double> tmp;
 		if (initialCBox->currentIndex() == 0) {
-			/* tmp = filter.subSurf(
-				filter.distFunctSign(
-					filter.dataToDouble(_file.at(_file.size() - 1)->getFiltData(dataTree->currentIndex().row()))),
-				filter.changeRangeOfData(
-					filter.dataToInt(_file.at(_file.size() - 1)->getFiltData(dataTree->currentIndex().row()))),
-				sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());*/
 			tmp = filter.subSurf(
 				filter.distFunctSign(
 					filter.dataToDouble(_file.at(_file.size() - 1)->getFiltData(dataTree->currentIndex().row()))),
@@ -811,7 +815,7 @@ void bioData::subsurfClicked() {
 			tmp = filter.subSurf(
 				filter.thresholdFunction(_file.at(_file.size() - 1)->getFiltData(dataTree->currentIndex().row())),
 				filter.changeRangeOfData(
-					filter.dataToInt(_file.at(_file.size() - 1)->getFiltData(dataTree->currentIndex().row()))),
+					filter.dataToInt(filter.dataDifference(_file.at(_file.size() - 1)->getFiltData(dataTree->currentIndex().row())))),
 				sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());
 		}
 		_file.at(_file.size() - 1)->add3DData(tmp);
@@ -823,14 +827,10 @@ void bioData::subsurfClicked() {
 		options2DDock->hide();
 		QString lab;
 		int i = dataTree->currentIndex().row();
-		lab = "Maximum z coordinate: " + QString::number(_file.at(_file.size() - 1)->getZMax(i)) +
+		lab = "SUBSURF\nMaximum z coordinate: " + QString::number(_file.at(_file.size() - 1)->getZMax(i)) +
 			"\nMinimum z coordinate: " + QString::number(_file.at(_file.size() - 1)->getZMin(i));
-		rangeLab->setText(lab);
+		historyText->appendPlainText(lab);
 
-		//if (parent3D == nullptr)
-		//	set3DWidget();
-		//else
-		//update3DWidget();
 		widget->setWindowTitle("Subsurf(3D)");
 		QString txt = dataTree->currentItem()->text(dataTree->currentIndex().column());
 		addSubItem(parent3D, txt + "_subsurf");
@@ -852,14 +852,11 @@ void bioData::actionDistFunc() {
 	options3DDock->show();
 	options2DDock->hide();
 
-	//if (widget3D == nullptr)
-	//	set3DWidget();
-	//else
 		update3DWidget();
 	// Set the window title
 	widget->setWindowTitle("Distanced Function");
 	QString txt = dataTree->currentItem()->text(dataTree->currentIndex().column());
-	addSubItem(parent3D, txt + "dist_function");
+	addSubItem(parent3D, txt + "_dist_function");
 }
 
 void bioData::set3DWidget() {
@@ -890,38 +887,15 @@ void bioData::set3DWidget() {
 void bioData::update3DWidget() {
 	_vWidget.at(_vWidget.size() - 1)->updateViewerWidget3D();
 	options3DDock->show();
-	widget->update();
-	widget->show();
-	widget->showMaximized();
-}
-
-/*void bioData::set2DWidget() {
-	widget2D = new QWidget(mdiArea); 
-	parent2D = new QTreeWidgetItem();
-	parent2D->setExpanded(true);
-	twoDButton->setChecked(true);
-	threeDButton->setChecked(false);
-	parent2D->setText(0, "2D");
-	dataTree->addTopLevelItem(parent2D);
-	w->setScrollArea2D();
-	gridLayout2D = new QGridLayout(widget2D);
-	gridLayout2D->addWidget(w->getScrollArea2D());
-	w->setViewerWidget2D(fTmp->getImageData(), fTmp->getFileName(fName));
-	options3DDock->hide();
 	options2DDock->hide();
-	// Adding a widget as a sub window in the Mdi Area
-	mdiArea->addSubWindow(widget2D);
-	// And show the widget
-	widget2D->show();
-	widget2D->showMaximized();
-}*/
+	threeDClicked();
+}
 
 void bioData::update2DWidget() {
 	_vWidget.at(_vWidget.size() - 1)->updateViewerWidget2D();
-	widget->update();
-	widget->show();
 	options2DDock->show();
-	widget->showMaximized();
+	options3DDock->hide();
+	twoDClicked();
 }
 
 void bioData::actionSignDistFunc() {
@@ -940,7 +914,7 @@ void bioData::actionSignDistFunc() {
 		update3DWidget();
 	// Set the window title
 	widget->setWindowTitle("Sign Distanced Function");	
-	addSubItem(parent3D, "sign_dist_function");
+	addSubItem(parent3D, "_sign_dist_function");
 }
 
 void bioData::createSubsurfGB() {
@@ -1047,6 +1021,7 @@ void bioData::twoDClicked() {
 	twoDButton->setChecked(true);
 	threeDButton->setChecked(false);
 	_vWidget.at(_vWidget.size() - 1)->set2DView();
+	resetViewClicked();
 }
 
 void bioData::threeDClicked() {
@@ -1149,7 +1124,8 @@ void bioData::thresholdInitConClicked() {
 	_vWidget.at(_vWidget.size() - 1)->setViewerWidget3D(_file.at(_file.size() - 1)->getPolydata());
 
 	widget->setWindowTitle("Threshold Function");
-	addSubItem(parent3D, "threshold_function");
+	QString txt = dataTree->currentItem()->text(dataTree->currentIndex().column());
+	addSubItem(parent3D, txt + "_threshold_function");
 }
 
 void bioData::createOptions2DDock() {
@@ -1202,7 +1178,7 @@ void bioData::createOptions3DDock() {
 	layout->addWidget(colorCBox, 1, 1);
 	layout->addWidget(contour3DGroupBox,2,0,1,2);
 	layout->addWidget(manOptContourGB, 3, 0, 1, 2);
-	layout->addWidget(testGroupBox, 4, 0, 1, 2);
+	//layout->addWidget(testGroupBox, 4, 0, 1, 2);
 	multiWidget->setLayout(layout);
 	options3DDock->setWidget(multiWidget);
 	addDockWidget(Qt::RightDockWidgetArea, options3DDock);
@@ -1230,9 +1206,11 @@ void bioData::createHistoryLogDock() {
 		QDockWidget::DockWidgetMovable |
 		QDockWidget::DockWidgetVerticalTitleBar);
 	QWidget* multiWidget = new QWidget();
-	QGridLayout *filterLayout = new QGridLayout;
+	QGridLayout *layout = new QGridLayout;
+	historyText->setReadOnly(true);
+	layout->addWidget(historyText);
 
-	multiWidget->setLayout(filterLayout);
+	multiWidget->setLayout(layout);
 	historyDock->setWidget(multiWidget);
 	addDockWidget(Qt::RightDockWidgetArea, historyDock);
 }
@@ -1403,19 +1381,22 @@ void bioData::createrManOptContourGB() {
 
 	QGridLayout *layout = new QGridLayout;
 	QLabel *zLab = new QLabel(tr("Z coordinate of contour: "));
-	setRangeValLab();
+	QLabel *ogDataLab = new QLabel(tr("Display on original data: "));
+	//setRangeValLab();
 	manOptContourButton->setText("Show");
-	layout->addWidget(rangeLab, 0, 0, 1, 2);
-	layout->addWidget(zLab, 1, 0);
-	layout->addWidget(contourZConSB, 1, 1);
-	layout->addWidget(manOptContourButton, 2, 1);
+	optContDispButton->setText("Show");
+	// layout->addWidget(rangeLab, 0, 0, 1, 2);
+	layout->addWidget(zLab, 0, 0);
+	layout->addWidget(contourZConSB, 0, 1);
+	layout->addWidget(manOptContourButton, 1, 1);
+	layout->addWidget(ogDataLab, 2, 0);
+	layout->addWidget(optContDispButton, 2, 1);
 
 	manOptContourGB->setLayout(layout);
 }
 
 void bioData::manOptContClicked() {
 	filters filter(_file.at(_file.size() - 1)->getWidth(), _file.at(_file.size() - 1)->getHeight(), _file.at(_file.size() - 1)->getOrigData());
-	// setRangeValLab();
 	_file.at(_file.size() - 1)->create3Ddata(_file.at(_file.size() - 1)->get3DData(dataTree->currentIndex().row()));
 	_vWidget.at(_vWidget.size() - 1)->cut1Contour(_file.at(_file.size() - 1)->getPolydata(), contourZConSB->value());
 	// _vWidget.at(_vWidget.size() - 1)->optContourOnID();
@@ -1434,4 +1415,15 @@ void bioData::setRangeValLab() {
 			contourZConSB->setValue(round(_file.at(_file.size() - 1)->getZMax(i)));
 			rangeLab->setText(lab);
 		}
+}
+
+void bioData::optContDispClicked() {
+	filters filter(_file.at(_file.size() - 1)->getWidth(), _file.at(_file.size() - 1)->getHeight(), _file.at(_file.size() - 1)->getOrigData());
+	_file.at(_file.size() - 1)->create3Ddata(_file.at(_file.size() - 1)->get3DData(dataTree->currentIndex().row()));
+	_vWidget.at(_vWidget.size() - 1)->cut1Contour(_file.at(_file.size() - 1)->getPolydata(), contourZConSB->value(), true);
+	_file.at(_file.size() - 1)->addFiltData(filter.dataDifference(_file.at(_file.size() - 1)->getFiltData(dataTree->currentIndex().row())));
+	_file.at(_file.size() - 1)->setPoints(_file.at(_file.size() - 1)->getFiltData(_file.at(_file.size() - 1)->getSizeFiltData() - 1));
+	_vWidget.at(_vWidget.size() - 1)->optContourOnID(contourZConSB->value());
+	dataTree->setCurrentItem(parent2D->child(0));
+	twoDClicked();
 }

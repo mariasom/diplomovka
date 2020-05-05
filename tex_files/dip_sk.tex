@@ -10,7 +10,7 @@
 \usepackage[slovak]{babel}
 \usepackage[utf8x]{inputenc}
 %\usepackage[cp1250]{inputenc}
-%\usepackage[T1]{fontenc} %pekne makcene
+\usepackage[T1]{fontenc} %pekne makcene
 
 
 %male popisy obrazkov a~grafika
@@ -95,7 +95,7 @@
         Študijny program: & Matematicko-počítačové modelovanie\\
         Študijny odbor: & Aplikovaná matematika\\
         Školiace pracovisko: & Katedra matematiky a deskriptívnej geometrie\\
-        Vedúci diplomovej práce: & doc. RNDr. Zuzana Krivá, PhD. \\
+        Vedúci diplomovej\\ práce: & doc. RNDr. Zuzana Krivá, PhD. \\
         \end{tabular}
     \vskip 1.5cm
     \centerline{\large \bf{BRATISLAVA 2020}}
@@ -378,7 +378,7 @@ kde $\epsilon$ je modelovacím parametrom a $u$ je vyvíjajúca sa level funkcia
 g(s) = \frac{1}{1+Ks^2}, K > 0,
 \end{equation}
 
-kde $s = |\nabla G_\sigma*I^0|$. Zhľadený gradient $\nabla G_\sigma*I^0$ získame napríklad aplikovaním jedného kroku vedenia tepla.
+kde $s = |\nabla G_\sigma*I^0|$. Zhľadený gradient $\nabla G_\sigma*I^0$ získame napríklad aplikovaním jedného kroku vedenia tepla. *DOPLNIT?*
 
 
 %regions of approximately constant intensity), the threshold will be close to the
@@ -411,13 +411,13 @@ a pre ľubovoľnú veľkosť časového kroku je bezpodmienečne stabilná.
 
 \begin{figure}[h!]
  \begin{center} 
- \includegraphics[scale=0.40]{pics/hrany.pdf}
+ \includegraphics[scale=0.40]{pics/hrany1.pdf}
 \caption{Detail siete spolu s označením. V strede sa nachádza pixel $p$, susedné pixle sú označené ako $q_i$, kde $q_i = 1, 2, 3, 4$, hrany medzi pixlami označíme ako $e_{pq}$, $x_p$ a $x_q$ sú body. }
 \end{center} 
 \label{fig:hrany}
 \end{figure}
 
-
+Pre pixelovú sieť budeme používať označenie uvedené na obr. \ref{fig:hrany}.
 Rovnicu (\ref{eq:ihe}) integrujeme cez konečný objem $p$ a dostaneme rovnicu v tvare
 
 \begin{equation} 
@@ -509,32 +509,40 @@ Derivácia v smere vonkajšej normály ku konečnému objemu $p$ je v rovnici (\
 
 Vyčíslením integrálu v časovom kroku $n$ aproximáciu $x_{pq}$ použijeme na celej hrane $e_{qp}$ a dostaneme
 
-\begin{equation}
+\begin{equation} \
 \frac{m(p)}{|\nabla u_p^{n-1}|_{\epsilon}}\frac{u_p^n-u_p^{n-1}}{\tau} = \sum_{q \in N(p)}g_{pq}^0\frac{u_q^n - u_p^n}{d_{pq}}.\frac{m(e_{pq})}{|\nabla u_{pq}^{n-1}|_{\epsilon}}.
 \end{equation}
 
-Keďže ide o pixelovú sieť, ktorá má hranu $h$, vieme do schémy dosadiť
+Keďže ide o pixelovú sieť s hranu $h$, dostaneme tvar
 
-\begin{equation}
-\frac{m(p)}{|\nabla u_p^{n-1}|_{\epsilon}\tau}(u_p^n-u_p^{n-1}) = \sum_{q \in N(p)}
-g_{pq}^0T_{pq}\frac{1}{|\nabla u_{pq}^{n-1}|_{\epsilon}}(u_p^n-u_p^{n-1}),
+\begin{equation} \label{sub}
+\frac{h^2}{\tau|\nabla u_p^{n-1}|_{\epsilon}}u_p^n + \sum_{q \in N(p)}\frac{g_{pq}^0}{|\nabla u_{pq}^{n-1}|_{\epsilon}}(u_q^n - u_p^n) = \frac{h^2}{\tau|\nabla u_p^{n-1}|_{\epsilon}}u_p^{n - 1}.
 \end{equation}
 
+Z tvaru (\ref{sub}), dostaneme rovnicu pre každý pixel
 
 \begin{equation}
-u_p^n-u_p^{n-1} =\frac{|\nabla u_p^{n-1}|_{\epsilon}\tau}{m(p)} \sum_{q \in N(p)}
-g_{pq}^0T_{pq}\frac{1}{|\nabla u_{pq}^{n-1}|_{\epsilon}}(u_p^n-u_p^{n-1}),
+a_p^{n - 1}u_p^n - \sum_{q \in N(p)} a_{pq}^{n - 1}u_q^n =b_p^{n-1}u_p^{n-1},
 \end{equation}
+
+kde $a_{pq}^{n - 1}, a_p^{n - 1}, b_p^{n - 1}$ označujú
+\begin{equation}
+\begin{array}{l}
+a_{pq}^{n - 1}  = \frac{g_{pq}^{0}}{|\nabla u_{pq}^{n-1}|_{\epsilon}}, \\
+a_p^{n - 1} = \frac{h^2}{\tau|\nabla u_p^{n-1}|_{\epsilon}} + \sum_{q \in N(p)} a_{pq}^{n - 1}, \\
+b_p^{n - 1} = \frac{h^2}{\tau|\nabla u_p^{n-1}|_{\epsilon}}, \\
+\end{array}
+\end{equation}
+
+a po dosadení okrajových podmienok dostávame sústavu lineárnych rovníc riešenú v novom časovom kroku $u^n$.
+
+V našom prípade na získanie hranového detektora $g_{pq}^{0}$ použijeme priemer z originálnych dát a dát, na ktoré sme použili niektorú z globálnych alebo lokálnych adaptívnych prahovacích metód nasledovne
 
 \begin{equation}
-u+p^{n-1} = u_p^n + \sum_{q \in N(p)}\frac{|\nabla u_p^{n-1}|_{\epsilon}\tau}{m(p)} \frac{g_{pq}^0T_{pq}}{|\nabla u_{pq}^{n-1}|_{\epsilon}} (u_p^n-u_p^{n-1}),
+g_{pq}^{0} = \frac{1}{1 + k|\nabla \frac{u_o + u_t}{2}|^2},
 \end{equation}
 
-\begin{equation}
-u+p^{n-1} = (1 + \sum a_{pq})u_p^n -  \sum a_{pq}u_q^n,
-\end{equation}
-
-Ako počiatočnú podmienku
+kde $u_o$ označujú pôvodné dáta a $u_t$ sú vyprahované dáta. 
 
 \newpage
 \section{Softvér}
@@ -571,7 +579,7 @@ Tieto triedy slúžia v programe na otváranie, načítavanie, ukladanie a manip
 
 \end{itemize}
 
-\subsubsection{VTK}
+\subsection{VTK}
 
 Visualization Toolkit (VTK) sú voľne dostupnými knižnicami, ktoré v programe slúžia na zobrazovanie a interakciu s 2D aj 3D dátami. Spomenieme niektoré knižnice, ktoré hrajú dôležitú úlohu pri našej implementácii.
 
@@ -639,11 +647,65 @@ V tejto sekcii sa oboznámime s vizuálnou stránkou vytvoreného softvéru a po
 
 Pri otvorení programu sa zobrazí okno, v ktorom sa nachádza horná lišta s položkami File, Settings a Help zvyšok bude načítaný až po otvorení. V každej z týchto položiek sa nachádzajú ďalšie možnosti. Položka File obsahuje možnosti: Open, Save, Close Files a Close.
 
-Po zvolení možnosti Open, sa otvorí dialógové okno, z ktorého sa dajú vybrať obrazové súbory typu .pgm (portable gray map). Po zvolení súboru sa zobrazí celé užívateľské prostredie aj so zvolenými dátami. Na pravej ľavej strane sú zobrazené načítané dáta. Na pravej strane, sa nachádzajú informácie o dátach, zoznam spracovávaných dát v programe pre 2D aj 3D dáta, možnosti pre 2D a 3D dáta spolu so všetkými implementovanými filtrami, prahovacími metódami a možnosťami pre zobrazenie uložených vo viacerých taboch. 
+\begin{figure}[h!]
+ \begin{center} 
+ \includegraphics[scale=0.50]{pics/ui1.jpg}
+\caption{Grafické rozhranie programu po načítaní vybraných dát.}
+\end{center} 
+\label{fig:ui1}
+\end{figure}
 
-*PRIDAT OBRAZOK UICKA PO NACITANI DAT*
+Po zvolení možnosti Open, sa otvorí dialógové okno, z ktorého sa dajú vybrať obrazové súbory typu .pgm (portable gray map). Po zvolení súboru sa zobrazí celé užívateľské prostredie aj so zvolenými dátami obr. \ref{fig:ui1}. Na ľavej strane sú zobrazené načítané dáta. Na pravej strane, môžeme vidieť dva \texttt{docky} v ktorých sa nachádza zoznam spracovávaných dát v programe pre 2D aj 3D dáta, možnosti pre 2D a 3D dáta spolu so všetkými implementovanými filtrami, prahovacími metódami a možnosťami pre zobrazenie uložených vo viacerých taboch. 
 
-V prvom tabe  s možnosťami, sa nachádzajú štyri implementované prahovacie algoritmy, ktoré vstupujú  následne ako okrajová podmienka do segmentačnej metódy. Ide o dva globálne prahovacie algoritmy, ktoré závisia len na histograme a teda neberie na vstup žiadne parametre. 
+Prvý zobrazený \texttt{dock} má názov \textit{Data} obr \ref{fig:uidata}a obsahuje zoznam 2D a 3D dát, s ktorými sa doteraz pracovalo. Umožňuje spätné načítanie dát nachádzajúcich sa v zozname. Tiež obsahuje tlačítka: 
+\begin{itemize}
+\item \texttt{RESET VIEW} - vykresľovaný objekt, prekreslí na stred vykresľovacej plochy.  
+\item \texttt{2D} - v prípade, že v zozname sú zvolené 2D dáta, odoberie možnosť rotácie a je vysvietené.
+\item \texttt{3D} - v prípade, že v zozname sú zvolené 3D dáta, tak sa s nimi dá adekvátne manipulovať a tlačidlo je vysvietené.
+\item \texttt{DELETE SELECTED} - vymaže zvolené dáta zo zoznamu.
+\item \texttt{OPEN IN NEW WINDOW} - zatiaľ neaktívne.
+\item \texttt{SAVE SCREENSHOT} - uloží práve zobrazené dáta z vykresľovacej plochy vo formáte \textit{.png}
+\item \texttt{SET DEFAULT VALUES} - prestaví hodnoty všetkých nastaviteľných hodnôt naspäť na predvolené hodnoty.
+\end{itemize}
+
+V tabe \texttt{Thresholding} obr. \ref{fig:uidata}b, sa nachádzajú štyri implementované prahovacie algoritmy, ktoré vstupujú  následne ako okrajová podmienka do segmentačnej metódy. Ide o dva globálne prahovacie algoritmy, ktoré závisia len na histograme a teda neberú na vstup žiadne parametre. A dva lokálne adaptívne prahovacie algoritmy, ktoré berú na vstup veľkosť masky a jeden z nich veľkosť časového kroku.
+
+
+\begin{figure}[h!]%
+    \centering
+    \subfloat[Detail docku \texttt{Data}.]{{\includegraphics[width=7cm]{pics/uidata.jpg} }}%
+    \qquad
+    \subfloat[Detail docku \texttt{Thresholding}.]{{\includegraphics[width=6cm]{pics/uithr.jpg} }}%
+    %\caption{2 Figures side by side}%
+    \label{fig:uidata}%
+\end{figure}
+
+Tab \texttt{2D Options} je zobrazený len v prípade, že sú zvolené 2D dáta. V tomto tabe sa nachádzajú možnosti súvisiace len s 2D dátami. Dájú sa tam zobraziť kontúry na dátach,  jeden krok rovnice vedenia tepla a priemer originálnych a vyprahovaných obrazových dát. 
+
+\texttt{3D Filters} obsahuje možnosti pre samotný SUBSURF spolu s jeho parametrami. Taktiež sa tam nachádzajú počiatočné podmienky znamienkovej dištančnej a prahovacej funkcie, ktoré sa dajú zobraziť ešte pred vstupom do SUBSURFu.
+
+
+\begin{figure}[h!]%
+    \centering
+    \subfloat[Detail docku \texttt{Data}.]{{\includegraphics[width=7cm]{pics/uidata.jpg} }}%
+    \qquad
+    \subfloat[Detail docku \texttt{Thresholding}.]{{\includegraphics[width=6cm]{pics/uithr.jpg} }}%
+    %\caption{2 Figures side by side}%
+    \label{fig:uidata1}%
+\end{figure}
+
+%\begin{figure}[H]
+% \begin{center} 
+% \includegraphics[scale=0.60]{pics/uidata.jpg}
+%\caption{Detail docku \textit{Data}.}
+%\end{center} 
+%\label{fig:uidata}
+ 
+% \includegraphics[scale=0.60]{pics/uithr.jpg}
+%\caption{Detail docku \textit{Thresholding}.}
+%\end{center} 
+%\label{fig:uidata}
+%\end{figure}
 
 
 \newpage

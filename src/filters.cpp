@@ -447,7 +447,6 @@ QVector<double> filters::an(QVector<double> data, bool eps) {
 	return pole;
 }
 
-
 void filters::grad(QVector<double> data, double h, double k, double epsilon) {
 	qe.resize(widthR*heightR);
 	qw.resize(widthR*heightR);
@@ -753,16 +752,15 @@ QVector<double> filters::pow2(QVector<double> data) {
 
 QVector<double> filters::bernsenThreshold(QVector<double> data) {
 	QVector<double> tmp, cont, thrshld;
-	int cmin = 60;
+	int cmin = 40;
 	int r = p;
-	//r = p;
 	tmp = reflection(data);
 	cont.resize(tmp.length());
 	thrshld.resize(tmp.length());
 	int q = 0; //	kedze mame vzdy tmave pozadie
 	for (int j = 0; j < widthR; j++) {
 		for (int i = 0; i < heightR; i++) {
-			double Imin = 10, Imax = -1, c;
+			double Imin = 300, Imax = -1, c;
 			for (int ii = i - r; ii <= i + r; ii++)
 				for (int jj = j - r; jj <= j + r; jj++) {
 					if (pow(i - ii, 2) + pow(j - jj, 2) <= r * r) {
@@ -773,21 +771,29 @@ QVector<double> filters::bernsenThreshold(QVector<double> data) {
 					}
 				}
 			cont[j * widthR + i] = Imax - Imin;
-			thrshld[j * widthR + i] = (Imax + Imin)/2.;
+			if (cont[j * widthR + i] >= cmin)
+				thrshld[j * widthR + i] = (Imax + Imin) / 2.;
+			else
+				thrshld[j * widthR + i] = q;
 		}
 	}
 
 	for (int j = 0; j < widthR; j++) {
 		for (int i = 0; i < heightR; i++) {
-			if (cont[j * widthR + i] >= cmin)
-				tmp[j * widthR + i] = 255;
-			else
-				tmp[j * widthR + i] = 0;
+			if (cont[j * widthR + i] < cmin) {
+				if (thrshld[j * widthR + i] < cmin)
+					tmp[j * widthR + i] = 0;
+				else
+					tmp[j * widthR + i] = 255;
+			}
+			else {
+				if (tmp[j * widthR + i] < thrshld[j * widthR + i])
+					tmp[j * widthR + i] = 0;
+				else  tmp[j * widthR + i] = 255;
+			}
 		}
 	}
-
 	tmp = antireflection(tmp);
-
 	return tmp;
 }
 

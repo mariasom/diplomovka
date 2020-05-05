@@ -108,6 +108,7 @@ public slots:
 	void contour3DPClicked();
 	void contour3DPwDClicked();
 	void manOptContClicked();
+	void optContDispClicked();
 
 	// others
 	void AxesChange(bool checked);
@@ -191,6 +192,7 @@ private:
 	QPushButton *contour3DPwDButton;
 	QPushButton *manOptContourButton;
 	QPushButton *contourOnOGButton;
+	QPushButton *optContDispButton;
 
 	// comboboxes
 	QComboBox *dataCBox;
@@ -214,6 +216,7 @@ private:
 	
 	// other
 	QLabel *rangeLab;
+	QPlainTextEdit *historyText;
 	// garbage
 	QTabWidget *innerTabs;
 	QSpinBox *backgroundSB;
