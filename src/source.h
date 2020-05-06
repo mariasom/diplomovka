@@ -81,6 +81,7 @@ public:
 	void add3DData(QVector<double> &addData);
 	void save_ascii(QString fileName, int index);
 	void saveVtk3D(QString fileName, int index, bool binary);
+	void saveVtk2D(QString fileName, int index, bool binary);
 	void colorPolyData(int colorIndex);
 	void addZMinandMax();
 };

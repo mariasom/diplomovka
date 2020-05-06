@@ -673,26 +673,70 @@ V tabe \texttt{Thresholding} obr. \ref{fig:uidata}b, sa nachádzajú štyri impl
 
 \begin{figure}[h!]%
     \centering
-    \subfloat[Detail docku \texttt{Data}.]{{\includegraphics[width=7cm]{pics/uidata.jpg} }}%
+    \subfloat[Detail docku \texttt{Data}.]{{\includegraphics[scale=0.65]{pics/uidata.jpg} }}%
     \qquad
-    \subfloat[Detail docku \texttt{Thresholding}.]{{\includegraphics[width=6cm]{pics/uithr.jpg} }}%
+    \subfloat[Detail docku \texttt{Thresholding}.]{{\includegraphics[scale=0.55]{pics/uithr.jpg} }}%
     %\caption{2 Figures side by side}%
     \label{fig:uidata}%
 \end{figure}
 
-Tab \texttt{2D Options} je zobrazený len v prípade, že sú zvolené 2D dáta. V tomto tabe sa nachádzajú možnosti súvisiace len s 2D dátami. Dájú sa tam zobraziť kontúry na dátach,  jeden krok rovnice vedenia tepla a priemer originálnych a vyprahovaných obrazových dát. 
+Tab \texttt{2D Options} obr. \ref{fig:uidata1}a je zobrazený len v prípade, že sú zvolené 2D dáta. V tomto tabe sa nachádzajú možnosti súvisiace len s 2D dátami. Dájú sa tam zobraziť kontúry na dátach,  jeden krok rovnice vedenia tepla a priemer originálnych a vyprahovaných obrazových dát. 
 
-\texttt{3D Filters} obsahuje možnosti pre samotný SUBSURF spolu s jeho parametrami. Taktiež sa tam nachádzajú počiatočné podmienky znamienkovej dištančnej a prahovacej funkcie, ktoré sa dajú zobraziť ešte pred vstupom do SUBSURFu.
+\texttt{3D Filters} obr. \ref{fig:uidata1}b obsahuje možnosti pre samotný SUBSURF spolu s jeho parametrami. Taktiež sa tam nachádzajú počiatočné podmienky znamienkovej dištančnej a prahovacej funkcie, ktoré sa dajú zobraziť ešte pred vstupom do SUBSURFu.
 
 
 \begin{figure}[h!]%
     \centering
-    \subfloat[Detail docku \texttt{Data}.]{{\includegraphics[width=7cm]{pics/uidata.jpg} }}%
+    \subfloat[Detail docku \texttt{2D Options}.]{{\includegraphics[scale=0.65]{pics/ui2Dopt.jpg} }}%
     \qquad
-    \subfloat[Detail docku \texttt{Thresholding}.]{{\includegraphics[width=6cm]{pics/uithr.jpg} }}%
+    \subfloat[Detail docku \texttt{3D Filters}.]{{\includegraphics[scale=0.65]{pics/ui3Dfilt.jpg} }}%
     %\caption{2 Figures side by side}%
     \label{fig:uidata1}%
 \end{figure}
+
+V \texttt{3D Options} obr. \ref{fig:uidata2}a je zobrazený len v prípade, že sú zvolené 3D dáta. V tomto tabe sa nachádzajú možnosti súvisiace len s 3D dátami. V týchto možnostiach sa dajú zapnúť osi, zmeniť farba, vykresliť zvolený počet izočiar buď na dátach alebo bez nich a dá sa zvoliť optimálna izočiara a následne ju je možné vykresliť na pôvodných dátach. 
+
+V tabe \texttt{History Logs} obr. \ref{fig:uidata2}b sa nachádza jednoduché textové pole, ktoré zaznamenáva väčšinu úkonov vykonaných v programe. Taktiež sa tam nachádzajú informácie o načítanom súbore, ako napríklad aj názov súboru, cesta k súboru atď...
+
+\begin{figure}[h!]%
+    \centering
+    \subfloat[Detail docku \texttt{3D Options}.]{{\includegraphics[scale=0.65]{pics/ui3Dopt.jpg} }}%
+    \qquad
+    \subfloat[Detail docku \texttt{History Logs}.]{{\includegraphics[scale=0.65]{pics/uihist.jpg} }}%
+    %\caption{2 Figures side by side}%
+    \label{fig:uidata1}%
+\end{figure}
+
+Na obr. \ref{fig:uidata2}a sú zobrazené dáta s makrofágom, na ktoré bol aplikovaný SUBSURF, za počiatočnú podmienku bola použitá dištančná funkcia.
+
+%\begin{figure}[h!]
+% \begin{center} 
+% \includegraphics[scale=0.50]{pics/subsurf.jpg}
+%\caption{Grafické rozhranie programu zobrazujúce 3D dáta spolu s osami x,y,z.}
+%\end{center} 
+%\label{fig:uisubsurf}
+%\end{figure}
+
+\begin{figure}[h!]%
+    \centering
+    \subfloat[Grafické rozhranie programu zobrazujúce 3D dáta spolu s osami x,y,z.]{{\includegraphics[scale=0.3]{pics/subsurf.jpg} }}%
+    \qquad
+    \subfloat[Grafické rozhranie programu zobrazujúce výslednú izočiaru na pôvodných dátach]{{\includegraphics[scale=0.3]{pics/result.jpg} }}%
+    %\caption{2 Figures side by side}%
+    \label{fig:uidata2}%
+\end{figure}
+
+
+Na obr. \ref{fig:uidata2}b sú vidieť pôvodné dáta, na ktorých je zobrazená výsledná izočiara.
+
+Vykresľovacia plocha má niekoľko, vstavaných funkcií, ktoré sa dajú ovládať cez klávesové skratky. Ide napríklad o klávesy \texttt{W} a \texttt{S} prepínajú zobrazenie dát medzi obrysom dát a zafarbeným modelom, klávesa \texttt{R} reštartuje pohľad na objekt na vykresľovanej ploche.
+ 
+Zvyšné možnosti, v hornej lište v položke \texttt{File} sa ešte nachádza možnosť \texttt{Save}, ktorá ponúka buď exportovanie 2D aj 3D dát vo VTK formáte \textit{.vtp} (typ súboru špecifický pre vtkPolyData) alebo 2D dáta vie uložiť ako ascii portable gray map dáta \textit{.pgm}. Ďalšou možnosťou je \texttt{Close Files}, kedy sa zatvoria všetky otvorené súbory. A možnosti \texttt{Close}, ktorá zatvorí celý program.
+
+V hornej lište sa ešte nachádzajú položky \texttt{Settings} a \texttt{Help}. V \texttt{Settings} vie užívateľ skryť/zobraziť všetky položky nachádzajúce sa vpravo. A \texttt{Help} obsahuje informácie o programe a jednoduchú dokumentáciu.
+
+
+
 
 %\begin{figure}[H]
 % \begin{center} 

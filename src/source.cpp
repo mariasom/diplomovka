@@ -314,7 +314,6 @@ void source::colorPolyData(int colorIndex) {
 void source::saveVtk3D(QString fileName, int index, bool binary) {
 	vtkSmartPointer<vtkXMLPolyDataWriter> writer =
 		vtkSmartPointer<vtkXMLPolyDataWriter>::New();
-	create3Ddata(get3DData(index));
 	QByteArray ba = fileName.toLocal8Bit();
 	const char *cstr = ba.data();
 	writer->SetFileName(cstr);
@@ -327,21 +326,21 @@ void source::saveVtk3D(QString fileName, int index, bool binary) {
 	writer->Write();
 }
 
-/*void source::saveVtk2D(QString fileName, int index, bool binary) {
-	vtkSmartPointer<vtkXMLImageDataWriter> writer =
-		vtkSmartPointer<vtkXMLImageDataWriter>::New();
+void source::saveVtk2D(QString fileName, int index, bool binary) {
+	vtkSmartPointer<vtkXMLPolyDataWriter> writer =
+		vtkSmartPointer<vtkXMLPolyDataWriter>::New();
 	setPoints(getFiltData(index));
 	QByteArray ba = fileName.toLocal8Bit();
 	const char *cstr = ba.data();
 	writer->SetFileName(cstr);
-	writer->SetInputData(image);
+	writer->SetInputData(polydata2D);
 
 	if (binary)
 		writer->SetDataModeToBinary();
 	else
 		writer->SetDataModeToAscii();
 	writer->Write();
-}*/
+}
 
 void source::addZMinandMax() {
 	double bounds[6];

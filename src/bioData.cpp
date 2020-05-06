@@ -247,7 +247,8 @@ void bioData::initWin(QString path) {
 	options3DDock->hide();
 	options2DDock->hide();
 	setDefaultValues();
-	twoDClicked();
+	twoDButton->setChecked(true);
+	//twoDClicked();
 	_file.at(_file.size() - 1)->setPoints(tmpFile->getOrigData());
 	gridLayout->addWidget(_vWidget.at(_vWidget.size() - 1)->getScrollArea());
 	_vWidget.at(_vWidget.size() - 1)->setViewerWidget2D(tmpFile->getImageData(), tmpFile->getFileName(fName));
@@ -354,12 +355,12 @@ void bioData::action3Dvtkascii() {
 void bioData::action2Dvtkbinary() {
 	if (parent2D == dataTree->currentItem()->parent()) {
 		int i = dataTree->currentItem()->indexOfChild(dataTree->currentItem());
-		QString tmp = dataTree->currentItem()->text(0) + ".vti";
+		QString tmp = dataTree->currentItem()->text(0) + ".vtp";
 		QString fileName1 = QFileDialog::getSaveFileName(this, tr("Save File"),
 			tmp,
-			tr("VTK Files (*.vtk *.vti)"));
+			tr("VTK Files (*.vtk *.vtp)"));
 		cout << fileName1.toStdString() << endl;
-		_file.at(_file.size() - 1)->saveVtk3D(fileName1, dataTree->currentIndex().row(), true);
+		_file.at(_file.size() - 1)->saveVtk2D(fileName1, dataTree->currentIndex().row(), true);
 	}
 	else {
 		QMessageBox mbox;
@@ -372,12 +373,12 @@ void bioData::action2Dvtkbinary() {
 void bioData::action2Dvtkascii() {
 	if (parent2D == dataTree->currentItem()->parent()) {
 		int i = dataTree->currentItem()->indexOfChild(dataTree->currentItem());
-		QString tmp = dataTree->currentItem()->text(0) + ".vti";
+		QString tmp = dataTree->currentItem()->text(0) + ".vtp";
 		QString fileName1 = QFileDialog::getSaveFileName(this, tr("Save File"),
 			tmp,
-			tr("VTK Files (*.vtk *.vti)"));
+			tr("VTK Files (*.vtk *.vtp)"));
 		cout << fileName1.toStdString() << endl;
-		_file.at(_file.size() - 1)->saveVtk3D(fileName1, dataTree->currentIndex().row(), false);
+		_file.at(_file.size() - 1)->saveVtk2D(fileName1, dataTree->currentIndex().row(), false);
 	}
 	else {
 		QMessageBox mbox;
@@ -829,7 +830,7 @@ void bioData::subsurfClicked() {
 		int i = dataTree->currentIndex().row();
 		lab = "SUBSURF\nMaximum z coordinate: " + QString::number(_file.at(_file.size() - 1)->getZMax(i)) +
 			"\nMinimum z coordinate: " + QString::number(_file.at(_file.size() - 1)->getZMin(i));
-		historyText->appendPlainText(lab);
+		// historyText->appendPlainText(lab);
 
 		widget->setWindowTitle("Subsurf(3D)");
 		QString txt = dataTree->currentItem()->text(dataTree->currentIndex().column());
@@ -1138,7 +1139,7 @@ void bioData::createOptions2DDock() {
 		QDockWidget::DockWidgetVerticalTitleBar);
 	QWidget* multiWidget = new QWidget();
 	QGridLayout *layout = new QGridLayout; 
-	QLabel *differenceLab = new QLabel(tr("Difference:"));
+	QLabel *differenceLab = new QLabel(tr("Aritmetic mean:"));
 	QLabel *heLab = new QLabel(tr("One step of Heat Equation:"));
 	QLabel *originalDataLab = new QLabel(tr("Process original data:"));
 	differenceLab->setToolTip("Creates new boundary condition for the segmentation.\n Takes 1/2 of the selected thresholded data and 1/2 and makes mean.");
@@ -1154,7 +1155,7 @@ void bioData::createOptions2DDock() {
 	options2DDock->setWidget(multiWidget);
 	addDockWidget(Qt::RightDockWidgetArea, options2DDock);
 }
-
+ 
 void bioData::createOptions3DDock() {
 	options3DDock = new QDockWidget(tr("3D Options"), this);
 	options3DDock->setAllowedAreas(Qt::LeftDockWidgetArea |
@@ -1230,10 +1231,13 @@ void bioData::createcontour3DGB() {
 
 	QGridLayout *layout = new QGridLayout;
 	QLabel *contourLab = new QLabel(tr("Number of contours:"));
-	QLabel *contourLab1 = new QLabel(tr("Only contours(scalars):"));
-	QLabel *contourLab2 = new QLabel(tr("Contours on data(scalars):"));
-	QLabel *contourLab3 = new QLabel(tr("Only contours(plane):"));
-	QLabel *contourLab4 = new QLabel(tr("Contours on data(plane):"));
+//	QLabel *contourLab1 = new QLabel(tr("Only contours(scalars):"));
+//	QLabel *contourLab2 = new QLabel(tr("Contours on data(scalars):"));
+//	QLabel *contourLab3 = new QLabel(tr("Only contours(plane):"));
+//	QLabel *contourLab4 = new QLabel(tr("Contours on data(plane):"));
+
+	QLabel *contourLab3 = new QLabel(tr("Only contours:"));
+	QLabel *contourLab4 = new QLabel(tr("Contours on data:"));
 
 	contour3DButton->setText("Show");
 	contour3DwDButton->setText("Show");
@@ -1241,10 +1245,10 @@ void bioData::createcontour3DGB() {
 	contour3DPwDButton->setText("Show");
 	layout->addWidget(contourLab, 0, 0);
 	layout->addWidget(numCont3DSB, 0, 1);
-	layout->addWidget(contourLab1, 1, 0);
-	layout->addWidget(contour3DButton, 1, 1);
-	layout->addWidget(contourLab2, 2, 0);
-	layout->addWidget(contour3DwDButton, 2, 1);
+	// layout->addWidget(contourLab1, 1, 0);
+	// layout->addWidget(contour3DButton, 1, 1);
+	// layout->addWidget(contourLab2, 2, 0);
+	// layout->addWidget(contour3DwDButton, 2, 1);
 	layout->addWidget(contourLab3, 3, 0);
 	layout->addWidget(contour3DPButton, 3, 1);
 	layout->addWidget(contourLab4, 4, 0);
@@ -1303,8 +1307,8 @@ void bioData::differenceClicked() {
 	//else
 		update2DWidget();
 	// Set the window title
-	widget->setWindowTitle("Difference");
-	addSubItem(parent2D, fName + "_difference");
+	widget->setWindowTitle("Aritmetic mean");
+	addSubItem(parent2D, fName + "_aritmetic_mean");
 	// fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
 }
 

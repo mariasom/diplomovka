@@ -425,10 +425,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>action2Dvtkascii</sender>
+   <sender>action2Dvtkbinary</sender>
    <signal>triggered()</signal>
    <receiver>bioData</receiver>
-   <slot>action2Dvtkascii()</slot>
+   <slot>action2Dvtkbinary()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -441,10 +441,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>action2Dvtkbinary</sender>
+   <sender>action2Dvtkascii</sender>
    <signal>triggered()</signal>
    <receiver>bioData</receiver>
-   <slot>action2Dvtkbinary()</slot>
+   <slot>action2Dvtkascii()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
