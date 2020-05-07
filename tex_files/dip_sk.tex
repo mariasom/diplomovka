@@ -1,4 +1,4 @@
-\documentclass[a4paper,11pt,twoside]{article}%pridat twoside, do [] pre obojstrannu tlac
+\documentclass[a4paper,12pt,twoside]{article}%pridat twoside, do [] pre obojstrannu tlac
     \pagestyle{headings}
     %\linespread{1.15} % riadkovanie
     \usepackage[top=2.5cm, bottom=2.5cm, left=3.5cm, right=2cm]{geometry} %odporucane okraje
@@ -20,6 +20,8 @@
 %\usepackage[pdftex]{graphicx}
 \usepackage[usenames,dvipsnames]{color}
 \usepackage{epstopdf}   %bez tohto pdflatex nezoberie eps obazky
+
+\usepackage{float} %kvoli H pri oberazkoch
 
 \usepackage{graphicx}
 %\usepackage{url}
@@ -172,7 +174,7 @@ Treba si uvedomiť, že tieto hodnoty závisia od toho, či je pozadie bledé a 
 Prahovacie metódy založené na histograme sú zvyčajne jednoduché a účinné, pretože pracujú s malým množstvom dát. V našom prípade sa jedná o 256 odtieňov sivej/šede. Dajú sa rozdeliť na 2 hlavné kategórie: štatistické metódy a také, ktoré sú založené na tvare.
 
 
-\subsubsection{Otsuho metóda}
+\subsubsection{Otsuho metóda} \label{OtsuM}
 Otsuho metóda patrí medzi automatické  prahovacie metódy, ktorá rozdeľuje obrazové dáta na 2 rôzne triedy pomocou prahu $q$ $-$ na objekt a pozadie. Hlavnou myšlienkou tejto metódy je nájsť prah $q$ taký, že výsledné distribúcie tried sú čo najlepšie oddelené, čo znamená, že príslušné histogramy majú čo najmenší rozptyl(sú čo najužšie). Na výpočet prahu $q$ sa používa metóda známa ako vnútro$-$triedna variancia(within class variance), kde sa pomocou tohoto výpočtu hľadá minimum. V tomto prípade sa dá ukázať, že táto úloha môže byť zmenená na maximalizačnú úlohu, tiež známu ako medzi$-$triedna variancia(between class variance), ktorá je výpočtovo menej náročná, keďže sú spracovávané len šedo-tónové obrazové dáta. Ak by išlo o farebný RGB obraz, musel by byť rozdelený na jednotlivé intenzity a výsledkom by bolo viac prahových hodnôt $(q_1, \ldots, q_n)$, kde $n$ reprezentuje počet intenzít v danom obraze.
 
 Nech $K$ je maximálna intenzita obrazu a hodnoty normalizovaného histogramu, budú vypočítané ako
@@ -243,7 +245,7 @@ Otsuho metóda dokáže dobre rozlíšiť dáta s makrofágmi, v prípade že d�
 %Eqn. (2.11)–(2.12)). The combined width of the two distributions is measured
 %by the within-class variance
 
-\subsubsection{Prahovanie pomocou maximálnej entropie}
+\subsubsection{Prahovanie pomocou maximálnej entropie} \label{kapurM}
 
 Entropia je dôležitým pojmom v teórii informácií a najmä pri kompresii dát. Je to štatistická miera, ktorá kvantifikuje priemerné množstvo informácií obsiahnutých v  "správe" \\ obsahujúce stochasticky generované dáta. Entropia je definovaná ako
 
@@ -298,7 +300,7 @@ Entropia ako kritérium na voľbu prahu v obrazových dátach má dlhú tradíci
 
 Lokálne adaptívne prahovanie namiesto jednej prahovej hodnoty pre celý obraz, používa adaptívne prahovanie, ktoré určuje meniacu sa prahovú hodnotu $Q(u,v)$ pre každú polohu obrazu. Tieto hodnoty zodpovedajú každému pixlu $I(u,v)$ zodpovedajúcemu danému obrazu. Nasledujúce metódy sa líšia iba s ohľadom na to, akým spôsobom sú získané prahy $Q$ zo vstupného obrázku. 
 
-\subsubsection{Bernsenova metóda}
+\subsubsection{Bernsenova metóda} \label{bernsenM}
 
 Táto metóda, ktorá určuje prah dynamicky pre každú polohu na obrazových dátach $(u,v)$, je založená na minimálnej a maximálnej intenzite nachádzajúcej sa v okolí $R(u,v)$. Ak 
 \begin{equation}
@@ -316,7 +318,8 @@ Q(u,v) \gets \frac{I_{min}(u,v) + I_{max}(u,v)}{2}
 
 Táto operácia je vykonávaná tak dlho, až kým lokálny kontrast $c(u, v) = I_{max}(u, v) − I_{min}(u, v)$ nie je väčší ako preddefinovaný limit $c_{min}$. Ak $c(u, v) < c_{min}$, tak predpokladáme, že pixle zodpovedajúce jednej oblasti patria do tej istej triedy a sú automaticky priradené do pozadia. 
 
-\subsubsection{Niblackova metóda}
+\subsubsection{Niblackova metóda} \label{niblack} 
+
 Prah $Q(u, v)$ pri Niblackovej metóde sa mení ako funkcia lokálneho priemeru intenzít $\mu_R(u,v)$ a smerodajnej odchýlky $\sigma_R(u,v)$, v tvare
 
 \begin{equation} \label{eq:nbO}
@@ -356,10 +359,6 @@ Q(u,v) = \mu_R(u,v) + \kappa\sigma_R(u,v) + d,
 \end{equation}
 
 kde $d \geq 0$. V našom prípade, sme parameter $\kappa$ nastavili na $\kappa = 0.18$ a pre konštantu $d$ sme použili $d = 20$. Takto nastavené parametre dávali v našom prípade veľmi dobré výsledky.
-
-%One problem is that, for small values of σR (aslacing Eqn. (2.63) by
-%Q(u, v) = μR(u, v) + κ · σR(u, v) + d, (2.64)
-%with d ≥ 0, in the range 2, . . . , 20 for typical 8-bit images.
 
 
 \subsection{Metóda subjektívnych plôch (SUBSURF)} 
@@ -413,8 +412,8 @@ a pre ľubovoľnú veľkosť časového kroku je bezpodmienečne stabilná.
  \begin{center} 
  \includegraphics[scale=0.40]{pics/hrany1.pdf}
 \caption{Detail siete spolu s označením. V strede sa nachádza pixel $p$, susedné pixle sú označené ako $q_i$, kde $q_i = 1, 2, 3, 4$, hrany medzi pixlami označíme ako $e_{pq}$, $x_p$ a $x_q$ sú body. }
-\end{center} 
 \label{fig:hrany}
+\end{center} 
 \end{figure}
 
 Pre pixelovú sieť budeme používať označenie uvedené na obr. \ref{fig:hrany}.
@@ -526,6 +525,7 @@ a_p^{n - 1}u_p^n - \sum_{q \in N(p)} a_{pq}^{n - 1}u_q^n =b_p^{n-1}u_p^{n-1},
 \end{equation}
 
 kde $a_{pq}^{n - 1}, a_p^{n - 1}, b_p^{n - 1}$ označujú
+
 \begin{equation}
 \begin{array}{l}
 a_{pq}^{n - 1}  = \frac{g_{pq}^{0}}{|\nabla u_{pq}^{n-1}|_{\epsilon}}, \\
@@ -651,8 +651,8 @@ Pri otvorení programu sa zobrazí okno, v ktorom sa nachádza horná lišta s p
  \begin{center} 
  \includegraphics[scale=0.50]{pics/ui1.jpg}
 \caption{Grafické rozhranie programu po načítaní vybraných dát.}
-\end{center} 
 \label{fig:ui1}
+\end{center} 
 \end{figure}
 
 Po zvolení možnosti Open, sa otvorí dialógové okno, z ktorého sa dajú vybrať obrazové súbory typu .pgm (portable gray map). Po zvolení súboru sa zobrazí celé užívateľské prostredie aj so zvolenými dátami obr. \ref{fig:ui1}. Na ľavej strane sú zobrazené načítané dáta. Na pravej strane, môžeme vidieť dva \texttt{docky} v ktorých sa nachádza zoznam spracovávaných dát v programe pre 2D aj 3D dáta, možnosti pre 2D a 3D dáta spolu so všetkými implementovanými filtrami, prahovacími metódami a možnosťami pre zobrazenie uložených vo viacerých taboch. 
@@ -671,13 +671,14 @@ Prvý zobrazený \texttt{dock} má názov \textit{Data} obr \ref{fig:uidata}a ob
 V tabe \texttt{Thresholding} obr. \ref{fig:uidata}b, sa nachádzajú štyri implementované prahovacie algoritmy, ktoré vstupujú  následne ako okrajová podmienka do segmentačnej metódy. Ide o dva globálne prahovacie algoritmy, ktoré závisia len na histograme a teda neberú na vstup žiadne parametre. A dva lokálne adaptívne prahovacie algoritmy, ktoré berú na vstup veľkosť masky a jeden z nich veľkosť časového kroku.
 
 
-\begin{figure}[h!]%
-    \centering
+\begin{figure}[H]%
+    \begin{center} 
     \subfloat[Detail docku \texttt{Data}.]{{\includegraphics[scale=0.65]{pics/uidata.jpg} }}%
     \qquad
     \subfloat[Detail docku \texttt{Thresholding}.]{{\includegraphics[scale=0.55]{pics/uithr.jpg} }}%
-    %\caption{2 Figures side by side}%
+    \caption{}%
     \label{fig:uidata}%
+     \end{center} 
 \end{figure}
 
 Tab \texttt{2D Options} obr. \ref{fig:uidata1}a je zobrazený len v prípade, že sú zvolené 2D dáta. V tomto tabe sa nachádzajú možnosti súvisiace len s 2D dátami. Dájú sa tam zobraziť kontúry na dátach,  jeden krok rovnice vedenia tepla a priemer originálnych a vyprahovaných obrazových dát. 
@@ -685,49 +686,41 @@ Tab \texttt{2D Options} obr. \ref{fig:uidata1}a je zobrazený len v prípade, ž
 \texttt{3D Filters} obr. \ref{fig:uidata1}b obsahuje možnosti pre samotný SUBSURF spolu s jeho parametrami. Taktiež sa tam nachádzajú počiatočné podmienky znamienkovej dištančnej a prahovacej funkcie, ktoré sa dajú zobraziť ešte pred vstupom do SUBSURFu.
 
 
-\begin{figure}[h!]%
+\begin{figure}[H]%
     \centering
     \subfloat[Detail docku \texttt{2D Options}.]{{\includegraphics[scale=0.65]{pics/ui2Dopt.jpg} }}%
     \qquad
-    \subfloat[Detail docku \texttt{3D Filters}.]{{\includegraphics[scale=0.65]{pics/ui3Dfilt.jpg} }}%
-    %\caption{2 Figures side by side}%
+    \subfloat[Detail docku \texttt{3D Filters}.]{{\includegraphics[scale=0.65]{pics/ui3Dfilt.jpg} }}
+    \caption{}%
     \label{fig:uidata1}%
 \end{figure}
 
 V \texttt{3D Options} obr. \ref{fig:uidata2}a je zobrazený len v prípade, že sú zvolené 3D dáta. V tomto tabe sa nachádzajú možnosti súvisiace len s 3D dátami. V týchto možnostiach sa dajú zapnúť osi, zmeniť farba, vykresliť zvolený počet izočiar buď na dátach alebo bez nich a dá sa zvoliť optimálna izočiara a následne ju je možné vykresliť na pôvodných dátach. 
 
-V tabe \texttt{History Logs} obr. \ref{fig:uidata2}b sa nachádza jednoduché textové pole, ktoré zaznamenáva väčšinu úkonov vykonaných v programe. Taktiež sa tam nachádzajú informácie o načítanom súbore, ako napríklad aj názov súboru, cesta k súboru atď...
-
-\begin{figure}[h!]%
+\begin{figure}[H]%
     \centering
     \subfloat[Detail docku \texttt{3D Options}.]{{\includegraphics[scale=0.65]{pics/ui3Dopt.jpg} }}%
     \qquad
-    \subfloat[Detail docku \texttt{History Logs}.]{{\includegraphics[scale=0.65]{pics/uihist.jpg} }}%
-    %\caption{2 Figures side by side}%
-    \label{fig:uidata1}%
+    \subfloat[Detail docku \texttt{History Logs}.]{{\includegraphics[scale=0.65]{pics/uihist.jpg} }}
+    \caption{}%
+    \label{fig:uidata2}%
 \end{figure}
 
-Na obr. \ref{fig:uidata2}a sú zobrazené dáta s makrofágom, na ktoré bol aplikovaný SUBSURF, za počiatočnú podmienku bola použitá dištančná funkcia.
+V tabe \texttt{History Logs} obr. \ref{fig:uidata2}b sa nachádza jednoduché textové pole, ktoré zaznamenáva väčšinu úkonov vykonaných v programe. Taktiež sa tam nachádzajú informácie o načítanom súbore, ako napríklad aj názov súboru, cesta k súboru atď...
 
-%\begin{figure}[h!]
-% \begin{center} 
-% \includegraphics[scale=0.50]{pics/subsurf.jpg}
-%\caption{Grafické rozhranie programu zobrazujúce 3D dáta spolu s osami x,y,z.}
-%\end{center} 
-%\label{fig:uisubsurf}
-%\end{figure}
+Na obr. \ref{fig:uidata3}a sú zobrazené dáta s makrofágom, na ktoré bol aplikovaný SUBSURF, za počiatočnú podmienku bola použitá dištančná funkcia.
 
-\begin{figure}[h!]%
+\begin{figure}[H]%
     \centering
     \subfloat[Grafické rozhranie programu zobrazujúce 3D dáta spolu s osami x,y,z.]{{\includegraphics[scale=0.3]{pics/subsurf.jpg} }}%
     \qquad
     \subfloat[Grafické rozhranie programu zobrazujúce výslednú izočiaru na pôvodných dátach]{{\includegraphics[scale=0.3]{pics/result.jpg} }}%
-    %\caption{2 Figures side by side}%
-    \label{fig:uidata2}%
+    \caption{}%
+    \label{fig:uidata3}%
 \end{figure}
 
 
-Na obr. \ref{fig:uidata2}b sú vidieť pôvodné dáta, na ktorých je zobrazená výsledná izočiara.
+Na obr. \ref{fig:uidata3}b sú vidieť pôvodné dáta, na ktorých je zobrazená výsledná izočiara.
 
 Vykresľovacia plocha má niekoľko, vstavaných funkcií, ktoré sa dajú ovládať cez klávesové skratky. Ide napríklad o klávesy \texttt{W} a \texttt{S} prepínajú zobrazenie dát medzi obrysom dát a zafarbeným modelom, klávesa \texttt{R} reštartuje pohľad na objekt na vykresľovanej ploche.
  
@@ -735,30 +728,174 @@ Zvyšné možnosti, v hornej lište v položke \texttt{File} sa ešte nachádza 
 
 V hornej lište sa ešte nachádzajú položky \texttt{Settings} a \texttt{Help}. V \texttt{Settings} vie užívateľ skryť/zobraziť všetky položky nachádzajúce sa vpravo. A \texttt{Help} obsahuje informácie o programe a jednoduchú dokumentáciu.
 
-
-
-
-%\begin{figure}[H]
-% \begin{center} 
-% \includegraphics[scale=0.60]{pics/uidata.jpg}
-%\caption{Detail docku \textit{Data}.}
-%\end{center} 
-%\label{fig:uidata}
- 
-% \includegraphics[scale=0.60]{pics/uithr.jpg}
-%\caption{Detail docku \textit{Thresholding}.}
-%\end{center} 
-%\label{fig:uidata}
-%\end{figure}
-
-
 \newpage
 \section{Výsledky}
-\subsection{Okrajové podmienky}
 
-V projekte sú implementované štyri rôzne prahovacie metódy, ktoré by mohli slúžiť ako okrajová podmienka na vstup do segmentačnej metódy.
+Na ukážku výsledkov sme vybrali niekoľko dát s makrofágmi so zložitými tvarmi a šumom v pozadí. Vybrali sme nasledujúce dáta.
 
-\subsection{Počiatočné podmienky}
+\begin{figure}[h!]  
+ \subfloat[cropT2]   
+   {\includegraphics[scale=1.71]{pics/cropT2.png}}
+    \hspace{5px}
+     \subfloat[cropT7] 
+    {\includegraphics[scale=1.71]{pics/cropT7.png}}
+    \hspace{5px}
+     \subfloat[cropT27] 
+    {\includegraphics[scale=1.71]{pics/cropT27.png}}
+    \hspace{5px}
+     \subfloat[cropT45] 
+    {\includegraphics[scale=1.71]{pics/cropT45.png}}
+    \caption{Zvolené originálne dáta.}
+    \label{fig:ogData}
+\end{figure}
+
+V projekte sú implementované štyri rôzne prahovacie metódy, ktoré by mohli slúžiť ako okrajová podmienka na vstup do segmentačnej metódy. Vyprahované dáta by mali čo najviac popisovať tvar makrofágu bez toho aby sa roztrhli a nemali by obsahovať šum z pôvodných dát. Následne sme na vyprahované dáta aplikovali SUBSURF, vo všetkých prípadoch boli použité rovnaké vstupné parametre: $\sigma = 1.0, \tau = 1.0, k = 255^2$ a hodnotu výslednej izočiary sme brali na hodnote $z = -1$, keďže vo väčšine prípadoch bola najvhodnejšou.
+
+Na obr. \ref{fig:otsu} je zobrazená prahovacia funkcia popísaná v sekcii \ref{OtsuM} používajúca medzitriednu varianciu. Dá sa všimnúť, že táto prahovacia metóda nezachytila celý tvar makrofágu, hlavne ak išlo o úzku časť s menšou intenzitou.
+
+\begin{figure}[H]  
+ \subfloat[cropT2]   
+   {\includegraphics[scale=0.21]{pics/cropT2_otsu.png}}
+    \hspace{5px}
+     \subfloat[cropT7] 
+    {\includegraphics[scale=0.21]{pics/cropT7_otsu.png}}
+    \hspace{5px}
+     \subfloat[cropT27] 
+    {\includegraphics[scale=0.21]{pics/cropT27_otsu.png}}
+    \hspace{5px}
+     \subfloat[cropT45] 
+    {\includegraphics[scale=0.21]{pics/cropT45_otsu.png}}
+    \caption{Otsuho metóda}
+    \label{fig:otsu}
+\end{figure}
+
+Červenou izočiarou je na obr. \ref{fig:otsu_res} vyznačený výsledok segmentácie. Ale môžeme vidieť chýbajúce časti, hlavne na  obr \ref{fig:otsu_res}b a \ref{fig:otsu_res}c. Ďalej si môžeme všimnúť, že niektoré časti makrofágov, boli vďaka segmentácii prepojené aj keď ich prahovacia metóda roztrhla.
+
+\begin{figure}[H]  
+ \subfloat[cropT2]   
+   {\includegraphics[scale=0.21]{pics/cropT2_otsu_res.png}}
+    \hspace{5px}
+     \subfloat[cropT7] 
+    {\includegraphics[scale=0.21]{pics/cropT7_otsu_res.png}}
+    \hspace{5px}
+     \subfloat[cropT27] 
+    {\includegraphics[scale=0.21]{pics/cropT27_otsu_res.png}}
+    \hspace{5px}
+     \subfloat[cropT45] 
+    {\includegraphics[scale=0.21]{pics/cropT45_otsu_res.png}}
+    \caption{Výsledok SUBSURFu za použitia Otsuho prahovacej metódy.}
+    \label{fig:otsu_res}
+\end{figure}
+
+Prahovacia metóda popísana v sekcii \ref{kapurM} získaná pomocou maximálnej entropie, je zobrazená na obr. \ref{fig:kapur}. Môžeme si všimnúť, že prah tejto metódy bol určený o niečo vhodnejšie ako predošlá metóda, napríklad v prípade \ref{fig:kapur}c. Avšak pri tomto type prahovacej metódy sa môže stať,že objekt bude obsahovať aj časti, ktoré pôvodne nemal.
+
+\begin{figure}[H]  
+\subfloat[cropT2]   
+   {\includegraphics[scale=0.21]{pics/cropT2_kapur.png}}
+    \hspace{5px}
+    \subfloat[cropT7] 
+   {\includegraphics[scale=0.21]{pics/cropT7_kapur.png}}
+    \hspace{5px}
+     \subfloat[cropT27] 
+    {\includegraphics[scale=0.21]{pics/cropT27_kapur.png}}
+    \hspace{5px}
+    \subfloat[cropT45] 
+   {\includegraphics[scale=0.21]{pics/cropT45_kapur.png}}
+    \caption{Prahovanie pomocou maximálnej entropie.}
+    \label{fig:kapur}
+\end{figure}
+
+Vo výsledkoch \ref{fig:kapur_res} vidieť, že objekty obsahujú niektoré časti, ktoré sa na pôvodných dátach nenachádzajú a v niektorých prípadoch neobsahujú všetky časti. 
+
+\begin{figure}[H]  
+\subfloat[cropT2]   
+   {\includegraphics[scale=0.2]{pics/cropT2_kapur_res.png}}
+    \hspace{5px}
+    \subfloat[cropT7] 
+   {\includegraphics[scale=0.2]{pics/cropT7_kapur_res.png}}
+    \hspace{5px}
+     \subfloat[cropT27] 
+    {\includegraphics[scale=0.2]{pics/cropT27_kapur_res.png}}
+    \hspace{5px}
+    \subfloat[cropT45] 
+   {\includegraphics[scale=0.2]{pics/cropT45_kapur_res.png}}
+    \caption{Výsledok SUBSURFu pre prah nájdený pomocou maximálnej entropie.}
+    \label{fig:kapur_res}
+\end{figure}
+
+Pri Niblackovej prahovacej metóde popísanej v sekcii \ref{niblack}, s veľkosťou časového kroku $\sigma = 50.0,$ a veľkosťou masky $m = 3$ sú zobrazené na obr. \ref{fig:niblack}. 
+
+\begin{figure}[H]  
+\subfloat[cropT2]   
+   {\includegraphics[scale=0.21]{pics/cropT2_niblack.png}}
+    \hspace{5px}
+    \subfloat[cropT7] 
+   {\includegraphics[scale=0.21]{pics/cropT7_niblack.png}}
+    \hspace{5px}
+     \subfloat[cropT27] 
+    {\includegraphics[scale=0.21]{pics/cropT27_niblack.png}}
+    \hspace{5px}
+    \subfloat[cropT45] 
+   {\includegraphics[scale=0.21]{pics/cropT45_niblack.png}}
+    \caption{Zvolené originálne dáta.}
+    \label{fig:niblack}
+\end{figure}
+
+Na obr. \ref{fig:niblack_res} sú zobrazené výsledky, kde boli na vstup ako okrajová podmienka uvažované dáta z Niblackovej prahovacej metódy.
+
+\begin{figure}[H]  
+\subfloat[cropT2]   
+   {\includegraphics[scale=0.21]{pics/cropT2_niblack_res.png}}
+    \hspace{5px}
+    \subfloat[cropT7] 
+   {\includegraphics[scale=0.21]{pics/cropT7_niblack_res.png}}
+    \hspace{5px}
+     \subfloat[cropT27] 
+    {\includegraphics[scale=0.21]{pics/cropT27_niblack_res.png}}
+    \hspace{5px}
+    \subfloat[cropT45] 
+   {\includegraphics[scale=0.21]{pics/cropT45_niblack_res.png}}
+    \caption{Niblackova prahovacia metóda.}
+    \label{fig:niblack_res}
+\end{figure}
+
+Bernsenova prahovacia funkcia popísaná v sekcii \ref{bernsenM}, pre veľkosť okna $m = 2$, je zobrazená ma \ref{fig:bernsen}.
+
+\begin{figure}[H]  
+\subfloat[cropT2]   
+   {\includegraphics[scale=0.21]{pics/cropT2_bernsen.png}}
+    \hspace{5px}
+    \subfloat[cropT7] 
+   {\includegraphics[scale=0.21]{pics/cropT7_bernsen.png}}
+    \hspace{5px}
+     \subfloat[cropT27] 
+    {\includegraphics[scale=0.21]{pics/cropT27_bernsen.png}}
+    \hspace{5px}
+    \subfloat[cropT45] 
+   {\includegraphics[scale=0.21]{pics/cropT45_bernsen.png}}
+    \caption{Zvolené originálne dáta.}
+    \label{fig:bernsen}
+\end{figure}
+
+Výsledky segmentačnej metódy, s kde na vstup sme brali Bernsenove prahovanie na obr. \ref{fig:bernsen_res}.
+
+\begin{figure}[H]  
+\subfloat[cropT2]   
+   {\includegraphics[scale=0.21]{pics/cropT2_bernsen_res.png}}
+    \hspace{5px}
+    \subfloat[cropT7] 
+   {\includegraphics[scale=0.21]{pics/cropT7_bernsen_res.png}}
+    \hspace{5px}
+     \subfloat[cropT27] 
+    {\includegraphics[scale=0.21]{pics/cropT27_bernsen_res.png}}
+    \hspace{5px}
+    \subfloat[cropT45] 
+   {\includegraphics[scale=0.21]{pics/cropT45_bernsen_res.png}}
+    \caption{Zvolené originálne dáta.}
+    \label{fig:bernsen_res}
+\end{figure}
+
+Z výsledkov na obrázkoch \ref{fig:otsu_res}, \ref{fig:kapur_res}, \ref{fig:niblack_res} a \ref{fig:bernsen_res}  vidieť, že vhodnejšími prahovacími metódami vstupujúcimi do segmentácie ako okrajová podmienka sú lokálne adaptívne prahovacie metódy. A Niblackova prahovacia metóda obr. obr \ref{fig:niblack} najlepšie popisuje skutočný tvar makrofágu.
 
 \newpage
 \section{Záver}

@@ -343,110 +343,6 @@ QVector<double> filters::distFunctSign(QVector<double> data) {
 	return matrix;
 }
 
-QVector<double> filters::aw(QVector<double> data, bool eps) {
-	QVector<double> pole;
-	pole.resize(widthR*heightR);
-	pole.fill(0);
-	double ux, uy;
-	double h = 1.;
-	double k = 255 * 255;
-	double epsilon = 0.001;
-
-	for (int i = 1; i < widthR - 1; i++) {
-		for (int j = 1; j < heightR - 1; j++) {
-			ux = (data.at(j * widthR + (i - 1)) - data.at(j * widthR + i)) / h;
-			uy = (data.at((j - 1) * widthR + i) + data.at((j - 1) * widthR + (i - 1))
-				- data.at((j + 1) * widthR + i) - data.at((j + 1) * widthR + (i - 1))) / (4 * h);
-
-			double s = ux*ux + uy * uy;
-			if (eps) {
-				pole[j * widthR + i] = (1. / (1 + k * s));
-			}
-			else 
-				pole[j * widthR + i] = (sqrt(s + epsilon * epsilon));
-		}
-	}
-	return pole;
-}
-
-QVector<double> filters::ae(QVector<double> data, bool eps) {
-	QVector<double> pole;
-	pole.resize(widthR*heightR);
-	pole.fill(0);
-	double ux, uy;
-	double h = 1.;
-	double k = 255 * 255;
-	double epsilon = 0.001;
-
-	for (int i = 1; i < widthR - 1; i++) {
-		for (int j = 1; j < heightR - 1; j++) {
-			ux = (data.at(j * widthR + (i + 1)) - data.at(j * widthR + i)) / h;
-			uy = (data.at((j + 1) * widthR + (i + 1)) + data.at((j + 1) * widthR + i)
-				- data.at((j - 1) * widthR + (i + 1)) - data.at((j - 1) * widthR + i)) / (4 * h);
-
-			double s = ux*ux + uy * uy;
-			if (eps) {
-				pole[j * widthR + i] = (1. / (1 + k * s));
-			}
-			else
-				pole[j * widthR + i] = (sqrt(s + epsilon * epsilon));
-		}
-	}
-	return pole;
-}
-
-QVector<double> filters::as(QVector<double> data, bool eps) {
-	QVector<double> pole;
-	pole.resize(widthR*heightR);
-	pole.fill(0);
-	double ux, uy;
-	double h = 1.;
-	double k = 255 * 255;
-	double epsilon = 0.001;
-
-	for (int i = 1; i < widthR - 1; i++) {
-		for (int j = 1; j < heightR - 1; j++) {
-			uy = (data.at((j - 1) * widthR + i) - data.at(j * widthR + i)) / h;
-			ux = (data.at(j * widthR + (i + 1)) + data.at((j - 1) * widthR + (i + 1))
-				- data.at((j - 1) * widthR + (i - 1)) - data.at(j * widthR + (i - 1))) / (4 * h);
-
-			double s = ux*ux + uy * uy;
-			if (eps) {
-				pole[j * widthR + i] = (1. / (1 + k * s));
-			}
-			else
-				pole[j * widthR + i] = (sqrt(s+ epsilon * epsilon));
-		}
-	}
-	return pole;
-}
-
-QVector<double> filters::an(QVector<double> data, bool eps) {
-	QVector<double> pole;
-	pole.resize(widthR*heightR);
-	pole.fill(0);
-	double ux, uy;
-	double h = 1.;
-	double k = 255 * 255;
-	double epsilon = 0.001;
-
-	for (int i = 1; i < widthR - 1; i++) {
-		for (int j = 1; j < heightR - 1; j++) {
-			uy = (data.at((j + 1) * widthR + i) - data.at(j * widthR + i)) / h;
-			ux = (data.at((j + 1) * widthR + (i - 1)) + data.at(j * widthR + (i - 1))
-				- data.at((j + 1) * widthR + (i + 1)) - data.at(j * widthR + (i + 1))) / (4 * h);
-
-			double s = ux*ux + uy * uy;
-			if (eps) {
-				pole[j * widthR + i] = (1. / (1 + k * s));
-			}
-			else
-				pole[j * widthR + i] = (sqrt(s + epsilon * epsilon));
-		}
-	}
-	return pole;
-}
-
 void filters::grad(QVector<double> data, double h, double k, double epsilon) {
 	qe.resize(widthR*heightR);
 	qw.resize(widthR*heightR);
@@ -544,6 +440,75 @@ void filters::grad2(QVector<double> data, double h, double k, double epsilon) {
 	}
 }
 
+void filters::grad3(QVector<double> data, double h, double k, double epsilon) {
+	qepm.resize(widthR*heightR);
+	qwpm.resize(widthR*heightR);
+	qspm.resize(widthR*heightR);
+	qnpm.resize(widthR*heightR);
+	qepm.fill(0);
+	qwpm.fill(0);
+	qspm.fill(0);
+	qnpm.fill(0);
+	double s1,s2;
+	double ux, uy, uxx, uyy;
+	for (int i = 1; i < widthR - 1; i++) {
+		for (int j = 1; j < heightR - 1; j++) {
+			// da sa zoptimalizovat 
+			// an
+			uy = (data.at((j + 1) * widthR + i) - data.at(j * widthR + i)) / h;
+			ux = (data.at((j + 1) * widthR + (i - 1)) + data.at(j * widthR + (i - 1))
+				- data.at((j + 1) * widthR + (i + 1)) - data.at(j * widthR + (i + 1))) / (4 * h);
+
+			uyy = (origData.at((j + 1) * widthR + i) - origData.at(j * widthR + i)) / h;
+			uxx = (origData.at((j + 1) * widthR + (i - 1)) + origData.at(j * widthR + (i - 1))
+				- origData.at((j + 1) * widthR + (i + 1)) - origData.at(j * widthR + (i + 1))) / (4 * h);
+
+			s2 = uxx * uxx + uyy * uyy;
+			s1 = ux * ux + uy * uy;
+			qnpm[j * widthR + i] = ((0.8 / (1 + k * s1)) + (0.2 / (1 + k * s2)));
+
+			// aw
+			ux = (data.at(j * widthR + (i - 1)) - data.at(j * widthR + i)) / h;
+			uy = (data.at((j - 1) * widthR + i) + data.at((j - 1) * widthR + (i - 1))
+				- data.at((j + 1) * widthR + i) - data.at((j + 1) * widthR + (i - 1))) / (4 * h);
+
+			uxx = (origData.at(j * widthR + (i - 1)) - origData.at(j * widthR + i)) / h;
+			uyy = (origData.at((j - 1) * widthR + i) + origData.at((j - 1) * widthR + (i - 1))
+				- origData.at((j + 1) * widthR + i) - origData.at((j + 1) * widthR + (i - 1))) / (4 * h);
+
+			s2 = uxx * uxx + uyy * uyy;
+			s1 = ux * ux + uy * uy;
+			qwpm[j * widthR + i] = ((0.8 / (1 + k * s1)) + (0.2 / (1 + k * s2)));
+
+			// ae
+			ux = (data.at(j * widthR + (i + 1)) - data.at(j * widthR + i)) / h;
+			uy = (data.at((j + 1) * widthR + (i + 1)) + data.at((j + 1) * widthR + i)
+				- data.at((j - 1) * widthR + (i + 1)) - data.at((j - 1) * widthR + i)) / (4 * h);
+
+			uxx = (origData.at(j * widthR + (i + 1)) - origData.at(j * widthR + i)) / h;
+			uyy = (origData.at((j + 1) * widthR + (i + 1)) + origData.at((j + 1) * widthR + i)
+				- origData.at((j - 1) * widthR + (i + 1)) - origData.at((j - 1) * widthR + i)) / (4 * h);
+
+			s2 = uxx * uxx + uyy * uyy;
+			s1 = ux * ux + uy * uy;
+			qepm[j * widthR + i] = ((0.8 / (1 + k * s1)) + (0.2 / (1 + k * s2)));
+
+			// as
+			uy = (data.at((j - 1) * widthR + i) - data.at(j * widthR + i)) / h;
+			ux = (data.at(j * widthR + (i + 1)) + data.at((j - 1) * widthR + (i + 1))
+				- data.at((j - 1) * widthR + (i - 1)) - data.at(j * widthR + (i - 1))) / (4 * h);
+
+			uyy = (origData.at((j - 1) * widthR + i) - origData.at(j * widthR + i)) / h;
+			uxx = (origData.at(j * widthR + (i + 1)) + origData.at((j - 1) * widthR + (i + 1))
+				- origData.at((j - 1) * widthR + (i - 1)) - origData.at(j * widthR + (i - 1))) / (4 * h);
+
+			s2 = uxx * uxx + uyy * uyy;
+			s1 = ux * ux + uy * uy;
+			qspm[j * widthR + i] = ((0.8 / (1 + k * s1)) + (0.2 / (1 + k * s2)));
+		}
+	}
+}
+
 QVector<double> filters::heatImpl(QVector<double> data, double timeStep) {
 	QVector<double> un, up;
 	un.resize(width*height);
@@ -615,7 +580,7 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, do
 	qwpm = aw(uk1, true);
 	qspm = as(uk1, true);
 	qnpm = an(uk1, true);*/
-	grad2(uk1, h, k, epsilon);
+	grad3(uk1, h, k, epsilon);
 
 	for (int t = 0; t < 50; t++) {
 		double rez = pow(10,6);
@@ -690,7 +655,7 @@ QVector<double> filters::countAvg() {
 
 QVector<double> filters::niblackThreshold(QVector<double> data, double timeStep) {
 	QVector<double> tmp, tmp1, tmp2, thresholds;
-	double TT = 20/255., r = p*p;
+	double TT = 20/255.,  r2 = p*p;
 	double m = 70 / 255.;
 	double d = 20 / 255.;
 	tmp1 = heatImpl(data, timeStep); //u
@@ -717,7 +682,7 @@ QVector<double> filters::niblackThreshold(QVector<double> data, double timeStep)
 			double min = 10, max = -1;
 			for (int ii = i - p; ii <= i + p; ii++)
 				for (int jj = j - p; jj <= j + p; jj++) 
-					if(pow(i-ii,2)+pow(j-jj,2)<=p*p) {
+					if(pow(i-ii,2)+pow(j-jj,2)<= r2 ) {
 						if (tmp[jj * widthR + ii] < min)
 							min = tmp.at(jj * widthR + ii);
 						if (tmp[jj * widthR + ii] > max)
@@ -753,7 +718,7 @@ QVector<double> filters::pow2(QVector<double> data) {
 QVector<double> filters::bernsenThreshold(QVector<double> data) {
 	QVector<double> tmp, cont, thrshld;
 	int cmin = 40;
-	int r = p;
+	int r = p*p;
 	tmp = reflection(data);
 	cont.resize(tmp.length());
 	thrshld.resize(tmp.length());
@@ -763,7 +728,7 @@ QVector<double> filters::bernsenThreshold(QVector<double> data) {
 			double Imin = 300, Imax = -1, c;
 			for (int ii = i - r; ii <= i + r; ii++)
 				for (int jj = j - r; jj <= j + r; jj++) {
-					if (pow(i - ii, 2) + pow(j - jj, 2) <= r * r) {
+					if (pow(i - ii, 2) + pow(j - jj, 2) <= r) {
 						if (tmp[jj * widthR + ii] < Imin)
 							Imin = tmp.at(jj * widthR + ii);
 						if (tmp[jj * widthR + ii] > Imax)

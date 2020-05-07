@@ -351,3 +351,14 @@ void source::addZMinandMax() {
 	zMin[zMin.size() - 1] = bounds[4];
 	// std::cout << "MaxZ: " << bounds[5] << " MinZ: " << bounds[4] << endl;
 }
+
+void source::saveHistOutput(QString text, QString fileName) {
+
+	QFile outputFile(fileName);
+	outputFile.open(QIODevice::WriteOnly);
+	if (!outputFile.isOpen())
+		return;
+	QTextStream stream(&outputFile);
+	stream << text;
+	outputFile.close();
+}

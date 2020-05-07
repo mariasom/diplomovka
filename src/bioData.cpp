@@ -66,6 +66,7 @@ bioData::bioData(QWidget *parent)
 	contourZConSB = new QDoubleSpinBox;
 	optContDispButton = new QPushButton;
 	historyText = new QPlainTextEdit;
+	histSaveButton = new QPushButton;
 	// parent3D = new QTreeWidgetItem();
 	// parent2D = new QTreeWidgetItem();
 
@@ -112,7 +113,8 @@ bioData::bioData(QWidget *parent)
 	connect(this->contour3DPwDButton, SIGNAL(clicked()), this, SLOT(contour3DPwDClicked()));
 	connect(this->manOptContourButton, SIGNAL(clicked()), this, SLOT(manOptContClicked()));
 	connect(this->optContDispButton, SIGNAL(clicked()), this, SLOT(optContDispClicked()));
-	connect(this->testingButton, SIGNAL(clicked()), this, SLOT(testClicked()));
+	connect(this->optContDispButton, SIGNAL(clicked()), this, SLOT(optContDispClicked()));
+	connect(this->histSaveButton, SIGNAL(clicked()), this, SLOT(histSavedClicked()));
 
 	//connect(this->dataUp, SIGNAL(clicked()), this, SLOT(dataUpClicked()));
 	//connect(this->dataDown, SIGNAL(clicked()), this, SLOT(dataDownClicked()));
@@ -253,7 +255,7 @@ void bioData::initWin(QString path) {
 	gridLayout->addWidget(_vWidget.at(_vWidget.size() - 1)->getScrollArea());
 	_vWidget.at(_vWidget.size() - 1)->setViewerWidget2D(tmpFile->getImageData(), tmpFile->getFileName(fName));
 
-	// widget->setWindowTitle("Original Data");
+	widget->setWindowTitle(fName);
 	addSubItem(parent2D, fName + "_original_data");
 
 	widget->show();
@@ -775,30 +777,9 @@ void bioData::bernsenClicked() {
 	_file.at(_file.size() - 1)->addFiltData(filter.dataToChar(tmp));
 	_file.at(_file.size() - 1)->setPoints(_file.at(_file.size() - 1)->getFiltData(_file.at(_file.size() - 1)->getSizeFiltData() - 1));
 
-	// if (widget2D == nullptr)
-	//	set2DWidget();
-	// else
 	update2DWidget();
 	widget->setWindowTitle("Bernsen");
 	addSubItem(parent2D, fName + "_bernsen");
-	
-//	fTmp->create3Ddata(filter.heatImpl(filter.changeRangeOfData(
-//		filter.dataToInt(
-//			filter.createNewData(
-//				filter.dataToInt(
-//					fTmp->getOrigData()), filter.kapuraFilter())))));
-//QVector<int> tmp = filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter());
-	//fTmp->addFiltData(filter.dataToChar(filter.subSurf(filter.distFunctSign(filter.boundary(filter.dataToInt(fTmp->getOrigData()), filter.otsuFilter())), 
-	//	filter.changeRangeOfData(filter.dataToInt(filter.createNewData(filter.dataToInt(fTmp->getOrigData()), filter.kapuraFilter()))))));
-
-	//QString item = "subSurf";
-	//dataListView->addItem(item);
-	//dataListView->setCurrentRow(dataListView->count() - 1);
-	//std::cout << "size of filt data: " << fTmp->getSizeFiltData() << std::endl;
-	//w->set(fTmp->get3Data(), " ");
-	//w->updateViewerWidget(fTmp->get3Data());
-	//w->updateViewerWidget();
-//	w->updateViewerWidget(fTmp->get3Data());
 }
 
 void bioData::subsurfClicked() {
@@ -868,21 +849,11 @@ void bioData::set3DWidget() {
 	parent3D->setText(0, "3D");
 	parent3D->setExpanded(true);
 	dataTree->addTopLevelItem(parent3D);
-//	w->setScrollArea3D();
-//	gridLayout3D = new QGridLayout(widget2D); 
-//	gridLayout3D->addWidget(w->getScrollArea3D());
 	_vWidget.at(_vWidget.size() - 1)->setViewerWidget3D(_file.at(_file.size() - 1)->getPolydata());
 	options2DDock->hide();
 	options3DDock->show();
 	filter2DDock->show();
 	setRangeValLab();
-	// Adding a widget as a sub window in the Mdi Area
-//	mdiArea->addSubWindow(widget3D);
-//	mdiArea->setAttribute(Qt::WA_DeleteOnClose);
-//	mdiArea->setWindowFlags(Qt::WindowTitleHint);
-	// And show the widget
-//	widget3D->show();
-//	widget3D->showMaximized();
 }
 
 void bioData::update3DWidget() {
@@ -980,20 +951,34 @@ void bioData::createtestGB() {
 void bioData::deleteClicked() {
 	QMessageBox mbox;
 	qApp->processEvents();
-
-	// ak je v liste uz len jeden riadok, tak rovno zavrie cely tab
+	int i = dataTree->currentIndex().row();
 	if (dataTree->topLevelItemCount() == 1 && parent2D->childCount() == 1) {
-		dataTree->model()->removeRow(dataTree->currentIndex().row());
+		dataTree->model()->removeRow(i);
 		actionClose();
 	}
-	// delete selected
-	else if (dataListView->currentRow() == 0) //Original data
-	{
-		mbox.setText("It is not possible to remove original data when list is not empty");
-		mbox.exec();
+	else if (parent3D == dataTree->currentItem()->parent()) {
+		if (parent3D->childCount() == 1) {
+			parent3D->removeChild(parent3D->child(i));
+			_file.at(_file.size() - 1)->remove3DFiltData(i);
+			dataTree->setCurrentItem(parent3D->child(i - 1));
+			parent3D->setHidden(true);
+		}
+		else {
+			parent3D->removeChild(parent3D->child(i));
+			_file.at(_file.size() - 1)->remove3DFiltData(i);
+			dataTree->setCurrentItem(parent3D->child(i - 1));
+		}
 	}
-	else {
-		dataTree->model()->removeRow(dataTree->currentIndex().row());
+	else if (parent2D == dataTree->currentItem()->parent()) {
+		if (dataTree->currentIndex().row() == 0) {
+			mbox.setText("You can't delete original data!");
+			mbox.exec();
+		}
+		else {
+			parent2D->removeChild(parent2D->child(i));
+			_file.at(_file.size() - 1)->remove2DFiltData(i);
+			dataTree->setCurrentItem(parent2D->child(i - 1));
+		}
 	}
 }
 
@@ -1081,11 +1066,11 @@ void bioData::createLocThrshldGB() {
 void bioData::setDefaultValues() {
 	// subsurf param
 	sigmaSubsurf->setRange(0.0001, 1000.0);
-	sigmaSubsurf->setDecimals(5);
+	sigmaSubsurf->setDecimals(3);
 	sigmaSubsurf->setSingleStep(0.01);
 	sigmaSubsurf->setValue(0.25);
 	tauSubsurf->setRange(0.0001, 1000.0);
-	tauSubsurf->setDecimals(5);
+	tauSubsurf->setDecimals(3);
 	tauSubsurf->setSingleStep(0.01);
 	tauSubsurf->setValue(1.0);
 	kSubsurf->setRange(0.00001, 999999.0);
@@ -1099,17 +1084,19 @@ void bioData::setDefaultValues() {
 	niblackTimeStepSB->setSingleStep(0.1);
 	niblackTimeStepSB->setValue(5.0);
 	niblackMaskSB->setRange(1, 50);
-	niblackMaskSB->setValue(6);
+	niblackMaskSB->setValue(3);
 	
 	// bernsen param
 	bernsenMaskSB->setRange(1, 50);
-	bernsenMaskSB->setValue(1);
+	bernsenMaskSB->setValue(2);
 
 	//contours 
 	numCont3DSB->setRange(1, 1000);
 	numCont3DSB->setValue(10);
+
 	//contour val
 	contourZConSB->setRange(-100, 100);
+	contourZConSB->setValue(-1);
 }
 
 void bioData::saveScreenShot() {
@@ -1208,9 +1195,10 @@ void bioData::createHistoryLogDock() {
 		QDockWidget::DockWidgetVerticalTitleBar);
 	QWidget* multiWidget = new QWidget();
 	QGridLayout *layout = new QGridLayout;
+	histSaveButton->setText("SAVE HISTORY LOG");
 	historyText->setReadOnly(true);
 	layout->addWidget(historyText);
-
+	layout->addWidget(histSaveButton);
 	multiWidget->setLayout(layout);
 	historyDock->setWidget(multiWidget);
 	addDockWidget(Qt::RightDockWidgetArea, historyDock);
@@ -1431,3 +1419,10 @@ void bioData::optContDispClicked() {
 	dataTree->setCurrentItem(parent2D->child(0));
 	twoDClicked();
 }
+
+void bioData::histSavedClicked() {
+	QString fname= QFileDialog::getSaveFileName(this, tr("Save File"),
+		"history_log.txt",
+		tr("Text File (*.txt)"));
+	_file.at(_file.size() - 1)->saveHistOutput(historyText->toPlainText(), fname);
+}  

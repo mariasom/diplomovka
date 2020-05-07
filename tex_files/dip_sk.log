@@ -1,12 +1,12 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.27)  6 MAY 2020 13:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.27)  7 MAY 2020 21:36
 entering extended mode
 **./dip_sk.tex
 (dip_sk.tex
 LaTeX2e <2019-10-01> patch level 1
 ("C:\Program Files\MiKTeX 2.9\tex/latex/base\article.cls"
 Document Class: article 2019/08/27 v1.4j Standard LaTeX document class
-("C:\Program Files\MiKTeX 2.9\tex/latex/base\size11.clo"
-File: size11.clo 2019/08/27 v1.4j Standard LaTeX file (size option)
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\size12.clo"
+File: size12.clo 2019/08/27 v1.4j Standard LaTeX file (size option)
 )
 \c@part=\count80
 \c@section=\count81
@@ -189,7 +189,15 @@ Package pdftexcmds Info: \pdfdraftmode found.
 
 Package epstopdf Warning: No graphics package `graphic{s,x}' loaded.
 
-)) ("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\graphicx.sty"
+)) ("C:\Program Files\MiKTeX 2.9\tex/latex/float\float.sty"
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count98
+\float@exts=\toks22
+\float@box=\box28
+\@float@everytoks=\toks23
+\@floatcapt=\box29
+)
+("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\graphicx.sty"
 Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\graphics.sty"
@@ -208,17 +216,17 @@ Package graphics Info: Driver file: pdftex.def on input line 105.
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/subfig\subfig.sty"
 Package: subfig 2005/06/28 ver: 1.3 subfig package
-\c@KVtest=\count98
+\c@KVtest=\count99
 \sf@farskip=\skip43
 \sf@captopadj=\dimen123
 \sf@capskip=\skip44
 \sf@nearskip=\skip45
-\c@subfigure=\count99
-\c@subfigure@save=\count100
-\c@lofdepth=\count101
-\c@subtable=\count102
-\c@subtable@save=\count103
-\c@lotdepth=\count104
+\c@subfigure=\count100
+\c@subfigure@save=\count101
+\c@lofdepth=\count102
+\c@subtable=\count103
+\c@subtable@save=\count104
+\c@lotdepth=\count105
 \sf@top=\skip46
 \sf@bottom=\skip47
 )
@@ -228,14 +236,14 @@ Package: colortbl 2018/12/12 v1.0d Color table columns (DPC)
 ("C:\Program Files\MiKTeX 2.9\tex/latex/tools\array.sty"
 Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
 \col@sep=\dimen124
-\ar@mcellbox=\box28
+\ar@mcellbox=\box30
 \extrarowheight=\dimen125
-\NC@list=\toks22
+\NC@list=\toks24
 \extratabsurround=\skip48
 \backup@length=\skip49
-\ar@cellbox=\box29
+\ar@cellbox=\box31
 )
-\everycr=\toks23
+\everycr=\toks25
 \minrowclearance=\skip50
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\rotating.sty"
@@ -244,18 +252,18 @@ Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
 ("C:\Program Files\MiKTeX 2.9\tex/latex/base\ifthen.sty"
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
-\c@r@tfl@t=\count105
+\c@r@tfl@t=\count106
 \rotFPtop=\skip51
 \rotFPbot=\skip52
-\rot@float@box=\box30
-\rot@mess@toks=\toks24
+\rot@float@box=\box32
+\rot@mess@toks=\toks26
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/tools\indentfirst.sty"
 Package: indentfirst 1995/11/23 v1.03 Indent first paragraph (DPC)
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\amsfonts.sty"
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
-\@emptytoks=\toks25
+\@emptytoks=\toks27
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
@@ -272,7 +280,7 @@ Package: amstext 2000/06/29 v2.01 AMS text
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsgen.sty"
 File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks26
+\@emptytoks=\toks28
 \ex@=\dimen126
 ))
 ("C:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsbsy.sty"
@@ -282,41 +290,41 @@ Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 ("C:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsopn.sty"
 Package: amsopn 2016/03/08 v2.02 operator names
 )
-\inf@bad=\count106
+\inf@bad=\count107
 LaTeX Info: Redefining \frac on input line 227.
-\uproot@=\count107
-\leftroot@=\count108
+\uproot@=\count108
+\leftroot@=\count109
 LaTeX Info: Redefining \overline on input line 389.
-\classnum@=\count109
-\DOTSCASE@=\count110
+\classnum@=\count110
+\DOTSCASE@=\count111
 LaTeX Info: Redefining \ldots on input line 486.
 LaTeX Info: Redefining \dots on input line 489.
 LaTeX Info: Redefining \cdots on input line 610.
-\Mathstrutbox@=\box31
-\strutbox@=\box32
+\Mathstrutbox@=\box33
+\strutbox@=\box34
 \big@size=\dimen128
 LaTeX Font Info:    Redeclaring font encoding OML on input line 733.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
-\macc@depth=\count111
-\c@MaxMatrixCols=\count112
+\macc@depth=\count112
+\c@MaxMatrixCols=\count113
 \dotsspace@=\muskip10
-\c@parentequation=\count113
-\dspbrk@lvl=\count114
-\tag@help=\toks27
-\row@=\count115
-\column@=\count116
-\maxfields@=\count117
-\andhelp@=\toks28
+\c@parentequation=\count114
+\dspbrk@lvl=\count115
+\tag@help=\toks29
+\row@=\count116
+\column@=\count117
+\maxfields@=\count118
+\andhelp@=\toks30
 \eqnshift@=\dimen129
 \alignsep@=\dimen130
 \tagshift@=\dimen131
 \tagwidth@=\dimen132
 \totwidth@=\dimen133
 \lineht@=\dimen134
-\@envbody=\toks29
+\@envbody=\toks31
 \multlinegap=\skip54
 \multlinetaggap=\skip55
-\mathdisplay@stack=\toks30
+\mathdisplay@stack=\toks32
 LaTeX Info: Redefining \[ on input line 2855.
 LaTeX Info: Redefining \] on input line 2856.
 )
@@ -325,13 +333,13 @@ Package: amssymb 2013/01/14 v3.01 AMS font symbols
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/tools\verbatim.sty"
 Package: verbatim 2014/10/28 v1.5q LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks31
-\verbatim@line=\toks32
+\every@verbatim=\toks33
+\verbatim@line=\toks34
 \verbatim@in@stream=\read1
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/eurosym\eurosym.sty"
 Package: eurosym 1998/08/06 v1.1 European currency symbol ``Euro''
-\@eurobox=\box33
+\@eurobox=\box35
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/url\url.sty"
 \Urlmuskip=\muskip11
@@ -339,12 +347,12 @@ Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/algorithm2e\algorithm2e.sty"
 Package: algorithm2e 2017/07/18 v5.2 algorithms environments
-\c@AlgoLine=\count118
+\c@AlgoLine=\count119
 \algocf@hangindent=\skip56
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/ifoddpage\ifoddpage.sty"
 Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
-\c@checkoddpage=\count119
+\c@checkoddpage=\count120
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/tools\xspace.sty"
 Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
@@ -367,41 +375,41 @@ Package: relsize 2013/03/29 ver 4.1
 \interspacealgoruled=\dimen139
 \interspacetitleboxruled=\dimen140
 \algocf@ruledwidth=\skip65
-\algocf@inoutbox=\box34
-\algocf@inputbox=\box35
+\algocf@inoutbox=\box36
+\algocf@inputbox=\box37
 \AlCapSkip=\skip66
 \AlCapHSkip=\skip67
 \algoskipindent=\skip68
-\algocf@nlbox=\box36
-\algocf@hangingbox=\box37
-\algocf@untilbox=\box38
+\algocf@nlbox=\box38
+\algocf@hangingbox=\box39
+\algocf@untilbox=\box40
 \algocf@skipuntil=\skip69
-\algocf@capbox=\box39
+\algocf@capbox=\box41
 \algocf@lcaptionbox=\skip70
 \algoheightruledefault=\skip71
 \algoheightrule=\skip72
 \algotitleheightruledefault=\skip73
 \algotitleheightrule=\skip74
-\c@algocfline=\count120
-\c@algocfproc=\count121
-\c@algocf=\count122
-\algocf@algoframe=\box40
-\algocf@algobox=\box41
+\c@algocfline=\count121
+\c@algocfproc=\count122
+\c@algocf=\count123
+\algocf@algoframe=\box42
+\algocf@algobox=\box43
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/verse\verse.sty"
 Package: verse 2009/09/04 v2.4a verse typesetting
-\c@vslineno=\count123
-\c@poemline=\count124
-\c@fvsline=\count125
-\c@modulo@vs=\count126
-\c@verse@envctr=\count127
+\c@vslineno=\count124
+\c@poemline=\count125
+\c@fvsline=\count126
+\c@modulo@vs=\count127
+\c@verse@envctr=\count128
 \versewidth=\skip75
 \vgap=\skip76
 \vindent=\skip77
 \stanzaskip=\skip78
 \vleftskip=\skip79
 \vrightskip=\skip80
-\c@chrsinstr=\count128
+\c@chrsinstr=\count129
 \beforepoemtitleskip=\skip81
 \afterpoemtitleskip=\skip82
 )
@@ -445,13 +453,13 @@ Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
 Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
 )
 \@linkdim=\dimen141
-\Hy@linkcounter=\count129
-\Hy@pagecounter=\count130
+\Hy@linkcounter=\count130
+\Hy@pagecounter=\count131
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\pd1enc.def"
 File: pd1enc.def 2019/09/28 v7.00a Hyperref: PDFDocEncoding definition (HO)
 )
-\Hy@SavedSpaceFactor=\count131
+\Hy@SavedSpaceFactor=\count132
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/00miktex\hyperref.cfg"
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
@@ -463,10 +471,10 @@ Package hyperref Info: Plain pages OFF on input line 4555.
 Package hyperref Info: Backreferencing OFF on input line 4560.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4793.
-\c@Hy@tempcnt=\count132
+\c@Hy@tempcnt=\count133
 LaTeX Info: Redefining \url on input line 5152.
 \XeTeXLinkMargin=\dimen142
-\Fld@menulength=\count133
+\Fld@menulength=\count134
 \Field@Width=\dimen143
 \Fld@charsize=\dimen144
 Package hyperref Info: Hyper figures OFF on input line 6423.
@@ -478,16 +486,16 @@ Package hyperref Info: Link coloring with OCG OFF on input line 6448.
 Package hyperref Info: PDF/A mode OFF on input line 6453.
 LaTeX Info: Redefining \ref on input line 6493.
 LaTeX Info: Redefining \pageref on input line 6497.
-\Hy@abspage=\count134
-\c@Item=\count135
-\c@Hfootnote=\count136
+\Hy@abspage=\count135
+\c@Item=\count136
+\c@Hfootnote=\count137
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\hpdftex.def"
 File: hpdftex.def 2019/09/28 v7.00a Hyperref driver for pdfTeX
-\Fld@listcount=\count137
-\c@bookmark@seq@number=\count138
+\Fld@listcount=\count138
+\c@bookmark@seq@number=\count139
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\rerunfilecheck.sty"
 Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
@@ -496,33 +504,29 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip83
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 70.
+Package hyperref Info: Option `colorlinks' set `true' on input line 72.
 
 
 Package hyperref Warning: Option `pdftex' has already been used,
-(hyperref)                setting the option has no effect on input line 70.
+(hyperref)                setting the option has no effect on input line 72.
 
-(dip_sk.aux
-
-LaTeX Warning: Label `fig:uidata1' multiply defined.
-
-)
+(dip_sk.aux)
 \openout1 = `dip_sk.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 74.
-LaTeX Font Info:    ... okay on input line 74.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 76.
+LaTeX Font Info:    ... okay on input line 76.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -543,12 +547,12 @@ LaTeX Font Info:    ... okay on input line 74.
 * \topmargin=-38.1381pt
 * \headheight=12.0pt
 * \headsep=25.0pt
-* \topskip=11.0pt
+* \topskip=12.0pt
 * \footskip=30.0pt
-* \marginparwidth=103.0pt
+* \marginparwidth=85.0pt
 * \marginparsep=10.0pt
 * \columnsep=10.0pt
-* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
+* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
 * \hoffset=0.0pt
 * \voffset=0.0pt
 * \mag=1000
@@ -563,6 +567,7 @@ File: ucsencs.def 2011/01/21 Fixes to fontencodings LGR, T3
 )
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
+Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: rotating package is loaded.
 Package caption Info: wrapfig package is loaded.
@@ -570,31 +575,31 @@ Package caption Info: End \AtBeginDocument code.
 
 ("C:\Program Files\MiKTeX 2.9\tex/context/base/mkii\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count139
+\scratchcounter=\count140
 \scratchdimen=\dimen145
-\scratchbox=\box42
-\nofMPsegments=\count140
-\nofMParguments=\count141
-\everyMPshowfont=\toks33
-\MPscratchCnt=\count142
+\scratchbox=\box44
+\nofMPsegments=\count141
+\nofMParguments=\count142
+\everyMPshowfont=\toks35
+\MPscratchCnt=\count143
 \MPscratchDim=\dimen146
-\MPnumerator=\count143
-\makeMPintoPDFobject=\count144
-\everyMPtoPDFconversion=\toks34
+\MPnumerator=\count144
+\makeMPintoPDFobject=\count145
+\everyMPtoPDFconversion=\toks36
 )
-\AtBeginShipoutBox=\box43
-Package hyperref Info: Link coloring ON on input line 74.
+\AtBeginShipoutBox=\box45
+Package hyperref Info: Link coloring ON on input line 76.
  ("C:\Program Files\MiKTeX 2.9\tex/latex/hyperref\nameref.sty"
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
 
 ("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\gettitlestring.sty"
 Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
-\c@section@level=\count145
+\c@section@level=\count146
 )
-LaTeX Info: Redefining \ref on input line 74.
-LaTeX Info: Redefining \pageref on input line 74.
-LaTeX Info: Redefining \nameref on input line 74.
+LaTeX Info: Redefining \ref on input line 76.
+LaTeX Info: Redefining \pageref on input line 76.
+LaTeX Info: Redefining \nameref on input line 76.
 
 (dip_sk.out) (dip_sk.out)
 \@outlinefile=\write3
@@ -605,19 +610,19 @@ File: uni-0.def 2013/05/13 UCS: Unicode data U+0000..U+00FF
 ) ("C:\Program Files\MiKTeX 2.9\tex/latex/ucs\uni-1.def"
 File: uni-1.def 2013/05/13 UCS: Unicode data U+0100..U+01FF
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 94.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 96.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 94.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 96.
 
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Overfull \hbox (40.99998pt too wide) in paragraph at lines 94--100
+Overfull \hbox (41.6248pt too wide) in paragraph at lines 96--102
 [][] 
  []
 
@@ -632,285 +637,349 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 \openout4 = `dip_sk.toc'.
 
 
-[2] [3] [4] [5] ("C:\Program Files\MiKTeX 2.9\tex/latex/ucs\uni-34.def"
+[2] [3] [4] [5] [6] ("C:\Program Files\MiKTeX 2.9\tex/latex/ucs\uni-34.def"
 File: uni-34.def 2013/05/13 UCS: Unicode data U+2200..U+22FF
 )
-[6] [7]
-Overfull \hbox (35.33513pt too wide) in paragraph at lines 393--394
-[]\T1/cmr/m/n/10.95 Pri vy-tvá-raní nu-me-ric-kej schémy sme pre £a-sovú dis-kr
-e-ti-zá-ciu po-u-ºili im-pli-citnú a semi$\OMS/cmsy/m/n/10.95  $\T1/cmr/m/n/10.
-95 implicitnú
- []
-
-
+[7] [8]
 
 pdfTeX warning: pdflatex (file ./pics/hrany1.pdf): PDF inclusion: found PDF ver
 sion <1.7>, but at most version <1.5> allowed
-<pics/hrany1.pdf, id=175, 378.91562pt x 378.91562pt>
+<pics/hrany1.pdf, id=169, 378.91562pt x 378.91562pt>
 File: pics/hrany1.pdf Graphic file (type pdf)
 <use pics/hrany1.pdf>
-Package pdftex.def Info: pics/hrany1.pdf  used on input line 414.
+Package pdftex.def Info: pics/hrany1.pdf  used on input line 413.
 (pdftex.def)             Requested size: 151.56355pt x 151.56355pt.
-
-Package caption Warning: \label without proper reference on input line 417.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:hrany' on page 8 undefined on input line 420.
-
-[8 <./pics/hrany1.pdf>] [9] [10]
+[9 <./pics/hrany1.pdf>] [10] [11] [12]
 LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 5
 57.
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/base\omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 557.
- [11] [12]
-Overfull \hbox (24.51398pt too wide) in paragraph at lines 632--633
-[]\T1/cmr/m/n/10.95 Projekt je roz-de-lený do via-ce-rých sú-bo-rov(tried) do-d
-r-ºia-va-jú-cej zá-sady objektovo-orientovaného
- []
-
+ [13] [14]
 
 Package hyperref Warning: Composite letter `\textasciicaron+l'
 (hyperref)                not defined in PD1 encoding,
 (hyperref)                removing `\textasciicaron' on input line 644.
 
-<pics/ui1.jpg, id=237, 657.95813pt x 544.28343pt>
+[15]
+<pics/ui1.jpg, id=241, 657.95813pt x 544.28343pt>
 File: pics/ui1.jpg Graphic file (type jpg)
 <use pics/ui1.jpg>
 Package pdftex.def Info: pics/ui1.jpg  used on input line 652.
 (pdftex.def)             Requested size: 328.97826pt x 272.14105pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Package caption Warning: \label without proper reference on input line 655.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:ui1' on page 13 undefined on input line 658.
-
 LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 6
 58.
-("C:\Program Files\MiKTeX 2.9\tex/latex/base\t1cmtt.fd"
+ ("C:\Program Files\MiKTeX 2.9\tex/latex/base\t1cmtt.fd"
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-
-Package caption Warning: \label without proper reference on input line 680.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:uidata' on page 13 undefined on input line 660.
-
-[13]
-
-Package caption Warning: \label without proper reference on input line 680.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:uidata' on page 14 undefined on input line 671.
-
-<pics/uidata.jpg, id=248, 280.04625pt x 212.29312pt>
+) [16 <./pics/ui1.jpg>]
+<pics/uidata.jpg, id=252, 280.04625pt x 212.29312pt>
 File: pics/uidata.jpg Graphic file (type jpg)
 <use pics/uidata.jpg>
 Package pdftex.def Info: pics/uidata.jpg  used on input line 676.
 (pdftex.def)             Requested size: 182.0279pt x 137.98889pt.
-<pics/uithr.jpg, id=249, 282.30469pt x 285.31593pt>
+<pics/uithr.jpg, id=253, 282.30469pt x 285.31593pt>
 File: pics/uithr.jpg Graphic file (type jpg)
 <use pics/uithr.jpg>
 Package pdftex.def Info: pics/uithr.jpg  used on input line 678.
 (pdftex.def)             Requested size: 155.26805pt x 156.92424pt.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+Underfull \hbox (badness 10000) in paragraph at lines 678--678
+[]\T1/cmr/m/n/10 (b) |De-tail docku
+ []
 
-
-Package caption Warning: \label without proper reference on input line 707.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:uidata1' on page 14 undefined on input line 683.
-
-
-Package caption Warning: \label without proper reference on input line 707.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:uidata1' on page 14 undefined on input line 685.
-
-[14 <./pics/ui1.jpg>]
-<pics/ui2Dopt.jpg, id=257, 281.55188pt x 279.29344pt>
+<pics/ui2Dopt.jpg, id=256, 281.55188pt x 279.29344pt>
 File: pics/ui2Dopt.jpg Graphic file (type jpg)
 <use pics/ui2Dopt.jpg>
-Package pdftex.def Info: pics/ui2Dopt.jpg  used on input line 690.
+Package pdftex.def Info: pics/ui2Dopt.jpg  used on input line 691.
 (pdftex.def)             Requested size: 183.00655pt x 181.53857pt.
-<pics/ui3Dfilt.jpg, id=258, 279.29344pt x 276.28218pt>
+<pics/ui3Dfilt.jpg, id=257, 279.29344pt x 276.28218pt>
 File: pics/ui3Dfilt.jpg Graphic file (type jpg)
 <use pics/ui3Dfilt.jpg>
-Package pdftex.def Info: pics/ui3Dfilt.jpg  used on input line 692.
+Package pdftex.def Info: pics/ui3Dfilt.jpg  used on input line 693.
 (pdftex.def)             Requested size: 181.53857pt x 179.58128pt.
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-Package caption Warning: \label without proper reference on input line 726.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:uidata2' on page 15 undefined on input line 697.
-
-
-Package caption Warning: \label without proper reference on input line 726.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:uidata2' on page 15 undefined on input line 699.
-
-<pics/ui3Dopt.jpg, id=261, 281.55188pt x 277.035pt>
+ [17 <./pics/uidata.jpg> <./pics/uithr.jpg>]
+<pics/ui3Dopt.jpg, id=268, 281.55188pt x 277.035pt>
 File: pics/ui3Dopt.jpg Graphic file (type jpg)
 <use pics/ui3Dopt.jpg>
-Package pdftex.def Info: pics/ui3Dopt.jpg  used on input line 703.
+Package pdftex.def Info: pics/ui3Dopt.jpg  used on input line 702.
 (pdftex.def)             Requested size: 183.00655pt x 180.0706pt.
-<pics/uihist.jpg, id=262, 284.56313pt x 275.52937pt>
+<pics/uihist.jpg, id=269, 284.56313pt x 275.52937pt>
 File: pics/uihist.jpg Graphic file (type jpg)
 <use pics/uihist.jpg>
-Package pdftex.def Info: pics/uihist.jpg  used on input line 705.
+Package pdftex.def Info: pics/uihist.jpg  used on input line 704.
 (pdftex.def)             Requested size: 184.96384pt x 179.09195pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Package caption Warning: \label without proper reference on input line 726.
-See the caption package documentation for explanation.
-
-
-LaTeX Warning: Reference `fig:uidata2' on page 15 undefined on input line 710.
-
-<pics/subsurf.jpg, id=264, 657.95813pt x 544.28343pt>
+<pics/subsurf.jpg, id=272, 657.95813pt x 544.28343pt>
 File: pics/subsurf.jpg Graphic file (type jpg)
 <use pics/subsurf.jpg>
-Package pdftex.def Info: pics/subsurf.jpg  used on input line 722.
+Package pdftex.def Info: pics/subsurf.jpg  used on input line 715.
 (pdftex.def)             Requested size: 197.38896pt x 163.28629pt.
-<pics/result.jpg, id=265, 657.95813pt x 544.28343pt>
+<pics/result.jpg, id=273, 657.95813pt x 544.28343pt>
 File: pics/result.jpg Graphic file (type jpg)
 <use pics/result.jpg>
-Package pdftex.def Info: pics/result.jpg  used on input line 724.
+Package pdftex.def Info: pics/result.jpg  used on input line 717.
 (pdftex.def)             Requested size: 197.38896pt x 163.28629pt.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
+ [18 <./pics/ui2Dopt.jpg> <./pics/ui3Dfilt.jpg> <./pics/ui3Dopt.jpg> <./pics/ui
+hist.jpg>]
+[19 <./pics/subsurf.jpg> <./pics/result.jpg>]
+<pics/cropT2.png, id=292, 60.225pt x 60.225pt>
+File: pics/cropT2.png Graphic file (type png)
+<use pics/cropT2.png>
+Package pdftex.def Info: pics/cropT2.png  used on input line 738.
+(pdftex.def)             Requested size: 102.98486pt x 102.98486pt.
+<pics/cropT7.png, id=293, 60.225pt x 60.225pt>
+File: pics/cropT7.png Graphic file (type png)
+<use pics/cropT7.png>
+Package pdftex.def Info: pics/cropT7.png  used on input line 741.
+(pdftex.def)             Requested size: 102.98486pt x 102.98486pt.
+<pics/cropT27.png, id=294, 60.225pt x 60.225pt>
+File: pics/cropT27.png Graphic file (type png)
+<use pics/cropT27.png>
+Package pdftex.def Info: pics/cropT27.png  used on input line 744.
+(pdftex.def)             Requested size: 102.98486pt x 102.98486pt.
+<pics/cropT45.png, id=295, 60.225pt x 60.225pt>
+File: pics/cropT45.png Graphic file (type png)
+<use pics/cropT45.png>
+Package pdftex.def Info: pics/cropT45.png  used on input line 747.
+(pdftex.def)             Requested size: 102.98486pt x 102.98486pt.
+<pics/cropT2_otsu.png, id=298, 493.845pt x 493.845pt>
+File: pics/cropT2_otsu.png Graphic file (type png)
+<use pics/cropT2_otsu.png>
+Package pdftex.def Info: pics/cropT2_otsu.png  used on input line 758.
+(pdftex.def)             Requested size: 103.7105pt x 103.7105pt.
+<pics/cropT7_otsu.png, id=300, 493.0922pt x 494.59781pt>
+File: pics/cropT7_otsu.png Graphic file (type png)
+<use pics/cropT7_otsu.png>
+Package pdftex.def Info: pics/cropT7_otsu.png  used on input line 761.
+(pdftex.def)             Requested size: 103.55241pt x 103.86859pt.
+<pics/cropT27_otsu.png, id=301, 496.85625pt x 496.85625pt>
+File: pics/cropT27_otsu.png Graphic file (type png)
+<use pics/cropT27_otsu.png>
+Package pdftex.def Info: pics/cropT27_otsu.png  used on input line 764.
+(pdftex.def)             Requested size: 104.34288pt x 104.34288pt.
+<pics/cropT45_otsu.png, id=302, 492.33937pt x 492.33937pt>
+File: pics/cropT45_otsu.png Graphic file (type png)
+<use pics/cropT45_otsu.png>
+Package pdftex.def Info: pics/cropT45_otsu.png  used on input line 767.
+(pdftex.def)             Requested size: 103.3943pt x 103.3943pt.
+<pics/cropT2_otsu_res.png, id=306, 493.845pt x 493.845pt>
+File: pics/cropT2_otsu_res.png Graphic file (type png)
+<use pics/cropT2_otsu_res.png>
+Package pdftex.def Info: pics/cropT2_otsu_res.png  used on input line 776.
+(pdftex.def)             Requested size: 103.7105pt x 103.7105pt.
+<pics/cropT7_otsu_res.png, id=307, 492.33937pt x 492.33937pt>
+File: pics/cropT7_otsu_res.png Graphic file (type png)
+<use pics/cropT7_otsu_res.png>
+Package pdftex.def Info: pics/cropT7_otsu_res.png  used on input line 779.
+(pdftex.def)             Requested size: 103.3943pt x 103.3943pt.
+<pics/cropT27_otsu_res.png, id=308, 494.59781pt x 494.59781pt>
+File: pics/cropT27_otsu_res.png Graphic file (type png)
+<use pics/cropT27_otsu_res.png>
+Package pdftex.def Info: pics/cropT27_otsu_res.png  used on input line 782.
+(pdftex.def)             Requested size: 103.86859pt x 103.86859pt.
+<pics/cropT45_otsu_res.png, id=309, 495.35063pt x 495.35063pt>
+File: pics/cropT45_otsu_res.png Graphic file (type png)
+<use pics/cropT45_otsu_res.png>
+Package pdftex.def Info: pics/cropT45_otsu_res.png  used on input line 785.
+(pdftex.def)             Requested size: 104.0267pt x 104.0267pt.
 
-Package caption Warning: \label without proper reference on input line 726.
-See the caption package documentation for explanation.
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
+ [20 <./pics/cropT2.png> <./pics/cropT7.png> <./pics/cropT27.png> <./pics/cropT
+45.png> <./pics/cropT2_otsu.png> <./pics/cropT7_otsu.png> <./pics/cropT27_otsu.
+png> <./pics/cropT45_otsu.png>]
+<pics/cropT2_kapur.png, id=336, 493.0922pt x 493.0922pt>
+File: pics/cropT2_kapur.png Graphic file (type png)
+<use pics/cropT2_kapur.png>
+Package pdftex.def Info: pics/cropT2_kapur.png  used on input line 794.
+(pdftex.def)             Requested size: 103.55241pt x 103.55241pt.
+<pics/cropT7_kapur.png, id=337, 493.0922pt x 493.845pt>
+File: pics/cropT7_kapur.png Graphic file (type png)
+<use pics/cropT7_kapur.png>
+Package pdftex.def Info: pics/cropT7_kapur.png  used on input line 797.
+(pdftex.def)             Requested size: 103.55241pt x 103.7105pt.
+<pics/cropT27_kapur.png, id=338, 491.58656pt x 491.58656pt>
+File: pics/cropT27_kapur.png Graphic file (type png)
+<use pics/cropT27_kapur.png>
+Package pdftex.def Info: pics/cropT27_kapur.png  used on input line 800.
+(pdftex.def)             Requested size: 103.23622pt x 103.23622pt.
+<pics/cropT45_kapur.png, id=339, 494.59781pt x 495.35063pt>
+File: pics/cropT45_kapur.png Graphic file (type png)
+<use pics/cropT45_kapur.png>
+Package pdftex.def Info: pics/cropT45_kapur.png  used on input line 803.
+(pdftex.def)             Requested size: 103.86859pt x 104.0267pt.
+<pics/cropT2_kapur_res.png, id=341, 495.35063pt x 495.35063pt>
+File: pics/cropT2_kapur_res.png Graphic file (type png)
+<use pics/cropT2_kapur_res.png>
+Package pdftex.def Info: pics/cropT2_kapur_res.png  used on input line 812.
+(pdftex.def)             Requested size: 99.06836pt x 99.06836pt.
+<pics/cropT7_kapur_res.png, id=342, 496.10344pt x 495.35063pt>
+File: pics/cropT7_kapur_res.png Graphic file (type png)
+<use pics/cropT7_kapur_res.png>
+Package pdftex.def Info: pics/cropT7_kapur_res.png  used on input line 815.
+(pdftex.def)             Requested size: 99.21892pt x 99.06836pt.
+<pics/cropT27_kapur_res.png, id=343, 490.83376pt x 491.58656pt>
+File: pics/cropT27_kapur_res.png Graphic file (type png)
+<use pics/cropT27_kapur_res.png>
+Package pdftex.def Info: pics/cropT27_kapur_res.png  used on input line 818.
+(pdftex.def)             Requested size: 98.16501pt x 98.31557pt.
+<pics/cropT45_kapur_res.png, id=344, 492.33937pt x 492.33937pt>
+File: pics/cropT45_kapur_res.png Graphic file (type png)
+<use pics/cropT45_kapur_res.png>
+Package pdftex.def Info: pics/cropT45_kapur_res.png  used on input line 821.
+(pdftex.def)             Requested size: 98.46613pt x 98.46613pt.
+<pics/cropT2_niblack.png, id=347, 497.60907pt x 497.60907pt>
+File: pics/cropT2_niblack.png Graphic file (type png)
+<use pics/cropT2_niblack.png>
+Package pdftex.def Info: pics/cropT2_niblack.png  used on input line 830.
+(pdftex.def)             Requested size: 104.50098pt x 104.50098pt.
+<pics/cropT7_niblack.png, id=348, 493.845pt x 493.845pt>
+File: pics/cropT7_niblack.png Graphic file (type png)
+<use pics/cropT7_niblack.png>
+Package pdftex.def Info: pics/cropT7_niblack.png  used on input line 833.
+(pdftex.def)             Requested size: 103.7105pt x 103.7105pt.
+<pics/cropT27_niblack.png, id=349, 495.35063pt x 495.35063pt>
+File: pics/cropT27_niblack.png Graphic file (type png)
+<use pics/cropT27_niblack.png>
+Package pdftex.def Info: pics/cropT27_niblack.png  used on input line 836.
+(pdftex.def)             Requested size: 104.0267pt x 104.0267pt.
+<pics/cropT45_niblack.png, id=350, 493.845pt x 493.845pt>
+File: pics/cropT45_niblack.png Graphic file (type png)
+<use pics/cropT45_niblack.png>
+Package pdftex.def Info: pics/cropT45_niblack.png  used on input line 839.
+(pdftex.def)             Requested size: 103.7105pt x 103.7105pt.
 
-LaTeX Warning: Reference `fig:uidata2' on page 15 undefined on input line 730.
+Underfull \vbox (badness 1303) has occurred while \output is active []
 
-[15pdfTeX warning (ext4): destination with the same identifier (name{subfigure.
-3.1}) has been already used, duplicate ignored
+ [21 <./pics/cropT2_otsu_res.png> <./pics/cropT7_otsu_res.png> <./pics/cropT27_
+otsu_res.png> <./pics/cropT45_otsu_res.png> <./pics/cropT2_kapur.png> <./pics/c
+ropT7_kapur.png> <./pics/cropT27_kapur.png> <./pics/cropT45_kapur.png> <./pics/
+cropT2_kapur_res.png> <./pics/cropT7_kapur_res.png> <./pics/cropT27_kapur_res.p
+ng> <./pics/cropT45_kapur_res.png>]
+<pics/cropT2_niblack_res.png, id=383, 495.35063pt x 495.35063pt>
+File: pics/cropT2_niblack_res.png Graphic file (type png)
+<use pics/cropT2_niblack_res.png>
+Package pdftex.def Info: pics/cropT2_niblack_res.png  used on input line 848.
+(pdftex.def)             Requested size: 104.0267pt x 104.0267pt.
+<pics/cropT7_niblack_res.png, id=384, 493.0922pt x 493.0922pt>
+File: pics/cropT7_niblack_res.png Graphic file (type png)
+<use pics/cropT7_niblack_res.png>
+Package pdftex.def Info: pics/cropT7_niblack_res.png  used on input line 851.
+(pdftex.def)             Requested size: 103.55241pt x 103.55241pt.
+<pics/cropT27_niblack_res.png, id=385, 496.85625pt x 496.85625pt>
+File: pics/cropT27_niblack_res.png Graphic file (type png)
+<use pics/cropT27_niblack_res.png>
+Package pdftex.def Info: pics/cropT27_niblack_res.png  used on input line 854.
+(pdftex.def)             Requested size: 104.34288pt x 104.34288pt.
+<pics/cropT45_niblack_res.png, id=386, 493.0922pt x 493.0922pt>
+File: pics/cropT45_niblack_res.png Graphic file (type png)
+<use pics/cropT45_niblack_res.png>
+Package pdftex.def Info: pics/cropT45_niblack_res.png  used on input line 857.
+(pdftex.def)             Requested size: 103.55241pt x 103.55241pt.
+<pics/cropT2_bernsen.png, id=389, 496.10344pt x 496.10344pt>
+File: pics/cropT2_bernsen.png Graphic file (type png)
+<use pics/cropT2_bernsen.png>
+Package pdftex.def Info: pics/cropT2_bernsen.png  used on input line 866.
+(pdftex.def)             Requested size: 104.18478pt x 104.18478pt.
+<pics/cropT7_bernsen.png, id=390, 490.08093pt x 490.08093pt>
+File: pics/cropT7_bernsen.png Graphic file (type png)
+<use pics/cropT7_bernsen.png>
+Package pdftex.def Info: pics/cropT7_bernsen.png  used on input line 869.
+(pdftex.def)             Requested size: 102.92003pt x 102.92003pt.
+<pics/cropT27_bernsen.png, id=391, 495.35063pt x 495.35063pt>
+File: pics/cropT27_bernsen.png Graphic file (type png)
+<use pics/cropT27_bernsen.png>
+Package pdftex.def Info: pics/cropT27_bernsen.png  used on input line 872.
+(pdftex.def)             Requested size: 104.0267pt x 104.0267pt.
+<pics/cropT45_bernsen.png, id=392, 495.35063pt x 495.35063pt>
+File: pics/cropT45_bernsen.png Graphic file (type png)
+<use pics/cropT45_bernsen.png>
+Package pdftex.def Info: pics/cropT45_bernsen.png  used on input line 875.
+(pdftex.def)             Requested size: 104.0267pt x 104.0267pt.
+<pics/cropT2_bernsen_res.png, id=394, 496.10344pt x 496.10344pt>
+File: pics/cropT2_bernsen_res.png Graphic file (type png)
+<use pics/cropT2_bernsen_res.png>
+Package pdftex.def Info: pics/cropT2_bernsen_res.png  used on input line 884.
+(pdftex.def)             Requested size: 104.18478pt x 104.18478pt.
+<pics/cropT7_bernsen_res.png, id=395, 493.0922pt x 493.845pt>
+File: pics/cropT7_bernsen_res.png Graphic file (type png)
+<use pics/cropT7_bernsen_res.png>
+Package pdftex.def Info: pics/cropT7_bernsen_res.png  used on input line 887.
+(pdftex.def)             Requested size: 103.55241pt x 103.7105pt.
+<pics/cropT27_bernsen_res.png, id=396, 494.59781pt x 494.59781pt>
+File: pics/cropT27_bernsen_res.png Graphic file (type png)
+<use pics/cropT27_bernsen_res.png>
+Package pdftex.def Info: pics/cropT27_bernsen_res.png  used on input line 890.
+(pdftex.def)             Requested size: 103.86859pt x 103.86859pt.
+<pics/cropT45_bernsen_res.png, id=397, 491.58656pt x 491.58656pt>
+File: pics/cropT45_bernsen_res.png Graphic file (type png)
+<use pics/cropT45_bernsen_res.png>
+Package pdftex.def Info: pics/cropT45_bernsen_res.png  used on input line 893.
+(pdftex.def)             Requested size: 103.23622pt x 103.23622pt.
 
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.736 V
-        hornej liÅ¡te sa eÅ¡te nachÃ¡dzajÃº poloÅ¾ky \texttt{Settings} a \te...
-pdfTeX warning (ext4): destination with the same identifier (name{subfigure.3.2
-}) has been already used, duplicate ignored
+Underfull \vbox (badness 4242) has occurred while \output is active []
 
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.736 V
-        hornej liÅ¡te sa eÅ¡te nachÃ¡dzajÃº poloÅ¾ky \texttt{Settings} a \te...
- <./pics/uidata.jpg> <./pics/uithr.jpg> <./pics/ui2Dopt.jpg> <./pics/ui3Dfilt.j
-pg>] [16pdfTeX warning (ext4): destination with the same identifier (name{subfi
-gure.3.1}) has been already used, duplicate ignored
+ [22 <./pics/cropT2_niblack.png> <./pics/cropT7_niblack.png> <./pics/cropT27_ni
+black.png> <./pics/cropT45_niblack.png> <./pics/cropT2_niblack_res.png> <./pics
+/cropT7_niblack_res.png> <./pics/cropT27_niblack_res.png> <./pics/cropT45_nibla
+ck_res.png> <./pics/cropT2_bernsen.png> <./pics/cropT7_bernsen.png> <./pics/cro
+pT27_bernsen.png> <./pics/cropT45_bernsen.png>] [23 <./pics/cropT2_bernsen_res.
+png> <./pics/cropT7_bernsen_res.png> <./pics/cropT27_bernsen_res.png> <./pics/c
+ropT45_bernsen_res.png>] [24]
 
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.755 \newpage
-              pdfTeX warning (ext4): destination with the same identifier (name
-{subfigure.3.2}) has been already used, duplicate ignored
+LaTeX Warning: Empty `thebibliography' environment on input line 907.
 
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.755 \newpage
-              pdfTeX warning (ext4): destination with the same identifier (name
-{subfigure.3.1}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.755 \newpage
-              pdfTeX warning (ext4): destination with the same identifier (name
-{subfigure.3.2}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.755 \newpage
-               <./pics/ui3Dopt.jpg> <./pics/uihist.jpg> <./pics/subsurf.jpg> <.
-/pics/result.jpg>]
-
-Package hyperref Warning: Composite letter `\textasciicaron+c'
-(hyperref)                not defined in PD1 encoding,
-(hyperref)                removing `\textasciicaron' on input line 761.
-
-
-Package hyperref Warning: Composite letter `\textasciicaron+c'
-(hyperref)                not defined in PD1 encoding,
-(hyperref)                removing `\textasciicaron' on input line 761.
-
-[17] [18]
-
-LaTeX Warning: Empty `thebibliography' environment on input line 770.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 773.
-[19]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 773.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 910.
+[25]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 910.
  (dip_sk.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 773.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 773.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 910.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 910.
 Package rerunfilecheck Info: File `dip_sk.out' has not changed.
-(rerunfilecheck)             Checksum: 5C24D8E6B2F99E1D28625DFB1320ED6A;1479.
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 773.
+(rerunfilecheck)             Checksum: 1CA20C101F0962A7D5A5AB296BDBBDD7;1335.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 910.
  ) 
 Here is how much of TeX's memory you used:
- 12500 strings out of 492453
- 178165 string characters out of 3129819
- 291550 words of memory out of 3000000
- 16545 multiletter control sequences out of 15000+200000
- 19822 words of font info for 54 fonts, out of 3000000 for 9000
+ 12863 strings out of 492453
+ 186152 string characters out of 3129819
+ 293887 words of memory out of 3000000
+ 16812 multiletter control sequences out of 15000+200000
+ 19654 words of font info for 52 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  48i,10n,49p,1043b,541s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\maria\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\
-ectt0900.pk> <C:\Users\maria\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/
-ec/dpi600\ecrm0900.pk> <C:\Users\maria\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour
-/jknappen/ec/dpi600\ectt1095.pk> <C:\Users\maria\AppData\Local\MiKTeX\2.9\fonts
-/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\maria\AppData\Local\MiKTeX
-\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1095.pk> <C:\Users\maria\AppData\Lo
-cal\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1095.pk> <C:\Users\maria\
-AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecsl1095.pk> <C:\Us
-ers\maria\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1095.
+ectt1000.pk> <C:\Users\maria\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/
+ec/dpi600\ecrm1000.pk> <C:\Users\maria\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour
+/jknappen/ec/dpi600\ectt1200.pk> <C:\Users\maria\AppData\Local\MiKTeX\2.9\fonts
+/pk/ljfour/jknappen/ec/dpi600\ecrm1095.pk> <C:\Users\maria\AppData\Local\MiKTeX
+\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecti1200.pk> <C:\Users\maria\AppData\Lo
+cal\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\maria\
+AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecsl1200.pk> <C:\Us
+ers\maria\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.
 pk> <C:\Users\maria\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600
-\ecbx1440.pk> <C:\Users\maria\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen
-/ec/dpi600\ecbx1200.pk><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
+\ecbx1728.pk> <C:\Users\maria\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen
+/ec/dpi600\ecbx1440.pk><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
 /cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi
-10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C
-:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program
- Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/Mi
-KTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/
-fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
-1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/a
-msfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmsy6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.
-pfb>
-Output written on dip_sk.pdf (19 pages, 783771 bytes).
+10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><
+C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Progra
+m Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9
+/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
+/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6
+.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on dip_sk.pdf (25 pages, 2751415 bytes).
 PDF statistics:
- 847 PDF objects out of 1000 (max. 8388607)
- 93 named destinations out of 1000 (max. 500000)
- 219 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1039 PDF objects out of 1200 (max. 8388607)
+ 148 named destinations out of 1000 (max. 500000)
+ 383 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -6,17 +6,15 @@
 \contentsline {subsubsection}{\numberline {2.1.2}Prahovanie pomocou maxim\IeC {\'a}lnej entropie}{5}{subsubsection.2.1.2}% 
 \contentsline {subsection}{\numberline {2.2}Lok\IeC {\'a}lne adapt\IeC {\'\i }vne prahovanie}{6}{subsection.2.2}% 
 \contentsline {subsubsection}{\numberline {2.2.1}Bernsenova met\IeC {\'o}da}{6}{subsubsection.2.2.1}% 
-\contentsline {subsubsection}{\numberline {2.2.2}Niblackova met\IeC {\'o}da}{6}{subsubsection.2.2.2}% 
-\contentsline {subsection}{\numberline {2.3}Met\IeC {\'o}da subjekt\IeC {\'\i }vnych pl\IeC {\^o}ch (SUBSURF)}{7}{subsection.2.3}% 
-\contentsline {section}{\numberline {3}Numerick\IeC {\'e} sch\IeC {\'e}my}{8}{section.3}% 
-\contentsline {subsection}{\numberline {3.1}Implicitn\IeC {\'a} met\IeC {\'o}da pre rovnicu vedenia tepla}{8}{subsection.3.1}% 
-\contentsline {subsection}{\numberline {3.2}Numerick\IeC {\'a} sch\IeC {\'e}ma pre SUBSURF}{9}{subsection.3.2}% 
-\contentsline {section}{\numberline {4}Softv\IeC {\'e}r}{11}{section.4}% 
-\contentsline {subsection}{\numberline {4.1}Qt}{11}{subsection.4.1}% 
-\contentsline {subsection}{\numberline {4.2}VTK}{12}{subsection.4.2}% 
-\contentsline {subsection}{\numberline {4.3}Rozdelenie projektu do tried}{13}{subsection.4.3}% 
-\contentsline {subsection}{\numberline {4.4}Grafick\IeC {\'e} u\IeC {\v z}\IeC {\'\i }vate\IeC {\v l}sk\IeC {\'e} rozhranie}{13}{subsection.4.4}% 
-\contentsline {section}{\numberline {5}V\IeC {\'y}sledky}{17}{section.5}% 
-\contentsline {subsection}{\numberline {5.1}Okrajov\IeC {\'e} podmienky}{17}{subsection.5.1}% 
-\contentsline {subsection}{\numberline {5.2}Po\IeC {\v c}iato\IeC {\v c}n\IeC {\'e} podmienky}{17}{subsection.5.2}% 
-\contentsline {section}{\numberline {6}Z\IeC {\'a}ver}{18}{section.6}% 
+\contentsline {subsubsection}{\numberline {2.2.2}Niblackova met\IeC {\'o}da}{7}{subsubsection.2.2.2}% 
+\contentsline {subsection}{\numberline {2.3}Met\IeC {\'o}da subjekt\IeC {\'\i }vnych pl\IeC {\^o}ch (SUBSURF)}{8}{subsection.2.3}% 
+\contentsline {section}{\numberline {3}Numerick\IeC {\'e} sch\IeC {\'e}my}{9}{section.3}% 
+\contentsline {subsection}{\numberline {3.1}Implicitn\IeC {\'a} met\IeC {\'o}da pre rovnicu vedenia tepla}{9}{subsection.3.1}% 
+\contentsline {subsection}{\numberline {3.2}Numerick\IeC {\'a} sch\IeC {\'e}ma pre SUBSURF}{10}{subsection.3.2}% 
+\contentsline {section}{\numberline {4}Softv\IeC {\'e}r}{13}{section.4}% 
+\contentsline {subsection}{\numberline {4.1}Qt}{13}{subsection.4.1}% 
+\contentsline {subsection}{\numberline {4.2}VTK}{14}{subsection.4.2}% 
+\contentsline {subsection}{\numberline {4.3}Rozdelenie projektu do tried}{15}{subsection.4.3}% 
+\contentsline {subsection}{\numberline {4.4}Grafick\IeC {\'e} u\IeC {\v z}\IeC {\'\i }vate\IeC {\v l}sk\IeC {\'e} rozhranie}{16}{subsection.4.4}% 
+\contentsline {section}{\numberline {5}V\IeC {\'y}sledky}{20}{section.5}% 
+\contentsline {section}{\numberline {6}Z\IeC {\'a}ver}{24}{section.6}% 

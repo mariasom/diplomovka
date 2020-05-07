@@ -109,6 +109,7 @@ public slots:
 	void contour3DPwDClicked();
 	void manOptContClicked();
 	void optContDispClicked();
+	void histSavedClicked();
 
 	// others
 	void AxesChange(bool checked);
@@ -193,6 +194,7 @@ private:
 	QPushButton *manOptContourButton;
 	QPushButton *contourOnOGButton;
 	QPushButton *optContDispButton;
+	QPushButton *histSaveButton;
 
 	// comboboxes
 	QComboBox *dataCBox;
