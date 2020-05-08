@@ -967,6 +967,8 @@ void bioData::deleteClicked() {
 			parent3D->removeChild(parent3D->child(i));
 			_file.at(_file.size() - 1)->remove3DFiltData(i);
 			dataTree->setCurrentItem(parent3D->child(i - 1));
+			_file.at(_file.size() - 1)->create3Ddata(_file.at(_file.size() - 1)->get3DData(dataTree->currentIndex().row()));
+			_vWidget.at(_vWidget.size() - 1)->updateViewerWidget3D();
 		}
 	}
 	else if (parent2D == dataTree->currentItem()->parent()) {
@@ -978,6 +980,8 @@ void bioData::deleteClicked() {
 			parent2D->removeChild(parent2D->child(i));
 			_file.at(_file.size() - 1)->remove2DFiltData(i);
 			dataTree->setCurrentItem(parent2D->child(i - 1));
+			_file.at(_file.size() - 1)->setPoints(_file.at(_file.size() - 1)->getFiltData(dataTree->currentIndex().row()));
+			_vWidget.at(_vWidget.size() - 1)->updateViewerWidget2D();
 		}
 	}
 }
@@ -990,11 +994,18 @@ void bioData::resetViewClicked () {
 void bioData::actionCloseFiles() {
 	qApp->processEvents();
 
-	// vymaze aktualny tab
 	if (mdiArea->subWindowList().length() > 0) //ak je pocet tabov vacsi ako 0
 	{
 		mdiArea->closeAllSubWindows();
-		listDock->hide();
+		/*listDock->~QDockWidget();
+		filter2DDock->~QDockWidget();
+		options2DDock->~QDockWidget();
+		options3DDock->~QDockWidget();
+		subsurfDock->~QDockWidget();
+		historyDock->~QDockWidget();*/
+		
+		_file.at(_file.size() - 1)->~source();
+
 	}
 	else {
 		QMessageBox mbox;
@@ -1290,28 +1301,19 @@ void bioData::differenceClicked() {
 	filters filter(_file.at(_file.size() - 1)->getWidth(), _file.at(_file.size() - 1)->getHeight(), _file.at(_file.size() - 1)->getOrigData());
 	_file.at(_file.size() - 1)->addFiltData(filter.dataDifference(_file.at(_file.size() - 1)->getFiltData(dataTree->currentIndex().row())));
 	_file.at(_file.size() - 1)->setPoints(_file.at(_file.size() - 1)->getFiltData(_file.at(_file.size() - 1)->getSizeFiltData() - 1));
-	//if (widget2D == nullptr)
-	//	set2DWidget();
-	//else
 		update2DWidget();
-	// Set the window title
 	widget->setWindowTitle("Aritmetic mean");
 	addSubItem(parent2D, fName + "_aritmetic_mean");
-	// fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
 }
 
 void bioData::heatEquationClicked() {
 	filters filter(_file.at(_file.size() - 1)->getWidth(), _file.at(_file.size() - 1)->getHeight(), _file.at(_file.size() - 1)->getOrigData());
 	_file.at(_file.size() - 1)->addFiltData(filter.dataToChar(filter.antireflection(filter.heatImpl(filter.dataToDouble(_file.at(_file.size() - 1)->getFiltData(dataTree->currentIndex().row())), heatEqSB->value()))));
 	_file.at(_file.size() - 1)->setPoints(_file.at(_file.size() - 1)->getFiltData(_file.at(_file.size() - 1)->getSizeFiltData() - 1));
-	// if (widget2D == nullptr)
-	//	set2DWidget();
-	//else
 		update2DWidget();
 	// Set the window title
 	widget->setWindowTitle("Heat Equation");
 	addSubItem(parent2D, fName + "_heatEq");
-	// fTmp->setPoints(fTmp->getFiltData(fTmp->getSizeFiltData() - 1));
 }
 
 void bioData::AxesChange(bool checked) {
@@ -1391,7 +1393,7 @@ void bioData::manOptContClicked() {
 	filters filter(_file.at(_file.size() - 1)->getWidth(), _file.at(_file.size() - 1)->getHeight(), _file.at(_file.size() - 1)->getOrigData());
 	_file.at(_file.size() - 1)->create3Ddata(_file.at(_file.size() - 1)->get3DData(dataTree->currentIndex().row()));
 	_vWidget.at(_vWidget.size() - 1)->cut1Contour(_file.at(_file.size() - 1)->getPolydata(), contourZConSB->value());
-	// _vWidget.at(_vWidget.size() - 1)->optContourOnID();
+	// _vWidget.at(_vWidget.size() - 1)->optContourOnID(); 
 	widget->update();
 }
 

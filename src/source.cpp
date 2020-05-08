@@ -11,9 +11,15 @@ source::source() {
 
 source::~source() {
 	points2D->Delete();
-	points3D->Delete();
+	polydata2D->Delete();
 	dataFilt.clear();
-	data3DFilt.clear();
+	if (!data3DFilt.isEmpty()) {
+		data3DFilt.clear();
+		colors->Delete();
+		colorLookupTable->Delete();
+		points3D->Delete();
+		polydata->Delete();
+	}
 }
 
 void source::load(QString path) {

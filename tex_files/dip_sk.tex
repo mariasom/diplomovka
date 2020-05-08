@@ -56,6 +56,27 @@
 \newcommand{\p}{\partial}
  \def\epsilon{\varepsilon}
  \def\Bf#1{\mathbf{#1}}
+ 
+ \makeatletter
+\newsavebox\myboxA
+\newsavebox\myboxB
+\newlength\mylenA
+
+\newcommand*\xoverline[2][0.75]{%
+    \sbox{\myboxA}{$\m@th#2$}%
+    \setbox\myboxB\null% Phantom box
+    \ht\myboxB=\ht\myboxA%
+    \dp\myboxB=\dp\myboxA%
+    \wd\myboxB=#1\wd\myboxA% Scale phantom
+    \sbox\myboxB{$\m@th\overline{\copy\myboxB}$}%  Overlined phantom
+    \setlength\mylenA{\the\wd\myboxA}%   calc width diff
+    \addtolength\mylenA{-\the\wd\myboxB}%
+    \ifdim\wd\myboxB<\wd\myboxA%
+       \rlap{\hskip 0.5\mylenA\usebox\myboxB}{\usebox\myboxA}%
+    \else
+        \hskip -0.5\mylenA\rlap{\usebox\myboxA}{\hskip 0.5\mylenA\usebox\myboxB}%
+    \fi}
+\makeatother
 
 %Slovenske uvodzovky
 \chardef\clqq=18 \sfcode18=0
@@ -326,9 +347,20 @@ Prah $Q(u, v)$ pri Niblackovej metóde sa mení ako funkcia lokálneho priemeru 
 Q(u,v) = \mu_R(u,v) + \kappa\sigma_R(u,v).
 \end{equation}
 
- *PREFORMULOVAT*
+Lokálny prah je určený pridaním konštanty $\kappa \geq 0$ k smerodajnej odchýlke $\sigma_R(u,v)$ a lokálneho priemeru $\mu_R(u,v)$. Lokálne hodnoty smerodajnej odchýlky $\sigma_R(u,v)$ dostaneme ako 
 
-Lokálny prah je určený pridaním konštanty $\kappa \geq 0$ k smerodajnej odchýlke $\sigma_R(u,v)$ a lokálneho priemeru $\mu_R(u,v)$.Na získanie $\sigma_R(u,v)$ a $\mu_R(u,v)$ sme použili rovnicu vedenia tepla, tiež známu ako lineárno-difúznu rovnicu. Táto rovnica je považovaná za najstaršiu filtračnú metódu v spracovaní obrazu, založenú na PDR.
+\begin{equation} 
+\sigma_R(u,v) = \frac{1}{N} \sum_{(i,j) \in R(u,v)} (I(i,j) + \bar{I}(i,j))^2,
+\end{equation}
+
+kde $R$ označuje fixne dané okolie, so stredom v $(u,v)$, $N$ je počet prvkov nachádzajúcich sa v okolí $R$, $I(i,j)$ sú označené pixle obrazu nachádzajúce sa v okolí $R$ a $\bar{I}(i,j)$ je priemer pixlov patriacich okoliu $R$. Po úprave dostaneme tvar
+
+\begin{equation} 
+\sigma_R(u,v) = \overline{I(i,j)^2} - (\overline{I(i,j)})^2,
+\end{equation}
+
+kde $\overline{I(i,j)}$ je priemerom intenzít z fixne daného okolia $R$ a $\overline{I(i,j)^2}$ je priemerom druhých mocnín intenzít z fixne daného okolia $R$. Tieto priemery budeme približne počítať pomocou rovnice vedenia tepla, pričom šírke okna bude zodpovedať čas. 
+%Rovnica vedenia tepla, tiež známa ako lineárno-difúzna rovnica, je považovaná za najstaršiu filtračnú metódu v spracovaní obrazu, založenú na PDR.
 
 Budeme hľadať funkciu $u(x, t)$, kde $x \in \Omega$, $t \in [0, T]$ a PDR je definovaná v tvare
 
@@ -350,7 +382,7 @@ u(x, 0) = u^0(x),
 
 ktorá je určená počiatočnými obrazovými dátami.
 
-Výpočet pre lokálny prah je definovaný na oblasti $R$ so stredom v $(u, v)$. Polomer oblasti $R$ by mala byť čo najväčšia, aspoň tak veľká ako štruktúra, ktorú sa vyprahovaním snažíme získať, ale dostatočne malá na zachytenie zmien (nerovností) pozadia. *AKO SUVISI ROVNICA VEDENIA TEPLA*
+Výpočet pre lokálny prah je definovaný na oblasti $R$ so stredom v $(u, v)$. Polomer oblasti $R$ by mala byť čo najväčšia, aspoň tak veľká ako štruktúra, ktorú sa vyprahovaním snažíme získať, ale dostatočne malá na zachytenie zmien (nerovností) pozadia.
 
 Jeden z problémov, ktorý môže nastať pre malé hodnoty smerodajnej odchýlky $\sigma_R(u,v)$ (získané na oblastiach v obrazových dátach s takmer konštantnou intenzitou), prah bude mať hodnotu blízku lokálnemu priemeru, čo spôsobí, že segmentácia je pomerne citlivá na nízku amplitúdu šumu ("ghosting"). Pomocou jednoduchej modifikácie rovnice (\ref{eq:nbO}) pridaním konštanty $d$, ktorá zabezpečí minimálnu vzdialenosť od priemeru v tvare
 
@@ -564,7 +596,7 @@ QScrollArea sa nachádza v každom podokne widgetu QMidiArea. Zabezpečuje možn
 Widget tejto triedy sa nachádza v každej QScrollAree a umožňuje samotné vykreslenie 2D/3D modelov za pomoci VTK knižníc. 
 
 \item \textbf{QDockWidget} \\
-Tento widget obsahuje všetky informácie a nastavenia súvisiace s dátami. Každý logický celok má vlastný 'dock', ktorý sa dá vrámci okna premiestňovať a ukotvovať buď na ľavej alebo na pravej strane okna. Taktiež sa dajú v prípade potreby minimalizovať.
+Tento widget obsahuje všetky informácie a nastavenia súvisiace s dátami. Každý logický celok má vlastný panel (\textit{eng.} dock), ktorý sa dá vrámci okna premiestňovať, ukotvovať buď na ľavej alebo na pravej strane okna a v prípade, že sa prekrývajú vytvorí sa z nich viacero záložiek. Taktiež sa dajú v prípade potreby minimalizovať.
 
 \item \textbf{QTreeWidget} \\ 
 Všetky dáta, či už pôvodné alebo vysegmentované pomocou programe, sa nachádzajú v zozname, z ktorého sa dá vybrať ktoré dáta budú vykreslené. QTreeWidget bol použitý aby sme vykresľované dáta vedeli zadeliť do logických celkov, napríklad či ide o 2D alebo 3D dáta.
@@ -655,20 +687,20 @@ Pri otvorení programu sa zobrazí okno, v ktorom sa nachádza horná lišta s p
 \end{center} 
 \end{figure}
 
-Po zvolení možnosti Open, sa otvorí dialógové okno, z ktorého sa dajú vybrať obrazové súbory typu .pgm (portable gray map). Po zvolení súboru sa zobrazí celé užívateľské prostredie aj so zvolenými dátami obr. \ref{fig:ui1}. Na ľavej strane sú zobrazené načítané dáta. Na pravej strane, môžeme vidieť dva \texttt{docky} v ktorých sa nachádza zoznam spracovávaných dát v programe pre 2D aj 3D dáta, možnosti pre 2D a 3D dáta spolu so všetkými implementovanými filtrami, prahovacími metódami a možnosťami pre zobrazenie uložených vo viacerých taboch. 
+Po zvolení možnosti Open, sa otvorí dialógové okno, z ktorého sa dajú vybrať obrazové súbory typu .pgm (portable gray map). Po zvolení súboru sa zobrazí celé užívateľské prostredie aj so zvolenými dátami obr. \ref{fig:ui1}. Na ľavej strane sú zobrazené načítané dáta. Na pravej strane, môžeme vidieť bočný panel rozdelený na dve časti, v ktorých sa nachádza zoznam spracovávaných dát v programe pre 2D aj 3D dáta, možnosti pre 2D a 3D dáta spolu so všetkými implementovanými filtrami, prahovacími metódami a možnosťami pre zobrazenie uložených vo viacerých záložkách. 
 
-Prvý zobrazený \texttt{dock} má názov \textit{Data} obr \ref{fig:uidata}a obsahuje zoznam 2D a 3D dát, s ktorými sa doteraz pracovalo. Umožňuje spätné načítanie dát nachádzajúcich sa v zozname. Tiež obsahuje tlačítka: 
+Prvá časť panelu má názov \textit{Data} obr. \ref{fig:uidata}a obsahuje zoznam 2D a 3D dát, s ktorými sa doteraz pracovalo. Umožňuje spätné načítanie dát nachádzajúcich sa v zozname. Tiež obsahuje tlačidlá: 
 \begin{itemize}
 \item \texttt{RESET VIEW} - vykresľovaný objekt, prekreslí na stred vykresľovacej plochy.  
 \item \texttt{2D} - v prípade, že v zozname sú zvolené 2D dáta, odoberie možnosť rotácie a je vysvietené.
 \item \texttt{3D} - v prípade, že v zozname sú zvolené 3D dáta, tak sa s nimi dá adekvátne manipulovať a tlačidlo je vysvietené.
 \item \texttt{DELETE SELECTED} - vymaže zvolené dáta zo zoznamu.
 \item \texttt{OPEN IN NEW WINDOW} - zatiaľ neaktívne.
-\item \texttt{SAVE SCREENSHOT} - uloží práve zobrazené dáta z vykresľovacej plochy vo formáte \textit{.png}
-\item \texttt{SET DEFAULT VALUES} - prestaví hodnoty všetkých nastaviteľných hodnôt naspäť na predvolené hodnoty.
+\item \texttt{SAVE SCREENSHOT} - uloží práve zobrazené dáta z vykresľovacej plochy ako obrazové dáta vo formáte \textit{.png}
+\item \texttt{SET DEFAULT VALUES} - prestaví hodnoty všetkých voliteľných hodnôt naspäť na predvolené hodnoty.
 \end{itemize}
 
-V tabe \texttt{Thresholding} obr. \ref{fig:uidata}b, sa nachádzajú štyri implementované prahovacie algoritmy, ktoré vstupujú  následne ako okrajová podmienka do segmentačnej metódy. Ide o dva globálne prahovacie algoritmy, ktoré závisia len na histograme a teda neberú na vstup žiadne parametre. A dva lokálne adaptívne prahovacie algoritmy, ktoré berú na vstup veľkosť masky a jeden z nich veľkosť časového kroku.
+V záložke \texttt{Thresholding} obr. \ref{fig:uidata}b, sa nachádzajú štyri implementované prahovacie algoritmy, ktoré vstupujú  následne ako okrajová podmienka do segmentačnej metódy. Ide o dva globálne prahovacie algoritmy, ktoré závisia len na histograme a teda neberú na vstup žiadne parametre. A dva lokálne adaptívne prahovacie algoritmy, ktoré berú na vstup veľkosť masky a jeden z nich veľkosť časového kroku.
 
 
 \begin{figure}[H]%
@@ -681,7 +713,7 @@ V tabe \texttt{Thresholding} obr. \ref{fig:uidata}b, sa nachádzajú štyri impl
      \end{center} 
 \end{figure}
 
-Tab \texttt{2D Options} obr. \ref{fig:uidata1}a je zobrazený len v prípade, že sú zvolené 2D dáta. V tomto tabe sa nachádzajú možnosti súvisiace len s 2D dátami. Dájú sa tam zobraziť kontúry na dátach,  jeden krok rovnice vedenia tepla a priemer originálnych a vyprahovaných obrazových dát. 
+Záložka \texttt{2D Options} obr. \ref{fig:uidata1}a je zobrazená len v prípade, že sú zvolené 2D dáta. V tejto záložke sa nachádzajú možnosti súvisiace len s 2D dátami. Dájú sa tam zobraziť kontúry na dátach,  jeden krok rovnice vedenia tepla a priemer originálnych a vyprahovaných obrazových dát. 
 
 \texttt{3D Filters} obr. \ref{fig:uidata1}b obsahuje možnosti pre samotný SUBSURF spolu s jeho parametrami. Taktiež sa tam nachádzajú počiatočné podmienky znamienkovej dištančnej a prahovacej funkcie, ktoré sa dajú zobraziť ešte pred vstupom do SUBSURFu.
 
@@ -695,7 +727,7 @@ Tab \texttt{2D Options} obr. \ref{fig:uidata1}a je zobrazený len v prípade, ž
     \label{fig:uidata1}%
 \end{figure}
 
-V \texttt{3D Options} obr. \ref{fig:uidata2}a je zobrazený len v prípade, že sú zvolené 3D dáta. V tomto tabe sa nachádzajú možnosti súvisiace len s 3D dátami. V týchto možnostiach sa dajú zapnúť osi, zmeniť farba, vykresliť zvolený počet izočiar buď na dátach alebo bez nich a dá sa zvoliť optimálna izočiara a následne ju je možné vykresliť na pôvodných dátach. 
+V \texttt{3D Options} obr. \ref{fig:uidata2}a je zobrazený len v prípade, že sú zvolené 3D dáta. V tejto záložke sa nachádzajú možnosti súvisiace len s 3D dátami. V týchto možnostiach sa dajú zapnúť osi, zmeniť farba, vykresliť zvolený počet izočiar buď na dátach alebo bez nich a dá sa zvoliť optimálna izočiara a následne ju je možné vykresliť na pôvodných dátach. 
 
 \begin{figure}[H]%
     \centering
@@ -706,7 +738,7 @@ V \texttt{3D Options} obr. \ref{fig:uidata2}a je zobrazený len v prípade, že 
     \label{fig:uidata2}%
 \end{figure}
 
-V tabe \texttt{History Logs} obr. \ref{fig:uidata2}b sa nachádza jednoduché textové pole, ktoré zaznamenáva väčšinu úkonov vykonaných v programe. Taktiež sa tam nachádzajú informácie o načítanom súbore, ako napríklad aj názov súboru, cesta k súboru atď...
+V záložke \texttt{History Logs} obr. \ref{fig:uidata2}b sa nachádza jednoduché textové pole, ktoré zaznamenáva väčšinu úkonov vykonaných v programe. Taktiež sa tam nachádzajú informácie o načítanom súbore, ako napríklad aj názov súboru, cesta k súboru atď... Tento výstup sa dá uložiť do jednoduchého textového súboru.
 
 Na obr. \ref{fig:uidata3}a sú zobrazené dáta s makrofágom, na ktoré bol aplikovaný SUBSURF, za počiatočnú podmienku bola použitá dištančná funkcia.
 
