@@ -62,7 +62,7 @@ public:
 	void readBinary(QString path);
 	QString getFileName(QString path);
 	void setPoints(QVector<unsigned char> &setData, int p = 0);
-	QVector<unsigned char> getOrigData() { return  dataFilt.at(0); };
+	QVector<unsigned char> getOrigData() {  return  dataFilt.at(0); };
 	QVector<unsigned char> getFiltData(int i) { return dataFilt.at(i); };
 	QVector<double> get3DData(int i) { return data3DFilt.at(i); };
 	vtkSmartPointer<vtkPolyData> getImageData() { return polydata2D; };

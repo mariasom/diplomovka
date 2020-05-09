@@ -94,7 +94,6 @@ void source::load(QString path) {
 }
 
 void source::readAscii(QString path) {
-	
 	QFile file(path);
 	file.open(QIODevice::ReadOnly);
 	if (!file.isOpen())
@@ -111,10 +110,9 @@ void source::readAscii(QString path) {
 	std::cout << splt.length() << std::endl;
 	for (int i = 0; i < splt.length(); i++) {
 		data[i] = (unsigned char)splt[i].toInt();
-		std::cout << (int)data[i] << " ";
 	}
-	  
 	file.close();
+	// addFiltData(data);
 }
 
 void source::readBinary(QString path) {
@@ -133,8 +131,9 @@ void source::readBinary(QString path) {
 	std::memcpy(u.data(), bytes.constData(), bytes.size());
 	data.reserve(width*height);
 	data = u;
-	
+
 	file.close();
+	// addFiltData(u);
 }
 
 QString source::getFileName(QString path) {
@@ -233,6 +232,8 @@ void source::create3Ddata(QVector<double> z) {
 	int p = 1;
 
 	points3D->SetNumberOfPoints(width*height);
+	cout << "width: " << width << endl;
+	cout << "height: " << height << endl;
 
 	for (int j = 0; j < height; j++)
 		for (int i = 0; i < width; i++) {
@@ -351,11 +352,10 @@ void source::saveVtk2D(QString fileName, int index, bool binary) {
 void source::addZMinandMax() {
 	double bounds[6];
 	polydata->GetBounds(bounds);
-	zMax.resize(zMax.size() + 1);
+	zMax.resize(zMax.size() + 1);\
 	zMin.resize(zMin.size() + 1);
 	zMax[zMax.size() - 1] = bounds[5];
 	zMin[zMin.size() - 1] = bounds[4];
-	// std::cout << "MaxZ: " << bounds[5] << " MinZ: " << bounds[4] << endl;
 }
 
 void source::saveHistOutput(QString text, QString fileName) {

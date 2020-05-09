@@ -395,7 +395,7 @@
    <sender>actionHistory</sender>
    <signal>changed()</signal>
    <receiver>bioData</receiver>
-   <slot>actioHistLog()</slot>
+   <slot>actionHistLog()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -454,7 +454,7 @@
   <slot>actionFileInfo()</slot>
   <slot>action3Dvtkbinary()</slot>
   <slot>action3Dvtkascii()</slot>
-  <slot>actioHistLog()</slot>
+  <slot>actionHistLog()</slot>
   <slot>action3DOption()</slot>
   <slot>action2DOption()</slot>
   <slot>action3DFilters()</slot>

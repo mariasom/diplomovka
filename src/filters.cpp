@@ -11,6 +11,7 @@ filters::filters(int widthOrig, int heightOrig, QVector<unsigned char> oData, in
 	width = widthOrig;
 	height = heightOrig;
 	origData = dataToDouble(oData);
+	std::cout << "dlzka original dat pri volani konstruktora: " << origData.length() << endl;
 	histogram(origData);
 	p = pp;
 	widthR = width + 2 * p;
@@ -445,10 +446,11 @@ void filters::grad3(QVector<double> data, double h, double k, double epsilon) {
 	qwpm.resize(widthR*heightR);
 	qspm.resize(widthR*heightR);
 	qnpm.resize(widthR*heightR);
-	qepm.fill(0);
-	qwpm.fill(0);
-	qspm.fill(0);
-	qnpm.fill(0);
+	//qepm.fill(0);
+	//qwpm.fill(0);
+	//qspm.fill(0);
+	//qnpm.fill(0);
+	std::cout << "dlzka original dat v grad: " << origData.length() << endl;
 	double s1,s2;
 	double ux, uy, uxx, uyy;
 	for (int i = 1; i < widthR - 1; i++) {

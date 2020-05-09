@@ -69,7 +69,7 @@ public:
 	void set3DView();
 	void contours3D(vtkSmartPointer<vtkPolyData> polydata, int numOfCont, bool background = true);
 	void contours2D(vtkSmartPointer<vtkPolyData> image, bool background = true);
-	void saveScreenShot();
+	void saveScreenShot(QString fileName);
 	void cutContour(vtkSmartPointer<vtkPolyData> polydata, int numOfCont, bool background = true);
 	void addAxes(vtkSmartPointer<vtkPolyData> polydata);
 	void removeAxes();

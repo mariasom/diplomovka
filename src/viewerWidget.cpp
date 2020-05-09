@@ -184,7 +184,7 @@ void viewerWidget::set3DView() {
 		qW->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle3D);
 }
 
-void viewerWidget::saveScreenShot() {
+void viewerWidget::saveScreenShot(QString fileName) {
 	vtkSmartPointer<vtkWindowToImageFilter> windowToImageFilter =
 		vtkSmartPointer<vtkWindowToImageFilter>::New();
 	windowToImageFilter->SetInput(renderWindow);
@@ -192,12 +192,9 @@ void viewerWidget::saveScreenShot() {
 	windowToImageFilter->ReadFrontBufferOff(); 
 	windowToImageFilter->Update();
 
-	QString screenShot = QFileDialog::getSaveFileName(this, "Save file", "", ".png");
-	screenShot += ".png";
-
 	vtkSmartPointer<vtkPNGWriter> writer =
 		vtkSmartPointer<vtkPNGWriter>::New();
-	writer->SetFileName(screenShot.toStdString().c_str());
+	writer->SetFileName(fileName.toStdString().c_str());
 	writer->SetInputConnection(windowToImageFilter->GetOutputPort());
 	writer->Write();
 }
@@ -337,9 +334,10 @@ void viewerWidget::optContourOnID(double zValue) {
 	renderer->GetViewProps()->RemoveAllItems();
 	cutterActor->GetProperty()->SetLineWidth(3);
 	cutterActor->SetPosition(0, 0, abs(zValue));
-	// cutterActor->GetProperty()->SetColor(1, 0, 0);
 	renderer->AddActor(actor2D);
 	renderer->AddActor(cutterActor);
+	if (axes)
+		renderer->AddActor(cubeAxesActor);
 	renderer->SetBackground(1, 1, 1);
 	renderWindow->Render();
 	resetCam();

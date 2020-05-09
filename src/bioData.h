@@ -6,7 +6,6 @@
 #include "viewerWidget.h"
 #include "source.h"
 #include "filters.h"
-#include "subWin.h"
 #include <filesystem>
 #include <QKeyEvent>
 #include <QDockWidget>
@@ -16,28 +15,25 @@ class bioData : public QMainWindow
 	Q_OBJECT
 public:
 
-	// Constructor/Destructor
 	bioData(QWidget *parent = 0);
 	~bioData() {};
 	bool eventFilter(QObject *obj, QEvent *event);
 	bool QScrollAreaEventFilter(QObject *obj, QEvent *event);
 	void setRangeValLab();
-	//void visualize();
-	void setTabWidget();
-	//void createInfoGroupBox();
 	void set3DWidget();
 	void update3DWidget();
-	void set2DWidget();
 	void update2DWidget();
-	void createDockWidgets();
 	void keyUpEvent(QKeyEvent *event);
 	void keyDownEvent(QKeyEvent *event);
 	void addSubItem(QTreeWidgetItem *parent, QString name);
 	void initWin(QString path);
+	void hideAllDocks();
+	void showAllDocks();
+	void disableMenuOpt();
+	void enableMenuOpt();
 
 	// groupboxes
 	void createSubsurfGB();
-	// void createDistanceGB();
 	void createtestGB();
 	void createGlobThrshldGB();
 	void createLocThrshldGB();
@@ -55,8 +51,6 @@ public:
 	void createOptions2DDock();
 	void createOptions3DDock();
 	void createHistoryLogDock();
-
-	// void createSubsurfDock();
 
 public slots:
 	virtual void slotExit();
@@ -125,9 +119,7 @@ private:
 	Ui::bioData *ui;
 	QMdiArea *mdiArea; 
 	QWidget *widget = nullptr;
-	//QWidget *widget3D = nullptr;
 	QGridLayout *gridLayout;
-	//QGridLayout *gridLayout3D;
 
 	// docks
 	QDockWidget *fileDock;
@@ -219,6 +211,7 @@ private:
 	// other
 	QLabel *rangeLab;
 	QPlainTextEdit *historyText;
+	QProgressBar *progBar;
 	// garbage
 	QTabWidget *innerTabs;
 	QSpinBox *backgroundSB;
