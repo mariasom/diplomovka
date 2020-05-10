@@ -232,8 +232,6 @@ void source::create3Ddata(QVector<double> z) {
 	int p = 1;
 
 	points3D->SetNumberOfPoints(width*height);
-	cout << "width: " << width << endl;
-	cout << "height: " << height << endl;
 
 	for (int j = 0; j < height; j++)
 		for (int i = 0; i < width; i++) {

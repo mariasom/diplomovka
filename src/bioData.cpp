@@ -43,6 +43,7 @@ bioData::bioData(QWidget *parent)
 	manOptContourButton = new QPushButton;
 	optContDispButton = new QPushButton;
 	histSaveButton = new QPushButton;
+	cutDataAtButton = new QPushButton;
 
 	// axes
 	useOData = new QCheckBox;
@@ -55,6 +56,7 @@ bioData::bioData(QWidget *parent)
 	niblackTimeStepSB = new QDoubleSpinBox;
 	contourZConSB = new QDoubleSpinBox;
 	heatEqSB = new QDoubleSpinBox;
+	cutDataAtSB = new QDoubleSpinBox;
 
 	foregroundSB = new QSpinBox;
 	backgroundSB = new QSpinBox;
@@ -103,6 +105,7 @@ bioData::bioData(QWidget *parent)
 	connect(this->optContDispButton, SIGNAL(clicked()), this, SLOT(optContDispClicked()));
 	connect(this->optContDispButton, SIGNAL(clicked()), this, SLOT(optContDispClicked()));
 	connect(this->histSaveButton, SIGNAL(clicked()), this, SLOT(histSavedClicked()));
+	connect(this->cutDataAtButton, SIGNAL(clicked()), this, SLOT(cutDataAtClicked()));
 
 	//connect(this->dataUp, SIGNAL(clicked()), this, SLOT(dataUpClicked()));
 	//connect(this->dataDown, SIGNAL(clicked()), this, SLOT(dataDownClicked()));
@@ -118,7 +121,7 @@ bioData::bioData(QWidget *parent)
 	// Set Mdi Area as the central widget
 	setCentralWidget(mdiArea);
 
-	ui->statusbar->addPermanentWidget(progBar);
+	// ui->statusbar->addPermanentWidget(progBar);
 
 	createListDock();
 	createFilter2DDock();
@@ -211,7 +214,6 @@ void bioData::actionOpenFile() {
 }
 
 void bioData::initWin(QString path) {
-	///ui->statusbar->showMessage("Loading...");
 	if (path.isEmpty()) 
 		return;
 
@@ -258,9 +260,11 @@ void bioData::initWin(QString path) {
 	widget->show();
 	widget->showMaximized();
 
-	//window *winTmp = new window(scaleSpinBox_x->value(), scaleSpinBox_y->value(), scaleSpinBox_z->value(), colorSpinBox_min->value(), colorSpinBox_max->value(), colorComboBox->currentIndex());
-	//_tabParam.resize(_tabParam.size() + 1);
-	//_tabParam.replace(_tabParam.size() - 1, tabTmp);
+	// subWin *winTmp = new subWin(scaleSpinBox_x->value(), scaleSpinBox_y->value(), scaleSpinBox_z->value(), colorSpinBox_min->value(), colorSpinBox_max->value(), colorComboBox->currentIndex());
+	// _winParam.resize(_winParam.size() + 1);
+	// _winParam.replace(_winParam.size() - 1, winTmp);
+	
+	
 	/*_tabParam.at(_tabParam.size() - 1)->addListData("Original data");
 	_tabParam.at(_tabParam.size() - 1)->addFileInfo("");
 
@@ -270,15 +274,8 @@ void bioData::initWin(QString path) {
 	_tabs->addTab(tabWidget, list[list.size() - 1].left(6));
 	_tabs->setCurrentIndex(_tabs->count() - 1);
 
-	_vData.at(_vData.size() - 1)->setPolyData(_vData.at(_vData.size() - 1)->getDataOrig());
-	_vViewerWidget.at(_vViewerWidget.size() - 1)->setScalarBar(_vData.at(_vData.size() - 1)->getScalarBar());
-	_vData.at(_vData.size() - 1)->setColorPolyData(_vData.at(_vData.size() - 1)->getDataOrig(), colorComboBox->currentIndex(), checkCol);
 
-	_tabParam.at(currentTab)->addMinMax(_vData.at(currentTab)->getfiltmin(_vData.at(_vData.size() - 1)->getDataOrig()), _vData.at(currentTab)->getfiltmax(_vData.at(_vData.size() - 1)->getDataOrig()));
-
-	/*QMessageBox mbox;
-	mbox.setText("Min: " + QString::number(_tabParam.at(currentTab)->getMin(0)) + "\nMax: " + QString::number(_tabParam.at(currentTab)->getMax(0)));
-	mbox.exec();*/
+	_tabParam.at(currentTab)->addMinMax(_vData.at(currentTab)->getfiltmin(_vData.at(_vData.size() - 1)->getDataOrig()), _vData.at(currentTab)->getfiltmax(_vData.at(_vData.size() - 1)->getDataOrig()));*/
 
 	//_vViewerWidget.at(_vViewerWidget.size() - 1)->setViewerWidget(_vData.at(_vData.size() - 1)->getPolyData(), fName);
 	//dataListView->setCurrentRow(0);
@@ -1144,6 +1141,10 @@ void bioData::setDefaultValues() {
 	sigmaSubsurf->setDecimals(3);
 	sigmaSubsurf->setSingleStep(0.1);
 	sigmaSubsurf->setValue(0.25);
+
+	// cut at
+	cutDataAtSB->setRange(-100, 100);
+	cutDataAtSB->setValue(-8);
 }
 
 void bioData::thresholdInitConClicked() {
@@ -1200,6 +1201,7 @@ void bioData::createOptions3DDock() {
 	QLabel *AxesLab = new QLabel(tr("Axes: "));
 	QLabel *colorLab = new QLabel(tr("Colors: "));
 
+	createCutDataAtGB();
 	createcontour3DGB();
 	createtestGB();
 	createrManOptContourGB();
@@ -1207,8 +1209,9 @@ void bioData::createOptions3DDock() {
 	layout->addWidget(axesCB, 0, 1);
 	layout->addWidget(colorLab, 1, 0);
 	layout->addWidget(colorCBox, 1, 1);
-	layout->addWidget(contour3DGroupBox,2,0,1,2);
-	layout->addWidget(manOptContourGB, 3, 0, 1, 2);
+	layout->addWidget(cutDataAtGB, 2, 0, 1, 2);
+	layout->addWidget(contour3DGroupBox,3,0,1,2);
+	layout->addWidget(manOptContourGB, 4, 0, 1, 2);
 	//layout->addWidget(testGroupBox, 4, 0, 1, 2);
 	multiWidget->setLayout(layout);
 	options3DDock->setWidget(multiWidget);
@@ -1504,4 +1507,47 @@ void bioData::disableMenuOpt() {
 void bioData::enableMenuOpt() {
 	this->ui->menuTabs->setDisabled(false);
 	this->ui->menuSave->setDisabled(false);
+}
+
+void bioData::cutDataAtClicked() { 
+	QMessageBox mbox;
+	if (dataTree->selectionModel()->selectedIndexes().size() == 0) {
+		mbox.setText("No data selected!.");
+		mbox.exec();
+	}
+	if (parent3D == dataTree->currentItem()->parent()) {
+		ui->statusbar->showMessage("Computing...");
+		qApp->processEvents();
+
+		filters filter(_file.at(_file.size() - 1)->getWidth(), _file.at(_file.size() - 1)->getHeight(), _file.at(_file.size() - 1)->getOrigData());
+		QVector<double> tmp = filter.cutDataAt(_file.at(_file.size() - 1)->get3DData(dataTree->currentIndex().row()), cutDataAtSB->value()); // treba opravit
+		_file.at(_file.size() - 1)->add3DData(tmp);
+		_file.at(_file.size() - 1)->create3Ddata(_file.at(_file.size() - 1)->get3DData(_file.at(_file.size() - 1)->getSize3DData() - 1));
+		_file.at(_file.size() - 1)->colorPolyData(colorCBox->currentIndex());
+		_vWidget.at(_vWidget.size() - 1)->setViewerWidget3D(_file.at(_file.size() - 1)->getPolydata());
+		update3DWidget();
+		QString txt = dataTree->currentItem()->text(dataTree->currentIndex().column());
+		addSubItem(parent3D, txt + "cut_data_at" + QString::number(cutDataAtSB->value()));
+
+		ui->statusbar->clearMessage();
+	}
+	else {
+		mbox.setText("ERROR! \nYou can't apply SUBSURF on 3D data.");
+		mbox.exec();
+	}
+
+}
+
+void bioData::createCutDataAtGB() {
+	cutDataAtGB = new QGroupBox;
+	QGridLayout *layout = new QGridLayout;
+	QLabel *lab = new QLabel(tr("Cut data at: "));
+
+	cutDataAtButton->setText("Apply");
+	layout->addWidget(lab, 0, 0);
+	layout->addWidget(cutDataAtSB, 0, 1);
+	layout->addWidget(cutDataAtButton, 1, 1);
+
+	cutDataAtGB->setLayout(layout);
+
 }

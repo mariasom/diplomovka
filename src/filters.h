@@ -58,4 +58,5 @@ public:
 	QVector<double> thresholdFunction(QVector<unsigned char> initConData);
 	QVector<double> bernsenThreshold(QVector<double> data);
 	QVector<unsigned char> dataDifference(QVector<unsigned char> tData);
+	QVector<double>  filters::cutDataAt(QVector<double> z, double value);
 };

@@ -5,6 +5,7 @@
 
 #include "viewerWidget.h"
 #include "source.h"
+#include "subWin.h"
 #include "filters.h"
 #include <filesystem>
 #include <QKeyEvent>
@@ -42,6 +43,7 @@ public:
 	void createcontour2DGB();
 	void createHeatEqGB();
 	void createrManOptContourGB();
+	void createCutDataAtGB();
 
 	// docks
 	void createFileDock(QString name, QString path, int width, int height);
@@ -104,6 +106,7 @@ public slots:
 	void manOptContClicked();
 	void optContDispClicked();
 	void histSavedClicked();
+	void cutDataAtClicked();
 
 	// others
 	void AxesChange(bool checked);
@@ -148,6 +151,7 @@ private:
 	QGroupBox *contour2DGroupBox;
 	QGroupBox *HeatEqGroupBox;
 	QGroupBox *manOptContourGB;
+	QGroupBox *cutDataAtGB;
 
 	// treewidget + its items
 	QTreeWidget *dataTree;
@@ -187,6 +191,7 @@ private:
 	QPushButton *contourOnOGButton;
 	QPushButton *optContDispButton;
 	QPushButton *histSaveButton;
+	QPushButton *cutDataAtButton;
 
 	// comboboxes
 	QComboBox *dataCBox;
@@ -203,6 +208,7 @@ private:
 	QSpinBox *niblackMaskSB;
 	QSpinBox *bernsenMaskSB;
 	QSpinBox *numCont3DSB;
+	QDoubleSpinBox *cutDataAtSB;
 
 	//checkboxes
 	QCheckBox *useOData;
@@ -221,7 +227,7 @@ private:
 	QVector<source*> _file;
 	source *fTmp;
 	QVector<viewerWidget*> _vWidget;
-	// QVector<subWin*> _winParam;
+	QVector<subWin*> _winParam;
 	viewerWidget* w;
 	QString fName;
 	QString filePath;

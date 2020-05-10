@@ -791,3 +791,18 @@ QVector<unsigned char> filters::dataDifference(QVector<unsigned char> tData) {
 
 	return newData;
 }
+
+QVector<double>  filters::cutDataAt(QVector<double> z, double value) {
+	QVector<double> tmp;
+	tmp.resize(width*height);
+
+	for (int j = 0; j < height; j++)
+		for (int i = 0; i < width; i++) {
+			if (value < z.at(width * j + i))
+				tmp[width * j + i] = z.at(width * j + i);
+			else
+				tmp[width * j + i] = value;
+		}
+
+	return tmp;
+}
