@@ -53,6 +53,7 @@ public:
 	void createOptions2DDock();
 	void createOptions3DDock();
 	void createHistoryLogDock();
+	void createWindowsDock();
 
 public slots:
 	virtual void slotExit();
@@ -78,6 +79,8 @@ public slots:
 	void action3DFilters();
 	void actionAdvanced();
 	void actionCloseFiles();
+	void actionHelp();
+	void actionAbout();
 
 	// buttons actions
 	void otsuClicked();
@@ -107,6 +110,10 @@ public slots:
 	void optContDispClicked();
 	void histSavedClicked();
 	void cutDataAtClicked();
+	void hybNBABernClicked();
+	void sauvolaClicked();
+	void hybSaBernClicked();
+	void deleteWinClicked();
 
 	// others
 	void AxesChange(bool checked);
@@ -121,7 +128,8 @@ public slots:
 private:
 	Ui::bioData *ui;
 	QMdiArea *mdiArea; 
-	QWidget *widget = nullptr;
+	//QWidget *widget = nullptr;
+	QVector<QMdiSubWindow*> _subW;
 	QGridLayout *gridLayout;
 
 	// docks
@@ -133,6 +141,7 @@ private:
 	QDockWidget *listDock;
 	QDockWidget *subsurfDock;
 	QDockWidget *historyDock;
+	QDockWidget *windowsDock;
 
 	// groupboxes
 	QGroupBox *subsurfGroupBox;
@@ -192,6 +201,10 @@ private:
 	QPushButton *optContDispButton;
 	QPushButton *histSaveButton;
 	QPushButton *cutDataAtButton;
+	QPushButton *hybNBABernButton;
+	QPushButton *sauvolaButton;
+	QPushButton *hybSaBernButton;
+	QPushButton *deleteWinButton;
 
 	// comboboxes
 	QComboBox *dataCBox;
@@ -205,10 +218,17 @@ private:
 	QDoubleSpinBox *niblackTimeStepSB;
 	QDoubleSpinBox *heatEqSB;
 	QDoubleSpinBox *contourZConSB;
+	QDoubleSpinBox *NBaBrenTimeStepSB;
 	QSpinBox *niblackMaskSB;
 	QSpinBox *bernsenMaskSB;
 	QSpinBox *numCont3DSB;
+	QSpinBox *NBaBrenMaskSB;
+	QSpinBox *timeStepsSubsurf;
 	QDoubleSpinBox *cutDataAtSB;
+	QDoubleSpinBox *sauvolaTimeStepSB;
+	QDoubleSpinBox *SaBrenTimeStepSB;
+	QSpinBox *sauvolaMaskSB;
+	QSpinBox *SaBrenMaskSB;
 
 	//checkboxes
 	QCheckBox *useOData;
@@ -219,6 +239,10 @@ private:
 	QPlainTextEdit *historyText;
 	QProgressBar *progBar;
 	// garbage
+	int currentWin = 0;
+	int winSize = 0;
+	bool subWinAdded = false;
+	QListWidget *winListView;
 	QTabWidget *innerTabs;
 	QSpinBox *backgroundSB;
 	QSpinBox *foregroundSB;;

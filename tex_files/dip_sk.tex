@@ -196,7 +196,7 @@ Prahovacie metódy založené na histograme sú zvyčajne jednoduché a účinn�
 
 
 \subsubsection{Otsuho metóda} \label{OtsuM}
-Otsuho metóda patrí medzi automatické  prahovacie metódy, ktorá rozdeľuje obrazové dáta na 2 rôzne triedy pomocou prahu $q$ $-$ na objekt a pozadie. Hlavnou myšlienkou tejto metódy je nájsť prah $q$ taký, že výsledné distribúcie tried sú čo najlepšie oddelené, čo znamená, že príslušné histogramy majú čo najmenší rozptyl(sú čo najužšie). Na výpočet prahu $q$ sa používa metóda známa ako vnútro$-$triedna variancia(within class variance), kde sa pomocou tohoto výpočtu hľadá minimum. V tomto prípade sa dá ukázať, že táto úloha môže byť zmenená na maximalizačnú úlohu, tiež známu ako medzi$-$triedna variancia(between class variance), ktorá je výpočtovo menej náročná, keďže sú spracovávané len šedo-tónové obrazové dáta. Ak by išlo o farebný RGB obraz, musel by byť rozdelený na jednotlivé intenzity a výsledkom by bolo viac prahových hodnôt $(q_1, \ldots, q_n)$, kde $n$ reprezentuje počet intenzít v danom obraze.
+Otsuho metóda\cite{otsu} patrí medzi automatické  prahovacie metódy, ktorá rozdeľuje obrazové dáta na 2 rôzne triedy pomocou prahu $q$ $-$ na objekt a pozadie. Hlavnou myšlienkou tejto metódy je nájsť prah $q$ taký, že výsledné distribúcie tried sú čo najlepšie oddelené, čo znamená, že príslušné histogramy majú čo najmenší rozptyl(sú čo najužšie). Na výpočet prahu $q$ sa používa metóda známa ako vnútro$-$triedna variancia(within class variance), kde sa pomocou tohoto výpočtu hľadá minimum. V tomto prípade sa dá ukázať, že táto úloha môže byť zmenená na maximalizačnú úlohu, tiež známu ako medzi$-$triedna variancia(between class variance), ktorá je výpočtovo menej náročná, keďže sú spracovávané len šedo-tónové obrazové dáta. Ak by išlo o farebný RGB obraz, musel by byť rozdelený na jednotlivé intenzity a výsledkom by bolo viac prahových hodnôt $(q_1, \ldots, q_n)$, kde $n$ reprezentuje počet intenzít v danom obraze.
 
 Nech $K$ je maximálna intenzita obrazu a hodnoty normalizovaného histogramu, budú vypočítané ako
 %\begin{equation*}
@@ -386,12 +386,27 @@ Výpočet pre lokálny prah je definovaný na oblasti $R$ so stredom v $(u, v)$.
 
 Jeden z problémov, ktorý môže nastať pre malé hodnoty smerodajnej odchýlky $\sigma_R(u,v)$ (získané na oblastiach v obrazových dátach s takmer konštantnou intenzitou), prah bude mať hodnotu blízku lokálnemu priemeru, čo spôsobí, že segmentácia je pomerne citlivá na nízku amplitúdu šumu ("ghosting"). Pomocou jednoduchej modifikácie rovnice (\ref{eq:nbO}) pridaním konštanty $d$, ktorá zabezpečí minimálnu vzdialenosť od priemeru v tvare
 
-\begin{equation}
+\begin{equation} \label{nb}
 Q(u,v) = \mu_R(u,v) + \kappa\sigma_R(u,v) + d,
 \end{equation}
 
 kde $d \geq 0$. V našom prípade, sme parameter $\kappa$ nastavili na $\kappa = 0.18$ a pre konštantu $d$ sme použili $d = 20$. Takto nastavené parametre dávali v našom prípade veľmi dobré výsledky.
 
+\subsubsection{Sauvolova metóda}
+
+Ide o vylepšenie Niblackovej metóody, kde prah $Q(u,v))$ je definovaný v tvare
+\begin{equation} 
+Q(u,v) = \mu_R(u,v) . [1 + \kappa(\frac{\sigma_R(u,v)}{\sigma_{max}} - 1)],
+\end{equation}
+
+kde parameter $\kappa \geq 0$, $\sigma_{max}$ je dynamickým rozsahom pre štandardné odchýlky. Približné hodnoty priemeru intenzít $\mu_R(u,v)$ a smerodajnej odchýlky  $\sigma_R(u,v)$ na fixne danej oblasti $R$ sme dostali z rovnice vedenia tepla, tak ako je popísané v sekcii \ref{niblack}. 
+
+Parametre metódy boli v našom prípade zvolené nasledovne $\kappa = 0.18$ a  $\sigma_{max} = 128$. 
+*TOTO ASI AZ K VYSLEDKOM* Táto metóda sa síce primárne používa na prahovanie textových obrazových dát ale keďže makrofágy sú malé a majú nepravidelné tvary, tak sme predpokladali, že aj v našom prípade by mohla dávať uspokojivé výsledky.  
+
+\subsubsection{Hybridné metódy}
+
+ Ide o kombináciu dvoch lokálnych adaptívnych metód popísaných v sekcii \ref{bernsenM} a \ref{niblack}. Lokálny kontrast  $c(u, v)$ uvažujeme z Bernsenovej metódy a výpočet lokálne prahu $Q(u, v)$ pomocou  Niblackovej metódy, z rovnice (\ref{nb}) definovaný na oblasti $R$. 
 
 \subsection{Metóda subjektívnych plôch (SUBSURF)} 
 
@@ -579,7 +594,7 @@ kde $u_o$ označujú pôvodné dáta a $u_t$ sú vyprahované dáta.
 \newpage
 \section{Softvér}
 
-Na implementáciu a vytvorenie prostredia, bol zvolený objektovo orientovaný prístup jazyka C++, spolu s knižnicami Qt, ktoré obsahujú veľa užitočných tried a boli užitočným nástrojom pri vytváraní užívateľského prostredia a VTK knižnicami, ktoré slúžia na zobrazovanie a manipuláciu s dátami.
+Na implementáciu a vytvorenie prostredia, bol zvolený objektovo orientovaný prístup jazyka C++, spolu s knižnicami Qt \cite{qt}, ktoré obsahujú veľa užitočných tried a boli užitočným nástrojom pri vytváraní užívateľského prostredia a VTK \cite{vtk} knižnicami, ktoré slúžia na zobrazovanie a manipuláciu s dátami.
 
 \subsection{Qt}
 Užívateľské rozhranie je vytvorené pomocou Qt knižníc, ktoré sú jedným z najpoužívanejších cross-platformových frameworkov na vytváranie užívateľského prostredia (GUI). Majú aj veľa predprogramovaných knižníc ktoré programátorovi uľahčia prácu. Sú naimplementované v jazyku C++. 
@@ -760,6 +775,8 @@ Zvyšné možnosti, v hornej lište v položke \texttt{File} sa ešte nachádza 
 
 V hornej lište sa ešte nachádzajú položky \texttt{Settings} a \texttt{Help}. V \texttt{Settings} vie užívateľ skryť/zobraziť všetky položky nachádzajúce sa vpravo. A \texttt{Help} obsahuje informácie o programe a jednoduchú dokumentáciu.
 
+\subsection{Návod na použitie}
+
 \newpage
 \section{Výsledky}
 
@@ -936,7 +953,36 @@ Z výsledkov na obrázkoch \ref{fig:otsu_res}, \ref{fig:kapur_res}, \ref{fig:nib
 
 \newpage
 \begin{thebibliography}{50}
-\end{thebibliography}
 
+\bibitem{vtk} 
+\textbf{VTK dokumentácia}:
+\url{https://vtk.org/documentation/},
+
+\bibitem{qt} 
+\textbf{Qt dokumentácia}:
+\url{https://doc.qt.io/},
+
+\bibitem{sora} 
+Seol Ah Park, Tamara Sipka, Zuzana Krivá, Martin Ambroz, Michal Kollar, Balazs Kosa, Mai Nguyen-Chi, Georges Lutfalla, Karol Mikula, \textbf{Macrophage image segmentation by Thresholding and subjective surface Method}: \\ 
+\url{https://www.researchgate.net/publication/337755994_Macrophage_image_segmentation_by_Thresholding_and_subjective_surface_Method},
+
+\bibitem{skripta} 
+Zuzana Krivá, Karol Mikula, Oľqa Stašová, \textbf{Spracovanie obrazu vybrané kapitoly z prednášok}, 
+%\url{http://money.cnn.com/2018/03/19/technology/facebook-data-scandal-explainer/index.html}.
+
+\bibitem{skripta1} 
+Wilhelm Burger, \textbf{Principles of Digital Image Processing: Core Algorithms},
+%: \\ \url{https://panopticlick.eff.org/about#browser-fingerprinting}.
+
+\bibitem{hybridNBaBren} 
+Anna Korzynska, Lukasz Roszkowiak,Carlos Lopez, Ramon Bosch, Lukasz Witkowski1,  Marylene Lejeune \textbf{Validation of various adaptive thresholdmethods of segmentation applied to follicularlymphoma digital images stained with3,3’-Diaminobenzidine$\&$Haematoxylin}: 
+\url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3656801/},
+
+\bibitem{otsu} 
+Nobuyuki Otsu, \textbf{A Threshold Selection Method from Gray-Level Histograms}, 
+
+
+
+\end{thebibliography}
 
 \end{document}

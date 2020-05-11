@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.27)  8 MAY 2020 15:39
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.27)  11 MAY 2020 10:17
 entering extended mode
 **./dip_sk.tex
 (dip_sk.tex
@@ -644,321 +644,330 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [2] [3] [4] [5] [6] ("C:\Program Files\MiKTeX 2.9\tex/latex/ucs\uni-34.def"
 File: uni-34.def 2013/05/13 UCS: Unicode data U+2200..U+22FF
 )
-[7] [8]
+[7] [8] [9]
 
 pdfTeX warning: pdflatex (file ./pics/hrany1.pdf): PDF inclusion: found PDF ver
 sion <1.7>, but at most version <1.5> allowed
-<pics/hrany1.pdf, id=171, 378.91562pt x 378.91562pt>
+<pics/hrany1.pdf, id=197, 378.91562pt x 378.91562pt>
 File: pics/hrany1.pdf Graphic file (type pdf)
 <use pics/hrany1.pdf>
-Package pdftex.def Info: pics/hrany1.pdf  used on input line 445.
+Package pdftex.def Info: pics/hrany1.pdf  used on input line 460.
 (pdftex.def)             Requested size: 151.56355pt x 151.56355pt.
-[9 <./pics/hrany1.pdf>] [10] [11] [12]
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 5
-89.
+[10 <./pics/hrany1.pdf>] [11] [12] [13]
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 6
+04.
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/base\omscmr.fd"
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 589.
- [13] [14]
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 604.
+ [14] [15]
 
 Package hyperref Warning: Composite letter `\textasciicaron+l'
 (hyperref)                not defined in PD1 encoding,
-(hyperref)                removing `\textasciicaron' on input line 676.
+(hyperref)                removing `\textasciicaron' on input line 691.
 
-[15]
-<pics/ui1.jpg, id=243, 657.95813pt x 544.28343pt>
+[16]
+<pics/ui1.jpg, id=273, 657.95813pt x 544.28343pt>
 File: pics/ui1.jpg Graphic file (type jpg)
 <use pics/ui1.jpg>
-Package pdftex.def Info: pics/ui1.jpg  used on input line 684.
+Package pdftex.def Info: pics/ui1.jpg  used on input line 699.
 (pdftex.def)             Requested size: 328.97826pt x 272.14105pt.
-LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 6
-94.
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 7
+09.
  ("C:\Program Files\MiKTeX 2.9\tex/latex/base\t1cmtt.fd"
 File: t1cmtt.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-) [16 <./pics/ui1.jpg>]
-<pics/uidata.jpg, id=254, 280.04625pt x 212.29312pt>
+) [17 <./pics/ui1.jpg>]
+<pics/uidata.jpg, id=284, 280.04625pt x 212.29312pt>
 File: pics/uidata.jpg Graphic file (type jpg)
 <use pics/uidata.jpg>
-Package pdftex.def Info: pics/uidata.jpg  used on input line 708.
+Package pdftex.def Info: pics/uidata.jpg  used on input line 723.
 (pdftex.def)             Requested size: 182.0279pt x 137.98889pt.
-<pics/uithr.jpg, id=255, 282.30469pt x 285.31593pt>
+<pics/uithr.jpg, id=285, 282.30469pt x 285.31593pt>
 File: pics/uithr.jpg Graphic file (type jpg)
 <use pics/uithr.jpg>
-Package pdftex.def Info: pics/uithr.jpg  used on input line 710.
+Package pdftex.def Info: pics/uithr.jpg  used on input line 725.
 (pdftex.def)             Requested size: 155.26805pt x 156.92424pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 710--710
+Underfull \hbox (badness 10000) in paragraph at lines 725--725
 []\T1/cmr/m/n/10 (b) |De-tail docku
  []
 
-<pics/ui2Dopt.jpg, id=258, 281.55188pt x 279.29344pt>
+<pics/ui2Dopt.jpg, id=288, 281.55188pt x 279.29344pt>
 File: pics/ui2Dopt.jpg Graphic file (type jpg)
 <use pics/ui2Dopt.jpg>
-Package pdftex.def Info: pics/ui2Dopt.jpg  used on input line 723.
+Package pdftex.def Info: pics/ui2Dopt.jpg  used on input line 738.
 (pdftex.def)             Requested size: 183.00655pt x 181.53857pt.
-<pics/ui3Dfilt.jpg, id=259, 279.29344pt x 276.28218pt>
+<pics/ui3Dfilt.jpg, id=289, 279.29344pt x 276.28218pt>
 File: pics/ui3Dfilt.jpg Graphic file (type jpg)
 <use pics/ui3Dfilt.jpg>
-Package pdftex.def Info: pics/ui3Dfilt.jpg  used on input line 725.
+Package pdftex.def Info: pics/ui3Dfilt.jpg  used on input line 740.
 (pdftex.def)             Requested size: 181.53857pt x 179.58128pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [17 <./pics/uidata.jpg> <./pics/uithr.jpg>]
-<pics/ui3Dopt.jpg, id=270, 281.55188pt x 277.035pt>
+ [18 <./pics/uidata.jpg> <./pics/uithr.jpg>]
+<pics/ui3Dopt.jpg, id=300, 281.55188pt x 277.035pt>
 File: pics/ui3Dopt.jpg Graphic file (type jpg)
 <use pics/ui3Dopt.jpg>
-Package pdftex.def Info: pics/ui3Dopt.jpg  used on input line 734.
+Package pdftex.def Info: pics/ui3Dopt.jpg  used on input line 749.
 (pdftex.def)             Requested size: 183.00655pt x 180.0706pt.
-<pics/uihist.jpg, id=271, 284.56313pt x 275.52937pt>
+<pics/uihist.jpg, id=301, 284.56313pt x 275.52937pt>
 File: pics/uihist.jpg Graphic file (type jpg)
 <use pics/uihist.jpg>
-Package pdftex.def Info: pics/uihist.jpg  used on input line 736.
+Package pdftex.def Info: pics/uihist.jpg  used on input line 751.
 (pdftex.def)             Requested size: 184.96384pt x 179.09195pt.
-<pics/subsurf.jpg, id=274, 657.95813pt x 544.28343pt>
+<pics/subsurf.jpg, id=304, 657.95813pt x 544.28343pt>
 File: pics/subsurf.jpg Graphic file (type jpg)
 <use pics/subsurf.jpg>
-Package pdftex.def Info: pics/subsurf.jpg  used on input line 747.
+Package pdftex.def Info: pics/subsurf.jpg  used on input line 762.
 (pdftex.def)             Requested size: 197.38896pt x 163.28629pt.
-<pics/result.jpg, id=275, 657.95813pt x 544.28343pt>
+<pics/result.jpg, id=305, 657.95813pt x 544.28343pt>
 File: pics/result.jpg Graphic file (type jpg)
 <use pics/result.jpg>
-Package pdftex.def Info: pics/result.jpg  used on input line 749.
+Package pdftex.def Info: pics/result.jpg  used on input line 764.
 (pdftex.def)             Requested size: 197.38896pt x 163.28629pt.
 
 Underfull \vbox (badness 2253) has occurred while \output is active []
 
- [18 <./pics/ui2Dopt.jpg> <./pics/ui3Dfilt.jpg> <./pics/ui3Dopt.jpg> <./pics/ui
+ [19 <./pics/ui2Dopt.jpg> <./pics/ui3Dfilt.jpg> <./pics/ui3Dopt.jpg> <./pics/ui
 hist.jpg>]
-[19 <./pics/subsurf.jpg> <./pics/result.jpg>]
-<pics/cropT2.png, id=294, 60.225pt x 60.225pt>
+[20 <./pics/subsurf.jpg> <./pics/result.jpg>]
+<pics/cropT2.png, id=324, 60.225pt x 60.225pt>
 File: pics/cropT2.png Graphic file (type png)
 <use pics/cropT2.png>
-Package pdftex.def Info: pics/cropT2.png  used on input line 770.
+Package pdftex.def Info: pics/cropT2.png  used on input line 787.
 (pdftex.def)             Requested size: 102.98486pt x 102.98486pt.
-<pics/cropT7.png, id=295, 60.225pt x 60.225pt>
+<pics/cropT7.png, id=325, 60.225pt x 60.225pt>
 File: pics/cropT7.png Graphic file (type png)
 <use pics/cropT7.png>
-Package pdftex.def Info: pics/cropT7.png  used on input line 773.
+Package pdftex.def Info: pics/cropT7.png  used on input line 790.
 (pdftex.def)             Requested size: 102.98486pt x 102.98486pt.
-<pics/cropT27.png, id=296, 60.225pt x 60.225pt>
+<pics/cropT27.png, id=326, 60.225pt x 60.225pt>
 File: pics/cropT27.png Graphic file (type png)
 <use pics/cropT27.png>
-Package pdftex.def Info: pics/cropT27.png  used on input line 776.
+Package pdftex.def Info: pics/cropT27.png  used on input line 793.
 (pdftex.def)             Requested size: 102.98486pt x 102.98486pt.
-<pics/cropT45.png, id=297, 60.225pt x 60.225pt>
+<pics/cropT45.png, id=327, 60.225pt x 60.225pt>
 File: pics/cropT45.png Graphic file (type png)
 <use pics/cropT45.png>
-Package pdftex.def Info: pics/cropT45.png  used on input line 779.
+Package pdftex.def Info: pics/cropT45.png  used on input line 796.
 (pdftex.def)             Requested size: 102.98486pt x 102.98486pt.
-<pics/cropT2_otsu.png, id=300, 493.845pt x 493.845pt>
+<pics/cropT2_otsu.png, id=330, 493.845pt x 493.845pt>
 File: pics/cropT2_otsu.png Graphic file (type png)
 <use pics/cropT2_otsu.png>
-Package pdftex.def Info: pics/cropT2_otsu.png  used on input line 790.
+Package pdftex.def Info: pics/cropT2_otsu.png  used on input line 807.
 (pdftex.def)             Requested size: 103.7105pt x 103.7105pt.
-<pics/cropT7_otsu.png, id=302, 493.0922pt x 494.59781pt>
+<pics/cropT7_otsu.png, id=332, 493.0922pt x 494.59781pt>
 File: pics/cropT7_otsu.png Graphic file (type png)
 <use pics/cropT7_otsu.png>
-Package pdftex.def Info: pics/cropT7_otsu.png  used on input line 793.
+Package pdftex.def Info: pics/cropT7_otsu.png  used on input line 810.
 (pdftex.def)             Requested size: 103.55241pt x 103.86859pt.
-<pics/cropT27_otsu.png, id=303, 496.85625pt x 496.85625pt>
+<pics/cropT27_otsu.png, id=333, 496.85625pt x 496.85625pt>
 File: pics/cropT27_otsu.png Graphic file (type png)
 <use pics/cropT27_otsu.png>
-Package pdftex.def Info: pics/cropT27_otsu.png  used on input line 796.
+Package pdftex.def Info: pics/cropT27_otsu.png  used on input line 813.
 (pdftex.def)             Requested size: 104.34288pt x 104.34288pt.
-<pics/cropT45_otsu.png, id=304, 492.33937pt x 492.33937pt>
+<pics/cropT45_otsu.png, id=334, 492.33937pt x 492.33937pt>
 File: pics/cropT45_otsu.png Graphic file (type png)
 <use pics/cropT45_otsu.png>
-Package pdftex.def Info: pics/cropT45_otsu.png  used on input line 799.
+Package pdftex.def Info: pics/cropT45_otsu.png  used on input line 816.
 (pdftex.def)             Requested size: 103.3943pt x 103.3943pt.
-<pics/cropT2_otsu_res.png, id=308, 493.845pt x 493.845pt>
+<pics/cropT2_otsu_res.png, id=338, 493.845pt x 493.845pt>
 File: pics/cropT2_otsu_res.png Graphic file (type png)
 <use pics/cropT2_otsu_res.png>
-Package pdftex.def Info: pics/cropT2_otsu_res.png  used on input line 808.
+Package pdftex.def Info: pics/cropT2_otsu_res.png  used on input line 825.
 (pdftex.def)             Requested size: 103.7105pt x 103.7105pt.
-<pics/cropT7_otsu_res.png, id=309, 492.33937pt x 492.33937pt>
+<pics/cropT7_otsu_res.png, id=339, 492.33937pt x 492.33937pt>
 File: pics/cropT7_otsu_res.png Graphic file (type png)
 <use pics/cropT7_otsu_res.png>
-Package pdftex.def Info: pics/cropT7_otsu_res.png  used on input line 811.
+Package pdftex.def Info: pics/cropT7_otsu_res.png  used on input line 828.
 (pdftex.def)             Requested size: 103.3943pt x 103.3943pt.
-<pics/cropT27_otsu_res.png, id=310, 494.59781pt x 494.59781pt>
+<pics/cropT27_otsu_res.png, id=340, 494.59781pt x 494.59781pt>
 File: pics/cropT27_otsu_res.png Graphic file (type png)
 <use pics/cropT27_otsu_res.png>
-Package pdftex.def Info: pics/cropT27_otsu_res.png  used on input line 814.
+Package pdftex.def Info: pics/cropT27_otsu_res.png  used on input line 831.
 (pdftex.def)             Requested size: 103.86859pt x 103.86859pt.
-<pics/cropT45_otsu_res.png, id=311, 495.35063pt x 495.35063pt>
+<pics/cropT45_otsu_res.png, id=341, 495.35063pt x 495.35063pt>
 File: pics/cropT45_otsu_res.png Graphic file (type png)
 <use pics/cropT45_otsu_res.png>
-Package pdftex.def Info: pics/cropT45_otsu_res.png  used on input line 817.
+Package pdftex.def Info: pics/cropT45_otsu_res.png  used on input line 834.
 (pdftex.def)             Requested size: 104.0267pt x 104.0267pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [20 <./pics/cropT2.png> <./pics/cropT7.png> <./pics/cropT27.png> <./pics/cropT
+ [21 <./pics/cropT2.png> <./pics/cropT7.png> <./pics/cropT27.png> <./pics/cropT
 45.png> <./pics/cropT2_otsu.png> <./pics/cropT7_otsu.png> <./pics/cropT27_otsu.
 png> <./pics/cropT45_otsu.png>]
-<pics/cropT2_kapur.png, id=338, 493.0922pt x 493.0922pt>
+<pics/cropT2_kapur.png, id=368, 493.0922pt x 493.0922pt>
 File: pics/cropT2_kapur.png Graphic file (type png)
 <use pics/cropT2_kapur.png>
-Package pdftex.def Info: pics/cropT2_kapur.png  used on input line 826.
+Package pdftex.def Info: pics/cropT2_kapur.png  used on input line 843.
 (pdftex.def)             Requested size: 103.55241pt x 103.55241pt.
-<pics/cropT7_kapur.png, id=339, 493.0922pt x 493.845pt>
+<pics/cropT7_kapur.png, id=369, 493.0922pt x 493.845pt>
 File: pics/cropT7_kapur.png Graphic file (type png)
 <use pics/cropT7_kapur.png>
-Package pdftex.def Info: pics/cropT7_kapur.png  used on input line 829.
+Package pdftex.def Info: pics/cropT7_kapur.png  used on input line 846.
 (pdftex.def)             Requested size: 103.55241pt x 103.7105pt.
-<pics/cropT27_kapur.png, id=340, 491.58656pt x 491.58656pt>
+<pics/cropT27_kapur.png, id=370, 491.58656pt x 491.58656pt>
 File: pics/cropT27_kapur.png Graphic file (type png)
 <use pics/cropT27_kapur.png>
-Package pdftex.def Info: pics/cropT27_kapur.png  used on input line 832.
+Package pdftex.def Info: pics/cropT27_kapur.png  used on input line 849.
 (pdftex.def)             Requested size: 103.23622pt x 103.23622pt.
-<pics/cropT45_kapur.png, id=341, 494.59781pt x 495.35063pt>
+<pics/cropT45_kapur.png, id=371, 494.59781pt x 495.35063pt>
 File: pics/cropT45_kapur.png Graphic file (type png)
 <use pics/cropT45_kapur.png>
-Package pdftex.def Info: pics/cropT45_kapur.png  used on input line 835.
+Package pdftex.def Info: pics/cropT45_kapur.png  used on input line 852.
 (pdftex.def)             Requested size: 103.86859pt x 104.0267pt.
-<pics/cropT2_kapur_res.png, id=343, 495.35063pt x 495.35063pt>
+<pics/cropT2_kapur_res.png, id=373, 495.35063pt x 495.35063pt>
 File: pics/cropT2_kapur_res.png Graphic file (type png)
 <use pics/cropT2_kapur_res.png>
-Package pdftex.def Info: pics/cropT2_kapur_res.png  used on input line 844.
+Package pdftex.def Info: pics/cropT2_kapur_res.png  used on input line 861.
 (pdftex.def)             Requested size: 99.06836pt x 99.06836pt.
-<pics/cropT7_kapur_res.png, id=344, 496.10344pt x 495.35063pt>
+<pics/cropT7_kapur_res.png, id=374, 496.10344pt x 495.35063pt>
 File: pics/cropT7_kapur_res.png Graphic file (type png)
 <use pics/cropT7_kapur_res.png>
-Package pdftex.def Info: pics/cropT7_kapur_res.png  used on input line 847.
+Package pdftex.def Info: pics/cropT7_kapur_res.png  used on input line 864.
 (pdftex.def)             Requested size: 99.21892pt x 99.06836pt.
-<pics/cropT27_kapur_res.png, id=345, 490.83376pt x 491.58656pt>
+<pics/cropT27_kapur_res.png, id=375, 490.83376pt x 491.58656pt>
 File: pics/cropT27_kapur_res.png Graphic file (type png)
 <use pics/cropT27_kapur_res.png>
-Package pdftex.def Info: pics/cropT27_kapur_res.png  used on input line 850.
+Package pdftex.def Info: pics/cropT27_kapur_res.png  used on input line 867.
 (pdftex.def)             Requested size: 98.16501pt x 98.31557pt.
-<pics/cropT45_kapur_res.png, id=346, 492.33937pt x 492.33937pt>
+<pics/cropT45_kapur_res.png, id=376, 492.33937pt x 492.33937pt>
 File: pics/cropT45_kapur_res.png Graphic file (type png)
 <use pics/cropT45_kapur_res.png>
-Package pdftex.def Info: pics/cropT45_kapur_res.png  used on input line 853.
+Package pdftex.def Info: pics/cropT45_kapur_res.png  used on input line 870.
 (pdftex.def)             Requested size: 98.46613pt x 98.46613pt.
-<pics/cropT2_niblack.png, id=349, 497.60907pt x 497.60907pt>
+<pics/cropT2_niblack.png, id=379, 497.60907pt x 497.60907pt>
 File: pics/cropT2_niblack.png Graphic file (type png)
 <use pics/cropT2_niblack.png>
-Package pdftex.def Info: pics/cropT2_niblack.png  used on input line 862.
+Package pdftex.def Info: pics/cropT2_niblack.png  used on input line 879.
 (pdftex.def)             Requested size: 104.50098pt x 104.50098pt.
-<pics/cropT7_niblack.png, id=350, 493.845pt x 493.845pt>
+<pics/cropT7_niblack.png, id=380, 493.845pt x 493.845pt>
 File: pics/cropT7_niblack.png Graphic file (type png)
 <use pics/cropT7_niblack.png>
-Package pdftex.def Info: pics/cropT7_niblack.png  used on input line 865.
+Package pdftex.def Info: pics/cropT7_niblack.png  used on input line 882.
 (pdftex.def)             Requested size: 103.7105pt x 103.7105pt.
-<pics/cropT27_niblack.png, id=351, 495.35063pt x 495.35063pt>
+<pics/cropT27_niblack.png, id=381, 495.35063pt x 495.35063pt>
 File: pics/cropT27_niblack.png Graphic file (type png)
 <use pics/cropT27_niblack.png>
-Package pdftex.def Info: pics/cropT27_niblack.png  used on input line 868.
+Package pdftex.def Info: pics/cropT27_niblack.png  used on input line 885.
 (pdftex.def)             Requested size: 104.0267pt x 104.0267pt.
-<pics/cropT45_niblack.png, id=352, 493.845pt x 493.845pt>
+<pics/cropT45_niblack.png, id=382, 493.845pt x 493.845pt>
 File: pics/cropT45_niblack.png Graphic file (type png)
 <use pics/cropT45_niblack.png>
-Package pdftex.def Info: pics/cropT45_niblack.png  used on input line 871.
+Package pdftex.def Info: pics/cropT45_niblack.png  used on input line 888.
 (pdftex.def)             Requested size: 103.7105pt x 103.7105pt.
 
 Underfull \vbox (badness 1303) has occurred while \output is active []
 
- [21 <./pics/cropT2_otsu_res.png> <./pics/cropT7_otsu_res.png> <./pics/cropT27_
+ [22 <./pics/cropT2_otsu_res.png> <./pics/cropT7_otsu_res.png> <./pics/cropT27_
 otsu_res.png> <./pics/cropT45_otsu_res.png> <./pics/cropT2_kapur.png> <./pics/c
 ropT7_kapur.png> <./pics/cropT27_kapur.png> <./pics/cropT45_kapur.png> <./pics/
 cropT2_kapur_res.png> <./pics/cropT7_kapur_res.png> <./pics/cropT27_kapur_res.p
 ng> <./pics/cropT45_kapur_res.png>]
-<pics/cropT2_niblack_res.png, id=385, 495.35063pt x 495.35063pt>
+<pics/cropT2_niblack_res.png, id=415, 495.35063pt x 495.35063pt>
 File: pics/cropT2_niblack_res.png Graphic file (type png)
 <use pics/cropT2_niblack_res.png>
-Package pdftex.def Info: pics/cropT2_niblack_res.png  used on input line 880.
+Package pdftex.def Info: pics/cropT2_niblack_res.png  used on input line 897.
 (pdftex.def)             Requested size: 104.0267pt x 104.0267pt.
-<pics/cropT7_niblack_res.png, id=386, 493.0922pt x 493.0922pt>
+<pics/cropT7_niblack_res.png, id=416, 493.0922pt x 493.0922pt>
 File: pics/cropT7_niblack_res.png Graphic file (type png)
 <use pics/cropT7_niblack_res.png>
-Package pdftex.def Info: pics/cropT7_niblack_res.png  used on input line 883.
+Package pdftex.def Info: pics/cropT7_niblack_res.png  used on input line 900.
 (pdftex.def)             Requested size: 103.55241pt x 103.55241pt.
-<pics/cropT27_niblack_res.png, id=387, 496.85625pt x 496.85625pt>
+<pics/cropT27_niblack_res.png, id=417, 496.85625pt x 496.85625pt>
 File: pics/cropT27_niblack_res.png Graphic file (type png)
 <use pics/cropT27_niblack_res.png>
-Package pdftex.def Info: pics/cropT27_niblack_res.png  used on input line 886.
+Package pdftex.def Info: pics/cropT27_niblack_res.png  used on input line 903.
 (pdftex.def)             Requested size: 104.34288pt x 104.34288pt.
-<pics/cropT45_niblack_res.png, id=388, 493.0922pt x 493.0922pt>
+<pics/cropT45_niblack_res.png, id=418, 493.0922pt x 493.0922pt>
 File: pics/cropT45_niblack_res.png Graphic file (type png)
 <use pics/cropT45_niblack_res.png>
-Package pdftex.def Info: pics/cropT45_niblack_res.png  used on input line 889.
+Package pdftex.def Info: pics/cropT45_niblack_res.png  used on input line 906.
 (pdftex.def)             Requested size: 103.55241pt x 103.55241pt.
-<pics/cropT2_bernsen.png, id=391, 496.10344pt x 496.10344pt>
+<pics/cropT2_bernsen.png, id=421, 496.10344pt x 496.10344pt>
 File: pics/cropT2_bernsen.png Graphic file (type png)
 <use pics/cropT2_bernsen.png>
-Package pdftex.def Info: pics/cropT2_bernsen.png  used on input line 898.
+Package pdftex.def Info: pics/cropT2_bernsen.png  used on input line 915.
 (pdftex.def)             Requested size: 104.18478pt x 104.18478pt.
-<pics/cropT7_bernsen.png, id=392, 490.08093pt x 490.08093pt>
+<pics/cropT7_bernsen.png, id=422, 490.08093pt x 490.08093pt>
 File: pics/cropT7_bernsen.png Graphic file (type png)
 <use pics/cropT7_bernsen.png>
-Package pdftex.def Info: pics/cropT7_bernsen.png  used on input line 901.
+Package pdftex.def Info: pics/cropT7_bernsen.png  used on input line 918.
 (pdftex.def)             Requested size: 102.92003pt x 102.92003pt.
-<pics/cropT27_bernsen.png, id=393, 495.35063pt x 495.35063pt>
+<pics/cropT27_bernsen.png, id=423, 495.35063pt x 495.35063pt>
 File: pics/cropT27_bernsen.png Graphic file (type png)
 <use pics/cropT27_bernsen.png>
-Package pdftex.def Info: pics/cropT27_bernsen.png  used on input line 904.
+Package pdftex.def Info: pics/cropT27_bernsen.png  used on input line 921.
 (pdftex.def)             Requested size: 104.0267pt x 104.0267pt.
-<pics/cropT45_bernsen.png, id=394, 495.35063pt x 495.35063pt>
+<pics/cropT45_bernsen.png, id=424, 495.35063pt x 495.35063pt>
 File: pics/cropT45_bernsen.png Graphic file (type png)
 <use pics/cropT45_bernsen.png>
-Package pdftex.def Info: pics/cropT45_bernsen.png  used on input line 907.
+Package pdftex.def Info: pics/cropT45_bernsen.png  used on input line 924.
 (pdftex.def)             Requested size: 104.0267pt x 104.0267pt.
-<pics/cropT2_bernsen_res.png, id=396, 496.10344pt x 496.10344pt>
+<pics/cropT2_bernsen_res.png, id=426, 496.10344pt x 496.10344pt>
 File: pics/cropT2_bernsen_res.png Graphic file (type png)
 <use pics/cropT2_bernsen_res.png>
-Package pdftex.def Info: pics/cropT2_bernsen_res.png  used on input line 916.
+Package pdftex.def Info: pics/cropT2_bernsen_res.png  used on input line 933.
 (pdftex.def)             Requested size: 104.18478pt x 104.18478pt.
-<pics/cropT7_bernsen_res.png, id=397, 493.0922pt x 493.845pt>
+<pics/cropT7_bernsen_res.png, id=427, 493.0922pt x 493.845pt>
 File: pics/cropT7_bernsen_res.png Graphic file (type png)
 <use pics/cropT7_bernsen_res.png>
-Package pdftex.def Info: pics/cropT7_bernsen_res.png  used on input line 919.
+Package pdftex.def Info: pics/cropT7_bernsen_res.png  used on input line 936.
 (pdftex.def)             Requested size: 103.55241pt x 103.7105pt.
-<pics/cropT27_bernsen_res.png, id=398, 494.59781pt x 494.59781pt>
+<pics/cropT27_bernsen_res.png, id=428, 494.59781pt x 494.59781pt>
 File: pics/cropT27_bernsen_res.png Graphic file (type png)
 <use pics/cropT27_bernsen_res.png>
-Package pdftex.def Info: pics/cropT27_bernsen_res.png  used on input line 922.
+Package pdftex.def Info: pics/cropT27_bernsen_res.png  used on input line 939.
 (pdftex.def)             Requested size: 103.86859pt x 103.86859pt.
-<pics/cropT45_bernsen_res.png, id=399, 491.58656pt x 491.58656pt>
+<pics/cropT45_bernsen_res.png, id=429, 491.58656pt x 491.58656pt>
 File: pics/cropT45_bernsen_res.png Graphic file (type png)
 <use pics/cropT45_bernsen_res.png>
-Package pdftex.def Info: pics/cropT45_bernsen_res.png  used on input line 925.
+Package pdftex.def Info: pics/cropT45_bernsen_res.png  used on input line 942.
 (pdftex.def)             Requested size: 103.23622pt x 103.23622pt.
 
 Underfull \vbox (badness 4242) has occurred while \output is active []
 
- [22 <./pics/cropT2_niblack.png> <./pics/cropT7_niblack.png> <./pics/cropT27_ni
+ [23 <./pics/cropT2_niblack.png> <./pics/cropT7_niblack.png> <./pics/cropT27_ni
 black.png> <./pics/cropT45_niblack.png> <./pics/cropT2_niblack_res.png> <./pics
 /cropT7_niblack_res.png> <./pics/cropT27_niblack_res.png> <./pics/cropT45_nibla
 ck_res.png> <./pics/cropT2_bernsen.png> <./pics/cropT7_bernsen.png> <./pics/cro
-pT27_bernsen.png> <./pics/cropT45_bernsen.png>] [23 <./pics/cropT2_bernsen_res.
+pT27_bernsen.png> <./pics/cropT45_bernsen.png>] [24 <./pics/cropT2_bernsen_res.
 png> <./pics/cropT7_bernsen_res.png> <./pics/cropT27_bernsen_res.png> <./pics/c
-ropT45_bernsen_res.png>] [24]
+ropT45_bernsen_res.png>] [25]
+Underfull \hbox (badness 10000) in paragraph at lines 966--968
+[][]$\T1/cmtt/m/n/12 https : / / www . researchgate . net / publication / 33775
+5994 _ Macrophage _
+ []
 
-LaTeX Warning: Empty `thebibliography' environment on input line 939.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 942.
-[25]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 942.
+("C:\Program Files\MiKTeX 2.9\tex/latex/ucs\uni-32.def"
+File: uni-32.def 2013/05/13 UCS: Unicode data U+2000..U+20FF
+)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 988.
+ [26]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 988.
  (dip_sk.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 942.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 942.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 988.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 988.
 Package rerunfilecheck Info: File `dip_sk.out' has not changed.
-(rerunfilecheck)             Checksum: 1CA20C101F0962A7D5A5AB296BDBBDD7;1335.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 942.
+(rerunfilecheck)             Checksum: 9441F1B3AB8233F541DC6B9D37B6DF05;1568.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 988.
  ) 
 Here is how much of TeX's memory you used:
- 12870 strings out of 492453
- 186215 string characters out of 3129819
+ 13143 strings out of 492453
+ 189301 string characters out of 3129819
  294002 words of memory out of 3000000
- 16817 multiletter control sequences out of 15000+200000
+ 17075 multiletter control sequences out of 15000+200000
  19654 words of font info for 52 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,10n,49p,1043b,541s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 48i,10n,49p,1054b,541s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\maria\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\
 ectt1000.pk> <C:\Users\maria\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/
 ec/dpi600\ecrm1000.pk> <C:\Users\maria\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour
@@ -981,9 +990,9 @@ pe1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
 /amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
 cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6
 .pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on dip_sk.pdf (25 pages, 2752322 bytes).
+Output written on dip_sk.pdf (26 pages, 2773074 bytes).
 PDF statistics:
- 1040 PDF objects out of 1200 (max. 8388607)
- 150 named destinations out of 1000 (max. 500000)
- 383 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1118 PDF objects out of 1200 (max. 8388607)
+ 162 named destinations out of 1000 (max. 500000)
+ 407 words of extra memory for PDF output out of 10000 (max. 10000000)
 

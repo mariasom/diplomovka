@@ -675,7 +675,7 @@ QVector<double> filters::niblackThreshold(QVector<double> data, double timeStep)
 	thresholds.resize(tmp1.size());
 	for (int i = p; i < height + p; i++)
 		for (int j = p; j < width + p; j++) 
-			thresholds[j * widthR + i] = tmp1[j * widthR + i] + 0.18*tmp2[j * widthR + i];  //thresholds
+			thresholds[j * widthR + i] = tmp1[j * widthR + i] + 0.18*tmp2[j * widthR + i];  
 	tmp = reflection(data);
 
 	double cminv = 50/255.;
@@ -701,10 +701,10 @@ QVector<double> filters::niblackThreshold(QVector<double> data, double timeStep)
 			if (tmp[j * widthR + i] <= thresholds[j * widthR + i])
 				tmp1[j * widthR + i] = 0;
 			else
-				tmp1[j * widthR + i] = 1;
+				tmp1[j * widthR + i] = 255;
 
 	 tmp1 = antireflection(tmp1);
-	 tmp1 = changeRangeOfData(tmp1);
+	 // tmp1 = changeRangeOfData(tmp1);
 	return tmp1;
 }
 
@@ -719,6 +719,7 @@ QVector<double> filters::pow2(QVector<double> data) {
 
 QVector<double> filters::bernsenThreshold(QVector<double> data) {
 	QVector<double> tmp, cont, thrshld;
+
 	int cmin = 40;
 	int r = p*p;
 	tmp = reflection(data);
@@ -728,8 +729,8 @@ QVector<double> filters::bernsenThreshold(QVector<double> data) {
 	for (int j = 0; j < widthR; j++) {
 		for (int i = 0; i < heightR; i++) {
 			double Imin = 300, Imax = -1, c;
-			for (int ii = i - r; ii <= i + r; ii++)
-				for (int jj = j - r; jj <= j + r; jj++) {
+			for (int ii = i - p; ii <= i + p; ii++)
+				for (int jj = j - p; jj <= j + p; jj++) {
 					if (pow(i - ii, 2) + pow(j - jj, 2) <= r) {
 						if (tmp[jj * widthR + ii] < Imin)
 							Imin = tmp.at(jj * widthR + ii);
@@ -804,5 +805,151 @@ QVector<double>  filters::cutDataAt(QVector<double> z, double value) {
 				tmp[width * j + i] = value;
 		}
 
+	return tmp;
+}
+
+QVector<double> filters::hybBernsenAndNiblack(QVector<double> data, double timeStep) {
+	QVector<double> tmp, cont, thrshld;
+	QVector<double> tmp1, tmp2;
+	double r2 = p * p;
+	double cmin = 50 / 255.;
+	
+	tmp1 = heatImpl(data, timeStep); 
+	tmp2 = heatImpl(pow2(data), timeStep); 
+	tmp = reflection(data);
+	cont.resize(tmp.length());
+	thrshld.resize(tmp.length());
+	int q = 0;
+	for (int j = 0; j < widthR; j++) {
+		for (int i = 0; i < heightR; i++) {
+			double Imin = 300, Imax = -1, c;
+			for (int ii = i - p; ii <= i + p; ii++)
+				for (int jj = j - p; jj <= j + p; jj++) {
+					if (pow(i - ii, 2) + pow(j - jj, 2) <= r2) {
+						if (tmp[jj * widthR + ii] < Imin)
+							Imin = tmp.at(jj * widthR + ii);
+						if (tmp[jj * widthR + ii] > Imax)
+							Imax = tmp.at(jj * widthR + ii);
+					}
+				}
+			cont[j * widthR + i] = Imax - Imin;
+			if (cont[j * widthR + i] >= cmin)
+				thrshld[j * widthR + i] = tmp1[j * widthR + i] + 0.18*tmp2[j * widthR + i];
+			else
+				thrshld[j * widthR + i] = q;
+		}
+	}
+
+	for (int j = 0; j < widthR; j++) {
+		for (int i = 0; i < heightR; i++) {
+			if (cont[j * widthR + i] < cmin) {
+				if (thrshld[j * widthR + i] < cmin)
+					tmp[j * widthR + i] = 0;
+				else
+					tmp[j * widthR + i] = 255;
+			}
+			else {
+				if (tmp[j * widthR + i] < thrshld[j * widthR + i])
+					tmp[j * widthR + i] = 0;
+				else  tmp[j * widthR + i] = 255;
+			}
+		}
+	}
+	tmp = antireflection(tmp);
+	return tmp;
+}
+
+QVector<double> filters::sauvolaThreshold(QVector<double> data, double timeStep) {
+	QVector<double> tmp, tmp1, tmp2, thresholds;
+	double TT = 20 / 255., r2 = p * p;
+	double m = 70 / 255.;
+	double d = 20 / 255.;
+	tmp1 = heatImpl(data, timeStep); //u
+	tmp2 = heatImpl(pow2(data), timeStep); //uu
+	double sigmaMax = 128 / 255.;
+	thresholds.resize(tmp1.size());
+	for (int i = p; i < height + p; i++)
+		for (int j = p; j < width + p; j++)
+			thresholds[j * widthR + i] = tmp1[j * widthR + i] * (1 + 0.18*((tmp2[j * widthR + i]/sigmaMax) - 1));
+	tmp = reflection(data);
+
+	double cminv = 50 / 255.;
+	for (int i = p; i < height + p; i++) {
+		for (int j = p; j < width + p; j++) {
+			double min = 10, max = -1;
+			for (int ii = i - p; ii <= i + p; ii++)
+				for (int jj = j - p; jj <= j + p; jj++)
+					if (pow(i - ii, 2) + pow(j - jj, 2) <= r2) {
+						if (tmp[jj * widthR + ii] < min)
+							min = tmp.at(jj * widthR + ii);
+						if (tmp[jj * widthR + ii] > max)
+							max = tmp.at(jj * widthR + ii);
+					}
+			double pom = 0.5*(min + max);
+			if (pom < cminv)
+				thresholds[j * widthR + i] = 1;
+		}
+	}
+
+	for (int i = p; i < height + p; i++)
+		for (int j = p; j < width + p; j++)
+			if (tmp[j * widthR + i] <= thresholds[j * widthR + i])
+				tmp1[j * widthR + i] = 0;
+			else
+				tmp1[j * widthR + i] = 255;
+
+	tmp1 = antireflection(tmp1);
+	return tmp1;
+}
+
+QVector<double> filters::hybBernsenAndSauvola(QVector<double> data, double timeStep) {
+	QVector<double> tmp, cont, thrshld;
+	QVector<double> tmp1, tmp2;
+	double r2 = p * p;
+	double cmin = 50 / 255.;
+
+	tmp1 = heatImpl(data, timeStep);
+	tmp2 = heatImpl(pow2(data), timeStep);
+	tmp = reflection(data);
+	cont.resize(tmp.length());
+	thrshld.resize(tmp.length());
+	int q = 0;
+	double sigmaMax = 128 / 255.;
+	for (int j = 0; j < widthR; j++) {
+		for (int i = 0; i < heightR; i++) {
+			double Imin = 300, Imax = -1, c;
+			for (int ii = i - p; ii <= i + p; ii++)
+				for (int jj = j - p; jj <= j + p; jj++) {
+					if (pow(i - ii, 2) + pow(j - jj, 2) <= r2) {
+						if (tmp[jj * widthR + ii] < Imin)
+							Imin = tmp.at(jj * widthR + ii);
+						if (tmp[jj * widthR + ii] > Imax)
+							Imax = tmp.at(jj * widthR + ii);
+					}
+				}
+			cont[j * widthR + i] = Imax - Imin;
+			if (cont[j * widthR + i] >= cmin)
+				thrshld[j * widthR + i] = tmp1[j * widthR + i] * (1 + 0.18*((tmp2[j * widthR + i] / sigmaMax) - 1));
+			else
+				thrshld[j * widthR + i] = q;
+		}
+	}
+
+	for (int j = 0; j < widthR; j++) {
+		for (int i = 0; i < heightR; i++) {
+			if (cont[j * widthR + i] < cmin) {
+				if (thrshld[j * widthR + i] < cmin)
+					tmp[j * widthR + i] = 0;
+				else
+					tmp[j * widthR + i] = 255;
+			}
+			else {
+				if (tmp[j * widthR + i] < thrshld[j * widthR + i])
+					tmp[j * widthR + i] = 0;
+				else  tmp[j * widthR + i] = 255;
+			}
+		}
+	}
+	tmp = antireflection(tmp);
 	return tmp;
 }

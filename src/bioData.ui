@@ -67,7 +67,6 @@
      </property>
      <addaction name="actionAll"/>
      <addaction name="separator"/>
-     <addaction name="actionFileInfo"/>
      <addaction name="actionData"/>
      <addaction name="action2DFilters"/>
      <addaction name="action3DFilters"/>
@@ -79,7 +78,7 @@
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionDocumentation"/>
+    <addaction name="actionHelp"/>
     <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuFile"/>
@@ -120,12 +119,12 @@
     <string>About</string>
    </property>
   </action>
-  <action name="actionDocumentation">
+  <action name="actionHelp">
    <property name="checkable">
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Documentation</string>
+    <string>Help</string>
    </property>
   </action>
   <action name="actionFileInfo">
@@ -439,6 +438,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionAbout</sender>
+   <signal>triggered()</signal>
+   <receiver>bioData</receiver>
+   <slot>actionAbout()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>435</x>
+     <y>345</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionHelp</sender>
+   <signal>triggered()</signal>
+   <receiver>bioData</receiver>
+   <slot>actionHelp()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>435</x>
+     <y>345</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>actionOpenFile()</slot>
@@ -460,5 +491,6 @@
   <slot>action3DFilters()</slot>
   <slot>action2Dvtkbinary()</slot>
   <slot>action2Dvtkascii()</slot>
+  <slot>actionHelp()</slot>
  </slots>
 </ui>

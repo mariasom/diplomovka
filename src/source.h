@@ -76,16 +76,8 @@ public:
 	void create3Ddata(QVector<double> z);
 	double getZMin(int i) { return zMin.at(i); };
 	double getZMax(int i) { return zMax.at(i); };
-	void remove2DFiltData(int i) { 
-		std::cout << "Dlzka pred: " << dataFilt.length() << endl;
-		dataFilt.remove(i);
-		std::cout << "Dlzka po: " << dataFilt.length() << endl;
-	};
-	void remove3DFiltData(int i) { 
-		std::cout << "Dlzka pred: " << data3DFilt.length() << endl;
-		data3DFilt.remove(i); 
-		std::cout << "Dlzka po: " << data3DFilt.length() << endl;
-	};
+	void remove2DFiltData(int i) { dataFilt.remove(i); };
+	void remove3DFiltData(int i) { data3DFilt.remove(i); };
 
 	void addFiltData(QVector<unsigned char> &addData);
 	void add3DData(QVector<double> &addData);

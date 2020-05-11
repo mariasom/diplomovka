@@ -58,5 +58,8 @@ public:
 	QVector<double> thresholdFunction(QVector<unsigned char> initConData);
 	QVector<double> bernsenThreshold(QVector<double> data);
 	QVector<unsigned char> dataDifference(QVector<unsigned char> tData);
-	QVector<double>  filters::cutDataAt(QVector<double> z, double value);
+	QVector<double>  cutDataAt(QVector<double> z, double value);
+	QVector<double> hybBernsenAndNiblack(QVector<double> data, double timeStep);
+	QVector<double> sauvolaThreshold(QVector<double> data, double timeStep);
+	QVector<double> hybBernsenAndSauvola(QVector<double> data, double timeStep);
 };
