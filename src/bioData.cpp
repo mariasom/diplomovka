@@ -314,7 +314,7 @@ void bioData::actionpgm() {
 			tmp,
 			tr("Images (*.pgm)"));
 		cout << fileName1.toStdString() << endl;
-		fTmp->save_ascii(fileName1, dataTree->currentIndex().row());
+		_file.at(currentWin)->save_ascii(fileName1, dataTree->currentIndex().row());
 	}
 	else {
 		QMessageBox mbox;
@@ -332,7 +332,7 @@ void bioData::action3Dvtkbinary() {
 			tmp,
 			tr("VTK Files (*.vtk *.vtp)"));
 		cout << fileName1.toStdString() << endl;
-		_file.at(_file.size() - 1)->saveVtk3D(fileName1, dataTree->currentIndex().row(), true);
+		_file.at(currentWin)->saveVtk3D(fileName1, dataTree->currentIndex().row(), true);
 		//fTmp->save_ascii(fileName1, dataTree->currentIndex().row());
 	}
 	else {
@@ -351,7 +351,7 @@ void bioData::action3Dvtkascii() {
 			tmp,
 			tr("VTK Files (*.vtk *.vtp)"));
 		cout << fileName1.toStdString() << endl;
-		_file.at(_file.size() - 1)->saveVtk3D(fileName1, dataTree->currentIndex().row(), false);
+		_file.at(currentWin)->saveVtk3D(fileName1, dataTree->currentIndex().row(), false);
 		//fTmp->save_ascii(fileName1, dataTree->currentIndex().row());
 	}
 	else {
@@ -370,7 +370,7 @@ void bioData::action2Dvtkbinary() {
 			tmp,
 			tr("VTK Files (*.vtk *.vtp)"));
 		cout << fileName1.toStdString() << endl;
-		_file.at(_file.size() - 1)->saveVtk2D(fileName1, dataTree->currentIndex().row(), true);
+		_file.at(currentWin)->saveVtk2D(fileName1, dataTree->currentIndex().row(), true);
 	}
 	else {
 		QMessageBox mbox;
@@ -388,7 +388,7 @@ void bioData::action2Dvtkascii() {
 			tmp,
 			tr("VTK Files (*.vtk *.vtp)"));
 		cout << fileName1.toStdString() << endl;
-		_file.at(_file.size() - 1)->saveVtk2D(fileName1, dataTree->currentIndex().row(), false);
+		_file.at(currentWin)->saveVtk2D(fileName1, dataTree->currentIndex().row(), false);
 	}
 	else {
 		QMessageBox mbox;
@@ -400,8 +400,9 @@ void bioData::action2Dvtkascii() {
 // save screenshot
 void bioData::saveScreenShot() {
 	QString tmp = dataTree->currentItem()->text(0) + ".png";
-	QString fn = QFileDialog::getSaveFileName(this, "Save file", tmp, ".png");
-	_vWidget.at(_vWidget.size() - 1)->saveScreenShot(fn);
+	QString fn = QFileDialog::getSaveFileName(this, "Save file", tmp, "Image Files(*.png *.jpg *.bmp)");
+	std::cout << fn.toStdString() << endl;
+	_vWidget.at(currentWin)->saveScreenShot(fn);
 }
 
 void bioData::createFileDock(QString name, QString path, int width, int height) {
@@ -797,17 +798,18 @@ void bioData::subsurfClicked() {
 
 			tmp = filter.subSurf(
 				filter.distFunctSign(
-					filter.dataToDouble(_file.at(currentWin)->getFiltData(dataTree->currentIndex().row()))),
+					filter.boundary(
+						filter.dataToDouble(_file.at(currentWin)->getFiltData(dataTree->currentIndex().row())))),
 				filter.changeRangeOfData(
 					filter.dataToInt((_file.at(currentWin)->getFiltData(dataTree->currentIndex().row())))),
-				sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());
+				timeStepsSubsurf->value() ,sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());
 
 		} else if (initialCBox->currentIndex() == 1) {
 			tmp = filter.subSurf(
 				filter.thresholdFunction(_file.at(currentWin)->getFiltData(dataTree->currentIndex().row())),
 				filter.changeRangeOfData(
 					filter.dataToInt(filter.dataDifference(_file.at(currentWin)->getFiltData(dataTree->currentIndex().row())))),
-				sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());
+				timeStepsSubsurf->value(), sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());
 		}
 		_file.at(currentWin)->add3DData(tmp);
 		_file.at(currentWin)->create3Ddata(_file.at(currentWin)->get3DData(_file.at(currentWin)->getSize3DData() - 1));
@@ -843,7 +845,7 @@ void bioData::actionDistFunc() {
 		ui->statusbar->showMessage("Computing...");
 		qApp->processEvents();
 		filters filter(_file.at(currentWin)->getWidth(), _file.at(currentWin)->getHeight(), _file.at(currentWin)->getOrigData());
-		QVector<double> tmp = filter.distFunct(filter.dataToDouble(_file.at(currentWin)->getFiltData(dataTree->currentIndex().row())));
+		QVector<double> tmp = filter.distFunct(filter.boundary(filter.dataToDouble(_file.at(currentWin)->getFiltData(dataTree->currentIndex().row()))));
 		_file.at(currentWin)->add3DData(tmp);
 		_file.at(currentWin)->create3Ddata(_file.at(currentWin)->get3DData(_file.at(currentWin)->getSize3DData() - 1));
 		_file.at(currentWin)->colorPolyData(colorCBox->currentIndex());
@@ -884,7 +886,7 @@ void bioData::actionSignDistFunc() {
 		ui->statusbar->showMessage("Computing...");
 		qApp->processEvents();
 		filters filter(_file.at(currentWin)->getWidth(), _file.at(currentWin)->getHeight(), _file.at(currentWin)->getOrigData());
-		QVector<double> tmp = filter.distFunctSign(filter.dataToDouble(_file.at(currentWin)->getFiltData(dataTree->currentIndex().row()))); 
+		QVector<double> tmp = filter.distFunctSign(filter.boundary(filter.dataToDouble(_file.at(currentWin)->getFiltData(dataTree->currentIndex().row()))));
 		_file.at(currentWin)->add3DData(tmp);
 		_file.at(currentWin)->create3Ddata(_file.at(currentWin)->get3DData(_file.at(currentWin)->getSize3DData() - 1));
 		_file.at(currentWin)->colorPolyData(colorCBox->currentIndex());
@@ -1014,22 +1016,17 @@ void bioData::actionCloseFiles() {
 	qApp->processEvents();
 
 	if (mdiArea->subWindowList().length() > 0) {
-
-		/*_file.remove(currentWin);
-		_winParam.remove(currentWin);
-		_vWidget.remove(currentWin);
-		_subW.at(currentWin)->close();
-		winListView->model()->removeRow(currentWin);
-		winListView->setCurrentRow(0);
-		if (winListView->count() == 1)
-			windowsDock->hide();*/
 		
 		for (int i = 0; i < _subW.length(); i++) {
 			_file.remove(i);
 			_winParam.remove(i);
 			_vWidget.remove(i);
+			_subW.at(i);
+			winListView->model()->removeRow(i);
 		}
 		mdiArea->closeAllSubWindows();
+		dataTree->clear();
+		winListView->clear();
 		hideAllDocks();
 	}
 	else {
@@ -1140,10 +1137,12 @@ void bioData::createLocThrshldGB() {
 
 void bioData::setDefaultValues() {
 	// subsurf param
+	timeStepsSubsurf->setRange(1, 200);
+	timeStepsSubsurf->setValue(10);
 	sigmaSubsurf->setRange(0.0001, 1000.0);
 	sigmaSubsurf->setDecimals(3);
 	sigmaSubsurf->setSingleStep(0.1);
-	sigmaSubsurf->setValue(1);
+	sigmaSubsurf->setValue(0.25);
 	tauSubsurf->setRange(0.0001, 1000.0);
 	tauSubsurf->setDecimals(3);
 	tauSubsurf->setSingleStep(0.1);
@@ -1151,7 +1150,7 @@ void bioData::setDefaultValues() {
 	kSubsurf->setRange(0.00001, 999999.0);
 	kSubsurf->setDecimals(2);
 	kSubsurf->setSingleStep(0.5);
-	kSubsurf->setValue(1000);
+	kSubsurf->setValue(200);
 
 	// niblack param
 	niblackTimeStepSB->setRange(0.0001, 1000.0);
@@ -1164,6 +1163,30 @@ void bioData::setDefaultValues() {
 	// bernsen param
 	bernsenMaskSB->setRange(1, 50);
 	bernsenMaskSB->setValue(2);
+
+	// sauvola 
+	sauvolaTimeStepSB->setRange(0.0001, 1000.0);
+	sauvolaTimeStepSB->setDecimals(5);
+	sauvolaTimeStepSB->setSingleStep(0.1);
+	sauvolaTimeStepSB->setValue(5.0);
+	sauvolaMaskSB->setRange(1, 50);
+	sauvolaMaskSB->setValue(3);
+
+	// hybrid nbb
+	NBaBrenTimeStepSB->setRange(0.0001, 1000.0);
+	NBaBrenTimeStepSB->setDecimals(5);
+	NBaBrenTimeStepSB->setSingleStep(0.1);
+	NBaBrenTimeStepSB->setValue(5.0);
+	NBaBrenMaskSB->setRange(1, 50);
+	NBaBrenMaskSB->setValue(3);
+
+	// hybrid sbb
+	SaBrenTimeStepSB->setRange(0.0001, 1000.0);
+	SaBrenTimeStepSB->setDecimals(5);
+	SaBrenTimeStepSB->setSingleStep(0.1);
+	SaBrenTimeStepSB->setValue(5.0);
+	SaBrenMaskSB->setRange(1, 50);
+	SaBrenMaskSB->setValue(3);
 
 	//contours 
 	numCont3DSB->setRange(1, 1000);
@@ -1182,6 +1205,8 @@ void bioData::setDefaultValues() {
 	// cut at
 	cutDataAtSB->setRange(-100, 100);
 	cutDataAtSB->setValue(-8);
+
+
 }
 
 void bioData::thresholdInitConClicked() {

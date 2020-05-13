@@ -332,12 +332,10 @@ void viewerWidget::cut1Contour(vtkSmartPointer<vtkPolyData> polydata, double zVa
 
 void viewerWidget::optContourOnID(double zValue) {
 	renderer->GetViewProps()->RemoveAllItems();
-	cutterActor->GetProperty()->SetLineWidth(3);
+	cutterActor->GetProperty()->SetLineWidth(5);
 	cutterActor->SetPosition(0, 0, abs(zValue));
 	renderer->AddActor(actor2D);
 	renderer->AddActor(cutterActor);
-	if (axes)
-		renderer->AddActor(cubeAxesActor);
 	renderer->SetBackground(1, 1, 1);
 	renderWindow->Render();
 	resetCam();

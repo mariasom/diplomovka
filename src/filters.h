@@ -51,7 +51,7 @@ public:
 	QVector<double> distFunct(QVector<double> data);
 	QVector<double> distFunctSign(QVector<double> data);
 	QVector<QVector<float>> makeTables(int K, QVector<float> histN);
-	QVector<double> subSurf(QVector<double> data, QVector<double> tData, double sigma, double tau, double k); //sigma - size of lin. time steps, tau - nonlinear time steps, k - sensitivity coeficient
+	QVector<double> subSurf(QVector<double> data, QVector<double> tData, int steps, double sigma, double tau, double k); //sigma - size of lin. time steps, tau - nonlinear time steps, k - sensitivity coeficient
 	QVector<double> heatImpl(QVector<double> data, double timeStep);
 	QVector<double> niblackThreshold(QVector<double> data, double timeStep);
 	QVector<double> reflection(QVector<double> data);

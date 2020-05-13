@@ -327,15 +327,14 @@ QVector<double> filters::distFunct(QVector<double> edge) {
 }
 
 QVector<double> filters::distFunctSign(QVector<double> data) {
-	QVector<double> matrix;
-	QVector<double> dist; 
+	QVector<double> matrix, dist; 
 	dist = distFunct(data);
 	matrix.resize(width*height);
 	int col = 255;
 
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
-			if (data.at(j * width + i) == col)
+			if (origData.at(j * width + i) == col)
 				matrix[j * width + i] = dist[j * width + i];
 			else
 				matrix[j * width + i] = (-1*(double)dist[j * width + i]);
@@ -349,10 +348,6 @@ void filters::grad(QVector<double> data, double h, double k, double epsilon) {
 	qw.resize(widthR*heightR);
 	qs.resize(widthR*heightR);
 	qn.resize(widthR*heightR);
-	qe.fill(0);
-	qw.fill(0);
-	qs.fill(0);
-	qn.fill(0);
 	double ux, uy;
 	double s;
 	for (int i = 1; i < widthR - 1; i++) {
@@ -397,10 +392,6 @@ void filters::grad2(QVector<double> data, double h, double k, double epsilon) {
 	qwpm.resize(widthR*heightR);
 	qspm.resize(widthR*heightR);
 	qnpm.resize(widthR*heightR);
-	qepm.fill(0);
-	qwpm.fill(0);
-	qspm.fill(0);
-	qnpm.fill(0);
 	double s;
 	double ux, uy;
 	for (int i = 1; i < widthR - 1; i++) {
@@ -446,11 +437,8 @@ void filters::grad3(QVector<double> data, double h, double k, double epsilon) {
 	qwpm.resize(widthR*heightR);
 	qspm.resize(widthR*heightR);
 	qnpm.resize(widthR*heightR);
-	//qepm.fill(0);
-	//qwpm.fill(0);
-	//qspm.fill(0);
-	//qnpm.fill(0);
-	std::cout << "dlzka original dat v grad: " << origData.length() << endl;
+	QVector<double> oData;
+	oData = reflection(origData);
 	double s1,s2;
 	double ux, uy, uxx, uyy;
 	for (int i = 1; i < widthR - 1; i++) {
@@ -461,9 +449,9 @@ void filters::grad3(QVector<double> data, double h, double k, double epsilon) {
 			ux = (data.at((j + 1) * widthR + (i - 1)) + data.at(j * widthR + (i - 1))
 				- data.at((j + 1) * widthR + (i + 1)) - data.at(j * widthR + (i + 1))) / (4 * h);
 
-			uyy = (origData.at((j + 1) * widthR + i) - origData.at(j * widthR + i)) / h;
-			uxx = (origData.at((j + 1) * widthR + (i - 1)) + origData.at(j * widthR + (i - 1))
-				- origData.at((j + 1) * widthR + (i + 1)) - origData.at(j * widthR + (i + 1))) / (4 * h);
+			uyy = (oData.at((j + 1) * widthR + i) - oData.at(j * widthR + i)) / h;
+			uxx = (oData.at((j + 1) * widthR + (i - 1)) + oData.at(j * widthR + (i - 1))
+				- oData.at((j + 1) * widthR + (i + 1)) - oData.at(j * widthR + (i + 1))) / (4 * h);
 
 			s2 = uxx * uxx + uyy * uyy;
 			s1 = ux * ux + uy * uy;
@@ -474,9 +462,9 @@ void filters::grad3(QVector<double> data, double h, double k, double epsilon) {
 			uy = (data.at((j - 1) * widthR + i) + data.at((j - 1) * widthR + (i - 1))
 				- data.at((j + 1) * widthR + i) - data.at((j + 1) * widthR + (i - 1))) / (4 * h);
 
-			uxx = (origData.at(j * widthR + (i - 1)) - origData.at(j * widthR + i)) / h;
-			uyy = (origData.at((j - 1) * widthR + i) + origData.at((j - 1) * widthR + (i - 1))
-				- origData.at((j + 1) * widthR + i) - origData.at((j + 1) * widthR + (i - 1))) / (4 * h);
+			uxx = (oData.at(j * widthR + (i - 1)) - oData.at(j * widthR + i)) / h;
+			uyy = (oData.at((j - 1) * widthR + i) + oData.at((j - 1) * widthR + (i - 1))
+				- oData.at((j + 1) * widthR + i) - oData.at((j + 1) * widthR + (i - 1))) / (4 * h);
 
 			s2 = uxx * uxx + uyy * uyy;
 			s1 = ux * ux + uy * uy;
@@ -487,9 +475,9 @@ void filters::grad3(QVector<double> data, double h, double k, double epsilon) {
 			uy = (data.at((j + 1) * widthR + (i + 1)) + data.at((j + 1) * widthR + i)
 				- data.at((j - 1) * widthR + (i + 1)) - data.at((j - 1) * widthR + i)) / (4 * h);
 
-			uxx = (origData.at(j * widthR + (i + 1)) - origData.at(j * widthR + i)) / h;
-			uyy = (origData.at((j + 1) * widthR + (i + 1)) + origData.at((j + 1) * widthR + i)
-				- origData.at((j - 1) * widthR + (i + 1)) - origData.at((j - 1) * widthR + i)) / (4 * h);
+			uxx = (oData.at(j * widthR + (i + 1)) - oData.at(j * widthR + i)) / h;
+			uyy = (oData.at((j + 1) * widthR + (i + 1)) + oData.at((j + 1) * widthR + i)
+				- oData.at((j - 1) * widthR + (i + 1)) - oData.at((j - 1) * widthR + i)) / (4 * h);
 
 			s2 = uxx * uxx + uyy * uyy;
 			s1 = ux * ux + uy * uy;
@@ -500,9 +488,9 @@ void filters::grad3(QVector<double> data, double h, double k, double epsilon) {
 			ux = (data.at(j * widthR + (i + 1)) + data.at((j - 1) * widthR + (i + 1))
 				- data.at((j - 1) * widthR + (i - 1)) - data.at(j * widthR + (i - 1))) / (4 * h);
 
-			uyy = (origData.at((j - 1) * widthR + i) - origData.at(j * widthR + i)) / h;
-			uxx = (origData.at(j * widthR + (i + 1)) + origData.at((j - 1) * widthR + (i + 1))
-				- origData.at((j - 1) * widthR + (i - 1)) - origData.at(j * widthR + (i - 1))) / (4 * h);
+			uyy = (oData.at((j - 1) * widthR + i) - oData.at(j * widthR + i)) / h;
+			uxx = (oData.at(j * widthR + (i + 1)) + oData.at((j - 1) * widthR + (i + 1))
+				- oData.at((j - 1) * widthR + (i - 1)) - oData.at(j * widthR + (i - 1))) / (4 * h);
 
 			s2 = uxx * uxx + uyy * uyy;
 			s1 = ux * ux + uy * uy;
@@ -559,7 +547,7 @@ QVector<double> filters::heatImpl(QVector<double> data, double timeStep) {
 	return up;
 }
 
-QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, double sigma, double tau, double k) {
+QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData,int steps , double sigma, double tau, double k) {
 	QVector<double> uk1, up, un, uhe, up1, avg;
 	QVector<double> uf;
 	uf.resize(width*height);
@@ -577,14 +565,9 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, do
 	double w = 1.15;
 
 	uk1 = heatImpl(tData, sigma);
-
-	/*qepm = ae(uk1, true);
-	qwpm = aw(uk1, true);
-	qspm = as(uk1, true);
-	qnpm = an(uk1, true);*/
 	grad3(uk1, h, k, epsilon);
 
-	for (int t = 0; t < 50; t++) {
+	for (int t = 0; t < steps; t++) {
 		double rez = pow(10,6);
 
 		grad(un, h, k, epsilon);

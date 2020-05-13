@@ -13,11 +13,11 @@ subWin::subWin(QString fname) {
 	contourZCon = -1;
 	heatEqTS = 1.0;
 	cutDataAt = -8;
-	sauvolaTimeStep = 1.;
+	sauvolaTimeStep = 5.;
 	sauvolaMask = 3;
-	NBaBrenTimeStep = 1.;
+	NBaBrenTimeStep = 5.;
 	NBaBrenMask = 3;
-	SaBrenTimeStep = 1.;
+	SaBrenTimeStep = 5.;
 	SaBrenMask = 3;
 }
 
