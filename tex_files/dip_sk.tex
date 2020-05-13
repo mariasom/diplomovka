@@ -894,10 +894,8 @@ Na obr. \ref{fig:otsu} je zobrazená globálna prahovacia funkcia popísaná v s
     \label{fig:otsu}
 \end{figure}
 
-Izočiara na obr. \ref{fig:otsu_res} vyznačujúca výsledok segmentácie, síce  Ale môžeme vidieť chýbajúce časti, hlavne na  obr \ref{fig:otsu_res}b a \ref{fig:otsu_res}c. Ďalej si môžeme všimnúť, že niektoré časti makrofágov, boli vďaka segmentácii prepojené aj keď ich prahovacia metóda roztrhla.
+Izočiara na obr. \ref{fig:otsu_sdf} vyznačujúca výsledok segmentácie s počiatočnou podmienkou znamienkovej funkcie vzdialenosti. Môžeme si všimnúť, že niektoré časti makrofágu odtrhnuté aplikáciou prahovacej metódy, sa segmentáciou spätne spojili. 
 
-
-VYSLEDKY - SDF
 \begin{figure}[H]  
  \subfloat[cropT2]   
    {\includegraphics[scale=0.21]{pics/cropT2_otsu_sdf.png}}
@@ -910,12 +908,12 @@ VYSLEDKY - SDF
     \hspace{5px}
      \subfloat[cropT45] 
     {\includegraphics[scale=0.21]{pics/cropT45_otsu_sdf.png}}
-    \caption{Výsledok SUBSURFu za použitia Otsuho prahovacej metódy.}
-    \label{fig:otsu_res}
+    \caption{Výsledok segmentácie. Použitá Otsuho metóda a znamienková funkcia vzdialenosti.}
+    \label{fig:otsu_sdf}
 \end{figure}
 
+Na obr. \ref{fig:otsu_tf} vidíme výsledok segmentačnej metódy s počiatočnou podmienkou vytvorenej z prahovacej metódy. Tato počiatočná podmienka nevylepšila výsledok, výsledky sú takmer totožné s s výsledkom prahovacej metódy. 
 
-VYSLEDKY - SDF
 \begin{figure}[H]  
  \subfloat[cropT2]   
    {\includegraphics[scale=0.21]{pics/cropT2_otsu_tf.png}}
@@ -924,15 +922,15 @@ VYSLEDKY - SDF
     {\includegraphics[scale=0.21]{pics/cropT7_otsu_tf.png}}
     \hspace{5px}
      \subfloat[cropT27] 
-    {\includegraphics[scale=0.21]{pics/cropT27_otsu_tf.png}}
+    {\includegraphics[scale=0.21]{pics/tst.png}}
     \hspace{5px}
      \subfloat[cropT45] 
-    {\includegraphics[scale=0.21]{pics/cropT45_otsu_tf.png}}
-    \caption{Výsledok SUBSURFu za použitia Otsuho prahovacej metódy.}
-    \label{fig:otsu_res}
+    {\includegraphics[scale=0.21]{pics/cropT45_otsu_tf1.png}}
+    \caption{Výsledok segmentácie. Použitá Otsuho metóda a prahovacia funkcia.}
+    \label{fig:otsu_tf}
 \end{figure}
 
-Prahovacia metóda popísana v sekcii \ref{kapurM} získaná pomocou maximálnej entropie, je zobrazená na obr. \ref{fig:kapur}. Môžeme si všimnúť, že prah tejto metódy bol určený o niečo vhodnejšie ako predošlá metóda, napríklad v prípade \ref{fig:kapur}c. Avšak pri tomto type prahovacej metódy sa môže stať,že objekt bude obsahovať aj časti, ktoré pôvodne nemal.
+Ďalšou globálnou prahovacou metódou popísanoou v sekcii \ref{kapurM}, je metóda získavájúca prah pomocou maximálnej entropie zobrazená na obr. \ref{fig:kapur}. Môžeme si všimnúť, že prah tejto metódy bol určený o niečo vhodnejšie(vyšší) ako predošlá metóda, napríklad v prípade \ref{fig:kapur}c. Avšak pri tomto type prahovacej metódy sa môže stať,že makrofág bude obsahovať aj časti, ktoré pôvodne nemal.
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
@@ -950,46 +948,49 @@ Prahovacia metóda popísana v sekcii \ref{kapurM} získaná pomocou maximálnej
     \label{fig:kapur}
 \end{figure}
 
-Vo výsledkoch \ref{fig:kapur_res} vidieť, že objekty obsahujú niektoré časti, ktoré sa na pôvodných dátach nenachádzajú a v niektorých prípadoch neobsahujú všetky časti. 
+Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie vzdialenosti obr. \ref{fig:kapur_sdf}.
 
-VYSLEDKY - SDF
-
-\begin{figure}[H]  
-\subfloat[cropT2]   
-   {\includegraphics[scale=0.2]{pics/cropT2_kapur_sdf.png}}
-    \hspace{5px}
-    \subfloat[cropT7] 
-   {\includegraphics[scale=0.2]{pics/cropT7_kapur_sdf.png}}
-    \hspace{5px}
-     \subfloat[cropT27] 
-    {\includegraphics[scale=0.2]{pics/cropT27_kapur_sdf.png}}
-    \hspace{5px}
-    \subfloat[cropT45] 
-   {\includegraphics[scale=0.2]{pics/cropT45_kapur_sdf.png}}
-    \caption{Výsledok SUBSURFu pre prah nájdený pomocou maximálnej entropie.}
-    \label{fig:kapur_res}
-\end{figure}
-
-VYSLEDKY - TF
+%Vo výsledkoch \ref{fig:kapur_res} vidieť, že objekty obsahujú niektoré časti, ktoré sa na pôvodných dátach nenachádzajú a v niektorých prípadoch neobsahujú všetky časti. 
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
-   {\includegraphics[scale=0.2]{pics/cropT2_kapur_tf.png}}
+   {\includegraphics[scale=0.21]{pics/cropT2_kapur_sdf.png}}
     \hspace{5px}
     \subfloat[cropT7] 
-   {\includegraphics[scale=0.2]{pics/cropT7_kapur_tf.png}}
+   {\includegraphics[scale=0.21]{pics/cropT7_kapur_sdf.png}}
     \hspace{5px}
      \subfloat[cropT27] 
-    {\includegraphics[scale=0.2]{pics/cropT27_kapur_tf.png}}
+    {\includegraphics[scale=0.21]{pics/cropT27_kapur_sdf.png}}
     \hspace{5px}
     \subfloat[cropT45] 
-   {\includegraphics[scale=0.2]{pics/cropT45_kapur_tf.png}}
-    \caption{Výsledok SUBSURFu pre prah nájdený pomocou maximálnej entropie.}
-    \label{fig:kapur_res}
+   {\includegraphics[scale=0.21]{pics/cropT45_kapur_sdf.png}}
+    \caption{Výsledok segmentácie. Použité prahovanie pomocou maximálnej entropie a znamienková funkcia vzdialenosti.}
+    \label{fig:kapur_sdf}
 \end{figure}
 
+Výsledky segmentačnej metódy s počiatočnou podmienkou prahovacej funkcie obr. \ref{fig:kapur_tf}.
 
-Pri Niblackovej prahovacej metóde popísanej v sekcii \ref{niblack}, s veľkosťou časového kroku $\sigma = 50.0,$ a veľkosťou masky $m = 3$ sú zobrazené na obr. \ref{fig:niblack}. 
+\begin{figure}[H]  
+\subfloat[cropT2]   
+   {\includegraphics[scale=0.21]{pics/cropT2_kapur_tf.png}}
+    \hspace{5px}
+    \subfloat[cropT7] 
+   {\includegraphics[scale=0.21]{pics/cropT7_kapur_tf.png}}
+    \hspace{5px}
+     \subfloat[cropT27] 
+    {\includegraphics[scale=0.21]{pics/cropT27_kapur_tf.png}}
+    \hspace{5px}
+    \subfloat[cropT45] 
+   {\includegraphics[scale=0.21]{pics/cropT45_kapur_tf.png}}
+    \caption{Výsledok segmentácie. Použité prahovanie pomocou maximálnej entropie a prahovacia funkcia.}
+    \label{fig:kapur_tf}
+\end{figure}
+
+Lepšie výsledky získane z aplikácii globálnych prahovacích metód na dáta získame pomocou nájdením prahu cez maximálnu entropiu a počiatočnej podmienky znamienkovej funkcie vzdialenosti.
+
+V prípade lokálnych adaptívnych prahovacích metód je prah vyhodnotený pre každý pixel osobitne na nejakom fixne danom okolí, teda sme predpokladali, že výsledky týchto metód budú viac vyhovovať pri segmentácii makrofágov. Avšak tieto metódy závisia minimálne od veľkosti masky $m$, na ktorej sa počíta hodnota prahu pre zvolený pixel. A v niektorých prípadoch sa približne počíta priemer intenzít a smerodajná odchýlka pomocou jedného kroku rovnice vedenia, teda ďalším prametrom je veľkosť časového kroku $\sigma$. 
+
+Prvou lokálnou adaptívnou metódou bola Niblackovej prahovacia metóda popísaná v sekcii \ref{niblack}.  S veľkosťou časového kroku $\sigma = 50.0,$ a veľkosťou masky $m = 3$, výsledky sú zobrazené na obr. \ref{fig:niblack}. 
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
@@ -1003,13 +1004,13 @@ Pri Niblackovej prahovacej metóde popísanej v sekcii \ref{niblack}, s veľkos�
     \hspace{5px}
     \subfloat[cropT45] 
    {\includegraphics[scale=0.21]{pics/cropT45_niblack.png}}
-    \caption{Zvolené originálne dáta.}
+    \caption{Niblackova segmentačná metóda.}
     \label{fig:niblack}
 \end{figure}
 
-Na obr. \ref{fig:niblack_res} sú zobrazené výsledky, kde boli na vstup ako okrajová podmienka uvažované dáta z Niblackovej prahovacej metódy.
+Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie vzdialenosti obr. \ref{fig:niblack_sdf}.
 
-VYSLEDKY - SDF
+%Na obr. \ref{fig:niblack_sdf} sú zobrazené výsledky, kde boli na vstup ako okrajová podmienka uvažované dáta z Niblackovej prahovacej metódy.
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
@@ -1023,11 +1024,11 @@ VYSLEDKY - SDF
     \hspace{5px}
     \subfloat[cropT45] 
    {\includegraphics[scale=0.21]{pics/cropT45_niblack_sdf.png}}
-    \caption{Niblackova prahovacia metóda.}
-    \label{fig:niblack_res}
+    \caption{Výsledok segmentácie. Použitá Niblacková metóda a znamienková funkcia vzdialenosti.}
+    \label{fig:niblack_sdf}
 \end{figure}
 
-VYSLEDKY - TF
+Výsledky segmentačnej metódy s počiatočnou podmienkou prahovacej funkcie obr. \ref{fig:niblack_tf}.
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
@@ -1041,11 +1042,11 @@ VYSLEDKY - TF
     \hspace{5px}
     \subfloat[cropT45] 
    {\includegraphics[scale=0.21]{pics/cropT45_niblack_tf.png}}
-    \caption{Niblackova prahovacia metóda.}
-    \label{fig:niblack_res}
+    \caption{Výsledok segmentácie. Použitá Niblacková metóda a prahovacia funkcia.}
+    \label{fig:niblack_tf}
 \end{figure}
 
-Bernsenova prahovacia funkcia popísaná v sekcii \ref{bernsenM}, pre veľkosť okna $m = 2$, je zobrazená ma \ref{fig:bernsen}.
+Bernsenova prahovacia funkcia popísaná v sekcii \ref{bernsenM}, pre veľkosť masky $m = 2$, je zobrazená na \ref{fig:bernsen}.
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
@@ -1059,13 +1060,13 @@ Bernsenova prahovacia funkcia popísaná v sekcii \ref{bernsenM}, pre veľkosť 
     \hspace{5px}
     \subfloat[cropT45] 
    {\includegraphics[scale=0.21]{pics/cropT45_bernsen.png}}
-    \caption{Zvolené originálne dáta.}
+    \caption{Bernsenova metóda.}
     \label{fig:bernsen}
 \end{figure}
 
-Výsledky segmentačnej metódy, s kde na vstup sme brali Bernsenove prahovanie na obr. \ref{fig:bernsen_res}.
+Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie vzdialenosti obr. \ref{fig:bernsen_sdf}.
 
-VYSLEDKY - SDF
+%Výsledky segmentačnej metódy, s kde na vstup sme brali Bernsenove prahovanie na obr. \ref{fig:bernsen_res}.
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
@@ -1079,11 +1080,11 @@ VYSLEDKY - SDF
     \hspace{5px}
     \subfloat[cropT45] 
    {\includegraphics[scale=0.21]{pics/cropT45_bernsen_sdf.png}}
-    \caption{Zvolené originálne dáta.}
-    \label{fig:bernsen_res}
+    \caption{Výsledok segmentácie. Použitá Bernsenova metóda a znamienková funkcia vzdialenosti.}
+    \label{fig:bernsen_sdf}
 \end{figure}
 
-VYSLEDKY - TF
+Výsledky segmentačnej metódy s počiatočnou podmienkou prahovacej funkcie obr. \ref{fig:bernsen_tf}.
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
@@ -1097,11 +1098,11 @@ VYSLEDKY - TF
     \hspace{5px}
     \subfloat[cropT45] 
    {\includegraphics[scale=0.21]{pics/cropT45_bernsen_tf.png}}
-    \caption{Zvolené originálne dáta.}
-    \label{fig:bernsen_res}
+    \caption{Výsledok segmentácie. Použitá Bernsenova metóda a prahovacia funkcia.}
+    \label{fig:bernsen_tf}
 \end{figure}
 
-HYBRID 1
+Sauvolova prahovacia metóda bola upravená z Niblackovej a používa sa primárne primárne používa na prahovanie textových obrazových dát ale keďže makrofágy sú malé a majú nepravidelné tvary, tak sme predpokladali, že aj v našom prípade by mohla dávať uspokojivé výsledky. Na obr. \ref{fig:sauvola} s parametrami $\sigma = 50.0$ a $m = 3$.
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
@@ -1115,11 +1116,11 @@ HYBRID 1
     \hspace{5px}
     \subfloat[cropT45] 
    {\includegraphics[scale=0.21]{pics/cropT45_sauvola.png}}
-    \caption{Zvolené originálne dáta.}
-    \label{fig:bernsen_res}
+    \caption{Sauvolova metóda.}
+    \label{fig:sauvola}
 \end{figure}
 
-VYSLEDKY - SDF
+Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie vzdialenosti obr. \ref{fig:sauvola_sdf}.
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
@@ -1133,11 +1134,11 @@ VYSLEDKY - SDF
     \hspace{5px}
     \subfloat[cropT45] 
    {\includegraphics[scale=0.21]{pics/cropT45_sauvola_sdf.png}}
-    \caption{Zvolené originálne dáta.}
-    \label{fig:bernsen_res}
+    \caption{Výsledok segmentácie. Použitá Sauvolova metóda a znamienková funkcia vzdialenosti.}
+    \label{fig:sauvola_sdf}
 \end{figure}
 
-VYSLEDKY - TF
+Výsledky segmentačnej metódy s počiatočnou podmienkou prahovacej funkcie obr. \ref{fig:sauvola_tf}.
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
@@ -1151,11 +1152,13 @@ VYSLEDKY - TF
     \hspace{5px}
     \subfloat[cropT45] 
    {\includegraphics[scale=0.21]{pics/cropT45_sauvola_tf.png}}
-    \caption{Zvolené originálne dáta.}
-    \label{fig:bernsen_res}
+    \caption{Výsledok segmentácie. Použitá Sauvolova metóda a prahovacia funkcia.}
+    \label{fig:sauvola_tf}
 \end{figure}
 
-SAVOULA
+Poslednými dvomi lokálnymi adaptívnymi metódami sú hybridné metódy používajúce princípy z predchádzajúcich metód. 
+ 
+Prvá hybridná metóda vznikla kombináciou Bernsenovej a Nicblackovej metódy na obr. \ref{fig:hybrid1}  sú zobrazené výsledky s parametrami $\sigma = 50.0$ a $m = 3$.
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
@@ -1169,11 +1172,11 @@ SAVOULA
     \hspace{5px}
     \subfloat[cropT45] 
    {\includegraphics[scale=0.21]{pics/cropT45_hybrid_nb.png}}
-    \caption{Zvolené originálne dáta.}
-    \label{fig:bernsen_res}
+    \caption{Hybridná Bernsenova a Niblackova metóda.}
+    \label{fig:hybrid1}
 \end{figure}
 
-VYSLEDKY - SDF
+Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie vzdialenosti obr. \ref{fig:hybrid1_sdf}.
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
@@ -1187,11 +1190,11 @@ VYSLEDKY - SDF
     \hspace{5px}
     \subfloat[cropT45] 
    {\includegraphics[scale=0.21]{pics/cropT45_hybrid_nb_sdf.png}}
-    \caption{Zvolené originálne dáta.}
-    \label{fig:bernsen_res}
+    \caption{Výsledok segmentácie. Použitá prvá hybridná prahovacia metóda a znamienková funkcia vzdialenosti.}
+    \label{fig:hybrid1_sdf}
 \end{figure}
 
-VYSLEDKY - TF
+Výsledky segmentačnej metódy s počiatočnou podmienkou prahovacej funkcie obr. \ref{fig:hybrid1_tf}.
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
@@ -1205,11 +1208,11 @@ VYSLEDKY - TF
     \hspace{5px}
     \subfloat[cropT45] 
    {\includegraphics[scale=0.21]{pics/cropT45_hybrid_nb_tf.png}}
-    \caption{Zvolené originálne dáta.}
-    \label{fig:bernsen_res}
+    \caption{Výsledok segmentácie. Použitá prvá hybridná metóda a prahovacia funkcia.}
+    \label{fig:hybrid1_tf}
 \end{figure}
 
-HYBRID 2
+Druhá hybridná metóda vznikla kombináciou Bernsenovej a Sauvolovej metódy na obr. \ref{fig:hybrid2}  sú zobrazené výsledky s parametrami $\sigma = 50.0$ a $m = 3$.
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
@@ -1223,11 +1226,11 @@ HYBRID 2
     \hspace{5px}
     \subfloat[cropT45] 
    {\includegraphics[scale=0.21]{pics/cropT45_hybrid_sb.png}}
-    \caption{Zvolené originálne dáta.}
-    \label{fig:bernsen_res}
+    \caption{Hybridná Bernsenova a Sauvolova metóda.}
+    \label{fig:hybrid2}
 \end{figure}
 
-VYSLEDKY - SDF
+Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie vzdialenosti obr. \ref{fig:hybrid2_sdf}.
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
@@ -1241,11 +1244,11 @@ VYSLEDKY - SDF
     \hspace{5px}
     \subfloat[cropT45] 
    {\includegraphics[scale=0.21]{pics/cropT45_hybrid_sb_sdf.png}}
-    \caption{Zvolené originálne dáta.}
-    \label{fig:bernsen_res}
+    \caption{Výsledok segmentácie. Použitá druhá hybridná prahovacia metóda a znamienková funkcia vzdialenosti.}
+    \label{fig:hybrid2_sdf}
 \end{figure}
 
-VYSLEDKY - TF
+Výsledky segmentačnej metódy s počiatočnou podmienkou prahovacej funkcie obr. \ref{fig:hybrid2_tf}.
 
 \begin{figure}[H]  
 \subfloat[cropT2]   
@@ -1259,13 +1262,13 @@ VYSLEDKY - TF
     \hspace{5px}
     \subfloat[cropT45] 
    {\includegraphics[scale=0.21]{pics/cropT45_hybrid_sb_tf.png}}
-    \caption{Zvolené originálne dáta.}
-    \label{fig:bernsen_res}
+    \caption{Výsledok segmentácie. Použitá druhá hybridná metóda a prahovacia funkcia.}
+    \label{fig:hybrid2_tf}
 \end{figure}
 
-Z výsledkov na obrázkoch \ref{fig:otsu_res}, \ref{fig:kapur_res}, \ref{fig:niblack_res} a \ref{fig:bernsen_res}  vidieť, že vhodnejšími prahovacími metódami vstupujúcimi do segmentácie ako okrajová podmienka sú lokálne adaptívne prahovacie metódy. A Niblackova prahovacia metóda obr. obr \ref{fig:niblack} najlepšie popisuje skutočný tvar makrofágu.
+%Z výsledkov na obrázkoch \ref{fig:otsu_res}, \ref{fig:kapur_res}, \ref{fig:niblack_res} a \ref{fig:bernsen_res}  vidieť, že vhodnejšími prahovacími metódami vstupujúcimi do segmentácie ako okrajová podmienka sú lokálne adaptívne prahovacie metódy. A Niblackova prahovacia metóda obr. obr \ref{fig:niblack} najlepšie popisuje skutočný tvar makrofágu.
 
-Zo zobrazených výsledkov si môžeme všimnúť že s, že síce počiatočná podmienka prahovej funkcie zachytí drobné výbežky makrováfu ptresnejšie ao 
+Zo zobrazených výsledkov si môžeme všimnúť že výrazne lepšie výsledky získame pri použití niektorých z lokálnych adaptívnych prahovacích metód, ale napr. pri Sauvolovej prahovaciej funkcii je zachytený aj šum patriaci pozadiu. Najlepšie výsledky sme dostali použitím počiatočnej podmienky z hybridnej Bernsenovej a Niblackovej prahovej funkcie. 
 
 \newpage
 \section{Záver}

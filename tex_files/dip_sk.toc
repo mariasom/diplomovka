@@ -19,4 +19,4 @@
 \contentsline {subsection}{\numberline {4.4}Grafick\IeC {\'e} u\IeC {\v z}\IeC {\'\i }vate\IeC {\v l}sk\IeC {\'e} rozhranie}{14}{subsection.4.4}% 
 \contentsline {subsection}{\numberline {4.5}Pr\IeC {\'\i }klad pou\IeC {\v z}itia}{18}{subsection.4.5}% 
 \contentsline {section}{\numberline {5}V\IeC {\'y}sledky}{22}{section.5}% 
-\contentsline {section}{\numberline {6}Z\IeC {\'a}ver}{31}{section.6}% 
+\contentsline {section}{\numberline {6}Z\IeC {\'a}ver}{30}{section.6}% 

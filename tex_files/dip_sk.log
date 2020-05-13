@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.27)  13 MAY 2020 00:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.27)  13 MAY 2020 14:31
 entering extended mode
 **./dip_sk.tex
 (dip_sk.tex
@@ -514,47 +514,7 @@ Package hyperref Info: Option `colorlinks' set `true' on input line 93.
 Package hyperref Warning: Option `pdftex' has already been used,
 (hyperref)                setting the option has no effect on input line 93.
 
-(dip_sk.aux
-
-LaTeX Warning: Label `fig:otsu_res' multiply defined.
-
-
-LaTeX Warning: Label `fig:kapur_res' multiply defined.
-
-
-LaTeX Warning: Label `fig:niblack_res' multiply defined.
-
-
-LaTeX Warning: Label `fig:bernsen_res' multiply defined.
-
-
-LaTeX Warning: Label `fig:bernsen_res' multiply defined.
-
-
-LaTeX Warning: Label `fig:bernsen_res' multiply defined.
-
-
-LaTeX Warning: Label `fig:bernsen_res' multiply defined.
-
-
-LaTeX Warning: Label `fig:bernsen_res' multiply defined.
-
-
-LaTeX Warning: Label `fig:bernsen_res' multiply defined.
-
-
-LaTeX Warning: Label `fig:bernsen_res' multiply defined.
-
-
-LaTeX Warning: Label `fig:bernsen_res' multiply defined.
-
-
-LaTeX Warning: Label `fig:bernsen_res' multiply defined.
-
-
-LaTeX Warning: Label `fig:bernsen_res' multiply defined.
-
-)
+(dip_sk.aux)
 \openout1 = `dip_sk.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 97.
@@ -884,479 +844,467 @@ File: pics/cropT45_otsu.png Graphic file (type png)
 <use pics/cropT45_otsu.png>
 Package pdftex.def Info: pics/cropT45_otsu.png  used on input line 892.
 (pdftex.def)             Requested size: 103.3943pt x 103.3943pt.
-<pics/cropT2_otsu_sdf.png, id=380, 499.11469pt x 499.11469pt>
+<pics/cropT2_otsu_sdf.png, id=378, 499.11469pt x 499.11469pt>
 File: pics/cropT2_otsu_sdf.png Graphic file (type png)
 <use pics/cropT2_otsu_sdf.png>
-Package pdftex.def Info: pics/cropT2_otsu_sdf.png  used on input line 903.
+Package pdftex.def Info: pics/cropT2_otsu_sdf.png  used on input line 901.
 (pdftex.def)             Requested size: 104.81717pt x 104.81717pt.
-<pics/cropT7_otsu_sdf.png, id=381, 493.845pt x 493.845pt>
+<pics/cropT7_otsu_sdf.png, id=379, 493.845pt x 493.845pt>
 File: pics/cropT7_otsu_sdf.png Graphic file (type png)
 <use pics/cropT7_otsu_sdf.png>
-Package pdftex.def Info: pics/cropT7_otsu_sdf.png  used on input line 906.
+Package pdftex.def Info: pics/cropT7_otsu_sdf.png  used on input line 904.
 (pdftex.def)             Requested size: 103.7105pt x 103.7105pt.
-<pics/cropT27_otsu_sdf.png, id=382, 496.85625pt x 496.85625pt>
+<pics/cropT27_otsu_sdf.png, id=380, 496.85625pt x 496.85625pt>
 File: pics/cropT27_otsu_sdf.png Graphic file (type png)
 <use pics/cropT27_otsu_sdf.png>
-Package pdftex.def Info: pics/cropT27_otsu_sdf.png  used on input line 909.
+Package pdftex.def Info: pics/cropT27_otsu_sdf.png  used on input line 907.
 (pdftex.def)             Requested size: 104.34288pt x 104.34288pt.
-<pics/cropT45_otsu_sdf.png, id=383, 491.58656pt x 492.33937pt>
+<pics/cropT45_otsu_sdf.png, id=381, 491.58656pt x 492.33937pt>
 File: pics/cropT45_otsu_sdf.png Graphic file (type png)
 <use pics/cropT45_otsu_sdf.png>
-Package pdftex.def Info: pics/cropT45_otsu_sdf.png  used on input line 912.
+Package pdftex.def Info: pics/cropT45_otsu_sdf.png  used on input line 910.
 (pdftex.def)             Requested size: 103.23622pt x 103.3943pt.
  [22 <./pics/cropT2.png> <./pics/cropT7.png> <./pics/cropT27.png> <./pics/cropT
 45.png> <./pics/cropT2_otsu.png> <./pics/cropT7_otsu.png> <./pics/cropT27_otsu.
 png> <./pics/cropT45_otsu.png>]
-<pics/cropT2_otsu_tf.png, id=407, 500.62032pt x 499.11469pt>
+<pics/cropT2_otsu_tf.png, id=406, 500.62032pt x 499.11469pt>
 File: pics/cropT2_otsu_tf.png Graphic file (type png)
 <use pics/cropT2_otsu_tf.png>
-Package pdftex.def Info: pics/cropT2_otsu_tf.png  used on input line 921.
+Package pdftex.def Info: pics/cropT2_otsu_tf.png  used on input line 919.
 (pdftex.def)             Requested size: 105.13336pt x 104.81717pt.
-<pics/cropT7_otsu_tf.png, id=408, 499.11469pt x 499.11469pt>
+<pics/cropT7_otsu_tf.png, id=407, 499.11469pt x 499.11469pt>
 File: pics/cropT7_otsu_tf.png Graphic file (type png)
 <use pics/cropT7_otsu_tf.png>
-Package pdftex.def Info: pics/cropT7_otsu_tf.png  used on input line 924.
+Package pdftex.def Info: pics/cropT7_otsu_tf.png  used on input line 922.
 (pdftex.def)             Requested size: 104.81717pt x 104.81717pt.
-<pics/cropT27_otsu_tf.png, id=409, 496.10344pt x 495.35063pt>
-File: pics/cropT27_otsu_tf.png Graphic file (type png)
-<use pics/cropT27_otsu_tf.png>
-Package pdftex.def Info: pics/cropT27_otsu_tf.png  used on input line 927.
-(pdftex.def)             Requested size: 104.18478pt x 104.0267pt.
-<pics/cropT45_otsu_tf.png, id=410, 500.62032pt x 499.8675pt>
-File: pics/cropT45_otsu_tf.png Graphic file (type png)
-<use pics/cropT45_otsu_tf.png>
-Package pdftex.def Info: pics/cropT45_otsu_tf.png  used on input line 930.
-(pdftex.def)             Requested size: 105.13336pt x 104.97527pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 921--931
-[][]  [][]  [][]
- []
-
-<pics/cropT2_kapur.png, id=414, 493.0922pt x 493.0922pt>
+<pics/tst.png, id=408, 493.845pt x 494.59781pt>
+File: pics/tst.png Graphic file (type png)
+<use pics/tst.png>
+Package pdftex.def Info: pics/tst.png  used on input line 925.
+(pdftex.def)             Requested size: 103.7105pt x 103.86859pt.
+<pics/cropT45_otsu_tf1.png, id=409, 498.36188pt x 498.36188pt>
+File: pics/cropT45_otsu_tf1.png Graphic file (type png)
+<use pics/cropT45_otsu_tf1.png>
+Package pdftex.def Info: pics/cropT45_otsu_tf1.png  used on input line 928.
+(pdftex.def)             Requested size: 104.65907pt x 104.65907pt.
+<pics/cropT2_kapur.png, id=413, 493.0922pt x 493.0922pt>
 File: pics/cropT2_kapur.png Graphic file (type png)
 <use pics/cropT2_kapur.png>
-Package pdftex.def Info: pics/cropT2_kapur.png  used on input line 939.
+Package pdftex.def Info: pics/cropT2_kapur.png  used on input line 937.
 (pdftex.def)             Requested size: 103.55241pt x 103.55241pt.
-<pics/cropT7_kapur.png, id=415, 493.0922pt x 493.845pt>
+<pics/cropT7_kapur.png, id=414, 493.0922pt x 493.845pt>
 File: pics/cropT7_kapur.png Graphic file (type png)
 <use pics/cropT7_kapur.png>
-Package pdftex.def Info: pics/cropT7_kapur.png  used on input line 942.
+Package pdftex.def Info: pics/cropT7_kapur.png  used on input line 940.
 (pdftex.def)             Requested size: 103.55241pt x 103.7105pt.
-<pics/cropT27_kapur.png, id=416, 491.58656pt x 491.58656pt>
+<pics/cropT27_kapur.png, id=415, 491.58656pt x 491.58656pt>
 File: pics/cropT27_kapur.png Graphic file (type png)
 <use pics/cropT27_kapur.png>
-Package pdftex.def Info: pics/cropT27_kapur.png  used on input line 945.
+Package pdftex.def Info: pics/cropT27_kapur.png  used on input line 943.
 (pdftex.def)             Requested size: 103.23622pt x 103.23622pt.
-<pics/cropT45_kapur.png, id=417, 494.59781pt x 495.35063pt>
+<pics/cropT45_kapur.png, id=416, 494.59781pt x 495.35063pt>
 File: pics/cropT45_kapur.png Graphic file (type png)
 <use pics/cropT45_kapur.png>
-Package pdftex.def Info: pics/cropT45_kapur.png  used on input line 948.
+Package pdftex.def Info: pics/cropT45_kapur.png  used on input line 946.
 (pdftex.def)             Requested size: 103.86859pt x 104.0267pt.
-[23 <./pics/cropT2_otsu_sdf.png> <./pics/cropT7_otsu_sdf.png> <./pics/cropT27_o
-tsu_sdf.png> <./pics/cropT45_otsu_sdf.png> <./pics/cropT2_otsu_tf.png> <./pics/
-cropT7_otsu_tf.png> <./pics/cropT27_otsu_tf.png> <./pics/cropT45_otsu_tf.png>]
-<pics/cropT2_kapur_sdf.png, id=441, 496.85625pt x 496.85625pt>
+<pics/cropT2_kapur_sdf.png, id=418, 496.85625pt x 496.85625pt>
 File: pics/cropT2_kapur_sdf.png Graphic file (type png)
 <use pics/cropT2_kapur_sdf.png>
-Package pdftex.def Info: pics/cropT2_kapur_sdf.png  used on input line 959.
-(pdftex.def)             Requested size: 99.36948pt x 99.36948pt.
-<pics/cropT7_kapur_sdf.png, id=442, 499.11469pt x 498.36188pt>
+Package pdftex.def Info: pics/cropT2_kapur_sdf.png  used on input line 957.
+(pdftex.def)             Requested size: 104.34288pt x 104.34288pt.
+<pics/cropT7_kapur_sdf.png, id=419, 499.11469pt x 498.36188pt>
 File: pics/cropT7_kapur_sdf.png Graphic file (type png)
 <use pics/cropT7_kapur_sdf.png>
-Package pdftex.def Info: pics/cropT7_kapur_sdf.png  used on input line 962.
-(pdftex.def)             Requested size: 99.82115pt x 99.67061pt.
-<pics/cropT27_kapur_sdf.png, id=443, 496.85625pt x 496.85625pt>
+Package pdftex.def Info: pics/cropT7_kapur_sdf.png  used on input line 960.
+(pdftex.def)             Requested size: 104.81717pt x 104.65907pt.
+<pics/cropT27_kapur_sdf.png, id=420, 496.85625pt x 496.85625pt>
 File: pics/cropT27_kapur_sdf.png Graphic file (type png)
 <use pics/cropT27_kapur_sdf.png>
-Package pdftex.def Info: pics/cropT27_kapur_sdf.png  used on input line 965.
-(pdftex.def)             Requested size: 99.36948pt x 99.36948pt.
-<pics/cropT45_kapur_sdf.png, id=444, 491.58656pt x 490.83376pt>
+Package pdftex.def Info: pics/cropT27_kapur_sdf.png  used on input line 963.
+(pdftex.def)             Requested size: 104.34288pt x 104.34288pt.
+<pics/cropT45_kapur_sdf.png, id=421, 491.58656pt x 490.83376pt>
 File: pics/cropT45_kapur_sdf.png Graphic file (type png)
 <use pics/cropT45_kapur_sdf.png>
-Package pdftex.def Info: pics/cropT45_kapur_sdf.png  used on input line 968.
-(pdftex.def)             Requested size: 98.31557pt x 98.16501pt.
-<pics/cropT2_kapur_tf.png, id=445, 496.85625pt x 496.85625pt>
+Package pdftex.def Info: pics/cropT45_kapur_sdf.png  used on input line 966.
+(pdftex.def)             Requested size: 103.23622pt x 103.07813pt.
+ [23 <./pics/cropT2_otsu_sdf.png> <./pics/cropT7_otsu_sdf.png> <./pics/cropT27_
+otsu_sdf.png> <./pics/cropT45_otsu_sdf.png> <./pics/cropT2_otsu_tf.png> <./pics
+/cropT7_otsu_tf.png> <./pics/tst.png> <./pics/cropT45_otsu_tf1.png> <./pics/cro
+pT2_kapur.png> <./pics/cropT7_kapur.png> <./pics/cropT27_kapur.png> <./pics/cro
+pT45_kapur.png>]
+<pics/cropT2_kapur_tf.png, id=454, 496.85625pt x 496.85625pt>
 File: pics/cropT2_kapur_tf.png Graphic file (type png)
 <use pics/cropT2_kapur_tf.png>
-Package pdftex.def Info: pics/cropT2_kapur_tf.png  used on input line 977.
-(pdftex.def)             Requested size: 99.36948pt x 99.36948pt.
-<pics/cropT7_kapur_tf.png, id=446, 496.85625pt x 496.10344pt>
+Package pdftex.def Info: pics/cropT2_kapur_tf.png  used on input line 975.
+(pdftex.def)             Requested size: 104.34288pt x 104.34288pt.
+<pics/cropT7_kapur_tf.png, id=455, 496.85625pt x 496.10344pt>
 File: pics/cropT7_kapur_tf.png Graphic file (type png)
 <use pics/cropT7_kapur_tf.png>
-Package pdftex.def Info: pics/cropT7_kapur_tf.png  used on input line 980.
-(pdftex.def)             Requested size: 99.36948pt x 99.21892pt.
-<pics/cropT27_kapur_tf.png, id=447, 496.85625pt x 496.10344pt>
+Package pdftex.def Info: pics/cropT7_kapur_tf.png  used on input line 978.
+(pdftex.def)             Requested size: 104.34288pt x 104.18478pt.
+<pics/cropT27_kapur_tf.png, id=456, 496.85625pt x 496.10344pt>
 File: pics/cropT27_kapur_tf.png Graphic file (type png)
 <use pics/cropT27_kapur_tf.png>
-Package pdftex.def Info: pics/cropT27_kapur_tf.png  used on input line 983.
-(pdftex.def)             Requested size: 99.36948pt x 99.21892pt.
-<pics/cropT45_kapur_tf.png, id=448, 495.35063pt x 495.35063pt>
+Package pdftex.def Info: pics/cropT27_kapur_tf.png  used on input line 981.
+(pdftex.def)             Requested size: 104.34288pt x 104.18478pt.
+<pics/cropT45_kapur_tf.png, id=457, 495.35063pt x 495.35063pt>
 File: pics/cropT45_kapur_tf.png Graphic file (type png)
 <use pics/cropT45_kapur_tf.png>
-Package pdftex.def Info: pics/cropT45_kapur_tf.png  used on input line 986.
-(pdftex.def)             Requested size: 99.06836pt x 99.06836pt.
-<pics/cropT2_niblack.png, id=451, 497.60907pt x 497.60907pt>
+Package pdftex.def Info: pics/cropT45_kapur_tf.png  used on input line 984.
+(pdftex.def)             Requested size: 104.0267pt x 104.0267pt.
+<pics/cropT2_niblack.png, id=460, 497.60907pt x 497.60907pt>
 File: pics/cropT2_niblack.png Graphic file (type png)
 <use pics/cropT2_niblack.png>
-Package pdftex.def Info: pics/cropT2_niblack.png  used on input line 996.
+Package pdftex.def Info: pics/cropT2_niblack.png  used on input line 997.
 (pdftex.def)             Requested size: 104.50098pt x 104.50098pt.
-<pics/cropT7_niblack.png, id=452, 493.845pt x 493.845pt>
+<pics/cropT7_niblack.png, id=461, 493.845pt x 493.845pt>
 File: pics/cropT7_niblack.png Graphic file (type png)
 <use pics/cropT7_niblack.png>
-Package pdftex.def Info: pics/cropT7_niblack.png  used on input line 999.
+Package pdftex.def Info: pics/cropT7_niblack.png  used on input line 1000.
 (pdftex.def)             Requested size: 103.7105pt x 103.7105pt.
-<pics/cropT27_niblack.png, id=453, 495.35063pt x 495.35063pt>
+<pics/cropT27_niblack.png, id=462, 495.35063pt x 495.35063pt>
 File: pics/cropT27_niblack.png Graphic file (type png)
 <use pics/cropT27_niblack.png>
-Package pdftex.def Info: pics/cropT27_niblack.png  used on input line 1002.
+Package pdftex.def Info: pics/cropT27_niblack.png  used on input line 1003.
 (pdftex.def)             Requested size: 104.0267pt x 104.0267pt.
-<pics/cropT45_niblack.png, id=454, 493.845pt x 493.845pt>
+<pics/cropT45_niblack.png, id=463, 493.845pt x 493.845pt>
 File: pics/cropT45_niblack.png Graphic file (type png)
 <use pics/cropT45_niblack.png>
-Package pdftex.def Info: pics/cropT45_niblack.png  used on input line 1005.
+Package pdftex.def Info: pics/cropT45_niblack.png  used on input line 1006.
 (pdftex.def)             Requested size: 103.7105pt x 103.7105pt.
-
-[24 <./pics/cropT2_kapur.png> <./pics/cropT7_kapur.png> <./pics/cropT27_kapur.p
-ng> <./pics/cropT45_kapur.png> <./pics/cropT2_kapur_sdf.png> <./pics/cropT7_kap
-ur_sdf.png> <./pics/cropT27_kapur_sdf.png> <./pics/cropT45_kapur_sdf.png> <./pi
-cs/cropT2_kapur_tf.png> <./pics/cropT7_kapur_tf.png> <./pics/cropT27_kapur_tf.p
-ng> <./pics/cropT45_kapur_tf.png>]
-<pics/cropT2_niblack_sdf.png, id=487, 498.36188pt x 497.60907pt>
+ [24 <./pics/cropT2_kapur_sdf.png> <./pics/cropT7_kapur_sdf.png> <./pics/cropT2
+7_kapur_sdf.png> <./pics/cropT45_kapur_sdf.png> <./pics/cropT2_kapur_tf.png> <.
+/pics/cropT7_kapur_tf.png> <./pics/cropT27_kapur_tf.png> <./pics/cropT45_kapur_
+tf.png> <./pics/cropT2_niblack.png> <./pics/cropT7_niblack.png> <./pics/cropT27
+_niblack.png> <./pics/cropT45_niblack.png>]
+<pics/cropT2_niblack_sdf.png, id=495, 498.36188pt x 497.60907pt>
 File: pics/cropT2_niblack_sdf.png Graphic file (type png)
 <use pics/cropT2_niblack_sdf.png>
-Package pdftex.def Info: pics/cropT2_niblack_sdf.png  used on input line 1016.
+Package pdftex.def Info: pics/cropT2_niblack_sdf.png  used on input line 1017.
 (pdftex.def)             Requested size: 104.65907pt x 104.50098pt.
-<pics/cropT7_niblack_sdf.png, id=488, 499.11469pt x 499.11469pt>
+<pics/cropT7_niblack_sdf.png, id=496, 499.11469pt x 499.11469pt>
 File: pics/cropT7_niblack_sdf.png Graphic file (type png)
 <use pics/cropT7_niblack_sdf.png>
-Package pdftex.def Info: pics/cropT7_niblack_sdf.png  used on input line 1019.
+Package pdftex.def Info: pics/cropT7_niblack_sdf.png  used on input line 1020.
 (pdftex.def)             Requested size: 104.81717pt x 104.81717pt.
-<pics/cropT27_niblack_sdf.png, id=489, 497.60907pt x 497.60907pt>
+<pics/cropT27_niblack_sdf.png, id=497, 497.60907pt x 497.60907pt>
 File: pics/cropT27_niblack_sdf.png Graphic file (type png)
 <use pics/cropT27_niblack_sdf.png>
-Package pdftex.def Info: pics/cropT27_niblack_sdf.png  used on input line 1022.
+Package pdftex.def Info: pics/cropT27_niblack_sdf.png  used on input line 1023.
 
 (pdftex.def)             Requested size: 104.50098pt x 104.50098pt.
-<pics/cropT45_niblack_sdf.png, id=490, 497.60907pt x 497.60907pt>
+<pics/cropT45_niblack_sdf.png, id=498, 497.60907pt x 497.60907pt>
 File: pics/cropT45_niblack_sdf.png Graphic file (type png)
 <use pics/cropT45_niblack_sdf.png>
-Package pdftex.def Info: pics/cropT45_niblack_sdf.png  used on input line 1025.
+Package pdftex.def Info: pics/cropT45_niblack_sdf.png  used on input line 1026.
 
 (pdftex.def)             Requested size: 104.50098pt x 104.50098pt.
-<pics/cropT2_niblack_tf.png, id=491, 495.35063pt x 496.10344pt>
+<pics/cropT2_niblack_tf.png, id=500, 495.35063pt x 496.10344pt>
 File: pics/cropT2_niblack_tf.png Graphic file (type png)
 <use pics/cropT2_niblack_tf.png>
-Package pdftex.def Info: pics/cropT2_niblack_tf.png  used on input line 1034.
+Package pdftex.def Info: pics/cropT2_niblack_tf.png  used on input line 1035.
 (pdftex.def)             Requested size: 104.0267pt x 104.18478pt.
-<pics/cropT7_niblack_tf.png, id=492, 499.11469pt x 498.36188pt>
+<pics/cropT7_niblack_tf.png, id=501, 499.11469pt x 498.36188pt>
 File: pics/cropT7_niblack_tf.png Graphic file (type png)
 <use pics/cropT7_niblack_tf.png>
-Package pdftex.def Info: pics/cropT7_niblack_tf.png  used on input line 1037.
+Package pdftex.def Info: pics/cropT7_niblack_tf.png  used on input line 1038.
 (pdftex.def)             Requested size: 104.81717pt x 104.65907pt.
-<pics/cropT27_niblack_tf.png, id=493, 496.85625pt x 496.85625pt>
+<pics/cropT27_niblack_tf.png, id=502, 496.85625pt x 496.85625pt>
 File: pics/cropT27_niblack_tf.png Graphic file (type png)
 <use pics/cropT27_niblack_tf.png>
-Package pdftex.def Info: pics/cropT27_niblack_tf.png  used on input line 1040.
+Package pdftex.def Info: pics/cropT27_niblack_tf.png  used on input line 1041.
 (pdftex.def)             Requested size: 104.34288pt x 104.34288pt.
-<pics/cropT45_niblack_tf.png, id=494, 496.10344pt x 496.10344pt>
+<pics/cropT45_niblack_tf.png, id=503, 496.10344pt x 496.10344pt>
 File: pics/cropT45_niblack_tf.png Graphic file (type png)
 <use pics/cropT45_niblack_tf.png>
-Package pdftex.def Info: pics/cropT45_niblack_tf.png  used on input line 1043.
+Package pdftex.def Info: pics/cropT45_niblack_tf.png  used on input line 1044.
 (pdftex.def)             Requested size: 104.18478pt x 104.18478pt.
-<pics/cropT2_bernsen.png, id=497, 496.10344pt x 496.10344pt>
+<pics/cropT2_bernsen.png, id=506, 496.10344pt x 496.10344pt>
 File: pics/cropT2_bernsen.png Graphic file (type png)
 <use pics/cropT2_bernsen.png>
-Package pdftex.def Info: pics/cropT2_bernsen.png  used on input line 1052.
+Package pdftex.def Info: pics/cropT2_bernsen.png  used on input line 1053.
 (pdftex.def)             Requested size: 104.18478pt x 104.18478pt.
-<pics/cropT7_bernsen.png, id=498, 490.08093pt x 490.08093pt>
+<pics/cropT7_bernsen.png, id=507, 490.08093pt x 490.08093pt>
 File: pics/cropT7_bernsen.png Graphic file (type png)
 <use pics/cropT7_bernsen.png>
-Package pdftex.def Info: pics/cropT7_bernsen.png  used on input line 1055.
+Package pdftex.def Info: pics/cropT7_bernsen.png  used on input line 1056.
 (pdftex.def)             Requested size: 102.92003pt x 102.92003pt.
-<pics/cropT27_bernsen.png, id=499, 495.35063pt x 495.35063pt>
+<pics/cropT27_bernsen.png, id=508, 495.35063pt x 495.35063pt>
 File: pics/cropT27_bernsen.png Graphic file (type png)
 <use pics/cropT27_bernsen.png>
-Package pdftex.def Info: pics/cropT27_bernsen.png  used on input line 1058.
+Package pdftex.def Info: pics/cropT27_bernsen.png  used on input line 1059.
 (pdftex.def)             Requested size: 104.0267pt x 104.0267pt.
-<pics/cropT45_bernsen.png, id=500, 495.35063pt x 495.35063pt>
+<pics/cropT45_bernsen.png, id=509, 495.35063pt x 495.35063pt>
 File: pics/cropT45_bernsen.png Graphic file (type png)
 <use pics/cropT45_bernsen.png>
-Package pdftex.def Info: pics/cropT45_bernsen.png  used on input line 1061.
+Package pdftex.def Info: pics/cropT45_bernsen.png  used on input line 1062.
 (pdftex.def)             Requested size: 104.0267pt x 104.0267pt.
- [25 <./pics/cropT2_niblack.png> <./pics/cropT7_niblack.png> <./pics/cropT27_ni
-black.png> <./pics/cropT45_niblack.png> <./pics/cropT2_niblack_sdf.png> <./pics
-/cropT7_niblack_sdf.png> <./pics/cropT27_niblack_sdf.png> <./pics/cropT45_nibla
-ck_sdf.png> <./pics/cropT2_niblack_tf.png> <./pics/cropT7_niblack_tf.png> <./pi
-cs/cropT27_niblack_tf.png> <./pics/cropT45_niblack_tf.png>]
-<pics/cropT2_bernsen_sdf.png, id=534, 496.10344pt x 495.35063pt>
+<pics/cropT2_bernsen_sdf.png, id=511, 496.10344pt x 495.35063pt>
 File: pics/cropT2_bernsen_sdf.png Graphic file (type png)
 <use pics/cropT2_bernsen_sdf.png>
-Package pdftex.def Info: pics/cropT2_bernsen_sdf.png  used on input line 1072.
+Package pdftex.def Info: pics/cropT2_bernsen_sdf.png  used on input line 1073.
 (pdftex.def)             Requested size: 104.18478pt x 104.0267pt.
-<pics/cropT7_bernsen_sdf.png, id=535, 493.0922pt x 493.845pt>
+<pics/cropT7_bernsen_sdf.png, id=512, 493.0922pt x 493.845pt>
 File: pics/cropT7_bernsen_sdf.png Graphic file (type png)
 <use pics/cropT7_bernsen_sdf.png>
-Package pdftex.def Info: pics/cropT7_bernsen_sdf.png  used on input line 1075.
+Package pdftex.def Info: pics/cropT7_bernsen_sdf.png  used on input line 1076.
 (pdftex.def)             Requested size: 103.55241pt x 103.7105pt.
-<pics/cropT27_bernsen_sdf.png, id=536, 494.59781pt x 495.35063pt>
+<pics/cropT27_bernsen_sdf.png, id=513, 494.59781pt x 495.35063pt>
 File: pics/cropT27_bernsen_sdf.png Graphic file (type png)
 <use pics/cropT27_bernsen_sdf.png>
-Package pdftex.def Info: pics/cropT27_bernsen_sdf.png  used on input line 1078.
+Package pdftex.def Info: pics/cropT27_bernsen_sdf.png  used on input line 1079.
 
 (pdftex.def)             Requested size: 103.86859pt x 104.0267pt.
-<pics/cropT45_bernsen_sdf.png, id=537, 493.845pt x 494.59781pt>
+<pics/cropT45_bernsen_sdf.png, id=514, 493.845pt x 494.59781pt>
 File: pics/cropT45_bernsen_sdf.png Graphic file (type png)
 <use pics/cropT45_bernsen_sdf.png>
-Package pdftex.def Info: pics/cropT45_bernsen_sdf.png  used on input line 1081.
+Package pdftex.def Info: pics/cropT45_bernsen_sdf.png  used on input line 1082.
 
 (pdftex.def)             Requested size: 103.7105pt x 103.86859pt.
-<pics/cropT2_bernsen_tf.png, id=538, 496.85625pt x 496.85625pt>
+ [25 <./pics/cropT2_niblack_sdf.png> <./pics/cropT7_niblack_sdf.png> <./pics/cr
+opT27_niblack_sdf.png> <./pics/cropT45_niblack_sdf.png> <./pics/cropT2_niblack_
+tf.png> <./pics/cropT7_niblack_tf.png> <./pics/cropT27_niblack_tf.png> <./pics/
+cropT45_niblack_tf.png> <./pics/cropT2_bernsen.png> <./pics/cropT7_bernsen.png>
+ <./pics/cropT27_bernsen.png> <./pics/cropT45_bernsen.png>]
+<pics/cropT2_bernsen_tf.png, id=549, 496.85625pt x 496.85625pt>
 File: pics/cropT2_bernsen_tf.png Graphic file (type png)
 <use pics/cropT2_bernsen_tf.png>
-Package pdftex.def Info: pics/cropT2_bernsen_tf.png  used on input line 1090.
+Package pdftex.def Info: pics/cropT2_bernsen_tf.png  used on input line 1091.
 (pdftex.def)             Requested size: 104.34288pt x 104.34288pt.
-<pics/cropT7_bernsen_tf.png, id=539, 496.85625pt x 496.10344pt>
+<pics/cropT7_bernsen_tf.png, id=550, 496.85625pt x 496.10344pt>
 File: pics/cropT7_bernsen_tf.png Graphic file (type png)
 <use pics/cropT7_bernsen_tf.png>
-Package pdftex.def Info: pics/cropT7_bernsen_tf.png  used on input line 1093.
+Package pdftex.def Info: pics/cropT7_bernsen_tf.png  used on input line 1094.
 (pdftex.def)             Requested size: 104.34288pt x 104.18478pt.
-<pics/cropT27_bernsen_tf.png, id=540, 493.0922pt x 493.0922pt>
+<pics/cropT27_bernsen_tf.png, id=551, 493.0922pt x 493.0922pt>
 File: pics/cropT27_bernsen_tf.png Graphic file (type png)
 <use pics/cropT27_bernsen_tf.png>
-Package pdftex.def Info: pics/cropT27_bernsen_tf.png  used on input line 1096.
+Package pdftex.def Info: pics/cropT27_bernsen_tf.png  used on input line 1097.
 (pdftex.def)             Requested size: 103.55241pt x 103.55241pt.
-<pics/cropT45_bernsen_tf.png, id=541, 496.85625pt x 496.85625pt>
+<pics/cropT45_bernsen_tf.png, id=552, 496.85625pt x 496.85625pt>
 File: pics/cropT45_bernsen_tf.png Graphic file (type png)
 <use pics/cropT45_bernsen_tf.png>
-Package pdftex.def Info: pics/cropT45_bernsen_tf.png  used on input line 1099.
+Package pdftex.def Info: pics/cropT45_bernsen_tf.png  used on input line 1100.
 (pdftex.def)             Requested size: 104.34288pt x 104.34288pt.
-<pics/cropT2_sauvola.png, id=542, 497.60907pt x 497.60907pt>
+<pics/cropT2_sauvola.png, id=554, 497.60907pt x 497.60907pt>
 File: pics/cropT2_sauvola.png Graphic file (type png)
 <use pics/cropT2_sauvola.png>
-Package pdftex.def Info: pics/cropT2_sauvola.png  used on input line 1108.
+Package pdftex.def Info: pics/cropT2_sauvola.png  used on input line 1109.
 (pdftex.def)             Requested size: 104.50098pt x 104.50098pt.
-<pics/cropT7_sauvola.png, id=543, 499.11469pt x 498.36188pt>
+<pics/cropT7_sauvola.png, id=555, 499.11469pt x 498.36188pt>
 File: pics/cropT7_sauvola.png Graphic file (type png)
 <use pics/cropT7_sauvola.png>
-Package pdftex.def Info: pics/cropT7_sauvola.png  used on input line 1111.
+Package pdftex.def Info: pics/cropT7_sauvola.png  used on input line 1112.
 (pdftex.def)             Requested size: 104.81717pt x 104.65907pt.
-<pics/cropT27_sauvola.png, id=544, 496.85625pt x 496.85625pt>
+<pics/cropT27_sauvola.png, id=556, 496.85625pt x 496.85625pt>
 File: pics/cropT27_sauvola.png Graphic file (type png)
 <use pics/cropT27_sauvola.png>
-Package pdftex.def Info: pics/cropT27_sauvola.png  used on input line 1114.
+Package pdftex.def Info: pics/cropT27_sauvola.png  used on input line 1115.
 (pdftex.def)             Requested size: 104.34288pt x 104.34288pt.
-<pics/cropT45_sauvola.png, id=545, 496.10344pt x 496.10344pt>
+<pics/cropT45_sauvola.png, id=557, 496.10344pt x 496.10344pt>
 File: pics/cropT45_sauvola.png Graphic file (type png)
 <use pics/cropT45_sauvola.png>
-Package pdftex.def Info: pics/cropT45_sauvola.png  used on input line 1117.
+Package pdftex.def Info: pics/cropT45_sauvola.png  used on input line 1118.
 (pdftex.def)             Requested size: 104.18478pt x 104.18478pt.
- [26 <./pics/cropT2_bernsen.png> <./pics/cropT7_bernsen.png> <./pics/cropT27_be
-rnsen.png> <./pics/cropT45_bernsen.png> <./pics/cropT2_bernsen_sdf.png> <./pics
-/cropT7_bernsen_sdf.png> <./pics/cropT27_bernsen_sdf.png> <./pics/cropT45_berns
-en_sdf.png> <./pics/cropT2_bernsen_tf.png> <./pics/cropT7_bernsen_tf.png> <./pi
-cs/cropT27_bernsen_tf.png> <./pics/cropT45_bernsen_tf.png>]
-<pics/cropT2_sauvola_sdf.png, id=577, 498.36188pt x 498.36188pt>
+<pics/cropT2_sauvola_sdf.png, id=559, 498.36188pt x 498.36188pt>
 File: pics/cropT2_sauvola_sdf.png Graphic file (type png)
 <use pics/cropT2_sauvola_sdf.png>
-Package pdftex.def Info: pics/cropT2_sauvola_sdf.png  used on input line 1126.
+Package pdftex.def Info: pics/cropT2_sauvola_sdf.png  used on input line 1127.
 (pdftex.def)             Requested size: 104.65907pt x 104.65907pt.
-<pics/cropT7_sauvola_sdf.png, id=578, 494.59781pt x 494.59781pt>
+<pics/cropT7_sauvola_sdf.png, id=560, 494.59781pt x 494.59781pt>
 File: pics/cropT7_sauvola_sdf.png Graphic file (type png)
 <use pics/cropT7_sauvola_sdf.png>
-Package pdftex.def Info: pics/cropT7_sauvola_sdf.png  used on input line 1129.
+Package pdftex.def Info: pics/cropT7_sauvola_sdf.png  used on input line 1130.
 (pdftex.def)             Requested size: 103.86859pt x 103.86859pt.
-<pics/cropT27_sauvola_sdf.png, id=579, 500.62032pt x 500.62032pt>
+<pics/cropT27_sauvola_sdf.png, id=561, 500.62032pt x 500.62032pt>
 File: pics/cropT27_sauvola_sdf.png Graphic file (type png)
 <use pics/cropT27_sauvola_sdf.png>
-Package pdftex.def Info: pics/cropT27_sauvola_sdf.png  used on input line 1132.
+Package pdftex.def Info: pics/cropT27_sauvola_sdf.png  used on input line 1133.
 
 (pdftex.def)             Requested size: 105.13336pt x 105.13336pt.
-<pics/cropT45_sauvola_sdf.png, id=580, 493.0922pt x 493.845pt>
+<pics/cropT45_sauvola_sdf.png, id=562, 493.0922pt x 493.845pt>
 File: pics/cropT45_sauvola_sdf.png Graphic file (type png)
 <use pics/cropT45_sauvola_sdf.png>
-Package pdftex.def Info: pics/cropT45_sauvola_sdf.png  used on input line 1135.
+Package pdftex.def Info: pics/cropT45_sauvola_sdf.png  used on input line 1136.
 
 (pdftex.def)             Requested size: 103.55241pt x 103.7105pt.
-<pics/cropT2_sauvola_tf.png, id=581, 499.11469pt x 499.11469pt>
+ [26 <./pics/cropT2_bernsen_sdf.png> <./pics/cropT7_bernsen_sdf.png> <./pics/cr
+opT27_bernsen_sdf.png> <./pics/cropT45_bernsen_sdf.png> <./pics/cropT2_bernsen_
+tf.png> <./pics/cropT7_bernsen_tf.png> <./pics/cropT27_bernsen_tf.png> <./pics/
+cropT45_bernsen_tf.png> <./pics/cropT2_sauvola.png> <./pics/cropT7_sauvola.png>
+ <./pics/cropT27_sauvola.png> <./pics/cropT45_sauvola.png>]
+<pics/cropT2_sauvola_tf.png, id=595, 499.11469pt x 499.11469pt>
 File: pics/cropT2_sauvola_tf.png Graphic file (type png)
 <use pics/cropT2_sauvola_tf.png>
-Package pdftex.def Info: pics/cropT2_sauvola_tf.png  used on input line 1144.
+Package pdftex.def Info: pics/cropT2_sauvola_tf.png  used on input line 1145.
 (pdftex.def)             Requested size: 104.81717pt x 104.81717pt.
-<pics/cropT7_sauvola_tf.png, id=582, 494.59781pt x 494.59781pt>
+<pics/cropT7_sauvola_tf.png, id=596, 494.59781pt x 494.59781pt>
 File: pics/cropT7_sauvola_tf.png Graphic file (type png)
 <use pics/cropT7_sauvola_tf.png>
-Package pdftex.def Info: pics/cropT7_sauvola_tf.png  used on input line 1147.
+Package pdftex.def Info: pics/cropT7_sauvola_tf.png  used on input line 1148.
 (pdftex.def)             Requested size: 103.86859pt x 103.86859pt.
-<pics/cropT27_sauvola_tf.png, id=583, 496.10344pt x 495.35063pt>
+<pics/cropT27_sauvola_tf.png, id=597, 496.10344pt x 495.35063pt>
 File: pics/cropT27_sauvola_tf.png Graphic file (type png)
 <use pics/cropT27_sauvola_tf.png>
-Package pdftex.def Info: pics/cropT27_sauvola_tf.png  used on input line 1150.
+Package pdftex.def Info: pics/cropT27_sauvola_tf.png  used on input line 1151.
 (pdftex.def)             Requested size: 104.18478pt x 104.0267pt.
-<pics/cropT45_sauvola_tf.png, id=584, 496.85625pt x 496.10344pt>
+<pics/cropT45_sauvola_tf.png, id=598, 496.85625pt x 496.10344pt>
 File: pics/cropT45_sauvola_tf.png Graphic file (type png)
 <use pics/cropT45_sauvola_tf.png>
-Package pdftex.def Info: pics/cropT45_sauvola_tf.png  used on input line 1153.
+Package pdftex.def Info: pics/cropT45_sauvola_tf.png  used on input line 1154.
 (pdftex.def)             Requested size: 104.34288pt x 104.18478pt.
-<pics/cropT2_hybrid_nb.png, id=585, 493.845pt x 494.59781pt>
+<pics/cropT2_hybrid_nb.png, id=600, 493.845pt x 494.59781pt>
 File: pics/cropT2_hybrid_nb.png Graphic file (type png)
 <use pics/cropT2_hybrid_nb.png>
-Package pdftex.def Info: pics/cropT2_hybrid_nb.png  used on input line 1162.
+Package pdftex.def Info: pics/cropT2_hybrid_nb.png  used on input line 1165.
 (pdftex.def)             Requested size: 103.7105pt x 103.86859pt.
-<pics/cropT7_hybrid_nb.png, id=586, 493.0922pt x 493.845pt>
+<pics/cropT7_hybrid_nb.png, id=601, 493.0922pt x 493.845pt>
 File: pics/cropT7_hybrid_nb.png Graphic file (type png)
 <use pics/cropT7_hybrid_nb.png>
-Package pdftex.def Info: pics/cropT7_hybrid_nb.png  used on input line 1165.
+Package pdftex.def Info: pics/cropT7_hybrid_nb.png  used on input line 1168.
 (pdftex.def)             Requested size: 103.55241pt x 103.7105pt.
-<pics/cropT27_hybrid_nb.png, id=587, 499.11469pt x 499.11469pt>
+<pics/cropT27_hybrid_nb.png, id=602, 499.11469pt x 499.11469pt>
 File: pics/cropT27_hybrid_nb.png Graphic file (type png)
 <use pics/cropT27_hybrid_nb.png>
-Package pdftex.def Info: pics/cropT27_hybrid_nb.png  used on input line 1168.
+Package pdftex.def Info: pics/cropT27_hybrid_nb.png  used on input line 1171.
 (pdftex.def)             Requested size: 104.81717pt x 104.81717pt.
-<pics/cropT45_hybrid_nb.png, id=588, 497.60907pt x 497.60907pt>
+<pics/cropT45_hybrid_nb.png, id=603, 497.60907pt x 497.60907pt>
 File: pics/cropT45_hybrid_nb.png Graphic file (type png)
 <use pics/cropT45_hybrid_nb.png>
-Package pdftex.def Info: pics/cropT45_hybrid_nb.png  used on input line 1171.
+Package pdftex.def Info: pics/cropT45_hybrid_nb.png  used on input line 1174.
 (pdftex.def)             Requested size: 104.50098pt x 104.50098pt.
-
-[27 <./pics/cropT2_sauvola.png> <./pics/cropT7_sauvola.png> <./pics/cropT27_sau
-vola.png> <./pics/cropT45_sauvola.png> <./pics/cropT2_sauvola_sdf.png> <./pics/
-cropT7_sauvola_sdf.png> <./pics/cropT27_sauvola_sdf.png> <./pics/cropT45_sauvol
-a_sdf.png> <./pics/cropT2_sauvola_tf.png> <./pics/cropT7_sauvola_tf.png> <./pic
-s/cropT27_sauvola_tf.png> <./pics/cropT45_sauvola_tf.png>]
-<pics/cropT2_hybrid_nb_sdf.png, id=620, 493.845pt x 494.59781pt>
+<pics/cropT2_hybrid_nb_sdf.png, id=605, 493.845pt x 494.59781pt>
 File: pics/cropT2_hybrid_nb_sdf.png Graphic file (type png)
 <use pics/cropT2_hybrid_nb_sdf.png>
-Package pdftex.def Info: pics/cropT2_hybrid_nb_sdf.png  used on input line 1180
+Package pdftex.def Info: pics/cropT2_hybrid_nb_sdf.png  used on input line 1183
 .
 (pdftex.def)             Requested size: 103.7105pt x 103.86859pt.
-<pics/cropT7_hybrid_nb_sdf.png, id=621, 496.85625pt x 496.85625pt>
+<pics/cropT7_hybrid_nb_sdf.png, id=606, 496.85625pt x 496.85625pt>
 File: pics/cropT7_hybrid_nb_sdf.png Graphic file (type png)
 <use pics/cropT7_hybrid_nb_sdf.png>
-Package pdftex.def Info: pics/cropT7_hybrid_nb_sdf.png  used on input line 1183
+Package pdftex.def Info: pics/cropT7_hybrid_nb_sdf.png  used on input line 1186
 .
 (pdftex.def)             Requested size: 104.34288pt x 104.34288pt.
-<pics/cropT27_hybrid_nb_sdf.png, id=622, 499.11469pt x 498.36188pt>
+<pics/cropT27_hybrid_nb_sdf.png, id=607, 499.11469pt x 498.36188pt>
 File: pics/cropT27_hybrid_nb_sdf.png Graphic file (type png)
 <use pics/cropT27_hybrid_nb_sdf.png>
 Package pdftex.def Info: pics/cropT27_hybrid_nb_sdf.png  used on input line 118
-6.
+9.
 (pdftex.def)             Requested size: 104.81717pt x 104.65907pt.
-<pics/cropT45_hybrid_nb_sdf.png, id=623, 493.0922pt x 493.0922pt>
+<pics/cropT45_hybrid_nb_sdf.png, id=608, 493.0922pt x 493.0922pt>
 File: pics/cropT45_hybrid_nb_sdf.png Graphic file (type png)
 <use pics/cropT45_hybrid_nb_sdf.png>
-Package pdftex.def Info: pics/cropT45_hybrid_nb_sdf.png  used on input line 118
-9.
+Package pdftex.def Info: pics/cropT45_hybrid_nb_sdf.png  used on input line 119
+2.
 (pdftex.def)             Requested size: 103.55241pt x 103.55241pt.
-<pics/cropT2_hybrid_nb_tf.png, id=624, 494.59781pt x 495.35063pt>
+ [27 <./pics/cropT2_sauvola_sdf.png> <./pics/cropT7_sauvola_sdf.png> <./pics/cr
+opT27_sauvola_sdf.png> <./pics/cropT45_sauvola_sdf.png> <./pics/cropT2_sauvola_
+tf.png> <./pics/cropT7_sauvola_tf.png> <./pics/cropT27_sauvola_tf.png> <./pics/
+cropT45_sauvola_tf.png> <./pics/cropT2_hybrid_nb.png> <./pics/cropT7_hybrid_nb.
+png> <./pics/cropT27_hybrid_nb.png> <./pics/cropT45_hybrid_nb.png>]
+<pics/cropT2_hybrid_nb_tf.png, id=641, 494.59781pt x 495.35063pt>
 File: pics/cropT2_hybrid_nb_tf.png Graphic file (type png)
 <use pics/cropT2_hybrid_nb_tf.png>
-Package pdftex.def Info: pics/cropT2_hybrid_nb_tf.png  used on input line 1198.
+Package pdftex.def Info: pics/cropT2_hybrid_nb_tf.png  used on input line 1201.
 
 (pdftex.def)             Requested size: 103.86859pt x 104.0267pt.
-<pics/cropT7_hybrid_nb_tf.png, id=625, 494.59781pt x 494.59781pt>
+<pics/cropT7_hybrid_nb_tf.png, id=642, 494.59781pt x 494.59781pt>
 File: pics/cropT7_hybrid_nb_tf.png Graphic file (type png)
 <use pics/cropT7_hybrid_nb_tf.png>
-Package pdftex.def Info: pics/cropT7_hybrid_nb_tf.png  used on input line 1201.
+Package pdftex.def Info: pics/cropT7_hybrid_nb_tf.png  used on input line 1204.
 
 (pdftex.def)             Requested size: 103.86859pt x 103.86859pt.
-<pics/cropT27_hybrid_nb_tf.png, id=626, 494.59781pt x 495.35063pt>
+<pics/cropT27_hybrid_nb_tf.png, id=643, 494.59781pt x 495.35063pt>
 File: pics/cropT27_hybrid_nb_tf.png Graphic file (type png)
 <use pics/cropT27_hybrid_nb_tf.png>
-Package pdftex.def Info: pics/cropT27_hybrid_nb_tf.png  used on input line 1204
+Package pdftex.def Info: pics/cropT27_hybrid_nb_tf.png  used on input line 1207
 .
 (pdftex.def)             Requested size: 103.86859pt x 104.0267pt.
-<pics/cropT45_hybrid_nb_tf.png, id=627, 499.11469pt x 498.36188pt>
+<pics/cropT45_hybrid_nb_tf.png, id=644, 499.11469pt x 498.36188pt>
 File: pics/cropT45_hybrid_nb_tf.png Graphic file (type png)
 <use pics/cropT45_hybrid_nb_tf.png>
-Package pdftex.def Info: pics/cropT45_hybrid_nb_tf.png  used on input line 1207
+Package pdftex.def Info: pics/cropT45_hybrid_nb_tf.png  used on input line 1210
 .
 (pdftex.def)             Requested size: 104.81717pt x 104.65907pt.
-<pics/cropT2_hybrid_sb.png, id=628, 493.0922pt x 493.0922pt>
+<pics/cropT2_hybrid_sb.png, id=646, 493.0922pt x 493.0922pt>
 File: pics/cropT2_hybrid_sb.png Graphic file (type png)
 <use pics/cropT2_hybrid_sb.png>
-Package pdftex.def Info: pics/cropT2_hybrid_sb.png  used on input line 1216.
+Package pdftex.def Info: pics/cropT2_hybrid_sb.png  used on input line 1219.
 (pdftex.def)             Requested size: 103.55241pt x 103.55241pt.
-<pics/cropT7_hybrid_sb.png, id=629, 494.59781pt x 494.59781pt>
+<pics/cropT7_hybrid_sb.png, id=647, 494.59781pt x 494.59781pt>
 File: pics/cropT7_hybrid_sb.png Graphic file (type png)
 <use pics/cropT7_hybrid_sb.png>
-Package pdftex.def Info: pics/cropT7_hybrid_sb.png  used on input line 1219.
+Package pdftex.def Info: pics/cropT7_hybrid_sb.png  used on input line 1222.
 (pdftex.def)             Requested size: 103.86859pt x 103.86859pt.
-<pics/cropT27_hybrid_sb.png, id=630, 499.11469pt x 498.36188pt>
+<pics/cropT27_hybrid_sb.png, id=648, 499.11469pt x 498.36188pt>
 File: pics/cropT27_hybrid_sb.png Graphic file (type png)
 <use pics/cropT27_hybrid_sb.png>
-Package pdftex.def Info: pics/cropT27_hybrid_sb.png  used on input line 1222.
+Package pdftex.def Info: pics/cropT27_hybrid_sb.png  used on input line 1225.
 (pdftex.def)             Requested size: 104.81717pt x 104.65907pt.
-<pics/cropT45_hybrid_sb.png, id=631, 497.60907pt x 497.60907pt>
+<pics/cropT45_hybrid_sb.png, id=649, 497.60907pt x 497.60907pt>
 File: pics/cropT45_hybrid_sb.png Graphic file (type png)
 <use pics/cropT45_hybrid_sb.png>
-Package pdftex.def Info: pics/cropT45_hybrid_sb.png  used on input line 1225.
+Package pdftex.def Info: pics/cropT45_hybrid_sb.png  used on input line 1228.
 (pdftex.def)             Requested size: 104.50098pt x 104.50098pt.
- [28 <./pics/cropT2_hybrid_nb.png> <./pics/cropT7_hybrid_nb.png> <./pics/cropT2
-7_hybrid_nb.png> <./pics/cropT45_hybrid_nb.png> <./pics/cropT2_hybrid_nb_sdf.pn
-g> <./pics/cropT7_hybrid_nb_sdf.png> <./pics/cropT27_hybrid_nb_sdf.png> <./pics
-/cropT45_hybrid_nb_sdf.png> <./pics/cropT2_hybrid_nb_tf.png> <./pics/cropT7_hyb
-rid_nb_tf.png> <./pics/cropT27_hybrid_nb_tf.png> <./pics/cropT45_hybrid_nb_tf.p
-ng>]
-<pics/cropT2_hybrid_sb_sdf.png, id=663, 496.10344pt x 495.35063pt>
+<pics/cropT2_hybrid_sb_sdf.png, id=651, 496.10344pt x 495.35063pt>
 File: pics/cropT2_hybrid_sb_sdf.png Graphic file (type png)
 <use pics/cropT2_hybrid_sb_sdf.png>
-Package pdftex.def Info: pics/cropT2_hybrid_sb_sdf.png  used on input line 1234
+Package pdftex.def Info: pics/cropT2_hybrid_sb_sdf.png  used on input line 1237
 .
 (pdftex.def)             Requested size: 104.18478pt x 104.0267pt.
-<pics/cropT7_hybrid_sb_sdf.png, id=664, 499.11469pt x 498.36188pt>
+<pics/cropT7_hybrid_sb_sdf.png, id=652, 499.11469pt x 498.36188pt>
 File: pics/cropT7_hybrid_sb_sdf.png Graphic file (type png)
 <use pics/cropT7_hybrid_sb_sdf.png>
-Package pdftex.def Info: pics/cropT7_hybrid_sb_sdf.png  used on input line 1237
+Package pdftex.def Info: pics/cropT7_hybrid_sb_sdf.png  used on input line 1240
 .
 (pdftex.def)             Requested size: 104.81717pt x 104.65907pt.
-<pics/cropT27_hybrid_sb_sdf.png, id=665, 497.60907pt x 497.60907pt>
+<pics/cropT27_hybrid_sb_sdf.png, id=653, 497.60907pt x 497.60907pt>
 File: pics/cropT27_hybrid_sb_sdf.png Graphic file (type png)
 <use pics/cropT27_hybrid_sb_sdf.png>
 Package pdftex.def Info: pics/cropT27_hybrid_sb_sdf.png  used on input line 124
-0.
+3.
 (pdftex.def)             Requested size: 104.50098pt x 104.50098pt.
-<pics/cropT45_hybrid_sb_sdf.png, id=666, 496.85625pt x 496.10344pt>
+<pics/cropT45_hybrid_sb_sdf.png, id=654, 496.85625pt x 496.10344pt>
 File: pics/cropT45_hybrid_sb_sdf.png Graphic file (type png)
 <use pics/cropT45_hybrid_sb_sdf.png>
 Package pdftex.def Info: pics/cropT45_hybrid_sb_sdf.png  used on input line 124
-3.
+6.
 (pdftex.def)             Requested size: 104.34288pt x 104.18478pt.
-<pics/cropT2_hybrid_sb_tf.png, id=667, 498.36188pt x 498.36188pt>
+ [28 <./pics/cropT2_hybrid_nb_sdf.png> <./pics/cropT7_hybrid_nb_sdf.png> <./pic
+s/cropT27_hybrid_nb_sdf.png> <./pics/cropT45_hybrid_nb_sdf.png> <./pics/cropT2_
+hybrid_nb_tf.png> <./pics/cropT7_hybrid_nb_tf.png> <./pics/cropT27_hybrid_nb_tf
+.png> <./pics/cropT45_hybrid_nb_tf.png> <./pics/cropT2_hybrid_sb.png> <./pics/c
+ropT7_hybrid_sb.png> <./pics/cropT27_hybrid_sb.png> <./pics/cropT45_hybrid_sb.p
+ng>]
+<pics/cropT2_hybrid_sb_tf.png, id=687, 498.36188pt x 498.36188pt>
 File: pics/cropT2_hybrid_sb_tf.png Graphic file (type png)
 <use pics/cropT2_hybrid_sb_tf.png>
-Package pdftex.def Info: pics/cropT2_hybrid_sb_tf.png  used on input line 1252.
+Package pdftex.def Info: pics/cropT2_hybrid_sb_tf.png  used on input line 1255.
 
 (pdftex.def)             Requested size: 104.65907pt x 104.65907pt.
-<pics/cropT7_hybrid_sb_tf.png, id=668, 498.36188pt x 498.36188pt>
+<pics/cropT7_hybrid_sb_tf.png, id=688, 498.36188pt x 498.36188pt>
 File: pics/cropT7_hybrid_sb_tf.png Graphic file (type png)
 <use pics/cropT7_hybrid_sb_tf.png>
-Package pdftex.def Info: pics/cropT7_hybrid_sb_tf.png  used on input line 1255.
+Package pdftex.def Info: pics/cropT7_hybrid_sb_tf.png  used on input line 1258.
 
 (pdftex.def)             Requested size: 104.65907pt x 104.65907pt.
-<pics/cropT27_hybrid_sb_tf.png, id=669, 496.85625pt x 496.10344pt>
+<pics/cropT27_hybrid_sb_tf.png, id=689, 496.85625pt x 496.10344pt>
 File: pics/cropT27_hybrid_sb_tf.png Graphic file (type png)
 <use pics/cropT27_hybrid_sb_tf.png>
-Package pdftex.def Info: pics/cropT27_hybrid_sb_tf.png  used on input line 1258
+Package pdftex.def Info: pics/cropT27_hybrid_sb_tf.png  used on input line 1261
 .
 (pdftex.def)             Requested size: 104.34288pt x 104.18478pt.
-<pics/cropT45_hybrid_sb_tf.png, id=670, 500.62032pt x 499.8675pt>
+<pics/cropT45_hybrid_sb_tf.png, id=690, 496.85625pt x 496.85625pt>
 File: pics/cropT45_hybrid_sb_tf.png Graphic file (type png)
 <use pics/cropT45_hybrid_sb_tf.png>
-Package pdftex.def Info: pics/cropT45_hybrid_sb_tf.png  used on input line 1261
+Package pdftex.def Info: pics/cropT45_hybrid_sb_tf.png  used on input line 1264
 .
-(pdftex.def)             Requested size: 105.13336pt x 104.97527pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 1252--1262
-[][]  [][]  [][]
- []
-
-[29 <./pics/cropT2_hybrid_sb.png> <./pics/cropT7_hybrid_sb.png> <./pics/cropT27
-_hybrid_sb.png> <./pics/cropT45_hybrid_sb.png> <./pics/cropT2_hybrid_sb_sdf.png
-> <./pics/cropT7_hybrid_sb_sdf.png> <./pics/cropT27_hybrid_sb_sdf.png> <./pics/
-cropT45_hybrid_sb_sdf.png> <./pics/cropT2_hybrid_sb_tf.png> <./pics/cropT7_hybr
-id_sb_tf.png> <./pics/cropT27_hybrid_sb_tf.png> <./pics/cropT45_hybrid_sb_tf.pn
-g>] [30] [31]
-Underfull \hbox (badness 10000) in paragraph at lines 1287--1289
+(pdftex.def)             Requested size: 104.34288pt x 104.34288pt.
+ [29 <./pics/cropT2_hybrid_sb_sdf.png> <./pics/cropT7_hybrid_sb_sdf.png> <./pic
+s/cropT27_hybrid_sb_sdf.png> <./pics/cropT45_hybrid_sb_sdf.png> <./pics/cropT2_
+hybrid_sb_tf.png> <./pics/cropT7_hybrid_sb_tf.png> <./pics/cropT27_hybrid_sb_tf
+.png> <./pics/cropT45_hybrid_sb_tf.png>] [30]
+Underfull \hbox (badness 10000) in paragraph at lines 1290--1292
 [][]$\T1/cmtt/m/n/10.95 https : / / www . researchgate . net / publication / 33
 7755994 _ Macrophage _ image _
  []
@@ -1364,47 +1312,43 @@ Underfull \hbox (badness 10000) in paragraph at lines 1287--1289
 ("C:\Program Files\MiKTeX 2.9\tex/latex/ucs\uni-32.def"
 File: uni-32.def 2013/05/13 UCS: Unicode data U+2000..U+20FF
 )
-Underfull \hbox (badness 1983) in paragraph at lines 1299--1301
+Underfull \hbox (badness 1983) in paragraph at lines 1302--1304
 []\T1/cmr/m/n/10.95 Anna Kor-zyn-ska, Lu-kasz Rosz-ko-wiak,Carlos Lo-pez, Ra-mo
 n Bosch, Lu-kasz Wit-
  []
 
 
-Underfull \hbox (badness 2941) in paragraph at lines 1299--1301
+Underfull \hbox (badness 2941) in paragraph at lines 1302--1304
 \T1/cmr/m/n/10.95 ko-wski1, Ma-ry-lene Le-je-une \T1/cmr/bx/n/10.95 Va-li-da-ti
 on of va-ri-ous adap-tive th-res-hold-met-
  []
 
 
-Underfull \hbox (badness 6775) in paragraph at lines 1299--1301
+Underfull \hbox (badness 6775) in paragraph at lines 1302--1304
 \T1/cmr/bx/n/10.95 ned with3,3'-Diaminobenzidine$\OT1/cmr/m/n/10.95 &$\T1/cmr/b
 x/n/10.95 Haematoxylin\T1/cmr/m/n/10.95 : [][]$\T1/cmtt/m/n/10.95 https : / / w
 ww . ncbi . nlm . nih .
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1309.
-[32]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1309.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1312.
+[31]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1312.
  (dip_sk.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1309.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1309.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1312.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1312.
 
 Package rerunfilecheck Info: File `dip_sk.out' has not changed.
 (rerunfilecheck)             Checksum: 5D20957629E1A490F67F5A7EBFCAB656;1488.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1309.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1312.
  ) 
 Here is how much of TeX's memory you used:
- 13681 strings out of 492453
- 202650 string characters out of 3129819
- 293979 words of memory out of 3000000
- 17463 multiletter control sequences out of 15000+200000
+ 13693 strings out of 492453
+ 202763 string characters out of 3129819
+ 294354 words of memory out of 3000000
+ 17476 multiletter control sequences out of 15000+200000
  21367 words of font info for 60 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,11n,49p,1054b,541s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 48i,10n,49p,1054b,541s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\maria\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/ec/dpi600\
 ectt0900.pk> <C:\Users\maria\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour/jknappen/
 ec/dpi600\ecrm0900.pk> <C:\Users\maria\AppData\Local\MiKTeX\2.9\fonts/pk/ljfour
@@ -1429,9 +1373,9 @@ m/cmr9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.p
 fb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Fil
 es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy9.pfb>
-Output written on dip_sk.pdf (32 pages, 8279862 bytes).
+Output written on dip_sk.pdf (31 pages, 8275168 bytes).
 PDF statistics:
- 1351 PDF objects out of 1440 (max. 8388607)
- 246 named destinations out of 1000 (max. 500000)
+ 1353 PDF objects out of 1440 (max. 8388607)
+ 245 named destinations out of 1000 (max. 500000)
  709 words of extra memory for PDF output out of 10000 (max. 10000000)
 
