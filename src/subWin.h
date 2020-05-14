@@ -11,7 +11,7 @@ protected:
 	QStringList Data2D;
 	QStringList Data3D;
 	QString histInfo;
-	QTreeWidgetItem parent;
+	int parent;
 	int currentIndex;
 
 	int howManySubsurf;		// subsurf param 
@@ -57,7 +57,7 @@ public:
 	QString get2DDataItem(int index) { return Data2D.at(index); };
 	QString get3DDataItem(int index) { return Data3D.at(index); };
 	QString getHistText() { return histInfo; };
-	QTreeWidgetItem getCurrentParent() { return parent; };
+	int getCurrentParent() { return parent; };
 	int getCurrentIndex() { return currentIndex; };
 
 	void changeSubsurfParam(int howMany, double sigma, double tau, double K);
@@ -76,5 +76,5 @@ public:
 	void add2DData(QString data);
 	void remove3DData(int i);
 	void remove2DData(int i);
-	void setSelectedItem(QTreeWidgetItem p,int i);
+	void setSelectedItem(int p,int i);
 };

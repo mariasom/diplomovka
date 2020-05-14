@@ -54,7 +54,7 @@ void source::load(QString path) {
 	QStringList sList = line.split(' ', QString::SkipEmptyParts);
 	width = sList[0].toInt();
 	height = sList[1].toInt();
-
+	std::cout << "sirka: " << width << "vyska: " << height << endl;
 	line = stream.readLine();
 	tmpstring = line + "\n";
 	sLength += tmpstring.length();
@@ -150,10 +150,10 @@ void source::setPoints(QVector<unsigned char> &setData, int p) {
 	int widthR = width + 2 * p;
 	int heightR = height + 2 * p;
 
-	points2D->SetNumberOfPoints(widthR*heightR);
-	for (int j = 0; j < heightR; j++)
+	points2D->SetNumberOfPoints(width*height);
+	for (int j = 0; j < height; j++)
 		for (int i = 0; i < widthR; i++) {
-			points2D->SetPoint(j * widthR + i, i, j,0);
+			points2D->SetPoint(j * width + i, i, j,0);
 		}
 
 	vtkSmartPointer<vtkPolyData> pointsPolydata =
@@ -176,7 +176,7 @@ void source::setPoints(QVector<unsigned char> &setData, int p) {
 		for (int i = 0; i < width - 1; i++) {
 			polygon->GetPointIds()->SetNumberOfIds(4); 
 			polygon->GetPointIds()->SetId(0, j * width + i);
-			polygon->GetPointIds()->SetId(1, (j+1) * width + i);
+			polygon->GetPointIds()->SetId(1, (j + 1) * width + i);
 			polygon->GetPointIds()->SetId(2, (j + 1) * width + (i + 1));
 			polygon->GetPointIds()->SetId(3, j * width + (i + 1));
 			polygons->InsertNextCell(polygon);
@@ -186,9 +186,9 @@ void source::setPoints(QVector<unsigned char> &setData, int p) {
 		vtkSmartPointer<vtkUnsignedCharArray>::New();
 	color->SetNumberOfValues(widthR*heightR);
 
-	for (int j = 0; j < widthR; j++) 
-		for (int i = 0; i < heightR; i++) {
-			 color->SetValue(j * widthR + i,(unsigned char)setData[j * widthR + i]);
+	for (int j = 0; j < height; j++)
+		for (int i = 0; i < width; i++) {
+			 color->SetValue(j * width + i,(unsigned char)setData[j * widthR + i]);
 		}
 
 	polydata2D->GetPointData()->SetScalars(color);
@@ -238,7 +238,7 @@ void source::create3Ddata(QVector<double> z) {
 			points3D->SetPoint(j * width + i, i, j, z[width * j + i]);
 		}
 
-	vtkSmartPointer<vtkCellArray> triangles = 
+	/*vtkSmartPointer<vtkCellArray> triangles = 
 		vtkSmartPointer<vtkCellArray>::New();
 	vtkSmartPointer<vtkTriangle> triangle = 
 		vtkSmartPointer<vtkTriangle>::New();
@@ -255,10 +255,26 @@ void source::create3Ddata(QVector<double> z) {
 			triangle->GetPointIds()->SetId(1, (j + 1) * width + (i + 1));
 			triangle->GetPointIds()->SetId(2, (j)* width + (i + 1));
 			triangles->InsertNextCell(triangle);
+		}*/
+
+	vtkSmartPointer<vtkCellArray> polygons =
+		vtkSmartPointer<vtkCellArray>::New();
+	vtkSmartPointer<vtkPolygon> polygon =
+		vtkSmartPointer<vtkPolygon>::New();
+
+	for (int j = 0; j < height - 1; j++)
+		for (int i = 0; i < width - 1; i++) {
+			polygon->GetPointIds()->SetNumberOfIds(4);
+			polygon->GetPointIds()->SetId(0, j * width + i);
+			polygon->GetPointIds()->SetId(1, (j + 1) * width + i);
+			polygon->GetPointIds()->SetId(2, (j + 1) * width + (i + 1));
+			polygon->GetPointIds()->SetId(3, j * width + (i + 1));
+			polygons->InsertNextCell(polygon);
 		}
 
 	polydata->SetPoints(points3D);
-	polydata->SetStrips(triangles);
+	polydata->SetPolys(polygons);
+	//polydata->SetStrips(triangles);
 }
 
 void source::setCol(vtkSmartPointer<vtkColorTransferFunction> transferF,int colorIndex) {

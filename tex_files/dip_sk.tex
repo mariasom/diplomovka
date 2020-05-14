@@ -144,25 +144,34 @@
 
 V rôznych vedných disciplínach ale aj v bežnom živote sa používajú rôzne aplikácie spracovania obrazov. Spracovanie obrazov je metóda, ktorá pomocou rôznych matematických operácii a algoritmov upravuje obrazové dáta rôznych formátov a pomáha z nich získavať užitočné informácie. Obrazové dáta je potrebné zobraziť, či už pred alebo po modifikácií. 
 
-Cieľom práce je vytvorenie softvéru, ktorý slúži na vizualizáciu a segmentáciu obrazov získaných konfokálnym laserovým mikroskopom, konkrétne sa jedná o biologické dáta a to obrazy makrofágov. Takéto dáta môžu obsahovať šum, ktorý je potrebné odstrániť pre lepšie rozoznanie objektov na dátach. 
+Cieľom predpokladanej práce je vytvorenie softvéru, ktorý slúži na vizualizáciu a segmentáciu obrazov získaných konfokálnym laserovým mikroskopom, konkrétne sa jedná o biologické dáta a to obrazy makrofágov. Takéto dáta môžu obsahovať šum, ktorý je potrebné odstrániť pre lepšie rozoznanie objektov na dátach. 
  
 Z biologického hľadiska, je maktofág typ bielej krvinky, ktorá hrá dôležitú úlohu pri ochrane imunitného systému a hemostázy. Avšak disfunkčné makrofágy menia svoje účinky a u ľudí môžu spôsobovať závažné ochorenia ako sú napríklad  zápalové ochorenia, ktoré vedú k častým infekciám alebo sa môžu podieľať na postupe rakoviny. Makrofág mení svoj tvar keď sa približuje smerom k rane. Táto zmena tvaru je spôsobená objektami, ktoré sa nachádzajú v blízkosti makrofágu, ako napríklad tkanivovými bunkami alebo medzibunkovou hmotou.
-Segmentácia obrazov môže byť užitočným nástrojom na porozumenie spôsobu interakcie medzi makrofágmi a bunkami, ktoré ho obklopujú, avšak takáto segmentácia môže byť náročnou úlohou, kvôli ich nepravidelnému tvaru.
+Segmentácia obrazov môže byť užitočným nástrojom na porozumenie spôsobu interakcie medzi makrofágmi a bunkami, ktoré ho obklopujú, avšak takáto segmentácia môže byť náročnou úlohou, kvôli ich nepravidelnému tvaru a meniacej sa intenzite získaných obrazových dát. V tejto práci sa zaoberáme časťami/výrezmi takýchto dát, na ktorých sa nachádza jeden makrofág. V závere sme uviedli príklad 
+segmentácie dát s  viacerými makrofágmi.
 
-Mikroskopové dáta makrofágov, s ktorými pracujeme v tejto práci, sú makrofágy priesvitného embrya zebričky pruhovanej (\textit{lat.} danio rerio). Táto larva bola poranená a cytoplazmy makrofágov sú zafarbené zeleným svetielkujúcim proteínom (kaede) pre lepšiu viditeľnosť pod mikroskopom. Pôvodné dáta makrofágov sú získané v časovom úseku 5 hodín a s časovým krokom 4 minúty. Následne dané trojdimenzionálne obrazové dáta sú premietnuté do roviny za použitia maximálnej intenzity približne zo 70 rezov, z ktorých vzniknú dvoj-dimenzionálne obrazové dáta. 
+%Mikroskopové dáta makrofágov, s ktorými pracujeme v tejto práci, sú makrofágy priesvitného embrya zebričky pruhovanej (\textit{lat.} danio rerio). Táto larva bola poranená a cytoplazmy makrofágov sú zafarbené zeleným svetielkujúcim proteínom (kaede) pre lepšiu viditeľnosť pod mikroskopom. Pôvodné dáta makrofágov sú získané v časovom úseku 5 hodín a s časovým krokom 4 minúty. Následne dané trojdimenzionálne obrazové dáta sú premietnuté do roviny za použitia maximálnej intenzity približne zo 70 rezov, z ktorých vzniknú dvoj-dimenzionálne obrazové dáta. 
 %vo formáte tiff.
 
-V tejto práci sa zaoberáme časťami/výrezmi takýchto dát, na ktorých sa nachádza jeden makrofág a používame rôzne metódy na segmentáciu, buď automatické alebo semi-automatické. Softvér by mal byť intuitívny, a teda určený aj užívateľom, ktorí implementovaným algoritmom nemusia rozumieť. 
+%V tejto práci sa zaoberáme časťami/výrezmi takýchto dát, na ktorých sa nachádza jeden makrofág a používame rôzne metódy na segmentáciu, buď automatické alebo semi-automatické. Softvér by mal byť intuitívny, a teda určený aj užívateľom, ktorí implementovaným algoritmom nemusia rozumieť. 
+
+Naimplementovaný model vychádza z práce \cite{sora}, kde je segmentačná metóda založená na kombinácii prahovacích metód a segmentačnej metóde subjektívnych plôch(SUBSURF). Obe prahovacie metódy predstavovali globálne prahovanie - celý obrázok sa prahoval jednou hodnotou. V práci sme  skúmali aj použitie lokálnych adaptívnych prahovacích metód, pri ktorých sa vytvára mapa prahov, pričom úseky so slabšou intenzitou sa prahujú s inými hodnotami ako úseky so silnejšou intenzitou. Predpokladali sme, že takého metódy umožňujú lepšiu modifikáciu vektorového poľa advekčnej časti rovnice a zabezpečia lepšiu súvislosť výsledných tvarov, prípadne sa dajú použiť aj na tvorbu počiatočnej segmentačnej funkcie.
+
+Našou snahou bolo vytvoriť softvér, ktorý by mal byť intuitívny, a teda určený aj užívateľom, ktorí implementovaným algoritmom nemusia rozumieť. 
   
 Práca je rozdelená do viacerých častí, v ktorých je podrobnejšie popísaná funkcionalita programu spolu s užívateľským prostredím, použitými algoritmami, knižnicami.
 
-Prvá časť je teoretická a venuje sa matematickým algoritmom využitých pri implementácii, založených na poznatkoch zo spracovania obrazov. Jedná sa o niekoľko automatických a semi-automatických segmentačných metód, ktoré sú kombináciou prahovacích metód a segmentačnej metódy subjektívnych plôch(SUBSURF).
+%Prvá časť je teoretická a venuje sa matematickým algoritmom využitých pri implementácii, založených na poznatkoch zo spracovania obrazov. Jedná sa o niekoľko automatických a semi-automatických segmentačných metód, ktoré sú kombináciou prahovacích metód a segmentačnej metódy subjektívnych plôch(SUBSURF).
+
+Prvá časť je teoretická a venuje sa matematickým algoritmom využitým pri implementácii. Jedná sa o niekoľko automatických a semi-automatických prahovacích metód, ktoré budú súčasťou segmentačnej metódy subjektívnych plôch(SUBSURF), pre ktorú je uvedený model, jej modifikácia a semi-implicitná konečno-objemová schéma. 
 
 Druhá časť sa zameriava na technológie a knižnice využité pri implementácii. Nachádza sa tam popis Qt knižníc, ktoré boli použité pri vytváraní užívateľského prostredia, VTK knižníc, ktoré boli využité na zobrazenie a manipuláciu s dátami. Popísané sú tu aj triedy, ktoré boli v programe najviac využité.
 
-Ďaľšia časť sa zaoberá popisom grafického rozhrania programu, ktorá by mohla slúžiť aj ako manuál slúžiaci užívateľovi pri používaní.
+Ďaľšia časť sa zaoberá popisom grafického rozhrania programu, ktorá by mohla slúžiť aj ako manuál slúžiaci užívateľovi pri používaní softvéru.
 
-V poslednej časti sa nachádzajú výsledky, ku ktorým sme v práci dospeli a porovnania medzi rôznymi automatickými a semi-automatickými segmentačnými metódami.
+V poslednej časti sa nachádzajú výsledky, ku ktorým sme v práci dospeli a porovnania medzi rôznymi metódami prahovanie a tvorby počiatočnej podmienky použitými v segmentačnom modeli.
+
+%V poslednej časti sa nachádzajú výsledky, ku ktorým sme v práci dospeli a porovnania medzi rôznymi automatickými a semi-automatickými segmentačnými metódami.
 
 % užité matematické algoritmy, funkcionalita naimplementovaného softvéru a 
   
@@ -1273,7 +1282,9 @@ Zo zobrazených výsledkov si môžeme všimnúť že výrazne lepšie výsledky
 \newpage
 \section{Záver}
 
-%Cieľom tejto práce, bolo nájsť 
+Cieľom tejto práce, bolo vytvoriť užívateľské prostredie s viacerými implementovanými segmentačnými metódami slúžiacimi na skúmanie tvarov a správania biologických dát - makrofágov. Pri implementácií bol použitý objektovo orientovaný jazyk C++, spolu s Qt knižnicami pomocou, ktorých bolo vytvorené užívateľské prostredie a VTK knižnicami ktoré zabezpečili zobrazenie a manipuláciu s dátami.
+
+
 
 \newpage
 \begin{thebibliography}{50}
@@ -1304,8 +1315,6 @@ Anna Korzynska, Lukasz Roszkowiak,Carlos Lopez, Ramon Bosch, Lukasz Witkowski1, 
 
 \bibitem{otsu} 
 Nobuyuki Otsu, \textbf{A Threshold Selection Method from Gray-Level Histograms}, 
-
-
 
 \end{thebibliography}
 

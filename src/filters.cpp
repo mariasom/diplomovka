@@ -10,8 +10,8 @@ filters::~filters() {
 filters::filters(int widthOrig, int heightOrig, QVector<unsigned char> oData, int pp) {
 	width = widthOrig;
 	height = heightOrig;
+
 	origData = dataToDouble(oData);
-	std::cout << "dlzka original dat pri volani konstruktora: " << origData.length() << endl;
 	histogram(origData);
 	p = pp;
 	widthR = width + 2 * p;
@@ -50,8 +50,8 @@ QVector<double> filters::changeRangeOfData(QVector<int> data) {
 	QVector<double> tmp;
 	tmp.resize(width*height);
 
-	for (int j = 0; j < width; j++) {
-		for (int i = 0; i < height; i++) {
+	for (int j = 0; j < height; j++) {
+		for (int i = 0; i < width; i++) {
 			tmp[j * width + i] = data.at(j * width + i) / 255.;
 		}
 	}
@@ -61,8 +61,8 @@ QVector<double> filters::changeRangeOfData(QVector<int> data) {
 QVector<double> filters::changeRangeOfData(QVector<double> data) {
 	QVector<double> tmp;
 	tmp.resize(width * height);
-	for (int j = 0; j < width; j++) {
-		for (int i = 0; i < height; i++) {
+	for (int j = 0; j < height; j++) {
+		for (int i = 0; i < width; i++) {
 			tmp[j * width + i] = data.at(j * width + i) * 255.;
 		}
 	}
@@ -176,8 +176,8 @@ QVector<QVector<float>> filters::makeTables(int K, QVector<float> histN) {
 QVector<unsigned char> filters::createNewData(QVector<unsigned char> data, int threshold) {
 	QVector<unsigned char> tmp;
 	tmp = data;
-	for (int j = 0; j < width; j++) //vytvorenie dat
-		for (int i = 0; i < height; i++)
+	for (int j = 0; j < height; j++)
+		for (int i = 0; i < width; i++)
 			if ((int)origData[j * width + i] < threshold)
 				tmp[j * width + i] = (unsigned char)0;
 			else
@@ -194,8 +194,8 @@ QVector<double> filters::boundary(QVector<double> data, int threshold) {
 		tmp = dataToChar(data);
 	tmp1.resize(width*height);
 
-	for (int j = 0; j < width; j++) {
-		for (int i = 0; i < height; i++) {
+	for (int j = 0; j < height; j++) {
+		for (int i = 0; i < width; i++) {
 			tmp1[j * width + i] = 0;
 			if((int)tmp[j * width + i] !=0 && ((int)tmp[j * width + (i+1)] == 0 || (int)tmp[j * width + (i - 1)] == 0 ||
 				(int)tmp[(j+1) * width + i] == 0 || (int)tmp[(j - 1) * width + i] == 0))
@@ -210,22 +210,23 @@ QVector<double> filters::reflection(QVector<double> data) {
 	reflected.resize(widthR * heightR);
 	reflected.fill(0);
 
-	for (int i = p; i < heightR - p; i++) {
-		for (int j = p; j < widthR - p; j++) 
-			reflected[j + widthR * i] = data.at((j - p) + width * (i - p));
+	for (int j = p; j < heightR - p; j++) {
+		for (int i = p; i < widthR - p; i++)
+			reflected[j * widthR + i] = data.at((j - p) * width + (i - p));
 	}
-	
-	for (int i = p; i < heightR - p; i++)
+
+	for (int j = p; j < heightR - p; j++)
 		for (int k = 0; k < p; k++) {
-			reflected[(p - k - 1) + widthR * i] = reflected.at((p + k) + widthR * i);
-			reflected[(height + p + k) + widthR * i] = reflected.at((height + p - k - 1) + widthR * i);
+			reflected[(p - k - 1) + widthR * j] = reflected.at((p + k) + widthR * j);
+			reflected[(width + p + k) + widthR * j] = reflected.at((width + p - k - 1) + widthR * j);
 		}
 
-	for (int j = 0; j < widthR; j++)
-		for (int k = 0; k < p; k++)	{
-			reflected[j + widthR * (p - k - 1)] = reflected.at(j + widthR * (p + k));
-			reflected[j + widthR * (width + p + k)] = reflected.at(j + widthR * (width + p - k - 1));
+	for (int i = 0; i < widthR; i++)
+		for (int k = 0; k < p; k++) {
+			reflected[i + widthR * (p - k - 1)] = reflected.at(i + widthR * (p + k));
+			reflected[i + widthR * (height + p + k)] = reflected.at(i + widthR * (height + p - k - 1));
 		}
+
 	return reflected;
 }
 
@@ -234,21 +235,21 @@ QVector<double> filters::updateReflection(QVector<double> data) {
 	reflected.resize(widthR * heightR);
 	reflected.fill(0);
 
-	for (int i = p; i < heightR - p; i++) {
-		for (int j = p; j < widthR - p; j++)
-			reflected[j + widthR * i] = data.at(j + widthR * i);
+	for (int j = p; j < heightR - p; j++) {
+		for (int i = p; i < widthR - p; i++)
+			reflected[i + widthR * j] = data.at(i + widthR * j);
 	}
 
-	for (int i = p; i < heightR - p; i++)
+	for (int j = p; j < heightR - p; j++)
 		for (int k = 0; k < p; k++) {
-			reflected[(p - k - 1) + widthR * i] = data.at((p + k) + widthR * i);
-			reflected[(height + p + k) + widthR * i] = data.at((height + p - k - 1) + widthR * i);
+			reflected[(p - k - 1) + widthR * j] = data.at((p + k) + widthR * j);
+			reflected[(width + p + k) + widthR * j] = data.at((width + p - k - 1) + widthR * j);
 		}
 
-	for (int j = 0; j < widthR; j++)
+	for (int i = 0; i < widthR; i++)
 		for (int k = 0; k < p; k++) {
-			reflected[j + widthR * (p - k - 1)] = data.at(j + widthR * (p + k));
-			reflected[j + widthR * (width + p + k)] = data.at(j + widthR * (width + p - k - 1));
+			reflected[i + widthR * (p - k - 1)] = data.at(i + widthR * (p + k));
+			reflected[i + widthR * (height + p + k)] = data.at(i + widthR * (height + p - k - 1));
 		}
 	return reflected;
 }
@@ -257,15 +258,15 @@ QVector<double> filters::antireflection(QVector<double> data) {
 	QVector<double> antiref;
 	antiref.resize(width*height);
 
-	for (int j = 0; j < width; j++)
-		for (int i = 0; i < height; i++) 
-			antiref[j + width * i] = data.at((j + p) + widthR * (i + p));
+	for (int j = 0; j < height; j++)
+		for (int i = 0; i < width; i++) 
+			antiref[j * width + i] = data.at((j + p) * widthR + (i + p));
 
 	return antiref;
 }
 
 double filters::M(QVector<double> u, int i, int j, int p, int q) {
-	double tmp = u.at((j + q) * (width +2) + (i + p)) - u.at(j * (width + 2) + i);
+	double tmp = u.at((j + q) * (widthR) + (i + p)) - u.at(j * (widthR) + i);
 	if (tmp < 0)
 		return tmp * tmp;
 	else
@@ -285,10 +286,9 @@ QVector<double> filters::distFunct(QVector<double> edge) {
 	QVector<double> un, up;
 	QVector<double> ue;
 	un.resize(widthR * heightR);
-	up.resize(widthR * heightR);
-	vysl.fill(0);
-	up.fill(0);
 	un.fill(0);
+	up = un;
+	vysl.fill(0);
 	ue = reflection(edge);
 	int tol = 1;
 	double mass = pow(10,6);
@@ -299,8 +299,8 @@ QVector<double> filters::distFunct(QVector<double> edge) {
 	int col = 255;
 	while (mass > tol && l < maxIter) {
 		mass = 0;
-		for (int j = 1; j < widthR - 1; j++) {
-			for (int i = 1; i < heightR - 1; i++) {
+		for (int j = 1; j < heightR - 1; j++) {
+			for (int i = 1; i < widthR - 1; i++) {
 				if (ue[j * widthR + i] != col) {
 					un[j * widthR + i] =
 						(double)(up[j * widthR + i] + tau - tau / h *
@@ -309,8 +309,8 @@ QVector<double> filters::distFunct(QVector<double> edge) {
 				}
 			}
 		}
-		for (int j = 0; j < widthR; j++)
-			for (int i = 0; i < heightR; i++)
+		for (int j = 0; j < heightR; j++)
+			for (int i = 0; i < widthR; i++)
 				mass += (un[j * widthR + i] - up[j * widthR + i]) * (un[j * widthR + i] - up[j * widthR + i]);
 		mass = sqrt(mass);
 		std::cout << "l: " << l << " rezidua: " << mass << std::endl;
@@ -328,16 +328,15 @@ QVector<double> filters::distFunct(QVector<double> edge) {
 
 QVector<double> filters::distFunctSign(QVector<double> data) {
 	QVector<double> matrix, dist; 
-	dist = distFunct(data);
+	dist = distFunct(boundary(data));
 	matrix.resize(width*height);
 	int col = 255;
-
-	for (int i = 0; i < width; i++) {
-		for (int j = 0; j < height; j++) {
-			if (origData.at(j * width + i) == col)
-				matrix[j * width + i] = dist[j * width + i];
+	for (int j = 0; j < height; j++) {
+		for (int i = 0; i < width; i++) {
+			if (data.at(j * width + i) == col)
+				matrix[j * width + i] = (1.0 * dist[j * width + i]);
 			else
-				matrix[j * width + i] = (-1*(double)dist[j * width + i]);
+				matrix[j * width + i] = (-1.*(double)dist[j * width + i]);
 		}
 	}
 	return matrix;
@@ -350,8 +349,8 @@ void filters::grad(QVector<double> data, double h, double k, double epsilon) {
 	qn.resize(widthR*heightR);
 	double ux, uy;
 	double s;
-	for (int i = 1; i < widthR - 1; i++) {
-		for (int j = 1; j < heightR - 1; j++) {
+	for (int j = 1; j < heightR - 1; j++) {
+		for (int i = 1; i < widthR - 1; i++) {
 			// an
 			uy = (data.at((j + 1) * widthR + i) - data.at(j * widthR + i)) / h;
 			ux = (data.at((j + 1) * widthR + (i - 1)) + data.at(j * widthR + (i - 1))
@@ -394,8 +393,8 @@ void filters::grad2(QVector<double> data, double h, double k, double epsilon) {
 	qnpm.resize(widthR*heightR);
 	double s;
 	double ux, uy;
-	for (int i = 1; i < widthR - 1; i++) {
-		for (int j = 1; j < heightR - 1; j++) {
+	for (int i = 1; i < heightR - 1; i++) {
+		for (int j = 1; j < widthR - 1; j++) {
 
 			// an
 			uy = (data.at((j + 1) * widthR + i) - data.at(j * widthR + i)) / h;
@@ -441,8 +440,8 @@ void filters::grad3(QVector<double> data, double h, double k, double epsilon) {
 	oData = reflection(origData);
 	double s1,s2;
 	double ux, uy, uxx, uyy;
-	for (int i = 1; i < widthR - 1; i++) {
-		for (int j = 1; j < heightR - 1; j++) {
+	for (int j = 1; j < heightR - 1; j++) {
+		for (int i = 1; i < widthR - 1; i++) {
 			// da sa zoptimalizovat 
 			// an
 			uy = (data.at((j + 1) * widthR + i) - data.at(j * widthR + i)) / h;
@@ -579,8 +578,8 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData,int
 
 		for (int iter = 0; iter < itermax; iter++) {
 
-			for (int i = 1; i < widthR - 1; i++) {
-				for (int j = 1; j < heightR - 1; j++) {
+			for (int j = 1; j < heightR - 1; j++) {
+				for (int i = 1; i < widthR - 1; i++) {
 
 					double	tmps = ( qepm.at(j * widthR + i) / qe.at(j * widthR + i)) +
 						(qwpm.at(j * widthR + i)/qw.at(j * widthR + i)) +
@@ -597,8 +596,8 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData,int
 				}
 			}
 			rez = 0.;
-			for (int i = 1; i < widthR - 1; i++) {
-				for (int j = 1; j < heightR - 1; j++) {
+			for (int j = 1; j < heightR - 1; j++) {
+				for (int i = 1; i < widthR - 1; i++) {
 					double tmps = (qepm.at(j * widthR + i) / qe.at(j * widthR + i))
 						+ (qwpm.at(j * widthR + i) / qw.at(j * widthR + i))
 						+ (qspm.at(j * widthR + i) / qs.at(j * widthR + i)) 
@@ -627,8 +626,8 @@ QVector<double> filters::countAvg() {
 	QVector<double> tmp;
 	tmp.resize(widthR*heightR);
 	double a = 1. / 4.;
-	for (int i = 1; i < widthR - 1; i++) {
-		for (int j = 1; j < heightR - 1; j++) {
+	for (int j = 1; j < heightR - 1; j++) {
+		for (int i = 1; i < widthR - 1; i++) {
 			tmp[j * widthR + i] = a*(qe.at(j * widthR + i)
 				+ qw.at(j * widthR + i)
 				+ qs.at(j * widthR + i)
@@ -646,8 +645,8 @@ QVector<double> filters::niblackThreshold(QVector<double> data, double timeStep)
 	tmp1 = heatImpl(data, timeStep); //u
 	tmp2 = heatImpl(pow2(data), timeStep); //uu
 
-	for (int i = p; i < height + p; i++)
-		for (int j = p; j < width + p; j++) {
+	for (int  j = p; j < height + p; j++)
+		for (int i = p; i < width + p; i++) {
 			tmp2[j * widthR + i] = sqrt(tmp2[j * widthR + i] - pow(tmp1[j * widthR + i], 2));
 			if (tmp2[j * widthR + i] < TT && tmp1[j * widthR + i] < m)
 				tmp2[j * widthR + i] = tmp2[j * widthR + i] + d;
@@ -656,17 +655,17 @@ QVector<double> filters::niblackThreshold(QVector<double> data, double timeStep)
 		}
 
 	thresholds.resize(tmp1.size());
-	for (int i = p; i < height + p; i++)
-		for (int j = p; j < width + p; j++) 
+	for (int j = p; j < height + p; j++)
+		for (int i = p; i < width + p; i++) 
 			thresholds[j * widthR + i] = tmp1[j * widthR + i] + 0.18*tmp2[j * widthR + i];  
 	tmp = reflection(data);
 
 	double cminv = 50/255.;
-	for (int i = p; i < height + p; i++) {
-		for (int j = p; j < width + p; j++) {
+	for (int j = p; j < height + p; j++) {
+		for (int i = p; i < width + p; i++) {
 			double min = 10, max = -1;
-			for (int ii = i - p; ii <= i + p; ii++)
-				for (int jj = j - p; jj <= j + p; jj++) 
+			for (int jj = j - p; jj <= j + p; jj++)
+				for (int ii = i - p; ii <= i + p; ii++) 
 					if(pow(i-ii,2)+pow(j-jj,2)<= r2 ) {
 						if (tmp[jj * widthR + ii] < min)
 							min = tmp.at(jj * widthR + ii);
@@ -679,8 +678,8 @@ QVector<double> filters::niblackThreshold(QVector<double> data, double timeStep)
 		}
 	}
 
-	for (int i = p; i < height + p; i++)		
-		for (int j = p; j < width + p; j++) 
+	for (int j = p; j < height + p; j++)		
+		for (int i = p; i < width + p; i++) 
 			if (tmp[j * widthR + i] <= thresholds[j * widthR + i])
 				tmp1[j * widthR + i] = 0;
 			else
@@ -694,8 +693,8 @@ QVector<double> filters::niblackThreshold(QVector<double> data, double timeStep)
 QVector<double> filters::pow2(QVector<double> data) {
 	QVector<double> tmp;
 	tmp.resize(data.size());
-	for (int i = 0; i < height; i++)
-		for (int j = 0; j < width; j++)
+	for (int j = 0; j < height; j++)
+		for (int i = 0; i < width; i++)
 			tmp[j * width + i] = data.at(j * width + i)* data.at(j * width + i);
 	return tmp;
 }
@@ -709,11 +708,11 @@ QVector<double> filters::bernsenThreshold(QVector<double> data) {
 	cont.resize(tmp.length());
 	thrshld.resize(tmp.length());
 	int q = 0; //	kedze mame vzdy tmave pozadie
-	for (int j = 0; j < widthR; j++) {
-		for (int i = 0; i < heightR; i++) {
+	for (int j = p; j < heightR; j++) {
+		for (int i = p; i < widthR; i++) {
 			double Imin = 300, Imax = -1, c;
-			for (int ii = i - p; ii <= i + p; ii++)
-				for (int jj = j - p; jj <= j + p; jj++) {
+			for (int jj = j - p; jj <= j + p; jj++)
+				for (int ii = i - p; ii <= i + p; ii++) {
 					if (pow(i - ii, 2) + pow(j - jj, 2) <= r) {
 						if (tmp[jj * widthR + ii] < Imin)
 							Imin = tmp.at(jj * widthR + ii);
@@ -729,8 +728,8 @@ QVector<double> filters::bernsenThreshold(QVector<double> data) {
 		}
 	}
 
-	for (int j = 0; j < widthR; j++) {
-		for (int i = 0; i < heightR; i++) {
+	for (int j = 0; j < heightR; j++) {
+		for (int i = 0; i < widthR; i++) {
 			if (cont[j * widthR + i] < cmin) {
 				if (thrshld[j * widthR + i] < cmin)
 					tmp[j * widthR + i] = 0;
@@ -753,8 +752,8 @@ QVector<double> filters::thresholdFunction(QVector<unsigned char> initConData) {
 	z.resize(height*width);
 	z.fill(-1);
 
-	for (int j = 0; j < width; j++) {
-		for (int i = 0; i < height; i++) {
+	for (int j = 0; j < height; j++) {
+		for (int i = 0; i < width; i++) {
 			if ((int)initConData[j * width + i] != 0)
 				z[j * width + i] = 1.;
 		}
@@ -767,8 +766,8 @@ QVector<unsigned char> filters::dataDifference(QVector<unsigned char> tData) {
 	QVector<unsigned char> newData;
 	newData.resize(width*height);
 
-	for (int j = 0; j < width; j++) {
-		for (int i = 0; i < height; i++) {
+	for (int j = 0; j < height; j++) {
+		for (int i = 0; i < width; i++) {
 			newData[j * width + i] = (unsigned char)((int)((origData.at(j * width + i) + tData.at(j * width + i)) / 2. + 0.5));
 		}
 	}
@@ -803,11 +802,11 @@ QVector<double> filters::hybBernsenAndNiblack(QVector<double> data, double timeS
 	cont.resize(tmp.length());
 	thrshld.resize(tmp.length());
 	int q = 0;
-	for (int j = 0; j < widthR; j++) {
-		for (int i = 0; i < heightR; i++) {
+	for (int j = p; j < heightR; j++) {
+		for (int i = p; i < widthR; i++) {
 			double Imin = 300, Imax = -1, c;
-			for (int ii = i - p; ii <= i + p; ii++)
-				for (int jj = j - p; jj <= j + p; jj++) {
+			for (int jj = j - p; jj <= j + p; jj++) {
+				for (int ii = i - p; ii <= i + p; ii++)
 					if (pow(i - ii, 2) + pow(j - jj, 2) <= r2) {
 						if (tmp[jj * widthR + ii] < Imin)
 							Imin = tmp.at(jj * widthR + ii);
@@ -823,8 +822,8 @@ QVector<double> filters::hybBernsenAndNiblack(QVector<double> data, double timeS
 		}
 	}
 
-	for (int j = 0; j < widthR; j++) {
-		for (int i = 0; i < heightR; i++) {
+	for (int j = 0; j < heightR; j++) {
+		for (int i = 0; i < widthR; i++) {
 			if (cont[j * widthR + i] < cmin) {
 				if (thrshld[j * widthR + i] < cmin)
 					tmp[j * widthR + i] = 0;
@@ -851,17 +850,17 @@ QVector<double> filters::sauvolaThreshold(QVector<double> data, double timeStep)
 	tmp2 = heatImpl(pow2(data), timeStep); //uu
 	double sigmaMax = 128 / 255.;
 	thresholds.resize(tmp1.size());
-	for (int i = p; i < height + p; i++)
-		for (int j = p; j < width + p; j++)
+	for (int j = p; j < height + p; j++)
+		for (int i = p; i < width + p; i++)
 			thresholds[j * widthR + i] = tmp1[j * widthR + i] * (1 + 0.18*((tmp2[j * widthR + i]/sigmaMax) - 1));
 	tmp = reflection(data);
 
 	double cminv = 50 / 255.;
-	for (int i = p; i < height + p; i++) {
-		for (int j = p; j < width + p; j++) {
+	for (int j = p; j < height + p; j++) {
+		for (int i = p; i < width + p; i++) {
 			double min = 10, max = -1;
-			for (int ii = i - p; ii <= i + p; ii++)
-				for (int jj = j - p; jj <= j + p; jj++)
+			for (int jj = j - p; jj <= j + p; jj++)
+				for (int ii = i - p; ii <= i + p; ii++)
 					if (pow(i - ii, 2) + pow(j - jj, 2) <= r2) {
 						if (tmp[jj * widthR + ii] < min)
 							min = tmp.at(jj * widthR + ii);
@@ -874,8 +873,8 @@ QVector<double> filters::sauvolaThreshold(QVector<double> data, double timeStep)
 		}
 	}
 
-	for (int i = p; i < height + p; i++)
-		for (int j = p; j < width + p; j++)
+	for (int j = p; j < height + p; j++)
+		for (int i = p; i < width + p; i++)
 			if (tmp[j * widthR + i] <= thresholds[j * widthR + i])
 				tmp1[j * widthR + i] = 0;
 			else
@@ -898,11 +897,11 @@ QVector<double> filters::hybBernsenAndSauvola(QVector<double> data, double timeS
 	thrshld.resize(tmp.length());
 	int q = 0;
 	double sigmaMax = 128 / 255.;
-	for (int j = 0; j < widthR; j++) {
-		for (int i = 0; i < heightR; i++) {
+	for (int j = p; j < heightR; j++) {
+		for (int i = p; i < widthR; i++) {
 			double Imin = 300, Imax = -1, c;
-			for (int ii = i - p; ii <= i + p; ii++)
-				for (int jj = j - p; jj <= j + p; jj++) {
+			for (int jj = j - p; jj <= j + p; jj++) {
+				for (int ii = i - p; ii <= i + p; ii++)
 					if (pow(i - ii, 2) + pow(j - jj, 2) <= r2) {
 						if (tmp[jj * widthR + ii] < Imin)
 							Imin = tmp.at(jj * widthR + ii);
@@ -918,8 +917,8 @@ QVector<double> filters::hybBernsenAndSauvola(QVector<double> data, double timeS
 		}
 	}
 
-	for (int j = 0; j < widthR; j++) {
-		for (int i = 0; i < heightR; i++) {
+	for (int j = 0; j < heightR; j++) {
+		for (int i = 0; i < widthR; i++) {
 			if (cont[j * widthR + i] < cmin) {
 				if (thrshld[j * widthR + i] < cmin)
 					tmp[j * widthR + i] = 0;
@@ -935,4 +934,25 @@ QVector<double> filters::hybBernsenAndSauvola(QVector<double> data, double timeS
 	}
 	tmp = antireflection(tmp);
 	return tmp;
+}
+
+void filters::tmp_save(QString fileName, QVector<double> data, int w, int h) {
+	QFile outputFile(fileName);
+	outputFile.open(QIODevice::WriteOnly);
+	if (!outputFile.isOpen())
+		return;
+
+	QTextStream stream(&outputFile);
+	stream << "P2" << endl;
+	stream << w << " " << h << endl;
+	stream << 255 << endl;
+
+	for (int j = 0; j < h; j++) {
+		for (int i = 0; i < w; i++) {
+			stream << (int)data.at(j * w + i) << " ";
+		}
+		stream << endl;
+	}
+
+	outputFile.close();
 }

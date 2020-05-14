@@ -21,7 +21,6 @@ public:
 	bool eventFilter(QObject *obj, QEvent *event);
 	bool QScrollAreaEventFilter(QObject *obj, QEvent *event);
 	void setRangeValLab();
-	void set3DWidget();
 	void update3DWidget();
 	void update2DWidget();
 	void keyUpEvent(QKeyEvent *event);
@@ -32,6 +31,7 @@ public:
 	void showAllDocks();
 	void disableMenuOpt();
 	void enableMenuOpt();
+	void errorMessages(int i);
 
 	// groupboxes
 	void createSubsurfGB();
@@ -61,7 +61,6 @@ public slots:
 	void listIndexChanged(int i);
 	void treeIndexChanged(QTreeWidgetItem *itm, int i);
 	void colorIndexChanged(int i);
-	// void actionFilters();
 
 	// upper menu actions
 	void actionHistLog();
@@ -86,7 +85,6 @@ public slots:
 	void otsuClicked();
 	void kapuraClicked();
 	void niblackClicked();
-	//void boundaryClicked();
 	void bernsenClicked();
 	void subsurfClicked();
 	void actionSignDistFunc();
@@ -121,14 +119,9 @@ public slots:
 	// testing
 	void testClicked();
 
-	//void createDockWindows();
-	//void keyDown();
-	//void keyUp();
-
 private:
 	Ui::bioData *ui;
 	QMdiArea *mdiArea; 
-	//QWidget *widget = nullptr;
 	QVector<QMdiSubWindow*> _subW;
 	QGridLayout *gridLayout;
 

@@ -249,7 +249,6 @@ void viewerWidget::cutContour(vtkSmartPointer<vtkPolyData> polydata, int numOfCo
 	if (background)
 		renderer->AddActor(actor3D);
 	renderer->AddActor(cutterActor);
-
 	renderer->SetBackground(.1, .2, .3);
 
 	qW->GetRenderWindow()->AddRenderer(renderer);
@@ -315,7 +314,7 @@ void viewerWidget::cut1Contour(vtkSmartPointer<vtkPolyData> polydata, double zVa
 		vtkSmartPointer<vtkPolyDataMapper>::New();
 	cutterMapper->SetInputConnection(cutter->GetOutputPort());
 	cutterMapper->ScalarVisibilityOff();
-
+	
 	cutterActor->SetPosition(0, 0, 0);
 	cutterActor->GetProperty()->SetLineWidth(2);
 	cutterActor->SetMapper(cutterMapper);
@@ -332,7 +331,7 @@ void viewerWidget::cut1Contour(vtkSmartPointer<vtkPolyData> polydata, double zVa
 
 void viewerWidget::optContourOnID(double zValue) {
 	renderer->GetViewProps()->RemoveAllItems();
-	cutterActor->GetProperty()->SetLineWidth(5);
+	cutterActor->GetProperty()->SetLineWidth(3);
 	cutterActor->SetPosition(0, 0, abs(zValue));
 	renderer->AddActor(actor2D);
 	renderer->AddActor(cutterActor);

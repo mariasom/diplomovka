@@ -2,10 +2,10 @@
 
 subWin::subWin(QString fname) {
 	fileName = fname;
-	howManySubsurf = 1;
-	sigmaSubsurf = 1.;
+	howManySubsurf = 10;
+	sigmaSubsurf = 0.25;
 	tauSubsurf = 1.;
-	kSubsurf = 1000.;
+	kSubsurf = 100.;
 	niblackTimeStep = 5.;
 	niblackMask = 3;
 	bernsenMask = 2;
@@ -96,7 +96,7 @@ void subWin::remove2DData(int i) {
 	Data2D.removeAt(i);
 }
 
-void subWin::setSelectedItem(QTreeWidgetItem p, int i) {
+void subWin::setSelectedItem(int p, int i) {
 	parent = p;
 	currentIndex = i;
 }

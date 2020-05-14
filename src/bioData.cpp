@@ -81,7 +81,6 @@ bioData::bioData(QWidget *parent)
 	colorCBox = new QComboBox;
 
 	rangeLab = new 	QLabel;
-
 	historyText = new QPlainTextEdit;
 
 	axesCB->setChecked(false);
@@ -159,8 +158,7 @@ bioData::bioData(QWidget *parent)
 	QSettings settings(filePath, QSettings::NativeFormat);
 }
 
-void bioData::keyUpEvent(QKeyEvent *event)
-{
+void bioData::keyUpEvent(QKeyEvent *event) {
 	if (event->key() == Qt::Key_Up)
 	{
 		QMessageBox mbox;
@@ -169,8 +167,7 @@ void bioData::keyUpEvent(QKeyEvent *event)
 	}
 }
 
-void bioData::keyDownEvent(QKeyEvent *event)
-{
+void bioData::keyDownEvent(QKeyEvent *event) {
 	if (event->key() == Qt::Key_Down)
 	{
 		QMessageBox mbox;
@@ -179,27 +176,22 @@ void bioData::keyDownEvent(QKeyEvent *event)
 	}
 }
 
-bool bioData::eventFilter(QObject * obj, QEvent * event)
-{
+bool bioData::eventFilter(QObject * obj, QEvent * event) {
 	if (obj->objectName() == "QScrollArea") {
 		QScrollAreaEventFilter(obj, event);
 	}
-
 	return false;
 }
 
-bool bioData::QScrollAreaEventFilter(QObject * obj, QEvent * event)
-{
+bool bioData::QScrollAreaEventFilter(QObject * obj, QEvent * event) {
 	QScrollArea* s = static_cast<QScrollArea*>(obj);
 	if (event->type() == QEvent::Resize) {
 		if (s->widget()) {
-			//tu je nejaky odzub premysliet co ak ma 3D area inu velkost?
 			viewerWidget* w = static_cast<viewerWidget*>(s->widget());
-			_vWidget.at(_vWidget.size() - 1)->setAreaSize(s->size());
+			_vWidget.at(currentWin)->setAreaSize(s->size());
 		}
 	}
 	else {
-		// standard event processing
 		return QObject::eventFilter(obj, event);
 	}
 
@@ -248,10 +240,11 @@ void bioData::initWin(QString path) {
 
 	historyText->clear();
 	historyText->appendPlainText("File name: " + fName);
-	historyText->appendPlainText("File path: " + filePath);
+	historyText->appendPlainText("File path: " + path);
 	historyText->appendPlainText("Width: " + QString::number(tmpFile->getWidth()) + " Height: " + QString::number(tmpFile->getHeight()));
 
 	QMdiSubWindow *subWTmp = new QMdiSubWindow();
+	std::cout << _subW.size() << endl;
 	_subW.resize(_subW.size() + 1);
 
 	QWidget *widget = new QWidget();
@@ -269,16 +262,11 @@ void bioData::initWin(QString path) {
 	options2DDock->hide();
 	setDefaultValues();
 	twoDButton->setChecked(true);
-	showAllDocks();
-	//twoDClicked();
 	_file.at(_file.size() - 1)->setPoints(tmpFile->getOrigData());
 	gridLayout->addWidget(_vWidget.at(_vWidget.size() - 1)->getScrollArea());
 	_vWidget.at(_vWidget.size() - 1)->setViewerWidget2D(tmpFile->getImageData(), tmpFile->getFileName(fName));
 
 	enableMenuOpt();
-
-	_subW.at(currentWin)->setWindowTitle(fName);
-	addSubItem(parent2D, fName + "_original_data");
 	subWin *winTmp = new subWin(fName);
 	_winParam.resize(_winParam.size() + 1);
 	_winParam.replace(_winParam.size() - 1, winTmp);
@@ -287,12 +275,14 @@ void bioData::initWin(QString path) {
 	winListView->addItem(fName);
 	subWinAdded = true;
 	winListView->setCurrentRow(winListView->count() - 1);
+	_subW.at(currentWin)->setWindowTitle(fName);
+	addSubItem(parent2D, fName + "_original_data");
+	showAllDocks();
 	if (winListView->count() == 1)
 		windowsDock->hide();
 	else 
 		windowsDock->show();
 	filter2DDock->raise();
-	//_subW.at(currentWin)->show();
 	_subW.at(currentWin)->showMaximized();
 }
 
@@ -310,16 +300,15 @@ void bioData::actionpgm() {
 	if (parent2D == dataTree->currentItem()->parent()) {
 		int i = dataTree->currentItem()->indexOfChild(dataTree->currentItem());
 		QString tmp = dataTree->currentItem()->text(0) + ".pgm";
-		QString fileName1 = QFileDialog::getSaveFileName(this, tr("Save File"),
+		QString fileName1 = QFileDialog::getSaveFileName(this, tr("Save File"), 
 			tmp,
-			tr("Images (*.pgm)"));
-		cout << fileName1.toStdString() << endl;
+			tr("Images Files(*.pgm)"));
+		if (fileName1.isEmpty())
+			return;
 		_file.at(currentWin)->save_ascii(fileName1, dataTree->currentIndex().row());
 	}
 	else {
-		QMessageBox mbox;
-		mbox.setText("ERROR");
-		mbox.exec();
+		errorMessages(1);
 	}
 }
 
@@ -331,14 +320,12 @@ void bioData::action3Dvtkbinary() {
 		QString fileName1 = QFileDialog::getSaveFileName(this, tr("Save File"),
 			tmp,
 			tr("VTK Files (*.vtk *.vtp)"));
-		cout << fileName1.toStdString() << endl;
+		if (fileName1.isEmpty())
+			return;
 		_file.at(currentWin)->saveVtk3D(fileName1, dataTree->currentIndex().row(), true);
-		//fTmp->save_ascii(fileName1, dataTree->currentIndex().row());
 	}
 	else {
-		QMessageBox mbox;
-		mbox.setText("ERROR");
-		mbox.exec();
+		errorMessages(2);
 	}
 }
 
@@ -350,14 +337,12 @@ void bioData::action3Dvtkascii() {
 		QString fileName1 = QFileDialog::getSaveFileName(this, tr("Save File"),
 			tmp,
 			tr("VTK Files (*.vtk *.vtp)"));
-		cout << fileName1.toStdString() << endl;
+		if (fileName1.isEmpty())
+			return;
 		_file.at(currentWin)->saveVtk3D(fileName1, dataTree->currentIndex().row(), false);
-		//fTmp->save_ascii(fileName1, dataTree->currentIndex().row());
 	}
 	else {
-		QMessageBox mbox;
-		mbox.setText("ERROR");
-		mbox.exec();
+		errorMessages(2);
 	}
 }
 
@@ -369,13 +354,12 @@ void bioData::action2Dvtkbinary() {
 		QString fileName1 = QFileDialog::getSaveFileName(this, tr("Save File"),
 			tmp,
 			tr("VTK Files (*.vtk *.vtp)"));
-		cout << fileName1.toStdString() << endl;
+		if (fileName1.isEmpty())
+			return;
 		_file.at(currentWin)->saveVtk2D(fileName1, dataTree->currentIndex().row(), true);
 	}
 	else {
-		QMessageBox mbox;
-		mbox.setText("ERROR");
-		mbox.exec();
+		errorMessages(1);
 	}
 }
 
@@ -387,21 +371,23 @@ void bioData::action2Dvtkascii() {
 		QString fileName1 = QFileDialog::getSaveFileName(this, tr("Save File"),
 			tmp,
 			tr("VTK Files (*.vtk *.vtp)"));
-		cout << fileName1.toStdString() << endl;
+		if (fileName1.isEmpty())
+			return;
 		_file.at(currentWin)->saveVtk2D(fileName1, dataTree->currentIndex().row(), false);
 	}
 	else {
-		QMessageBox mbox;
-		mbox.setText("ERROR");
-		mbox.exec();
+		errorMessages(1);
 	}
 }
 
 // save screenshot
 void bioData::saveScreenShot() {
 	QString tmp = dataTree->currentItem()->text(0) + ".png";
-	QString fn = QFileDialog::getSaveFileName(this, "Save file", tmp, "Image Files(*.png *.jpg *.bmp)");
-	std::cout << fn.toStdString() << endl;
+	QString fn = QFileDialog::getSaveFileName(this, "Save file",
+		tmp, 
+		"Image Files(*.png *.jpg *.bmp)");
+	if (fn.isEmpty())
+		return;
 	_vWidget.at(currentWin)->saveScreenShot(fn);
 }
 
@@ -458,6 +444,7 @@ void bioData::createFileDock(QString name, QString path, int width, int height) 
 	addDockWidget(Qt::RightDockWidgetArea, fileDock);
 }
 
+// toto nepouzivam?
 void bioData::actionAdvanced() {
 	QMessageBox mbox;
 	if (filePath.isEmpty()) {
@@ -478,24 +465,19 @@ void bioData::actionAdvanced() {
 }
 
 void bioData::actionAll() {
-	QMessageBox mbox;
-	if (filePath.isEmpty()) {
+	if (filePath.isEmpty()) 
 		return;
-	}
 	else {
-		if (this->ui->actionAll->isChecked()) {
+		if (this->ui->actionAll->isChecked()) 
 			showAllDocks();
-		}
-		else if (!(this->ui->actionAll->isChecked())) {
+		else if (!(this->ui->actionAll->isChecked())) 
 			hideAllDocks();
-		}
-		else {
-			mbox.setText("something went wrong!");
-			mbox.exec();
-		}
+		else
+			errorMessages(3);
 	}
 }
 
+// toto nepouzivam? 
 void bioData::actionFileInfo() {
 
 	QMessageBox mbox;
@@ -517,80 +499,54 @@ void bioData::actionFileInfo() {
 }
 
 void bioData::actionData() {
-
-	QMessageBox mbox;
-	if (filePath.isEmpty()) {
+	if (filePath.isEmpty()) 
 		return;
-	}
 	else {
-		if (this->ui->actionData->isChecked()) {
+		if (this->ui->actionData->isChecked()) 
 			listDock->show();
-		}
-		else if (!(this->ui->actionData->isChecked())) {
+		else if (!(this->ui->actionData->isChecked())) 
 			listDock->hide();
-		}
-		else {
-			mbox.setText("something went wrong!");
-			mbox.exec();
-		}
+		else 
+			errorMessages(3);
 	}
 }
 
 void bioData::action2DFilters() {
-
-	QMessageBox mbox;
-	if (filePath.isEmpty()) {
+	if (filePath.isEmpty()) 
 		return;
-	}
 	else {
-		if (this->ui->action2DFilters->isChecked()) {
+		if (this->ui->action2DFilters->isChecked()) 
 			filter2DDock->show();
-		}
-		else if (!(this->ui->action2DFilters->isChecked())) {
+		else if (!(this->ui->action2DFilters->isChecked())) 
 			filter2DDock->hide();
-		}
-		else {
-			mbox.setText("something went wrong!");
-			mbox.exec();
-		}
+		else 
+			errorMessages(3);
 	}
 }
 
 void bioData::action3DFilters() {
-	QMessageBox mbox;
-	if (filePath.isEmpty()) {
+	if (filePath.isEmpty()) 
 		return;
-	}
 	else {
-		if (this->ui->action3DFilters->isChecked()) {
+		if (this->ui->action3DFilters->isChecked()) 
 			subsurfDock->show();
-		}
-		else if (!(this->ui->action3DFilters->isChecked())) {
+		else if (!(this->ui->action3DFilters->isChecked())) 
 			subsurfDock->hide();
-		}
-		else {
-			mbox.setText("something went wrong!");
-			mbox.exec();
-		}
+		else 
+			errorMessages(3);
 	}
 }
 
 void bioData::actionHistLog() {
-	QMessageBox mbox;
-	if (filePath.isEmpty()) {
+	if (filePath.isEmpty()) 
 		return;
-	}
 	else {
-		if (this->ui->action3DFilters->isChecked()) {
+		if (this->ui->action3DFilters->isChecked()) 
 			historyDock->show();
-		}
-		else if (!(this->ui->action3DFilters->isChecked())) {
+		else if (!(this->ui->action3DFilters->isChecked())) 
 			historyDock->hide();
-		}
-		else {
-			mbox.setText("something went wrong!");
-			mbox.exec();
-		}
+		else 
+			errorMessages(3);
 	}
 }
 
@@ -607,7 +563,6 @@ void bioData::createListDock() {
 	QWidget* multiWidget = new QWidget();
 	QGridLayout *listLayout = new QGridLayout;
 	QVBoxLayout* vLayout = new QVBoxLayout;
-	//listLayout->addWidget(dataListView, 0, 0, 2, 2);
 	dataTree->setHeaderHidden(true);
 	dataTree->setColumnCount(1);
 	listLayout->addWidget(dataTree, 0, 0, 2, 2);
@@ -694,7 +649,6 @@ void bioData::createFilter3DDock() {
 void bioData::otsuClicked() {
 	ui->statusbar->showMessage("Computing...");
 	qApp->processEvents();
-
 	filters filter(_file.at(currentWin)->getWidth(), _file.at(currentWin)->getHeight(), _file.at(currentWin)->getOrigData());
 	int otsuThr = filter.otsuFilter();
 	_file.at(currentWin)->addFiltData(filter.createNewData(_file.at(currentWin)->getOrigData(), otsuThr));
@@ -749,17 +703,19 @@ void bioData::treeIndexChanged(QTreeWidgetItem *itm, int i) {
 			_file.at(currentWin)->create3Ddata(_file.at(currentWin)->get3DData(dataTree->currentIndex().row()));
 			_file.at(currentWin)->colorPolyData(colorCBox->currentIndex());
 			options2DDock->hide();
+			options3DDock->show();
 
 			if (axesCB->isChecked()) {
-				_file.at(currentWin)->create3Ddata(_file.at(currentWin)->get3DData(dataTree->currentIndex().row()));
+				// _file.at(currentWin)->create3Ddata(_file.at(currentWin)->get3DData(dataTree->currentIndex().row()));
 				_vWidget.at(currentWin)->addAxes(_file.at(currentWin)->getPolydata());
 			}
 			else {
-				options3DDock->show();
 				_vWidget.at(currentWin)->updateViewerWidget3D();
 			}
 			threeDClicked();
 		}
+		else
+			errorMessages(3);
 }
 
 void bioData::bernsenClicked() {
@@ -768,7 +724,6 @@ void bioData::bernsenClicked() {
 	QVector<double> tmp = filter.bernsenThreshold(filter.dataToDouble(_file.at(currentWin)->getOrigData()));
 	_file.at(currentWin)->addFiltData(filter.dataToChar(tmp));
 	_file.at(currentWin)->setPoints(_file.at(currentWin)->getFiltData(_file.at(currentWin)->getSizeFiltData() - 1));
-
 	update2DWidget();
 	addSubItem(parent2D, _winParam.at(currentWin)->getFileName() + "_bernsen");
 	_winParam.at(currentWin)->add2DData(_winParam.at(currentWin)->getFileName() + "_bernsen");
@@ -776,30 +731,18 @@ void bioData::bernsenClicked() {
 }
 
 void bioData::subsurfClicked() {
-	QMessageBox mbox;
-	if (dataTree->selectionModel()->selectedIndexes().size() == 0) {
-		mbox.setText("No data selected!.");
-		mbox.exec();
-	}
+	if (dataTree->selectionModel()->selectedIndexes().size() == 0)
+		errorMessages(0);
 	else if (parent2D == dataTree->currentItem()->parent()) {
 		ui->statusbar->showMessage("Computing...");
 		qApp->processEvents();
-
 		filters filter(_file.at(currentWin)->getWidth(), _file.at(currentWin)->getHeight(), _file.at(currentWin)->getOrigData());
 		_winParam.at(currentWin)->changeSubsurfParam(timeStepsSubsurf->value(), sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());
 		QVector<double> tmp;
 		if (initialCBox->currentIndex() == 0) {
-			/*tmp = filter.subSurf(
-				filter.distFunctSign(
-					filter.dataToDouble(_file.at(_file.size() - 1)->getFiltData(dataTree->currentIndex().row()))),
-				filter.changeRangeOfData(
-					filter.dataToInt(filter.dataDifference((_file.at(_file.size() - 1)->getFiltData(dataTree->currentIndex().row()))))),
-				sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());*/
-
 			tmp = filter.subSurf(
 				filter.distFunctSign(
-					filter.boundary(
-						filter.dataToDouble(_file.at(currentWin)->getFiltData(dataTree->currentIndex().row())))),
+						filter.dataToDouble(_file.at(currentWin)->getFiltData(dataTree->currentIndex().row()))),
 				filter.changeRangeOfData(
 					filter.dataToInt((_file.at(currentWin)->getFiltData(dataTree->currentIndex().row())))),
 				timeStepsSubsurf->value() ,sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());
@@ -829,18 +772,14 @@ void bioData::subsurfClicked() {
 		_winParam.at(currentWin)->addHistInfo(historyText->toPlainText());
 		ui->statusbar->clearMessage();
 	}
-	else {
-		mbox.setText("ERROR! \nYou can't apply SUBSURF on 3D data.");
-		mbox.exec();
-	}
+	else 
+		errorMessages(1);
 }
 
 void bioData::actionDistFunc() {
 	QMessageBox mbox;
-	if (dataTree->selectionModel()->selectedIndexes().size() == 0) {
-		mbox.setText("No data selected!.");
-		mbox.exec();
-	}
+	if (dataTree->selectionModel()->selectedIndexes().size() == 0) 
+		errorMessages(0);
 	else if (parent2D == dataTree->currentItem()->parent()) {
 		ui->statusbar->showMessage("Computing...");
 		qApp->processEvents();
@@ -857,10 +796,8 @@ void bioData::actionDistFunc() {
 		_winParam.at(currentWin)->addHistInfo(historyText->toPlainText());
 		ui->statusbar->clearMessage();
 	}
-	else {
-		mbox.setText("ERROR! \nYou can't apply SUBSURF on 3D data.");
-		mbox.exec();
-	}
+	else 
+		errorMessages(1);
 }
 
 void bioData::update3DWidget() {
@@ -877,16 +814,13 @@ void bioData::update2DWidget() {
 }
 
 void bioData::actionSignDistFunc() {
-	QMessageBox mbox;
-	if (dataTree->selectionModel()->selectedIndexes().size() == 0) {
-		mbox.setText("No data selected!.");
-		mbox.exec();
-	}
+	if (dataTree->selectionModel()->selectedIndexes().size() == 0) 
+		errorMessages(0);
 	if (parent2D == dataTree->currentItem()->parent()) {
 		ui->statusbar->showMessage("Computing...");
 		qApp->processEvents();
 		filters filter(_file.at(currentWin)->getWidth(), _file.at(currentWin)->getHeight(), _file.at(currentWin)->getOrigData());
-		QVector<double> tmp = filter.distFunctSign(filter.boundary(filter.dataToDouble(_file.at(currentWin)->getFiltData(dataTree->currentIndex().row()))));
+		QVector<double> tmp = filter.distFunctSign(filter.dataToDouble(_file.at(currentWin)->getFiltData(dataTree->currentIndex().row())));
 		_file.at(currentWin)->add3DData(tmp);
 		_file.at(currentWin)->create3Ddata(_file.at(currentWin)->get3DData(_file.at(currentWin)->getSize3DData() - 1));
 		_file.at(currentWin)->colorPolyData(colorCBox->currentIndex());
@@ -898,10 +832,8 @@ void bioData::actionSignDistFunc() {
 		_winParam.at(currentWin)->addHistInfo(historyText->toPlainText());
 		ui->statusbar->clearMessage();
 	}
-	else {
-		mbox.setText("ERROR! \nYou can't apply SUBSURF on 3D data.");
-		mbox.exec();
-	}
+	else
+		errorMessages(1);
 }
 
 void bioData::createSubsurfGB() {
@@ -967,8 +899,11 @@ void bioData::createtestGB() {
 }
 
 void bioData::deleteClicked() {
-	QMessageBox mbox;
 	qApp->processEvents();
+	if (dataTree->selectedItems().size() == 0) {
+		errorMessages(0);
+		return;
+	}
 	int i = dataTree->currentIndex().row();
 	if (dataTree->topLevelItemCount() == 1 && parent2D->childCount() == 1) {
 		dataTree->model()->removeRow(i);
@@ -988,15 +923,20 @@ void bioData::deleteClicked() {
 		else {
 			parent3D->removeChild(parent3D->child(i));
 			_file.at(currentWin)->remove3DFiltData(i);
-			dataTree->setCurrentItem(parent3D->child(i - 1));
+			if (i =! 0)
+				dataTree->setCurrentItem(parent3D->child(i - 1));
+			else 
+				dataTree->setCurrentItem(parent3D->child(i + 1));
 			_file.at(currentWin)->create3Ddata(_file.at(currentWin)->get3DData(dataTree->currentIndex().row()));
 			_vWidget.at(currentWin)->updateViewerWidget3D();
 		}
 	}
 	else if (parent2D == dataTree->currentItem()->parent()) {
-		if (dataTree->currentIndex().row() == 0) {
-			mbox.setText("You can't delete original data!");
-			mbox.exec();
+		if (dataTree->currentIndex().row() == 0 && parent3D->childCount() == 0 && parent2D->childCount() == 1) {
+			actionCloseFiles();
+		}
+		else if (dataTree->currentIndex().row() == 0) {
+			errorMessages(4);
 		}
 		else {
 			parent2D->removeChild(parent2D->child(i));
@@ -1009,6 +949,10 @@ void bioData::deleteClicked() {
 }
 
 void bioData::resetViewClicked () {
+	if (dataTree->selectedItems().size() == 0) {
+		errorMessages(0);
+		return;
+	}
 	_vWidget.at(currentWin)->resetCam();
 }
 
@@ -1016,27 +960,27 @@ void bioData::actionCloseFiles() {
 	qApp->processEvents();
 
 	if (mdiArea->subWindowList().length() > 0) {
-		
-		for (int i = 0; i < _subW.length(); i++) {
-			_file.remove(i);
-			_winParam.remove(i);
-			_vWidget.remove(i);
-			_subW.at(i);
-			winListView->model()->removeRow(i);
-		}
+		_file.clear();
+		_winParam.clear();
+		_vWidget.clear();
+		_subW.clear();
+		winListView->clear();
 		mdiArea->closeAllSubWindows();
 		dataTree->clear();
 		winListView->clear();
 		hideAllDocks();
+		disableMenuOpt();
 	}
 	else {
-		QMessageBox mbox;
-		mbox.setText("ERROR! NO DATA ARE LOADED!");
-		mbox.exec();
+		errorMessages(3);
 	}
 }
 
 void bioData::twoDClicked() {
+	if (dataTree->selectedItems().size() == 0) {
+		errorMessages(0);
+		return;
+	}
 	twoDButton->setChecked(true);
 	threeDButton->setChecked(false);
 	_vWidget.at(currentWin)->set2DView();
@@ -1044,6 +988,10 @@ void bioData::twoDClicked() {
 }
 
 void bioData::threeDClicked() {
+	if (dataTree->selectedItems().size() == 0) {
+		errorMessages(0);
+		return;
+	}
 	threeDButton->setChecked(true);
 	twoDButton->setChecked(false);
 	_vWidget.at(currentWin)->set3DView();
@@ -1150,7 +1098,7 @@ void bioData::setDefaultValues() {
 	kSubsurf->setRange(0.00001, 999999.0);
 	kSubsurf->setDecimals(2);
 	kSubsurf->setSingleStep(0.5);
-	kSubsurf->setValue(200);
+	kSubsurf->setValue(100);
 
 	// niblack param
 	niblackTimeStepSB->setRange(0.0001, 1000.0);
@@ -1200,13 +1148,11 @@ void bioData::setDefaultValues() {
 	heatEqSB->setRange(0.0001, 1000.0);
 	heatEqSB->setDecimals(3);
 	heatEqSB->setSingleStep(0.1);
-	heatEqSB->setValue(0.25);
+	heatEqSB->setValue(1.0);
 
 	// cut at
 	cutDataAtSB->setRange(-100, 100);
 	cutDataAtSB->setValue(-8);
-
-
 }
 
 void bioData::thresholdInitConClicked() {
@@ -1225,6 +1171,8 @@ void bioData::thresholdInitConClicked() {
 		_winParam.at(currentWin)->addHistInfo(historyText->toPlainText());
 		ui->statusbar->clearMessage();
 	}
+	else
+		errorMessages(1);
 }
 
 void bioData::createOptions2DDock() {
@@ -1327,6 +1275,8 @@ void bioData::contour3DClicked() {
 		_subW.at(currentWin)->update();
 		ui->statusbar->clearMessage();
 	}
+	else
+		errorMessages(2);
 }
 
 void bioData::createcontour3DGB() {
@@ -1384,7 +1334,8 @@ void bioData::contour2DClicked() {
 		_vWidget.at(currentWin)->contours2D(_file.at(currentWin)->getImageData(), false);
 		dataTree->selectionModel()->clearSelection();
 		ui->statusbar->clearMessage();
-	}
+	} else 
+		errorMessages(1);
 }
 
 void bioData::contour2DwIDClicked() {
@@ -1396,7 +1347,8 @@ void bioData::contour2DwIDClicked() {
 		_vWidget.at(currentWin)->contours2D(_file.at(currentWin)->getImageData());
 		dataTree->selectionModel()->clearSelection();
 		ui->statusbar->clearMessage();
-	}
+	} else 
+		errorMessages(1);
 }
 
 void bioData::contour3DwDClicked() {
@@ -1410,6 +1362,8 @@ void bioData::contour3DwDClicked() {
 		_subW.at(currentWin)->update();
 		ui->statusbar->clearMessage();
 	}
+	else
+		errorMessages(2);
 }
 
 void bioData::differenceClicked() {
@@ -1425,6 +1379,8 @@ void bioData::differenceClicked() {
 		_winParam.at(currentWin)->addHistInfo(historyText->toPlainText());
 		ui->statusbar->clearMessage();
 	}
+	else 
+		errorMessages(1);
 }
  
 void bioData::heatEquationClicked() {
@@ -1441,6 +1397,8 @@ void bioData::heatEquationClicked() {
 		_winParam.at(currentWin)->addHistInfo(historyText->toPlainText());
 		ui->statusbar->clearMessage();
 	}
+	else 
+		errorMessages(1);
 }
 
 void bioData::AxesChange(bool checked) {
@@ -1455,6 +1413,8 @@ void bioData::AxesChange(bool checked) {
 			_vWidget.at(currentWin)->removeAxes();
 			_subW.at(currentWin)->update();
 		}
+	else
+		errorMessages(0);
 }
 
 void bioData::colorIndexChanged(int i) {
@@ -1474,6 +1434,8 @@ void bioData::contour3DPClicked() {
 		dataTree->selectionModel()->clearSelection();
 		_subW.at(currentWin)->update();
 	}
+	else
+		errorMessages(2);
 }
 
 void bioData::contour3DPwDClicked() {
@@ -1484,19 +1446,21 @@ void bioData::contour3DPwDClicked() {
 		_vWidget.at(_vWidget.size() - 1)->cutContour(_file.at(_file.size() - 1)->getPolydata(), numCont3DSB->value());
 		dataTree->selectionModel()->clearSelection();
 		_subW.at(currentWin)->update();
-	}
+	} 
+	else
+		errorMessages(2);
 }
 
 void bioData::testClicked() {
 	ui->statusbar->showMessage("Computing...");
 	qApp->processEvents();
-	filters filter(_file.at(_file.size() - 1)->getWidth(), _file.at(_file.size() - 1)->getHeight(), _file.at(_file.size() - 1)->getOrigData(), niblackMaskSB->value());
+	filters filter(_file.at(_file.size() - 1)->getWidth(), _file.at(_file.size() - 1)->getHeight(), _file.at(_file.size() - 1)->getOrigData(), 80);
 	//QVector<unsigned char> tmp = filter.dataToChar(filter.sauvolaThreshold(filter.changeRangeOfData(filter.dataToInt(_file.at(_file.size() - 1)->getOrigData())), niblackTimeStepSB->value()));
-	QVector<unsigned char> tmp = filter.dataToChar(filter.hybBernsenAndSauvola(filter.changeRangeOfData(filter.dataToInt(_file.at(_file.size() - 1)->getOrigData())), niblackTimeStepSB->value()));
-	_file.at(_file.size() - 1)->addFiltData(tmp);
-	_file.at(_file.size() - 1)->setPoints(_file.at(_file.size() - 1)->getFiltData(_file.at(_file.size() - 1)->getSizeFiltData() - 1));
-	update2DWidget();
-	addSubItem(parent2D, fName + "_niblack");
+	QVector<double> tmp = filter.reflection(filter.dataToDouble(_file.at(_file.size() - 1)->getOrigData()));
+	//_file.at(_file.size() - 1)->addFiltData(tmp);
+	//_file.at(_file.size() - 1)->setPoints(_file.at(_file.size() - 1)->getFiltData(_file.at(_file.size() - 1)->getSizeFiltData() - 1));
+	//update2DWidget();
+	//addSubItem(parent2D, fName + "_test");
 	ui->statusbar->clearMessage();
 }
 
@@ -1505,10 +1469,8 @@ void bioData::createrManOptContourGB() {
 	QGridLayout *layout = new QGridLayout;
 	QLabel *zLab = new QLabel(tr("Z coordinate of contour: "));
 	QLabel *ogDataLab = new QLabel(tr("Display on original data: "));
-	//setRangeValLab();
 	manOptContourButton->setText("Show");
 	optContDispButton->setText("Show");
-	// layout->addWidget(rangeLab, 0, 0, 1, 2);
 	layout->addWidget(zLab, 0, 0);
 	layout->addWidget(contourZConSB, 0, 1);
 	layout->addWidget(manOptContourButton, 1, 1);
@@ -1526,8 +1488,11 @@ void bioData::manOptContClicked() {
 		_vWidget.at(currentWin)->cut1Contour(_file.at(currentWin)->getPolydata(), contourZConSB->value());
 		_subW.at(currentWin)->update();
 	}
+	else
+		errorMessages(2);
 }
 
+// nepouzivam ?
 void bioData::setRangeValLab() {
 	if (parent3D != nullptr)
 		if (parent3D == dataTree->currentItem()->parent()) {
@@ -1548,18 +1513,21 @@ void bioData::optContDispClicked() {
 		_winParam.at(currentWin)->changeZValOfCont3D(contourZConSB->value());
 		_file.at(currentWin)->create3Ddata(_file.at(currentWin)->get3DData(dataTree->currentIndex().row()));
 		_vWidget.at(currentWin)->cut1Contour(_file.at(currentWin)->getPolydata(), contourZConSB->value(), true);
-		//_file.at(_file.size() - 1)->addFiltData(filter.dataDifference(_file.at(_file.size() - 1)->getFiltData(dataTree->currentIndex().row())));
 		_file.at(currentWin)->setPoints(_file.at(currentWin)->getOrigData());
 		_vWidget.at(currentWin)->optContourOnID(contourZConSB->value());
 		dataTree->selectionModel()->clearSelection();
 		twoDClicked();
 	}
+	else
+		errorMessages(2);
 }
 
 void bioData::histSavedClicked() {
 	QString fname= QFileDialog::getSaveFileName(this, tr("Save File"),
 		"history_log.txt",
 		tr("Text File (*.txt)"));
+	if (fname.isEmpty())
+		return;
 	_file.at(currentWin)->saveHistOutput(historyText->toPlainText(), fname);
 }  
 
@@ -1568,6 +1536,10 @@ void bioData::showAllDocks() {
 	filter2DDock->show();
 	subsurfDock->show();
 	historyDock->show();
+	if (parent2D == dataTree->currentItem()->parent())
+		options2DDock->show();
+	else if (parent3D == dataTree->currentItem()->parent())
+		options3DDock->show();
 	this->ui->actionFileInfo->setChecked(true);
 	this->ui->actionData->setChecked(true);
 	this->ui->action2DFilters->setChecked(true);
@@ -1576,7 +1548,6 @@ void bioData::showAllDocks() {
 }
 
 void bioData::hideAllDocks() {
-
 	listDock->hide();
 	filter2DDock->hide();
 	subsurfDock->hide();
@@ -1604,11 +1575,8 @@ void bioData::enableMenuOpt() {
 }
 
 void bioData::cutDataAtClicked() { 
-	QMessageBox mbox;
-	if (dataTree->selectionModel()->selectedIndexes().size() == 0) {
-		mbox.setText("No data selected!.");
-		mbox.exec();
-	}
+	if (dataTree->selectionModel()->selectedIndexes().size() == 0) 
+		errorMessages(0);
 	if (parent3D == dataTree->currentItem()->parent()) {
 		ui->statusbar->showMessage("Computing...");
 		qApp->processEvents();
@@ -1626,10 +1594,8 @@ void bioData::cutDataAtClicked() {
 		_winParam.at(currentWin)->addHistInfo(historyText->toPlainText());
 		ui->statusbar->clearMessage();
 	}
-	else {
-		mbox.setText("ERROR! \nYou can't apply SUBSURF on 3D data.");
-		mbox.exec();
-	}
+	else 
+		errorMessages(2);
 }
 
 void bioData::createCutDataAtGB() {
@@ -1643,7 +1609,6 @@ void bioData::createCutDataAtGB() {
 	layout->addWidget(cutDataAtButton, 1, 1);
 
 	cutDataAtGB->setLayout(layout);
-
 }
 
 void bioData::hybNBABernClicked() {
@@ -1694,11 +1659,11 @@ void bioData::listIndexChanged(int i) {
 	currentWin = i;
 	if (currentWin == -1)
 		return;
-	else if (subWinAdded) {	//vykona sa ak som pridala nove okno
+	else if (subWinAdded) {
 		subWinAdded = false;
 		return;
 	}
-	else { //vykona sa pri preklikavani medzi oknami
+	else { 
 		filter2DDock->raise();
 
 		initialCBox->setCurrentIndex(0);
@@ -1746,10 +1711,6 @@ void bioData::listIndexChanged(int i) {
 				addSubItem(parent3D, _winParam.at(currentWin)->get3DDataItem(i));
 			}
 		}
-		//QTreeWidgetItem tmpPar = _winParam.at(currentWin)->getCurrentParent();
-		//dataTree->setCurrentItem(tmpPar.child(_winParam.at(currentWin)->getCurrentIndex()));
-		dataTree->setCurrentItem(parent2D->child(0));
-		treeIndexChanged(parent2D, 0);
 		_subW.at(currentWin)->update();
 		_subW.at(currentWin)->raise();
 		_subW.at(currentWin)->showMaximized();
@@ -1776,16 +1737,22 @@ void bioData::createWindowsDock() {
 }
 
 void bioData::deleteWinClicked() {
-	if (_subW.length() > 0) {
-		winSize--;
+	if (_subW.size() > 1) {
+		if (_subW.size() == 2)
+			windowsDock->hide();
 		_file.remove(currentWin);
 		_winParam.remove(currentWin);
 		_vWidget.remove(currentWin);
 		_subW.at(currentWin)->close();
+		_subW.remove(currentWin);
 		winListView->model()->removeRow(currentWin);
-		winListView->setCurrentRow(0);
-		if (winListView->count() == 1)
-			windowsDock->hide();
+		if (currentWin == 0)
+			winListView->setCurrentRow(currentWin + 1);
+		else 
+			winListView->setCurrentRow(currentWin - 1);
+	}
+	else if (_subW.size() == 1) {
+		actionCloseFiles();
 	}
 }
 
@@ -1817,4 +1784,26 @@ void bioData::actionAbout() {
 
 	aboutBox.setText(about);
 	aboutBox.exec();
+}
+
+void bioData::errorMessages(int i) {
+	QMessageBox errorMessage;
+	switch (i) {
+	case 0:
+		errorMessage.setText("No data selected!");
+		break;
+	case 1:
+		errorMessage.setText("2D data must be selected!");
+		break;
+	case 2:
+		errorMessage.setText("3D data must be selected!");
+		break;
+	case 3:
+		errorMessage.setText("Something went wrong!");
+		break;
+	case 4:
+		errorMessage.setText("You can't delete original data while having more items in the list!");
+		break;
+	}
+	errorMessage.exec();
 }

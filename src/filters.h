@@ -18,7 +18,6 @@ private:
 	QVector<unsigned char> charData;
 	QVector<QVector<int>> t;
 	QVector<double> qepm, qwpm, qspm, qnpm, qe, qw, qs, qn;
-	//QVector<double> dataToDouble(QVector<unsigned char> oData);
 	void grad2(QVector<double> data, double h, double k, double epsilon);
 	void grad3(QVector<double> data, double h, double k, double epsilon);
 	void grad(QVector<double> data, double h, double k, double epsilon);
@@ -27,7 +26,7 @@ private:
 	// QVector<double> antireflection(QVector<double> data);
 	QVector<double> updateReflection(QVector<double> data);
 	QVector<double> pow2(QVector<double> data);
-	// void tmp_save(QString fileName, QVector<double> data, int w, int h);
+	void tmp_save(QString fileName, QVector<double> data, int w, int h);
 	QVector<double> countAvg();
 
 
