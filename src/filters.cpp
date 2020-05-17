@@ -431,13 +431,13 @@ void filters::grad2(QVector<double> data, double h, double k, double epsilon) {
 	}
 }
 
-void filters::grad3(QVector<double> data, double h, double k, double epsilon) {
+void filters::grad3(QVector<double> data, double h, double k, double epsilon, double sigma) {
 	qepm.resize(widthR*heightR);
 	qwpm.resize(widthR*heightR);
 	qspm.resize(widthR*heightR);
 	qnpm.resize(widthR*heightR);
 	QVector<double> oData;
-	oData = reflection(origData);
+	oData = heatImpl(origData, sigma);
 	double s1,s2;
 	double ux, uy, uxx, uyy;
 	for (int j = 1; j < heightR - 1; j++) {
@@ -546,7 +546,7 @@ QVector<double> filters::heatImpl(QVector<double> data, double timeStep) {
 	return up;
 }
 
-QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData,int steps , double sigma, double tau, double k) {
+QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, int steps , double sigma, double tau, double k) {
 	QVector<double> uk1, up, un, uhe, up1, avg;
 	QVector<double> uf;
 	uf.resize(width*height);
@@ -564,7 +564,7 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData,int
 	double w = 1.15;
 
 	uk1 = heatImpl(tData, sigma);
-	grad3(uk1, h, k, epsilon);
+	grad3(uk1, h, k, epsilon, sigma);
 
 	for (int t = 0; t < steps; t++) {
 		double rez = pow(10,6);

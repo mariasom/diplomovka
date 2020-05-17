@@ -48,6 +48,7 @@
 #include <vtkTextProperty.h>
 #include <vtkInteractorStyleJoystickCamera.h>
 #include <vtkInteractorStyleImage.h>
+#include <vtkImageDataGeometryFilter.h>
 
 class viewerWidget : public QWidget {
 	Q_OBJECT

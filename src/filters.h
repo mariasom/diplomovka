@@ -19,7 +19,7 @@ private:
 	QVector<QVector<int>> t;
 	QVector<double> qepm, qwpm, qspm, qnpm, qe, qw, qs, qn;
 	void grad2(QVector<double> data, double h, double k, double epsilon);
-	void grad3(QVector<double> data, double h, double k, double epsilon);
+	void grad3(QVector<double> data, double h, double k, double epsilon, double sigma);
 	void grad(QVector<double> data, double h, double k, double epsilon);
 	double M(QVector<double> u,int i, int j, int p, int q);
 	double findmax(double m1, double m2);

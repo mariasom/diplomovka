@@ -63,13 +63,13 @@ if (VTK_VERSION VERSION_LESS "8.90.0")
   # CMAKE_AUTOMOC in ON so the MOC headers will be automatically wrapped.
   add_executable(bioData MACOSX_BUNDLE
     ${CXX_FILES} ${UISrcs} ${QT_WRAP})
-  qt5_use_modules(bioData Core Gui)
+  qt5_use_modules(bioData Core Gui Help)
   target_link_libraries(bioData ${VTK_LIBRARIES})
 else()
   # CMAKE_AUTOMOC in ON so the MOC headers will be automatically wrapped.
   add_executable(bioData MACOSX_BUNDLE
     ${CXX_FILES} ${UISrcs} ${QT_WRAP})
-  qt5_use_modules(bioData Core Gui)
+  qt5_use_modules(bioData Core Gui Help)
   target_link_libraries(bioData ${VTK_LIBRARIES})
   # vtk_module_autoinit is needed
   vtk_module_autoinit(

@@ -29,6 +29,12 @@
 #include <vtkFloatArray.h>
 #include <vtkLine.h>
 #include <vtkPolygon.h>
+#include <vtkTIFFReader.h>
+#include <vtkImageDataGeometryFilter.h>
+#include <vtkImageData.h>
+#include <vtkImageCanvasSource2D.h>
+//#include <vtkTIFFReaderInternal.h>
+#include <vtkDataArray.h>
 
 class source {
 protected:
@@ -53,6 +59,7 @@ protected:
 	vtkSmartPointer<vtkImageMapToColors> scalarValuesToColors;
 	vtkSmartPointer<vtkLookupTable> colorLookupTable;
 	void setCol(vtkSmartPointer<vtkColorTransferFunction> color, int colorIndex);
+	vtkSmartPointer<vtkImageDataGeometryFilter> imageDataGeometryFilter;
 
 public:
 	source();
@@ -78,6 +85,8 @@ public:
 	double getZMax(int i) { return zMax.at(i); };
 	void remove2DFiltData(int i) { dataFilt.remove(i); };
 	void remove3DFiltData(int i) { data3DFilt.remove(i); };
+	vtkSmartPointer<vtkImageDataGeometryFilter> getTIFFPolydata() { return imageDataGeometryFilter; };
+
 
 	void addFiltData(QVector<unsigned char> &addData);
 	void add3DData(QVector<double> &addData);
@@ -87,4 +96,6 @@ public:
 	void colorPolyData(int colorIndex);
 	void addZMinandMax();
 	void saveHistOutput(QString text, QString fileName);
+	void readTifFile(QString path);
+	void source::setNewDataWin(QVector<unsigned char> dataToSet, int h, int w);
 };

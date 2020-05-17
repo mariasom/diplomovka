@@ -49,6 +49,9 @@
 \usepackage[official]{eurosym}
 \usepackage{url}
 
+%pdf inport package
+\usepackage{pdfpages}
+
 %algoritmy
 \usepackage[lined,boxed]{algorithm2e}
 
@@ -83,6 +86,10 @@
 \chardef\crqq=16 \sfcode16=0
 \def\uv#1{\clqq#1\crqq}
 
+%na bodky k podpisu
+\usepackage{calc}
+\newcommand{\sigline}[1]{\makebox[\widthof{#1~}]{.\dotfill}\\#1}
+
 \usepackage{verse}
 
 \author{Mária Somorovská}
@@ -105,14 +112,14 @@
     \centerline {\large \bf{SLOVENSKÁ TECHNICKÁ UNIVERZITA V~BRATISLAVE}}
     \vskip 0.2cm
     \centerline{\large \bf{STAVEBNÁ FAKULTA}}
-    \vskip 7cm
+    \vskip 8cm
     \centerline{\Large \bf{Automatické segmentačné metódy biologických dát}}
     \vskip 0.2cm
     %\centerline{\Large \bf{V PRÍPADE, ŽE JE PRIDLHÝ JEHO DRUHÝ RIADOK}}
     %\centerline{ \bf{(verzia z~\today) }}   %vypisovanie dnesneho datumu
     \vskip 0.5cm
     \centerline{\large \bf{Diplomová práca}}
-    \vskip 5cm          %\vskip 2cm             %zmena kvoli zobrazovaniu dnesneho datumu
+    \vskip 8cm          %\vskip 2cm             %zmena kvoli zobrazovaniu dnesneho datumu
     \normalsize
         \begin{tabular}[l]{p{0.27\textwidth}p{0.73\textwidth}}
         Študijny program: & Matematicko-počítačové modelovanie\\
@@ -120,7 +127,7 @@
         Školiace pracovisko: & Katedra matematiky a deskriptívnej geometrie\\
         Vedúci diplomovej\\ práce: & doc. RNDr. Zuzana Krivá, PhD. \\
         \end{tabular}
-    \vskip 1.5cm
+    \vskip 2cm
     \centerline{\large \bf{BRATISLAVA 2020}}
     \vskip 0.2cm
     \centerline{\large \bf{Bc. Mária Somorovská}}
@@ -128,12 +135,61 @@
 \pagebreak
 %**********************************koniec prvej strany
 
-%obsah
-\tableofcontents
+\thispagestyle{empty}
+\includepdf[pages={1}]{file.pdf}
+
+
+\thispagestyle{empty}
+\vspace*{\fill}
+\textbf{Čestné vyhlásenie} 
+
+\bigskip
+Čestne vyhlasujem, že diplomoú prácu som vypracovala samostatne, na základe konzultácií so školitelkou a s~použitím uvedených informačných zdrojov a literatúry. 
+
+\bigskip
+V Bratislave, ?.5. 2020
+\begin{flushright}
+\sigline{podpis autora práce}
+\end{flushright}
+%*************************koniec vyhlasenia
+\newpage
+%\newgeometry{top=2.5cm, bottom=2.5cm, left=3.5cm, right=2cm}
+\thispagestyle{empty}
+%tu bude podakovanie
+%\vspace*{\fill}
+%\textbf{Poďakovanie}
+
+
+
+\newpage 
+ \thispagestyle{empty}
+%abstrakt
+\section*{Abstrakt}
+
+Práca je zameraná na spracovanie biologických dát - makrofágov, ktoré môžu mať zložité tvary, šum a časti makrofágov môžu mať slabšiu intenzitu. Popisuje viacero globálnych a lokálnych adaptívnych prahovacích metód a ich využitie v segmentačnej metóde SUBSURF, založenej na parciálnej diferenciálnej rovnici. Práca je rozdelená do niekoľkých častí, teoretickú, ktorá popisuje využité segmentačné algoritmy z matematického hľadiska, praktickú, popisujúcu softvér slúžiaci na zobrazenie a spracovanie biologických dát. Na implementáciu segmentačných metód bol zvolený objektovo-orientovaný prístup v jazyku \texttt{C++}, spolu s \texttt{Qt} knižnicami slúžiacimi na vytvorenie užívateľského prostredia a s \texttt{VTK} knižnice boli využité pri vizualizácií. Práca obsahuje aj demonštráciu získaných výsledkov.
+
+%Práca je zameraná na implementáciu segmentačných metód pre biologické dáta makrofágov, ktoré môžu mať zložité tvary, šum a časti makrofágov môžu mať slabšiu intenzitu. Popisuje viacero globálnych a lokálnych adaptívnych prahovacích metód a ich využitie v segmentačnej metóde SUBSURF, založenej na parciálnej diferenciálnej rovnici.
+
+\paragraph*{Kľúčové slová:}spracovanie obrazov, C++, segmentačné metódy, prahovacie metódy.
+
+\section*{Abstract}
+
+This thesis is dedicated to processing biological data of macrophages, which have difficult shapes, contain noise or on some parts can have lower intensity. The thesis describes numerous global and local adaptive thresholding methods and their usage in segmentation method SUBSURF, based on partial differential equation. The thesis is devided into several parts, where the theoretical one describes  used segmentation algorithms from mathematical point of view and the practical one contains description of software used for visualization and processing the biological data. For the software implementation object oriented language \texttt{C++} were used. User graphical interface was implemented with \texttt{Qt} libraries and \texttt{VTK} libraries were used for vizualization. The work also contains results, which were achieved.
+
+%This thesis deals with possibilities of email communication tracking by the sender or the third parties across the internet, also known as mailtracking. It describes various ways, how mailtracking can be implemented. 
+%This thesis is about how communication through email can be tracked by sender or by third parties across the internet, also known as mailtracking. It describes various ways how mailtracking can be implemented. 
+%Speaking about some companies, which are offering mailtracking services. Describing how to avoid possibility of being tracked. By simple implementation of mailtracking, few slovak and foreign email servers were tested.      
+
+\paragraph*{Key words:}image processing, C++, segmentation methods, thresholding methods.
 
 \newpage
-
+\thispagestyle{empty}
+\tableofcontents %obsah
+\newpage
+\
 \section{Úvod}
+\setcounter{page}{1}
+
 % In the different 
 %Spracovanie obrazov, je metóda, ktorá používa rôzne operácie na obrazových dátach
 
@@ -169,30 +225,28 @@ Druhá časť sa zameriava na technológie a knižnice využité pri implementá
 
 Ďaľšia časť sa zaoberá popisom grafického rozhrania programu, ktorá by mohla slúžiť aj ako manuál slúžiaci užívateľovi pri používaní softvéru.
 
-V poslednej časti sa nachádzajú výsledky, ku ktorým sme v práci dospeli a porovnania medzi rôznymi metódami prahovanie a tvorby počiatočnej podmienky použitými v segmentačnom modeli.
+V poslednej časti sa nachádzajú výsledky, ku ktorým sme v práci dospeli a porovnania medzi rôznymi metódami prahovania a tvorby počiatočnej podmienky použitými v segmentačnom modeli.
 
 %V poslednej časti sa nachádzajú výsledky, ku ktorým sme v práci dospeli a porovnania medzi rôznymi automatickými a semi-automatickými segmentačnými metódami.
 
 % užité matematické algoritmy, funkcionalita naimplementovaného softvéru a 
   
- 
 %Skúmané dáta pochadzajú pôvodne z  a sú z
 
 \newpage
 
-\section{Segmentácie obrazov} \label{math}
+\section{Segmentačná metóda} \label{math}
 
-%
+Mikroskopové dáta makrofágov, s ktorými pracujeme v tejto práci, sú makrofágy priesvitného embrya zebričky pruhovanej (\textit{lat.} danio rerio). Toto embryo bolo poranené a cytoplazmy makrofágov sú zafarbené zeleným svetielkujúcim proteínom (kaede) pre lepšiu viditeľnosť pod mikroskopom. Dáta makrofágov sú získané v časovom úseku 5 hodín  s časovým krokom 4 minúty.  Trojrozmerné obrazové dáta sú premietnuté do roviny za použitia maximálnej intenzity približne zo 70 rezov, z ktorých tak vzniknú dvojrozmerné obrazové dáta, ktoré budeme spracovávať. 
 
-Hlavnou úlohou pri segmentácii makrofágov, je rozlíšenie pozadia a objektu na obrazových dátach. Táto úloha môže byť sťažená kvôli strate intenzity na hranách alebo šumu, ktorý sa môže na dátach nachádzať.
-
-%Hlavnou úlohou pri segmentácii makrofágov je odstránenie šumu, ktorý môže byť spôsobený premietnutím dát z trojdimenzionálneho priestoru do roviny alebo bunkami nachádzajúcimi sa v okolí makrofágu alebo zmenou tvaru v čase.
-
-Segmentácia takýchto dát je náročnou úlohou pretože makrofágy majú nepravidelné tvary s meniacou sa intenzitou, ktoré sa ťažko spracovávajú. Preto sme vybrali niekoľko druhov prahovacích metód, ktoré sme skombinovali spolu s metódou segmentácie subjektívnych plôch a aplikovali sme ich na testované dáta.
+Hlavnou úlohou pri segmentácii makrofágov je rozlíšenie pozadia a objektu (makrofágu) na obrazových dátach. Táto úloha môže byť sťažená kvôli prítomnosti šumu v dátach a faktu, že
+makrofágy majú nepravidelné tvary s meniacou sa intenzitou. Preto sme vybrali a skúmali niekoľko druhov prahovacích metód v snahe vylepšiť prahovanie  v \cite{sora}, ktoré sme skombinovali  s metódou segmentácie subjektívnych plôch SUBSURF a aplikovali sme ich na testované dáta.
 
 \subsection{Globálne prahovanie}
 
- Úlohou globálnych prahovacích metód je nájsť jedinú optimálnu prahovú hodnotu $q$, v našom prípade šedo-tónových obrazových dát, ktorá zadefinuje každý pixel obrazu buď do popredia (ako objekt na dátach) alebo ako pozadie. Mnohé z týchto metód sú založené na histograme. Teda všetky pixely sú zatriedené do dvoch disjunktných množín $C_0$ a $C_1$, kde množina $C_0$ obsahuje všetky pixle nachádzajúce sa medzi hodnotami $(0, 1, \dots , q)$ a $C_1$ obsahuje všetky zvyšné pixle nachádzajúce sa na intervale $(q+1, \dots , K-1)$, teda
+%Úlohou globálnych prahovacích metód je nájsť jedinú optimálnu prahovú hodnotu $q$, v našom prípade šedo-tónových obrazových dát, ktorá zadefinuje každý pixel obrazu buď do popredia (ako objekt na dátach) alebo ako pozadie. Mnohé z týchto metód sú založené na histograme. Teda všetky pixely sú zatriedené do dvoch disjunktných množín $C_0$ a $C_1$, kde množina $C_0$ obsahuje všetky pixle nachádzajúce sa medzi hodnotami $(0, 1, \dots , q)$ a $C_1$ obsahuje všetky zvyšné pixle nachádzajúce sa na intervale $(q+1, \dots , K-1)$, teda
+
+ Úlohou globálnych prahovacích metód je nájsť jedinú optimálnu prahovú hodnotu $q$, v našom prípade šedo-tónových obrazových dát, ktorá zadefinuje každý pixel obrazu buď do popredia (ako objekt na dátach) alebo ako pozadie.  Na základe jedinej hodnoty sú teda všetky pixely zatriedené do dvoch disjunktných množín $C_0$ a $C_1$, kde množina $C_0$ obsahuje všetky pixle s hodnotami intenzity z množiny  $(0, 1, \dots , q)$ a $C_1$ obsahuje všetky zvyšné pixle s intenzitou z množiny $(q+1, \dots , K-1)$. Platí  teda
 
 \begin{equation}
 (u, v) \in \begin{cases} C_0 & \text{ak} \hspace{1em} I(u,v) \leq q \hspace{1em} \text{(pozadie)} \\  C_1 & \text{ak} \hspace{1em} I(u,v) \geq q \hspace{1em} \text{(objekt)} \end{cases}.
@@ -201,92 +255,127 @@ Segmentácia takýchto dát je náročnou úlohou pretože makrofágy majú nepr
 %preformulovat
 Treba si uvedomiť, že tieto hodnoty závisia od toho, či je pozadie bledé a objekt tmavý alebo naopak.
 
-Prahovacie metódy založené na histograme sú zvyčajne jednoduché a účinné, pretože pracujú s malým množstvom dát. V našom prípade sa jedná o 256 odtieňov sivej/šede. Dajú sa rozdeliť na 2 hlavné kategórie: štatistické metódy a také, ktoré sú založené na tvare.
+Mnohé z týchto metód sú založené na  práci s histogramom a sú zvyčajne jednoduché a účinné, pretože pracujú s malým množstvom dát. V našom prípade sa jedná o 256 odtieňov sivej/šede. Dajú sa rozdeliť na 2 hlavné kategórie: štatistické metódy a také, ktoré sú založené na tvare.
 
 
 \subsubsection{Otsuho metóda} \label{OtsuM}
-Otsuho metóda\cite{otsu} patrí medzi automatické  prahovacie metódy, ktorá rozdeľuje obrazové dáta na 2 rôzne triedy pomocou prahu $q$ $-$ na objekt a pozadie. Hlavnou myšlienkou tejto metódy je nájsť prah $q$ taký, že výsledné distribúcie tried sú čo najlepšie oddelené, čo znamená, že príslušné histogramy majú čo najmenší rozptyl(sú čo najužšie). Na výpočet prahu $q$ sa používa metóda známa ako vnútro$-$triedna variancia(within class variance), kde sa pomocou tohoto výpočtu hľadá minimum. V tomto prípade sa dá ukázať, že táto úloha môže byť zmenená na maximalizačnú úlohu, tiež známu ako medzi$-$triedna variancia(between class variance), ktorá je výpočtovo menej náročná, keďže sú spracovávané len šedo-tónové obrazové dáta. Ak by išlo o farebný RGB obraz, musel by byť rozdelený na jednotlivé intenzity a výsledkom by bolo viac prahových hodnôt $(q_1, \ldots, q_n)$, kde $n$ reprezentuje počet intenzít v danom obraze.
+Otsuho metóda\cite{otsu} patrí medzi automatické  prahovacie metódy, ktorá rozdeľuje obrazové dáta na 2 rôzne triedy pomocou prahu $q$ - na objekt a pozadie. Hlavnou myšlienkou tejto metódy je nájsť prah $q$ taký, že výsledné distribúcie tried sú čo najlepšie oddelené, čo znamená, že  (Obr.\ref{fig:otsuteoria}):
+\begin{itemize}
+\item príslušné histogramy sú čo najužšie (majú čo najmenšiu varianciu),
+\item vrcholy histogramov pre pozadie a objekt sú od seba čo najďalej.
+\end{itemize}
 
-Nech $K$ je maximálna intenzita obrazu a hodnoty normalizovaného histogramu, budú vypočítané ako
+\begin{figure}[h!]
+ \begin{center} 
+ \subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT8_od.png}}
+    \hspace{5px}
+    \subfloat[] 
+   {\includegraphics[scale=0.635]{pics/otsuteoria1.jpg}}
+    \hspace{5px}
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT8_otsu.png}}
+\caption{Na obrázku $b$ je prahová hodnota naznačená čiernym trojuholníkom, histogram pre pozadie je vľavo od nej, histogram pre objekt vpravo. Červené krúžky naznačujú vrcholy histogranu pozadia a objektu. Prahová hodnota je 99. Relatívna početnosť pixlov pozadia $P_0$ (percento/100) je 0,984, pixlov objektu $P_1$  je rovná 0,016. Priemerná hodnota pozadia je 17,664, objektu 181,76. Každá trieda má vlastnú varianciu $V_0$ a $V_1$. $P_0\cdot V_0+ P_1\cdot V_1$ dáva tzv. medzi-triednu varianciu. Táto hodnota prahu 99 je podľa Otsuho metódy optimálna. Ak urobíme prahovanie inou hodnotou, napr. 50, ktoré lepšie \textit{obalí} objekt, pokazí sa hlavne variancia objektu a vnútro-triedna variancia bude vyššia. }
+\label{fig:otsuteoria}
+\end{center}   
+\end{figure}
+
+ Na dosiahnutie prvej vlastnosti sa na výpočet prahu $q$ používa veličina známa ako vnútro-triedna variancia(\textit{eng.} within class variance), pričom sa hľadá jej minimum. Dá sa ukázať, že táto úloha môže byť zmenená na maximalizačnú úlohu tzv. medzi-triednej variancie(\textit{eng.}between class variance), ktorá je výpočtovo menej náročná a súčasne zabezpečuje druhú vlastnosť.  
+%intenzít v danom obraze. 
+
+\textit{Vnútro-triedna variancia}(\textit{eng.} within-class variance) $Var_w$ pre dve triedy $C_0$ a $C_1$ je vážený priemer ich variancií $V_0 $ a $ V_1 $, kde váhy $P_0$ a $P_1$ sú dané relatívnou početnosťou pixlov objektu resp. pozadia (ich percentuálnym zastúpením). 
+ Definuje sa ako:
+\begin{equation}
+Var_w= P_0 \cdot V_0 + P_1\cdot V_1.
+\end{equation}
+
+Na dosiahnutie druhej vlastnosti sa počítá \textit{medzi-triedna variancia} $ Var_b $(\textit{eng.} between-class variance), ktorá meria vzialenosti priemerov tried $ \mu_0$ a $\mu_1 $. Jej výpočet podľa definície je založený na výpočte priemerov pixlov pozadia $\mu_0 $, pixlov objektu $\mu_1 $ a priemernej intenzite celého obrázku $\mu_I $, ktorá však po úprave z výpočtu vypadne. Definuje sa ako:
+
+\begin{equation}
+Var_b= P_0 \cdot  (\mu_0-\mu_I)^2 + P_1 \cdot (\mu_1-\mu_I)^2
+\end{equation}
+
+Tento výraz treba maximalizovať. 
+Celková variancia obrázku $ Var_I $ je sumou vnútro-triednej a medzi-triednej variancie. Platí
+$$ Var_I=Var_w+Var_b. $$
+
+Keďže $Var_I $ je konštantná pre daný obrázok, na získanie optimálneho prahu $ q $  si môžeme vybrať, či chceme minimalizovať $Var_w $ alebo maximalizovať $ Var_b $. Výpočtovo jednoduchší je však druhý postup.  Urobme nasledovnú úpravu. Keďže $ \mu_I=P_0\cdot \mu_0 +P_1\cdot \mu_1 $, tak môžeme napísať:
+
+\begin{equation}
+\begin{aligned}
+P_0 (\mu_0-\mu_I )^2= & P_0 (\mu_0-P_0 \mu_0-P_1 \mu_1 )^2 \\
+			        = & P_0 ((1-P_0 ) \mu_0-P_1 \mu_1 )^2 \\
+			        = & P_0 (P_1 \mu_0-P_1 \mu_1 )^2 \\
+			        = & P_0 P_1^2(\mu_0-\mu_1 )^2
+\end{aligned}
+\end{equation}
+
+Podobne platí
+\begin{equation}
+P_1 (\mu_1-\mu_I )^2= P_0^2 P_1(\mu_0-\mu_1 )^2.
+\end{equation}
+
+Nakoniec
+\begin{equation}
+\begin{aligned}
+Var_b= & P_0 P_1^2(\mu_0-\mu_1 )^2+P_0^2 P_1(\mu_0-\mu_1 )^2 \\
+     = & P_0 P_1(P_1 + P_0)(\mu_0-\mu_1 )^2 \\
+      = & P_0 P_1(\mu_0-\mu_1 )^2, \\
+\end{aligned}
+\end{equation}
+keďže $ P_1 + P_0=1 $.
+Všetky členy s indexom 0 alebo 1 závisia na prahu $ q $. Pri maximalizácii budeme postupne brať za  $ q $ všetky možné hodnoty intenzity, pričom bude počítať iba priemery a počty pixlov pozadia a objektu, čo sa dá vykonať rýchlo iteračne, čiže budeme počítať iba štatistiku prvého rádu. Maximalizovať $ Var_b $ je teda rýchlejšie
+ako minimalizovať $ Var_w $.
+
+Priemery tried sa dajú jednoducho vypočítať z normalizovaného histogramu. Nech $K$ je maximálna možná intenzita obrazu (v našom prípade 255), hodnoty normalizovaného histogramu  budú vypočítané ako
 %\begin{equation*}
-%p_i^c = \frac{h_i^c}{N}, \hspace{10mm}  \sum_{i=1}^{N} p_i^c = 1, \hspace{10mm} c = \begin{cases} 1, 2, 3 & \text{pre farebné obrazy} \\ 1 & \text{pre čiernobiele obrazy} \end{cases},
+%p_i^c = \frac{h_i^c}{N}, \hspace{10mm}  \sum_{i=0}^{N} p_i^c = 1, \hspace{10mm} c = \begin{cases} 1, 2, 3 & \text{pre farebné obrazy} \\ 1 & \text{pre čiernobiele obrazy} \end{cases},
 %\end{equation*}
 
 \begin{equation}
-p_i = \frac{h_i}{N}, \hspace{10mm}  \sum_{i=1}^{N} p_i = 1,
+p_i = \frac{h_i}{N}, \hspace{10mm}  \sum_{i=0}^{K} p_i = 1,
 \end{equation}
 
-kde $i$ je konkrétny level intenzity $(0 \leq i \leq K)$, $N$ je celkový počet pixlov na obraze, $h_i$ predstavuje histogram. 
-Keďže v našom prípade máme len 2 triedy $C_0$ a $C_1$ a vzniknutý histogram sa tiež nazýva bi-modálnym.
-
-Na definíciu tried $C_0$ a $C_1$ je potrebné vypočítať stredné hodnoty $\mu_0$ a $\mu_1$ definované ako
-
+kde $i$ je konkrétna úroveň intenzity $(0 \leq i \leq K)$, $N$ je celkový počet pixlov v obraze a $h_i$ predstavuje počet pixlov intenzity $ i $ v celom obraze. Ďalej je potrebné vypočítať stredné hodnoty $\mu_0$ a $\mu_1$ podľa 
 \begin{equation}
-\mu_0 =  \sum_{i=1}^{q}\frac{i p_i}{\omega_0(q)}, \hspace{10mm} \mu_1 =  \sum_{i=q + 1}^{K}\frac{i p_i}{\omega_1(q)},
+\mu_0 =  \sum_{i=0}^{q}\frac{i p_i}{\omega_0(q)}, \hspace{10mm} \mu_1 =  \sum_{i=q + 1}^{K}\frac{i p_i}{\omega_1(q)},
 \end{equation}
 
 kde $\omega_0(q)$ a $\omega_1(q)$ sú sumy definované ako
 
 \begin{equation}
-\omega_0(q) = \sum_{i=1}^{q} p_i, \hspace{10mm} \omega_1(q) =  \sum_{i=q + 1}^{K} p_i,
+\omega_0(q) = \sum_{i=0}^{q} p_i, \hspace{10mm} \omega_1(q) =  \sum_{i=q + 1}^{K} p_i.
 \end{equation}
-
- rozdelenia pravdepodobnosti pre triedy $C_0$ a $C_1$. Následne vypočítame smerodajné odchýlky $\sigma_0$ a $\sigma_1$, pomocou ktorých vieme zadefinovať 
- %Teraz môžeme zadefiovať rozptyl pre obe triedy
-%
-%\begin{equation*}
-%\sigma_0 = \omega_0(\mu_0 + \mu_T), \hspace{10mm} \sigma_1 =  \omega_1(\mu_1 + \mu_T),
-%\end{equation*}
-%
-%kde $ \mu_T = \omega_0\mu_0 + \omega_1\mu_1$. 
-medzi$-$triednu varianciu ako sumu
-
+Kvalita (vhodnosť) prahovania sa dá merať pomerom
 \begin{equation}
-\sigma^2 = \sigma_0 + \sigma_1.
+\nu  = \frac{Var_b(q_{max})}{Var_I} 
 \end{equation}
+ktorý nadobúda hodnoty zintervalu [0,1] a je invariantný na zmenu kontrastu. Čím vyššia je hodnota, tým lepšie je prahovanie. Pre dáta z obr.\ref{fig:otsuteoria} je táto hodnota $ 0.82 $.
+ 
 
-%Preto v prípade, že je histogram bimodálny, tak budú existovať len dve triedy a objekt na obraze bude vysegmentovaný takmer dokonale.
-Z hodnoty medzi$-$triednej variancie, pomocou maximalizácie rozptylu medzi pozadím a objektom v histograme, nájdeme optimálny prah $q^*$, ktorý je definovaný ako
-%Optimálny prah $q^*$ nájdeme cez maximalizáciu rozptylu medzi pozadím a objektom v histograme pomocou medzi$-$triednej variancie, ktorá je definovaná ako
-
-\begin{equation}
-\sigma^2(q*) = \max_{1 \leq q < K} \sigma^2_1(q),
-\end{equation}
-
-kde $\sigma$ označuje rozptyl a $K$ je maximálna intenzita obrazu.
-
-Otsuho metóda dokáže dobre rozlíšiť dáta s makrofágmi, v prípade že dáta neobsahujú výrazný šum aj v prípade keď sa na dátach nachádzajú tenké časti alebo sú zložito tvarované. Avšak ak je intenzita šumu pozadia porovnateľná s intenzitou, táto metóda môže spôsobiť rozdelenie objektu a stratiť niektoré časti objektu, keďže je do úvahy braná len intenzita obrazu.
-
-%predpokladá, že originálne obrazové dáta obsahujú dáta z dvoch
-%rôznych pixelvých tried, kde rozdelenie intenzít nie je známe. Cieľom tejto metódy je nájsť prah $q$, ktorý rozdelí dáta na popredie(objekt) a pozadie.
-%% tak aby distribúcie boli maximálne oddelené. To znamená:
-%Základn 
-%\begin{itemize}
-%\item
-%\item
-%\end{itemize}
-
-%The goal is to find a threshold q such that the resulting background and foreground
-%distributions are maximally separated, which means that they are (a) each as
-%narrow as possible (have minimal variances) and (b) their centers (means) are
-%most distant from each other.
-%For a given threshold q, the variances of the corresponding background and
-%foreground partitions can be calculated straight from the image’s %histogram(see
-%Eqn. (2.11)–(2.12)). The combined width of the two distributions is measured
-%by the within-class variance
+Otsuho metóda dokáže dobre rozlíšiť dáta s makrofágmi v prípade, že dáta neobsahujú výrazný šum aj v prípade keď sa na dátach nachádzajú tenké časti alebo sú zložito tvarované. Avšak ak je intenzita šumu pozadia porovnateľná s intenzitou objektu, táto metóda môže spôsobiť rozdelenie objektu a stratiť niektoré jeho časti, keďže je do úvahy braná len intenzita obrazu.
 
 \subsubsection{Prahovanie pomocou maximálnej entropie} \label{kapurM}
 
 Entropia je dôležitým pojmom v teórii informácií a najmä pri kompresii dát. Je to štatistická miera, ktorá kvantifikuje priemerné množstvo informácií obsiahnutých v  "správe" \\ obsahujúce stochasticky generované dáta. Entropia je definovaná ako
 
 \begin{equation}
-H(I)= -\sum_{u,v} p(g)log_b(p(g)),
+H(I)= -\sum_{g=0}^K p(g)log_b(p(g)),
 \end{equation}
 
-kde $g$ je intenzita v pixle u,v, $p(g)$ je pravdepodobnosť intenzity v normalizovanom histograme, $b$ je logaritmický základ, ktorý zvolíme buď $b=10$ alebo $b=e$ aby boli dosiahnuté čo najlepšie výsledky. Hodnota entropie $H$ bude vždy nadobúdať kladnú hodnotu, pretože argument logaritmu sú pravdepodobnosti, ktoré patria intervalu $(0,1)$ z čoho vyplýva že hodnota logaritmu bude vždy záporná. 
+%kde $g$ je intenzita v pixle u,v, $p(g)$ je pravdepodobnosť intenzity v normalizovanom histograme, $b$ je logaritmický základ, ktorý zvolíme buď $b=10$ alebo $b=e$ aby boli dosiahnuté čo najlepšie výsledky. Hodnota entropie $H$ bude vždy nadobúdať kladnú hodnotu, pretože argument logaritmu sú pravdepodobnosti, ktoré patria intervalu $(0,1)$ z čoho vyplýva že hodnota logaritmu bude vždy záporná. 
 
-Z dôvodu hľadania maximálnej hodnoty entropie, potrebujeme definovať entropie pre každú triedu
+kde $g$ je intenzita, $p(g)$ je pravdepodobnosť tejto intenzity v normalizovanom histograme a $b$ je zvolený logaritmický základ, väčšinou $b=10$, $b=2$  alebo $b=e$. Hodnota entropie $H$ bude vždy nadobúdať kladnú hodnotu, pretože argument logaritmu sú pravdepodobnosti, ktoré sú z intervalu $(0,1)$, z čoho vyplýva že hodnota logaritmu bude vždy záporná. 
 
+Na hľadania maximálnej hodnoty entropie potrebujeme definovať entropie $H_0$ a $H_1$ pre každú triedu $C_0$ a $C_1$ nasledovne
+\begin{equation}
+H_0(q)= -\sum_{i=0}^g p(i)log_b(p(i)),
+\end{equation}
+\begin{equation}
+H_1(q)= -\sum_{i=q+1}^K p(i)log_b(p(i))
+\end{equation}
+a celková entropia je ich súčet.
+Po úpravách môžme napísať \cite{ skripta1,kapur}
 %\begin{equation*}
 %\begin{array}{l}
 \begin{equation}
@@ -297,7 +386,8 @@ H_1(q) =  -\frac{1}{1-P_0(q)}S_1(q)+log(1-P_0(q)),
 \end{equation}
 %\end{array}
 %\end{equation*}
-kde $P_0$ predstavuje kumulatívnu pravdepodobnosť a $S_0$, $S_1$ sú vopred vyrátané sumy. 
+kde $P_0$ predstavuje kumulatívnu pravdepodobnosť a $S_0$, $S_1$ (uvedené ďalej) sú vopred vyrátané sumy  $  -\sum_{i=0}^q p(i)log_b(p(i)) $ a $  -\sum_{i=q+1}^K p(i)log_b(p(i)) $.
+ 
  
 Celková entropia pre daný prah $q$ je daná ako
 
@@ -325,6 +415,7 @@ a sumačné podmienky $S_0$, $S_1$ sú predpočítané a definované ako
 
 Táto metóda je jednoduchá a účinná, pretože závisí len od histogarmu obrazu. %Zosegmentované dáta môžu 
 Entropia ako kritérium na voľbu prahu v obrazových dátach má dlhú tradíciu a navrhnutých bolo viacero metód. Vyššie uvedená metóda je jednou zo starších metód a bola navrhnutá  matematikom J. N. Kapurom.
+Pre biologické dáta väčšinou bola nadmnožinou Otsuho prahovania, ale v mnohých prípadoch nepokryla celý objekt (porovnajte obrázky   \ref{fig:otsu}  a   \ref{fig:kapur}). 
 
 \subsection{Lokálne adaptívne prahovanie}
 
@@ -346,7 +437,9 @@ sú minimálnou a maximálnou hodnotou intenzity, na nejakom fixne danom okolí 
 Q(u,v) \gets \frac{I_{min}(u,v) + I_{max}(u,v)}{2}
 \end{equation}
 
-Táto operácia je vykonávaná tak dlho, až kým lokálny kontrast $c(u, v) = I_{max}(u, v) − I_{min}(u, v)$ nie je väčší ako preddefinovaný limit $c_{min}$. Ak $c(u, v) < c_{min}$, tak predpokladáme, že pixle zodpovedajúce jednej oblasti patria do tej istej triedy a sú automaticky priradené do pozadia. 
+%Táto operácia je vykonávaná tak dlho, až kým lokálny kontrast $c(u, v) = I_{max}(u, v) − I_{min}(u, v)$ nie je väčší ako preddefinovaný limit $c_{min}$. Ak $c(u, v) < c_{min}$, tak predpokladáme, že pixle zodpovedajúce jednej oblasti patria do tej istej triedy a sú automaticky priradené do pozadia. 
+
+Takéto nastavenie sa vykoná ak lokálny kontrast $c(u, v) = I_{max}(u, v) − I_{min}(u, v)$  je väčší ako preddefinovaná hodnota $c_{min}$. Ak $c(u, v) < c_{min}$, tak predpokladáme, že pixle patria do tej istej triedy a sú automaticky priradené do pozadia alebo objektu, napríklad porovnaním s intenzitou.  Pre tento algoritmus je dôležité akú nastavíme šírku (polomer) okna - pre biologické dáta je to malá hodnota. V prípade šumu treba vhodne zvoliť  $c_{min}$.
 
 \subsubsection{Niblackova metóda} \label{niblack} 
 
@@ -359,10 +452,10 @@ Q(u,v) = \mu_R(u,v) + \kappa\sigma_R(u,v).
 Lokálny prah je určený pridaním konštanty $\kappa \geq 0$ k smerodajnej odchýlke $\sigma_R(u,v)$ a lokálneho priemeru $\mu_R(u,v)$. Lokálne hodnoty smerodajnej odchýlky $\sigma_R(u,v)$ dostaneme ako 
 
 \begin{equation} 
-\sigma_R(u,v) = \frac{1}{N} \sum_{(i,j) \in R(u,v)} (I(i,j) + \bar{I}(i,j))^2,
+\sigma_R(u,v) = \frac{1}{N} \sum_{(i,j) \in R(u,v)} (I(i,j) + \overline{I(i,j)})^2,
 \end{equation}
 
-kde $R$ označuje fixne dané okolie, so stredom v $(u,v)$, $N$ je počet prvkov nachádzajúcich sa v okolí $R$, $I(i,j)$ sú označené pixle obrazu nachádzajúce sa v okolí $R$ a $\bar{I}(i,j)$ je priemer pixlov patriacich okoliu $R$. Po úprave dostaneme tvar
+kde $R$ označuje fixne dané okolie, so stredom v $(u,v)$, $N$ je počet prvkov nachádzajúcich sa v okolí $R$, $I(i,j)$ sú označené pixle obrazu nachádzajúce sa v okolí $R$ a $\overline{I(i,j)}$ je priemer pixlov patriacich okoliu $R$. Po úprave dostaneme tvar
 
 \begin{equation} 
 \sigma_R(u,v) = \overline{I(i,j)^2} - (\overline{I(i,j)})^2,
@@ -399,14 +492,15 @@ Jeden z problémov, ktorý môže nastať pre malé hodnoty smerodajnej odchýlk
 Q(u,v) = \mu_R(u,v) + \kappa\sigma_R(u,v) + d,
 \end{equation}
 
-kde $d \geq 0$. V našom prípade, sme parameter $\kappa$ nastavili na $\kappa = 0.18$ a pre konštantu $d$ sme použili $d = 20$. Takto nastavené parametre dávali v našom prípade veľmi dobré výsledky.
+kde $d \geq 0$. V našom prípade, sme parameter $\kappa$ nastavili na $\kappa = 0.18$ a pre konštantu $d$ sme použili $d = 20$. Takto nastavené parametre dávali v našom prípade veľmi dobré výsledky pre takmer všetky makrofágy. Zväčšovaním časo sa vysegmentovaný objekt zväčšuje. Výpočet s menším časom sa dá použiť na vylepšenie výpočtu Perona-Malikových koeficientov v modeli SUBSURF, pomocou výpočtu  s väčším časom sa dá k nemu získať počiatočná podmienka.
+%kde $d \geq 0$. V našom prípade, sme parameter $\kappa$ nastavili na $\kappa = 0.18$ a pre konštantu $d$ sme použili $d = 20$. Takto nastavené parametre dávali v našom prípade veľmi dobré výsledky.
 
 %\subsubsection{Sauvolova metóda}
 
 Sauvolova prahovacia metóda je vylepšením Niblackovej metóody. Prah $Q(u,v))$ je definovaný v tvare
 
 \begin{equation}  \label{eq:sav}
-Q(u,v) = \mu_R(u,v) . [1 + \kappa(\frac{\sigma_R(u,v)}{\sigma_{max}} - 1)],
+Q(u,v) = \mu_R(u,v) [1 + \kappa(\frac{\sigma_R(u,v)}{\sigma_{max}} - 1)],
 \end{equation}
 
 kde parameter $\kappa \geq 0$, $\sigma_{max}$ je dynamickým rozsahom pre štandardné odchýlky. Približné hodnoty priemeru intenzít $\mu_R(u,v)$ a smerodajnej odchýlky  $\sigma_R(u,v)$ na fixne danej oblasti $R$ sme dostali z rovnice vedenia tepla, tak ako je popísaná vyššie. 
@@ -416,9 +510,9 @@ Parametre metódy boli v našom prípade zvolené nasledovne $\kappa = 0.18$ a  
 
 \subsubsection{Hybridné metódy}
 
-Pri hybridnej Niblackovej a Bernsenovej metóde, uvažujeme lokálny kontrast $c(u, v)$ definovaný v Bernsenovej metóde v sekcii \ref{bernsenM} a na výpočet lokálneho prahu $Q(u, v)$ použijeme rovnicu (\ref{eq:nb}), z Niblackovej metódy popísanú v sekcii \ref{niblack}. Lokálny kontrast $c(u, v)$ aj prah $Q(u, v)$ sú definované na oblasti $R$.
+Pri hybridnej Niblackovej a Bernsenovej metóde\cite{hybridNBaBren}, uvažujeme lokálny kontrast $c(u, v)$ definovaný v Bernsenovej metóde v sekcii \ref{bernsenM} a na výpočet lokálneho prahu $Q(u, v)$ použijeme rovnicu (\ref{eq:nb}), z Niblackovej metódy popísanú v sekcii \ref{niblack}. Lokálny kontrast $c(u, v)$ aj prah $Q(u, v)$ sú definované na oblasti $R$.
 
-Pri druhej hybridnej metóde, použijeme kombináciu Bernsenovej metódy a Sauvolovej metódy, podobne ako pri predchádzajúcom prípade lokálny kontrast $c(u, v)$ vypočítame z Bernsenovej metódy a na výpočet lokálneho prahu $Q(u, v)$ použijeme rovnicu (\ref{eq:sav}), zo Sauvolovej metódy. Lokálny kontrast $c(u, v)$ aj prah $Q(u, v)$ sú definované na oblasti $R$.
+Pri druhej hybridnej metóde, použijeme kombináciu Bernsenovej metódy a Sauvolovej metódy\cite{hybridNBaBren}, podobne ako pri predchádzajúcom prípade lokálny kontrast $c(u, v)$ vypočítame z Bernsenovej metódy a na výpočet lokálneho prahu $Q(u, v)$ použijeme rovnicu (\ref{eq:sav}), zo Sauvolovej metódy. Lokálny kontrast $c(u, v)$ aj prah $Q(u, v)$ sú definované na oblasti $R$.
 % Ide o kombináciu dvoch lokálnych adaptívnych metód popísaných v sekcii \ref{bernsenM} a \ref{niblack}. Lokálny kontrast  $c(u, v)$ uvažujeme z Bernsenovej metódy a výpočet lokálne prahu $Q(u, v)$ pomocou  Niblackovej metódy, z rovnice (\ref{nb}) definovaný na oblasti $R$. 
 
 \subsection{Metóda subjektívnych plôch (SUBSURF)} 
@@ -433,18 +527,31 @@ u_t = \sqrt{\epsilon^2 + |\nabla u|^2}\nabla.(g \frac{\nabla u}{\sqrt{\epsilon^2
 
 kde $\epsilon$ je modelovacím parametrom a $u$ je vyvíjajúca sa level funkcia. Funkcia $g$ reprezentuje takzvaný hranový detektor a má tvar
 
-\begin{equation}
-g(s) = \frac{1}{1+Ks^2}, K > 0,
+\begin{equation} \label{eq:hranDet}
+g(s) = \frac{1}{1+ks^2}, k > 0,
 \end{equation}
 
-kde $s = |\nabla G_\sigma*I^0|$. Zhľadený gradient $\nabla G_\sigma*I^0$ získame napríklad aplikovaním jedného kroku vedenia tepla. *DOPLNIT?*
+kde $s = |\nabla G_\sigma*I^0|$. Zhľadený gradient $\nabla G_\sigma*I^0$ získame napríklad aplikovaním jedného kroku vedenia tepla. 
 
+\subsubsection{Modifikácia metódy}   \label{HranDet}
 
-%regions of approximately constant intensity), the threshold will be close to the
-%local average, which makes the segmentation quite sensitive to low-amplitude
-%noise (“ghosting”). A simple improvement is to secure a minimum distance from
-%te mean by adding a constant offset d, i.e., rep
+Hranový detektor pôvodnej SUBSURF metódy (\ref{eq:hranDet}) boli modifikované dvomi rôznymi spôsobmi na získanie lepších výsledkov.
 
+V prvom prípade sme na získanie hranového detektora $g1(s)$ použili priemer z pôvodných dát a dát, na ktoré sme použili niektorú z globálnych alebo lokálnych adaptívnych prahovacích metód nasledovne
+
+\begin{equation}
+g1(s) = \frac{1}{1 + k|\nabla \frac{u_o + u_t}{2}|^2},
+\end{equation}
+
+kde $u_o$ označujú pôvodné dáta a $u_t$ sú vyprahované dáta. 
+
+Pri druhom spôsobe modifikácie hranového detektora $g2(s)$\cite{sora}, je použitá kombinácia gradientov predvyhľadených pôvodných dát a predvyhľadených dát, na ktoré sme použili niektorú z globálnych alebo lokálnych adaptívnych prahovacích metód ako
+
+\begin{equation} \label{eq:hdet2}
+g2(s) = (\frac{C_o}{1 + k|\nabla u_o|^2} + \frac{C_t}{1 + k|\nabla u_t|^2}),
+\end{equation}
+
+kde $u_o$ označujú pôvodné dáta, $u_t$ sú vyprahované dáta, $C_o$ a $C_t$ sú koeficienty hranového detektora. Koeficienty hranového detektora mali hodnoty $C_o = 0.2$ a $C_t = 0.8$.
 
 \newpage
 \section{Numerické schémy}
@@ -594,48 +701,49 @@ b_p^{n - 1} = \frac{h^2}{\tau|\nabla u_p^{n-1}|_{\epsilon}}, \\
 \end{array}
 \end{equation}
 
-a po dosadení okrajových podmienok dostávame sústavu lineárnych rovníc riešenú v novom časovom kroku $u^n$.
+a po dosadení okrajových podmienok dostávame sústavu lineárnych rovníc riešenú v novom časovom kroku $u^n$. V našom prípade boli na získanie hranového detektora $g_{pq}^{0}$ uvažované dva rôzne prípady popísané v sekcii \ref{HranDet}.
 
-V našom prípade na získanie hranového detektora $g_{pq}^{0}$ použijeme priemer z originálnych dát a dát, na ktoré sme použili niektorú z globálnych alebo lokálnych adaptívnych prahovacích metód nasledovne
+%V našom prípade na získanie hranového detektora $g_{pq}^{0}$ použijeme priemer z originálnych dát a dát, na ktoré sme použili niektorú z globálnych alebo lokálnych adaptívnych prahovacích metód nasledovne
 
-\begin{equation}
-g_{pq}^{0} = \frac{1}{1 + k|\nabla \frac{u_o + u_t}{2}|^2},
-\end{equation}
+%\begin{equation}
+%g_{pq}^{0} = \frac{1}{1 + k|\nabla \frac{u_o + u_t}{2}|^2},
+%\end{equation}
 
-kde $u_o$ označujú pôvodné dáta a $u_t$ sú vyprahované dáta. 
+%kde $u_o$ označujú pôvodné dáta a $u_t$ sú vyprahované dáta. 
 
 \newpage
 \section{Softvér}
 
-Na implementáciu a vytvorenie prostredia, bol zvolený objektovo orientovaný prístup jazyka C++, spolu s knižnicami Qt \cite{qt}, ktoré obsahujú veľa na implementovaných tried a boli užitočným nástrojom pri vytváraní užívateľského prostredia a VTK \cite{vtk} knižnicami, ktoré slúžia na zobrazovanie a manipuláciu s dátami. 
+Na implementáciu a vytvorenie prostredia, bol zvolený objektovo orientovaný prístup jazyka \texttt{C++}, spolu s knižnicami \texttt{Qt} \cite{qt}, ktoré obsahujú veľa na implementovaných tried a boli užitočným nástrojom pri vytváraní užívateľského prostredia a \texttt{VTK} \cite{vtk} knižnicami, ktoré slúžia na zobrazovanie a manipuláciu s dátami, s ktorými program pracuje. 
 
 \subsection{Qt}
-Užívateľské rozhranie je vytvorené pomocou Qt knižníc, ktoré sú jedným z najpoužívanejších cross-platformových frameworkov na vytváranie užívateľského prostredia (GUI). Majú aj veľa predprogramovaných knižníc ktoré programátorovi uľahčia prácu. Sú naimplementované v jazyku C++. 
+Užívateľské rozhranie je vytvorené pomocou \texttt{Qt} knižníc, ktoré sú jedným z najpoužívanejších cross-platformových frameworkov na vytváranie užívateľského prostredia (GUI). Majú aj veľa predprogramovaných knižníc s rôznymi funkciami, ktoré programátorovi uľahčia prácu. Sú naimplementované v jazyku \texttt{C++}. 
 
-Najčastejšie využívané Qt triedy v projekte:
+Najčastejšie využívané \texttt{Qt} triedy v projekte:
 \begin{itemize}
 \item \textbf{QMdiArea}\\ 
-Táto trieda zohráva jednu z najdôležitejších funkcií v programe. Funkcie tejto triedy fungujú v podstate ako správca okien pre MDI okná, čo v našom prípade znamená, že umožňuje vytvárať podokná pomocou triedy, v ktorých sa v programe nachádzajú ďalšie Qt triedy slúžiace na vykresľovanie 2D a 3D dát, s ktorými program pracuje. V programe je použité kaskádové usporiadanie takýchto podokien, čo znamená že vykresľovacie okná sa môžu navzájom prekrývať, dajú sa minimalizovať/maximalizovať vrámci hlavného okna a zavrieť.
+Táto trieda zohráva jednu z najdôležitejších funkcií v programe. Funkcie tejto triedy fungujú v podstate ako správca okien pre MDI okná, čo v našom prípade znamená, že umožňuje vytvárať podokná pomocou triedy, v ktorých sa v programe nachádzajú ďalšie \texttt{Qt} triedy slúžiace na vykresľovanie 2D a 3D dát, s ktorými program pracuje. V programe je použité kaskádové usporiadanie takýchto podokien, čo znamená že vykresľovacie okná sa môžu navzájom prekrývať, dajú sa minimalizovať/maximalizovať vrámci hlavného okna a zavrieť.
 
 \item \textbf{QScrollArea} \\
-QScrollArea sa nachádza v každom podokne widgetu QMidiArea. Zabezpečuje možnosť priblížiť/oddialiť a posúvať vizualizované dáta. Tiež sa nachádza aj v častiach programu, kde bolo potrebné aplikovať ScrollBar.
+QScrollArea sa nachádza v každom podokne widgetu \texttt{QMidiArea}. Zabezpečuje možnosť priblížiť/oddialiť a posúvať vizualizované dáta. Tiež sa nachádza aj v častiach programu, kde bolo potrebné aplikovať ScrollBar.
 
 \item \textbf{QVTKOpenGLNativeWidget} \\
-Widget tejto triedy sa nachádza v každej QScrollAree a umožňuje samotné vykreslenie 2D/3D modelov za pomoci VTK knižníc. 
+Widget tejto triedy sa nachádza v každej \texttt{QScrollAree} a umožňuje samotné vykreslenie 2D/3D modelov za pomoci \texttt{VTK} knižníc. 
 
 \item \textbf{QDockWidget} \\
-Tento widget obsahuje všetky informácie a nastavenia súvisiace s dátami. Každý logický celok má vlastný panel (\textit{eng.} dock), ktorý sa dá vrámci okna premiestňovať, ukotvovať buď na ľavej alebo na pravej strane okna a v prípade, že sa prekrývajú vytvorí sa z nich viacero záložiek. Taktiež sa dajú v prípade potreby minimalizovať.
+Objektmi tejto triedy sú widgety, ktoré v našom programe obsahujú všetky informácie a nastavenia súvisiace s dátami. Každý logický celok má vlastný panel (\textit{eng.} dock), ktorý sa dá vrámci okna premiestňovať, ukotvovať buď na ľavej alebo na pravej strane okna a v prípade, že sa prekrývajú vytvorí sa z nich viacero záložiek. Taktiež sa dajú v prípade potreby minimalizovať.
 
 \item \textbf{QTreeWidget} \\ 
-Všetky dáta, či už pôvodné, vyprahované alebo vysegmentované pomocou programu, sa nachádzajú v zozname, z ktorého sa dá vybrať ktoré dáta budú vykreslené. QTreeWidget bol použitý aby sme vykresľované dáta vedeli zadeliť do medzi  2D alebo 3D dáta.
+Dáta, či už pôvodné, vyprahované alebo vysegmentované pomocou programu, sa nachádzajú v zozname, z ktorého sa dá zvoliť, ktoré dáta budú vykreslené, resp. s ktorými dátami bude program pracovať. \texttt{QTreeWidget} bol použitý aby sme vykresľované dáta vedeli zadeliť medzi 2D alebo 3D dáta.
 
 \item \textbf{QVector} \\
-Trieda QVector definuje dynamické polia, je šablónovou triedou.
-%, čo znamená že
-Ukladá premenné do susedných miesta v pamäti a poskytuje rýchly indexový prístup. Je použitá v prípadoch keď nie je potrebné odstraňovať prvky zvnútra QVectora.
+Trieda \texttt{QVector}, je šablónovou triedou, ktorá definuje dynamické polia. Ukladá premenné do susedných miesta v pamäti a poskytuje rýchly indexový prístup. Je použitá v prípadoch keď nie je potrebné odstraňovať prvky zvnútra \texttt{QVectora}.
 
 \item \textbf{QFile, QFileDialog} \\
 Tieto triedy slúžia v programe na otváranie, načítavanie, ukladanie a manipuláciu s dátami.
+
+\item \textbf{QHelp} \\
+Pomocou tejto triedy bol vytvorený pomocník vytvorením niekoľkých jednoduchých \texttt{html} súborov popisujúcich základnú funkcionalitu programu.
 
 \end{itemize}
 
@@ -645,7 +753,10 @@ Visualization Toolkit (VTK) sú voľne dostupnými knižnicami, ktoré v program
 
 \begin{itemize}
 \item \textbf{vtkSmartPointer} \\
-Táto šablónová trieda, slúži ako pointer pre VTK triedy. Jeho úlohou je zlepšiť manažment s pamäťou, čo znamená, že v prípade ak sú dáta mimo rozsahu alebo sa nikde nepoužívajú tak budú automaticky odstránené. Teda uľahčuje pracovať s dátami bez varovných hlášok.
+Táto šablónová trieda, slúži ako pointer pre \texttt{VTK} triedy. Jeho úlohou je zlepšiť manažment s pamäťou, čo znamená, že v prípade ak sú dáta mimo rozsahu alebo sa nikde nepoužívajú tak budú automaticky odstránené. %Teda uľahčuje pracovať s dátami bez varovných hlášok.
+
+\item \textbf{vtkTIFFReader} \\
+Táto trieda je použitá pri načítavaní súborov typu TIFF.
 
 \item \textbf{vtkPoints} \\
 Je triedou reprezentujúcou zoskupenie trojíc $(x, y, z)$ 3D bodov a manipuláciou s uloženými bodmi.
@@ -653,20 +764,20 @@ Je triedou reprezentujúcou zoskupenie trojíc $(x, y, z)$ 3D bodov a manipulác
 \item \textbf{vtkPolygon} \\
 Uľahčuje vytváranie buniek $n$-stranného mnohouholníka v rovine. V našom prípade ide o štvoruholníky, znázorňujúce diskrétnu sieť. Každý štvoruholník reprezentuje jeden pixel načítaných obrazových dát.     
  
-\item \textbf{vtkTriangles} \\
-Umožňuje vytvorenie trojuholníkových buniek v priestore.
+%\item \textbf{vtkTriangles} \\
+%Umožňuje vytvorenie trojuholníkových buniek v priestore.
 
 \item \textbf{vtkCellArray} \\
-Objekty triedy vtkCellArray zabezpečujú prepojenie samostatných buniek rôznych typov, v našej implementácii sa jedná o bunky trojuholníkové (vtkTriangles) a štvorcové (vtkPolygon). Štruktúra tejto triedy je reprezentovaná celočíselným poľom so štruktúrou v tvare: $(n,id_1,id_2, \dots,id_n, n,id_1,id_2, \dots,id_n, \dots)$, kde $n$ je počet bodov, nachádzajúcich sa v bunke a $id$ je index z pridruženého zoznamu bodov.
+Objekty triedy \texttt{vtkCellArray} zabezpečujú prepojenie samostatných buniek rôznych typov, v našej implementácii ide o štvorcové (\texttt{vtkPolygon}) bunky. Štruktúra tejto triedy je reprezentovaná celočíselným poľom so štruktúrou v tvare: $(n,id_1,id_2, \dots,id_n, n,id_1,id_2, \\ \dots,id_n, \dots)$, kde $n$ je počet bodov, nachádzajúcich sa v bunke a $id$ je index z pridruženého zoznamu bodov.
 
 \item \textbf{vtkPolyData} \\
-V objektoch tejto triedy sú zadefinované vykresľované dáta, či už sa jedná o 2D alebo 3D dáta. V tejto triede môžu byť uložené informácie o tom akým spôsobom budú dáta reprezentované - geometrické informácie o štruktúre vykresľovaných dát. Takýmito informáciami môžu byť napríklad body, bunky, vektory, čiary, polygonálne alebo trojuholníkové pásy.
+V objektoch tejto triedy sú zadefinované vykresľované dáta, či už sa jedná o 2D alebo 3D dáta. V tejto triede môžu byť uložené informácie o tom akým spôsobom budú dáta reprezentované - geometrické informácie o štruktúre vykresľovaných dát. Takýmito informáciami môžu byť napríklad body, bunky, vektory, čiary, zafarbenie, polygonálne alebo trojuholníkové pásy.
 
 \item \textbf{vtkColorTransferFunction} \\
-Je to trieda, ktorá nám slúži na definíciu farebných prechodov cez farebné modely RGB alebo HSV v počastiach spojitom priestore. 
+Je to trieda, ktorá nám slúži na definíciu farebných prechodov cez farebné modely RGB alebo HSV v počastiach spojitom priestore závislom od hodnoty na súradnici $z$. 
 
 \item \textbf{vtkPolyDataMapper} \\
-Je triedou, zabezpečujúcou tzv. 'namapovanie' čo znamená, že zadefinuje, vlastnosti polydát definovaných ako objekt triedy vtkPolyData, ktoré sú potrebné pri následnom vykreslení.
+Je triedou, zabezpečujúcou tzv. 'namapovanie' čo znamená, že zadefinuje, vlastnosti polydát definovaných ako objekt triedy \texttt{vtkPolyData}, ktoré sú potrebné pri následnom vykreslení.
 
 \item \textbf{vtkActor} \\
 Táto trieda reprezentuje, geometriu a vlastnosti vykresľovaných dát na zobrazovanej scéne. Odkazuje na geometriu uloženú ako objekt triedy na vtkPolyDataMapper a dedí funkcie súvisiace s pozíciou a orientáciou vykresľovaných dát. Tieto informácie sú uložené v transformačnej matici o veľkosti $4x4$, ktorá zabezpečuje rotácie vo všetkých smeroch $(x, y, z)$, škálovanie objektov atď..
@@ -675,7 +786,7 @@ Táto trieda reprezentuje, geometriu a vlastnosti vykresľovaných dát na zobra
 Trieda zabezpečujúca samotné vykresľovanie dát. Stará sa o prevod geometrie, špecifikuje svetelné podmienky a orientáciu kamery. Tiež vykonáva transformáciu súradníc medzi svetovými súradnicami, súradnicami zobrazenia (t.j. súradnicový systém počítačovej grafiky) a súradnicami displeja (t.j.  súradnice obrazovky displeja).
 
 \item \textbf{vtkCutter} \\
-Trieda vtkCutter, je filtrovacou triedou, ktorá pomocou implicitnej funkcie zabezpečuje vykresľovanie, viacerých alebo jedného rezu cez trojdimenzionálne dáta. Vo VTK na rezanie (eng. cutting) znamená zredukovanie dimenzie o jedna. V našom prípade išlo o 3D dáta, ktoré sme rezali pomocou roviny. 
+Trieda \texttt{vtkCutte}r, je filtrovacou triedou, ktorá pomocou implicitnej funkcie zabezpečuje vykresľovanie, viacerých alebo jedného rezu cez trojdimenzionálne dáta. Vo VTK na rezanie (eng. cutting) znamená zredukovanie dimenzie o jedna. V našom prípade išlo o 3D dáta, ktoré sme rezali pomocou roviny (\texttt{vtkPlane}). 
 
 \item \textbf{vtkCubeAxesActor} \\
 Pomocou tejto triedy, sú zobrazované hranice vykresľovaných dát spolu s označeniami osí a  hodnotami nachádzajúcimi sa v smeroch $x, y, z$ - výška, šírka a hĺbka.
@@ -684,7 +795,7 @@ Pomocou tejto triedy, sú zobrazované hranice vykresľovaných dát spolu s ozn
 Tieto dve triedy umožňujú prepínanie interakcie objektu s prostredím, v našom prípade išlo o odobranie možnosti rotácie pri 2D obrazových dátach.
 
 \item \textbf{vtkXMLPolyDataWriter} \\
-Extrahuje dáta typu vtkPolydata do súboru. Štandardný formát vytvoreného súboru je \textit{.vtp}. 
+Extrahuje dáta typu \texttt{vtkPolydata} do súboru. Štandardný formát vytvoreného súboru je \textit{.vtp}. 
 \end{itemize}
 
 \subsection{Rozdelenie projektu do tried}
@@ -692,22 +803,21 @@ Extrahuje dáta typu vtkPolydata do súboru. Štandardný formát vytvoreného s
 Projekt je rozdelený do viacerých súborov(tried) dodržiavajúcej zásady objektovo-orientovaného programovania, z ktorých každá zabezpečuje funkcionalitu inej časti programu. Nasledovne:
 
 \begin{itemize}
-\item Trieda \textbf{bioData}, spája všetky triedy a definuje užívateľské rozhranie pomocou Qt knižníc.
-\item V \textbf{source} sa načítavajú dáta zo súborov, vytvárajú sa dáta na následné zobrazenie spolu so zafarbením. Taktiež obsahuje funkcie na uloženie dát v rôznych formátoch.    
-\item V triede \textbf{filters}, sú definované všetky prahovacie a segmentačné metódy.
-\item \textbf{ViewerWidget} zabezpečuje vykresľovanie samotných 2D aj 3D dát, spolu s osami a izočiarami. 
-\item Trieda \textbf{subWin} uchováva, hodnoty nastavené v užívateľskom rozhraní pre každé otvorený súbor osobitne.
-
+\item Trieda \textbf{bioData}, spája všetky triedy a definuje užívateľské rozhranie pomocou \texttt{Qt} knižníc. Zabezpečuje prepojenie užívateľského prostredia, s naimplementovanými segmentačnými metódami, vykresľovacou plochou a zvyšnou funkcionalitou nachádzajúcou sa vo zvyšných triedach. 
+\item \textbf{Source} zabezpečuje načítavanie dát zo súboru, následne sa tam vytvárajú sa dáta typu \texttt{vtkPolydata}, zadefinovaním bodov zo súboru, štvorcovej siete a definovaním farby/farebných prechodov. Tieto dáta sú následne zobrazené pomocou triedy \texttt{viewerWidget}. Taktiež obsahuje funkcie na uloženie dát v rôznych formátoch.    
+\item Trieda \textbf{filters}, obsahuje všetky funkcie, ktoré pracujú s načítanými dátami. Nachádzajú sa tam všetky prahovacie a segmentačné metódy a funkcie súvisiace s nimi.
+\item \textbf{viewerWidget} zabezpečuje vytvorenie plochy na vykresľovanie, vykresľovanie samotných 2D aj 3D dát, spolu s osami, izočiarami spolu s následnou aktualizáciou. 
+\item Trieda \textbf{subWin} ukladá, hodnoty nastavené v užívateľskom rozhraní pre každé otvorené okno osobitne. Pri prepínaní medzi otvorenými oknami, sa aktualizujú všetky informácie nachádzajúce sa v bočnom paneli a v záložkách. 
+\item Trieda \textbf{help} obsahuje funkcie prepájajúce vytvorenú dokumentáciu v \texttt{html} súboroch s užívateľským prostredím.
 \end{itemize}
-
 
 \subsection{Grafické užívateľské rozhranie}
 
-V tejto sekcii sa oboznámime s vizuálnou stránkou vytvoreného softvéru a popíšeme funkcionalitu. Pri tvorbe programu sme sa zamerali na to aby bol čo najjednoduchší a vedel ho ovládať aj niekto, kto sa do danej problematiky až tak do hĺbky nevyzná. Grafické rozhranie(GUI) je vytvorené pomocou Qt knižníc.
+V tejto sekcii sa oboznámime s vizuálnou stránkou vytvoreného softvéru a popíšeme funkcionalitu. Pri tvorbe programu sme sa zamerali na to aby bol čo najjednoduchší a vedel ho ovládať aj niekto, kto sa do danej problematiky až tak do hĺbky nevyzná. Grafické rozhranie(GUI) je vytvorené pomocou \texttt{Qt} knižníc.
 
-Pri otvorení programu sa zobrazí okno, v ktorom sa nachádza horná lišta s položkami File, Settings a Help zvyšok bude načítaný až po otvorení. V každej z týchto položiek sa nachádzajú ďalšie možnosti. Položka File obsahuje možnosti: Open, Save, Close Files a Close.
+Pri otvorení programu sa zobrazí okno, v ktorom sa nachádza horná lišta s položkami File, Settings a Help zvyšok bude načítaný až po načítaní súboru. V každej z týchto položiek sa nachádzajú ďalšie možnosti. Položka \texttt{File} obsahuje možnosti: \texttt{Open}, \texttt{Save}, \texttt{Close Files} a \texttt{Close}.
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \begin{center} 
  \includegraphics[scale=0.50]{pics/ui1.jpg}
 \caption{Grafické rozhranie programu po načítaní vybraných dát.}
@@ -715,47 +825,52 @@ Pri otvorení programu sa zobrazí okno, v ktorom sa nachádza horná lišta s p
 \end{center} 
 \end{figure}
 
-Po zvolení možnosti Open, sa otvorí dialógové okno, z ktorého sa dajú vybrať obrazové súbory typu .pgm (portable gray map). Po zvolení súboru sa zobrazí celé užívateľské prostredie aj so zvolenými dátami obr. \ref{fig:ui1}. Na ľavej strane sú zobrazené načítané dáta. Na pravej strane, môžeme vidieť bočný panel rozdelený na dve časti, v ktorých sa nachádza zoznam spracovávaných dát v programe pre 2D aj 3D dáta, možnosti pre 2D a 3D dáta spolu so všetkými implementovanými filtrami, prahovacími metódami a možnosťami pre zobrazenie uložených vo viacerých záložkách. 
+Po zvolení možnosti \texttt{Open}, sa otvorí dialógové okno, z ktorého sa dajú vybrať obrazové súbory typu .pgm (portable gray map) alebo .tif (TIFF) . Po zvolení súboru sa zobrazí užívateľské prostredie aj so zvolenými dátami obr. \ref{fig:ui1}. Na ľavej strane sú zobrazené načítané dáta. Na pravej strane, môžeme vidieť bočný panel rozdelený na dve časti, v ktorých sa nachádza zoznam spracovávaných dát v programe pre 2D aj 3D dáta, možnosti pre 2D a 3D dáta spolu so všetkými implementovanými filtrami, prahovacími metódami a možnosťami pre zobrazenie uložených vo viacerých záložkách. 
 
 Prvá časť panelu má názov \textit{Data} obr. \ref{fig:uidata}a obsahuje zoznam 2D a 3D dát, s ktorými sa doteraz pracovalo. Umožňuje spätné načítanie dát nachádzajúcich sa v zozname. Tiež obsahuje tlačidlá: 
 \begin{itemize}
 \item \texttt{RESET VIEW} - vykresľovaný objekt, prekreslí na stred vykresľovacej plochy.  
 \item \texttt{2D} - v prípade, že v zozname sú zvolené 2D dáta, odoberie možnosť rotácie a je vysvietené.
 \item \texttt{3D} - v prípade, že v zozname sú zvolené 3D dáta, tak sa s nimi dá adekvátne manipulovať a tlačidlo je vysvietené.
-\item \texttt{DELETE SELECTED} - vymaže zvolené dáta zo zoznamu.
-\item \texttt{OPEN IN NEW WINDOW} - zatiaľ neaktívne.
+\item \texttt{DELETE SELECTED} - vymaže zvolené dáta zo zoznamu a v prípade, že sa jedná o posledné dáta v zozname, zavrie vykresľovacie okno spolu s bočným panelom.
+\item \texttt{OPEN IN NEW WINDOW} - otvorí 2D dáta zvolené v zozname v novom podokne.
 \item \texttt{SAVE SCREENSHOT} - uloží práve zobrazené dáta z vykresľovacej plochy ako obrazové dáta vo formáte \textit{.png}
-\item \texttt{SET DEFAULT VALUES} - prestaví hodnoty všetkých voliteľných hodnôt naspäť na predvolené hodnoty.
+\item \texttt{SET DEFAULT VALUES} - prestaví hodnoty všetkých voliteľných hodnôt naspäť na pôvodné  hodnoty.
 \end{itemize}
 
-V záložke \texttt{Thresholding} obr. \ref{fig:uidata}b, sa nachádzajú štyri implementované prahovacie algoritmy, ktoré vstupujú  následne ako okrajová podmienka do segmentačnej metódy. Ide o dva globálne prahovacie algoritmy, ktoré závisia len na histograme a teda neberú na vstup žiadne parametre. A dva lokálne adaptívne prahovacie algoritmy, ktoré berú na vstup veľkosť masky a jeden z nich veľkosť časového kroku.
-
+V záložke \texttt{Thresholding} obr. \ref{fig:uidata}b, sa nachádzajú všetky naimplementované prahovacie algoritmy, ktoré odstraňujú šum a delia dáta na objekt a pozadie. A nálsedne môžu vstupovať ako počiatočná podmienka do segmentačnej metódy. Ide o dva globálne prahovacie algoritmy, ktoré závisia len na histograme a teda neberú na vstup žiadne parametre, iba pôvodné dáta. Tri lokálne adaptívne prahovacie algoritmy, ktoré berú na vstup veľkosť masky, veľkosť časového kroku a pôvodné dáta. A zvyšné dva sú vytvorené ako hybridné za použitia lokálnych adaptívnych prahovacích algoritmov, tiež pri nich na vstup okrem pôvodných dát ide aj veľkosť masky a veľkosť časového kroku. Aplikovaná prahovacia funkcia berie na vstup vždy pôvodné dáta, to znamená prvé 2D dáta uvedené v zozname.
 
 \begin{figure}[H]%
     \begin{center} 
-    \subfloat[Detail docku \texttt{Data}.]{{\includegraphics[scale=0.65]{pics/uidata.jpg} }}%
+    \subfloat[Detail záložky \texttt{Data}.]{{\includegraphics[scale=0.65]{pics/uidata1.jpg} }}%
     \qquad
-    \subfloat[Detail docku \texttt{Thresholding}.]{{\includegraphics[scale=0.55]{pics/uithr.jpg} }}%
+    \subfloat[Detail záložky \texttt{Thresholding}.]{{\includegraphics[scale=0.55]{pics/uithr1.jpg}}}%
     \caption{}%
     \label{fig:uidata}%
      \end{center} 
 \end{figure}
 
-Záložka \texttt{2D Options} obr. \ref{fig:uidata1}a je zobrazená len v prípade, že sú zvolené 2D dáta. V tejto záložke sa nachádzajú možnosti súvisiace len s 2D dátami. Dájú sa tam zobraziť kontúry na dátach,  jeden krok rovnice vedenia tepla a priemer originálnych a vyprahovaných obrazových dát. 
+Záložka \texttt{2D Options} obr. \ref{fig:uidata1}a je zobrazená len v prípade, že sú zvolené 2D dáta. V tejto záložke sa nachádzajú možnosti súvisiace len s 2D dátami. Dájú sa tam zobraziť kontúry na dátach, jeden krok rovnice vedenia tepla a priemer originálnych a vyprahovaných obrazových dát.  Tieto zobrazenia slúžia pre užívateľa len informatívne a vždy sa aplikujú na aktuálne dáta, to znamená na dáta vyznačené v zozname.
 
-\texttt{3D Filters} obr. \ref{fig:uidata1}b obsahuje možnosti pre samotný SUBSURF spolu s jeho parametrami. Taktiež sa tam nachádzajú počiatočné podmienky znamienkovej dištančnej a prahovacej funkcie, ktoré sa dajú zobraziť ešte pred vstupom do SUBSURFu.
-
+\texttt{3D Filters} obr. \ref{fig:uidata1}b obsahuje možnosti pre samotný SUBSURF spolu s jeho parametrami. Taktiež sa tam nachádzajú počiatočné podmienky znamienkovej dištančnej a prahovacej funkcie, ktoré sa dajú zobraziť ešte pred vstupom do SUBSURFu. Počiatočné podmienky majú iba informatívny charakter. Pri segmentačnej metóde SUBSURF sa nachádza viacero voliteľných parametrov:
+\begin{itemize}
+\item Voľba počiatočnej podmienky, buď ako znamienková funkcia vzdialenosti alebo  vytvorená z výsledku prahovacej funkcie. Na vstup sa berú vždy aktuálne zvolené dáta zo zoznamu,
+\item Typ hranového detektoru, s ktorým sa bude SUBSURF počítať (obe možnosti popísané v sekcii \ref{HranDet}). Tieto dáta treba najskôr zvoliť, inak sa na vstup budú brať aktuálne zvolené dáta zo zoznamu.
+\item Veľkosť lineálneho časového kroku $\sigma$, vstupujúceho ako parameter do rovnice vedenia tepla slúžiacej na predvyhladenie dát.  
+\item Veľkosť nelineálneho časového kroku $\tau$, vstupujúceho ako parameter do samotného SUBSURFu.  
+\item Koeficient sensitivity, potrebný pri výpočte gradientov.
+\end{itemize}
 
 \begin{figure}[H]%
     \centering
-    \subfloat[Detail docku \texttt{2D Options}.]{{\includegraphics[scale=0.65]{pics/ui2Dopt.jpg} }}%
+    \subfloat[Detail záložky \texttt{2D Options}.]{{\includegraphics[scale=0.65]{pics/ui2Dopt.jpg}}}%
     \qquad
-    \subfloat[Detail docku \texttt{3D Filters}.]{{\includegraphics[scale=0.65]{pics/ui3Dfilt.jpg} }}
+    \subfloat[Detail záložky \texttt{3D Filters}.]{{\includegraphics[scale=0.65]{pics/ui3Dfilt.jpg} }}
     \caption{}%
     \label{fig:uidata1}%
 \end{figure}
 
-V \texttt{3D Options} obr. \ref{fig:uidata2}a je zobrazený len v prípade, že sú zvolené 3D dáta. V tejto záložke sa nachádzajú možnosti súvisiace len s 3D dátami. V týchto možnostiach sa dajú zapnúť osi, zmeniť farba, vykresliť zvolený počet izočiar buď na dátach alebo bez nich a dá sa zvoliť optimálna izočiara a následne ju je možné vykresliť na pôvodných dátach. 
+V \texttt{3D Options} obr. \ref{fig:uidata2}a je zobrazený len v prípade, že sú zvolené 3D dáta. V tejto záložke sa nachádzajú možnosti súvisiace len s manipuláciou s 3D dátami. V týchto možnostiach sa dajú zapnúť osi, zmeniť farba, vykresliť zvolený počet izočiar buď na dátach alebo bez nich a dá sa zvoliť optimálna izočiara a následne ju je možné vykresliť na pôvodných dátach. Vykreslenie na pôvodných dátach by sa dalo považovať za konečný výsledok.
 
 \begin{figure}[H]%
     \centering
@@ -782,6 +897,8 @@ Na obr. \ref{fig:uidata3}a sú zobrazené dáta s makrofágom, na ktoré bol apl
 
 Na obr. \ref{fig:uidata3}b sú vidieť pôvodné dáta, na ktorých je zobrazená výsledná izočiara.
 
+V prípade, že je v programe načítaných viac ako jeden súbor, tak sa v bočnom paneli zobrazí zláložka  \texttt{Opened Windows} so zoznamom, v ktorom sa nachádzajú všetky súbory a pri zvolení niektorých dát zo zoznamu sa maximalizuje vykreslovacie podokno a aktualizujú sa informácie uložené v bočnom paneli.  
+
 Vykresľovacia plocha má niekoľko, vstavaných funkcií, ktoré sa dajú ovládať cez klávesové skratky. Ide napríklad o klávesy \texttt{W} a \texttt{S} prepínajú zobrazenie dát medzi obrysom dát a zafarbeným modelom, klávesa \texttt{R} reštartuje pohľad na objekt na vykresľovanej ploche.
  
 Zvyšné možnosti, v hornej lište v položke \texttt{File} sa ešte nachádza možnosť \texttt{Save}, ktorá ponúka buď exportovanie 2D aj 3D dát vo VTK formáte \textit{.vtp} (typ súboru špecifický pre vtkPolyData) alebo 2D dáta vie uložiť ako ascii portable gray map dáta \textit{.pgm}. Ďalšou možnosťou je \texttt{Close Files}, kedy sa zatvoria všetky otvorené súbory. A možnosti \texttt{Close}, ktorá zatvorí celý program.
@@ -790,59 +907,57 @@ V hornej lište sa ešte nachádzajú položky \texttt{Settings} a \texttt{Help}
 
 \subsection{Príklad použitia}
 
-V tejto časti si ukážeme príklad na použitie implementovaného softvéru. Otvoríme súbor typu \textit{.pgm}. Načíta sa uŽívateľské prostredie obr. \ref{fig:ui1}. V záložke \texttt{Thresholding}, zvolíme niektorú z implementovaných prahovacích funkcií, v tomto príklade zvolíme Niblackovu metódu, s časovým krokom $sigma = 50.0$ a veľkosťou masky $m = 3$. Výsledok prahovania v užívateľskom prostredí je zobrazený na obr \ref{fig:nbui}.
-
- 
-\begin{figure}[H]
- \begin{center} 
- \includegraphics[scale=0.50]{pics/uinb.jpg}
-\caption{Grafické rozhranie, s dátami na ktorých je aplikovaná Niblackova prahovacia metóda.}
-\label{fig:nbui}
-\end{center} 
-\end{figure}
-
-Vyprahované dáta, boli pridané do zoznamu. Tieto dáta použijeme na vstup do segmentačnej metódy SUBSURF. Zvolíme záložku \texttt{3D Filters} detail možností je zobrazený na obr. \ref{fig:uidata1}b, kde sa dajú zobraziť 2 funkcie, ktoré môžeme použiť ako počiatočnú podmienku do segmentačnej metódy. Prvou možnosťou počiatočnej podmienky  je znamienková funkcia vzdialenosti obr. \ref{fig:pp}a. Druhá možnosť je výsledok prahovacej funkcie  obr. \ref{fig:pp}b, čo znamená, že takéto dáta majú nastavené súradnice $z$ na $-1$, ak prahovacia funkcia zaradila pixel do pozadia a $1$, ak sa jedná o pixel makrofágu. Prahovacia funkcia idúca na vstup, musí byť v oboch prípadoch vyznačená v paneli \texttt{Data}.
-
+V tejto časti si ukážeme príklad na použitie implementovaného softvéru. Tento príklad bude ukážkou, ako sa dopracovať k čo najlepšiemu výsledku. Otvoríme súbor typu \textit{.pgm}. Načíta sa uŽívateľské prostredie obr. \ref{fig:ui1}. V záložke \texttt{Thresholding}, zvolíme niektorú z implementovaných prahovacích funkcií, v tomto príklade sme zvolili Niblackovu metódu. Na získanie čo najlepšieho výsledku použijeme dve rôzne prahovania. Prvé prahovanie bude s časovým krokom $sigma = 50.0$ a veľkosťou masky $m = 3$, toto prahovanie pôjde na vstup do počiatočnej podmienky. Druhé prahovanie bolo zvolené s menším časovým krokom $sigma = 5.0$ a rovnakou veľkosťou masky $m = 3$, toto prahovanie pôjde na vstup pre výpočet hranového detektoru a slúži na vylepšenie vektorového poľa. Výsledoky oboch prahovaní je zobrazený na obr \ref{fig:prah}.
 
 \begin{figure}[H]%
     \centering
-    \subfloat[Grafické rozhranie programu zobrazujúce znamienkovú funkciu vzdialenosti spolu s osami x,y,z.]{{\includegraphics[scale=0.3]{pics/sdf.jpg} }}%
+    \subfloat[Niblackova prahovacia metóda $sigma = 50.0$, $m = 3$]{{\includegraphics[scale=0.25]{pics/pr_nb50.png} }}%
+	\hspace{10px}
+    \subfloat[Niblackova prahovacia metóda $sigma = 5.0$, $m = 3$]{{\includegraphics[scale=0.25]{pics/pr_nb5.png} }}%
+    \caption{}%
+    \label{fig:prah}%
+\end{figure}
+
+Vyprahované dáta, boli pridané do zoznamu. Tieto dáta použijeme na vstup do segmentačnej metódy SUBSURF. Zvolíme záložku \texttt{3D Filters} detail možností je zobrazený na obr. \ref{fig:uidata1}b, kde sa dajú zobraziť aj 2 funkcie, ktoré môžeme použiť ako počiatočnú podmienku do segmentačnej metódy, so vstupnými dátami zobrazenými na obr \ref{fig:prah}. Prvou možnosťou počiatočnej podmienky  je znamienková funkcia vzdialenosti obr. \ref{fig:pp}a. Druhá možnosť je výsledok prahovacej funkcie  obr. \ref{fig:pp}b, čo znamená, že takéto dáta majú nastavené súradnice $z$ na $-1$, ak prahovacia funkcia zaradila pixel do pozadia a $1$, ak sa jedná o pixel makrofágu. Prahovacia funkcia idúca na vstup, musí byť v oboch prípadoch vyznačená v paneli \texttt{Data}.
+
+\begin{figure}[H]%
+    \centering
+    \subfloat[Znamienková funkcia vzdialenosti.]{{\includegraphics[scale=0.3]{pics/pp_sdf1.png} }}%
     \qquad
-    \subfloat[Grafické rozhranie programu zobrazujúce prahovaciu funkciu.]{{\includegraphics[scale=0.3]{pics/tf.jpg} }}%
+    \subfloat[Prahovacia funkcia.]{{\includegraphics[scale=0.3]{pics/pp_tf1.png} }}%
     \caption{}%
     \label{fig:pp}%
 \end{figure}
 
-Typ počiatočnej podmienky, vstupujúcej do segmentačnej metódy SUBSURF zvolíme zo zoznamu. Nálsledne nastavíme požadované parametre metódy: počet časových krokov $t$, veľkosť lineárneho časového kroku $\sigma$, veľkosť nelineárneho časového kroku $\tau$, koeficient sensitivity $k$. V ukážkovom príklade obr. \ref{fig:res_subsurf} sú použité hodnoty: $t = 10$, $\sigma = 0.25$, $\tau = 1.0$, $k = 200$, pre oba druhy počiatočných podmienok. 
-
+Typ počiatočnej podmienky, vstupujúcej do segmentačnej metódy SUBSURF zvolíme zo zoznamu. Nálsledne nastavíme požadované parametre metódy: počet časových krokov $t$, veľkosť lineárneho časového kroku $\sigma$, veľkosť nelineárneho časového kroku $\tau$, koeficient sensitivity $k$ a typ hranového detektora. V ukážkovom príklade obr. \ref{fig:res_subsurf} sú použité hodnoty: $t = 10$, $\sigma = 0.5$, $\tau = 1.0$, $k = 100$, hranový detektor \ref{eq:hdet2}, pre oba druhy počiatočných podmienok. Hranový detektor \ref{eq:hdet2}, sme zvolili pretože vracia lepšie výsledky.
 
 \begin{figure}[H]%
     \centering
-    \subfloat[Grafické rozhranie a výsledok segmentačnej funkcie pri použití znamienkovej funkcie vzdialenosti pre počiatočnú podmienku.]{{\includegraphics[scale=0.3]{pics/res_sdf.jpg} }}%
+    \subfloat[Výsledok segmentačnej metódy pri použití znamienkovej funkcie vzdialenosti ako počiatočnej podmienky.]{{\includegraphics[scale=0.45]{pics/pr_subsurf.png} }}%
     \qquad
-    \subfloat[Grafické rozhranie a výsledok segmentačnej funkcie pri použití prahovacej funkcie pre počiatočnú podmienku.]{{\includegraphics[scale=0.3]{pics/res_tf.jpg} }}%
+    \subfloat[Výsledok segmentačnej metódy pri použití prahovacej funkcie ako počiatočnej podmienky.]{{\includegraphics[scale=0.3]{pics/pr_subsurf2.png} }}%
     \caption{}%
     \label{fig:res_subsurf}%
 \end{figure}
 
-Na obr. \ref{fig:res_subsurf}a je zobrazený výsledok s počiatočnou podmienkou znamienkovej funkcie vzdialenosti, kde si môžeme všimnúť, že približne od hodnoty $-10$ neovplyvní výsledok segmentácie, preto ju orežeme na zvolenej hodnote a všetky hodnoty sa nachádzajúce sa pod ňou budú mať hodnotu $-10$.  Možnosť na orezanie dát sa nachádza v záložke \texttt{3D Options} obr. \ref{fig:uidata2} a výsledok je zobrazený na obr. \ref{fig:res_cut}. 
+Na obr. \ref{fig:res_subsurf}a je zobrazený výsledok s počiatočnou podmienkou znamienkovej funkcie vzdialenosti. Môžeme si všimnúť, že informácia o výsledku segmentácie nebude ovpluvnená časťou znamienkovej funkcie vzdialenosti, ktorá zostala na dátach po vysegmentovaní makrofágu. Preto môžeme výsledok segmentácie približne od hodnoty $-8$ orezať a všetky hodnoty sa nachádzajúce sa pod ňou budú mať hodnotu $-8$.  Možnosť na orezanie dát sa nachádza v záložke \texttt{3D Options} obr. \ref{fig:uidata2} a výsledok je zobrazený na obr. \ref{fig:res_cut}. 
 
  
 \begin{figure}[H]
  \begin{center} 
- \includegraphics[scale=0.50]{pics/res_cut_sdf.jpg}
-\caption{Grafické rozhranie, s orezanými dátami.}
+ \includegraphics[scale=0.30]{pics/pr_subsurf_cut.png}
+\caption{Orezaný výsledok segmentácie.}
 \label{fig:res_cut}
 \end{center} 
 \end{figure}
 
-Teraz zvolíme optimálnu izočiaru, v prípade počiatočnej podmienky znamienkovej funkcie vzdialenosti zvolíme izočiaru s hodnotou $z = -1.5$ obr. \ref{fig:res_iso}a. V prípade počiatočnej podmienky prahovacej funkcie bude mať izočiara hodnotu $z = 0$ obr. \ref{fig:res_iso}b. 
+Teraz zvolíme optimálnu izočiaru, v prípade počiatočnej podmienky znamienkovej funkcie vzdialenosti zvolíme izočiaru s hodnotou $z = -1.5$ obr. \ref{fig:res_iso}a. V prípade počiatočnej podmienky prahovacej funkcie bude mať izočiara hodnotu $z = -0.5$ obr. \ref{fig:res_iso}b. 
 
 \begin{figure}[H]%
     \centering
-    \subfloat[Grafické rozhranie, výsledok segmentačnej funkcie pri použití znamienkovej funkcie vzdialenosti pre počiatočnú podmienku a izočiara na hodnote $z = -1.5$ .]{{\includegraphics[scale=0.3]{pics/res_iso_3sdf.jpg} }}%
+    \subfloat[Výsledok segmentačnej metódy pri použití znamienkovej funkcie vzdialenosti ako počiatočnej podmienky s izočiarou na hodnote $z = -1.5$ .]{{\includegraphics[scale=0.27]{pics/pr_iso_res1.png} }}%
     \qquad
-    \subfloat[Grafické rozhranie, výsledok segmentačnej funkcie pri použití prahovacej funkcie pre počiatočnú podmienku a izočiara na hodnote $z = -1.5$.]{{\includegraphics[scale=0.3]{pics/res_iso_3tf.jpg} }}%
+    \subfloat[Výsledok segmentačnej metódy pri použití prahovacej funkcie ako počiatočnej podmienky s izočiarou na hodnote $z = -0.5$.]{{\includegraphics[scale=0.29]{pics/pr_iso_res2.png} }}%
     \caption{}%
     \label{fig:res_iso}%
 \end{figure}
@@ -851,9 +966,9 @@ Nakoniec optimálne zvolenú izočiaru vykreslíme  obr. \ref{fig:res_iso_final}
 
 \begin{figure}[H]%
     \centering
-    \subfloat[Grafické rozhranie, výsledná izočiara na pôvodných.]{{\includegraphics[scale=0.3]{pics/res_iso_sdf.jpg} }}%
+    \subfloat[Výsledná izočiara na pôvodných dátach pre počiatočnú podmienku znamienkovej funkcie vzdialenosti.]{{\includegraphics[scale=0.3]{pics/og_iso1.png}}}%
     \qquad
-    \subfloat[Grafické rozhranie a výsledok segmentačnej funkcie pri použití prahovacej funkcie pre počiatočnú podmienku.]{{\includegraphics[scale=0.3]{pics/res_iso_tf.jpg} }}%
+    \subfloat[Výsledná izočiara na pôvodných dátach pre počiatočnú podmienku prahovacej funkcie.]{{\includegraphics[scale=0.3]{pics/og_iso2.png} }}%
     \caption{}%
     \label{fig:res_iso_final}%
 \end{figure}
@@ -880,24 +995,26 @@ Na ukážku výsledkov sme vybrali niekoľko dát s makrofágmi so zložitými t
     \label{fig:ogData}
 \end{figure}
 
-Na vstup do segmentačnej metódy sme použili dva druhy počiatočných podmienok a niekoľko prahovacích metód popísaných v sekcii \ref{math}. Úlohou bolo, nájsť počiatočnú podmienku spolu s prahovacou metódou, ktoré by čo najpresnejšie popisovali pôvodný tvar makrofágu. Parametre segmentačnej metódy SUBSURF boli zvolené nasledovne:
-$t = 15, \sigma = 0.25, \tau = 1.0, k = 200$ a hodnotu výslednej izočiary sme volili podľa toho aký typ počiatočnej podmienky bol zvolený. Pri počiatočnej podmienke danej znamienkovou funkciou vzdialenosti sme izočiaru nastavili na hodnotu $z = -1$ a pri počiatočnej podmienke danej prahovacou funkciou bola izočiara nastavená na $z = 0$, keďže vo väčšine prípadoch boli tieto voľby najvhodnejšími. Výsledky segmentácie sú vyznačené na pôvodných dátach červenou farbou. 
+Na vstup do segmentačnej metódy sme implementovali dva druhy počiatočných podmienok, dva spôsoby výpočtu hranového detektora a niekoľko prahovacích metód popísaných v sekcii \ref{math}. Úlohou bolo, nájsť počiatočnú podmienku spolu s prahovacou metódou, ktoré by čo najpresnejšie popisovali pôvodný tvar makrofágu. V tejto sekcii si ukážeme najlepšie výsledky, ktoré sme dosiahli.
+
+Parametre segmentačnej metódy SUBSURF boli zvolené nasledovne:
+$t = 15, \sigma = 0.5, \tau = 1.0, k = 500$, hranový detektor definovaný ako \ref{eq:hranDet} a hodnotu výslednej izočiary sme volili podľa toho aký typ počiatočnej podmienky bol zvolený. Nami zvolená modifikácia hranového detektora je síce pomalšia ale mala lepšie výsledky. Pri počiatočnej podmienke danej znamienkovou funkciou vzdialenosti sme izočiaru nastavili na hodnotu $z = -1.5$ a pri počiatočnej podmienke danej prahovacou funkciou bola izočiara nastavená na $z = -0.5$, keďže vo väčšine prípadoch boli tieto voľby najvhodnejšími. Výsledky segmentácie sú vyznačené na pôvodných dátach červenou farbou. 
 
 %\subsection{Globálne prahovanie}
 
 Na obr. \ref{fig:otsu} je zobrazená globálna prahovacia funkcia popísaná v sekcii \ref{OtsuM} používajúca Otsuho metódu. Dá sa všimnúť, že táto prahovacia metóda nezachytila celý tvar makrofágu, hlavne ak išlo o úzku časť s menšou intenzitou.
 
 \begin{figure}[H]  
- \subfloat[cropT2: ]   
+ \subfloat[$prah = 108$]   
    {\includegraphics[scale=0.21]{pics/cropT2_otsu.png}}
     \hspace{5px}
-     \subfloat[cropT7] 
+     \subfloat[$prah = 108$] 
     {\includegraphics[scale=0.21]{pics/cropT7_otsu.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
+     \subfloat[$prah = 103$] 
     {\includegraphics[scale=0.21]{pics/cropT27_otsu.png}}
     \hspace{5px}
-     \subfloat[cropT45: prah = 105] 
+     \subfloat[$prah = 105$] 
     {\includegraphics[scale=0.21]{pics/cropT45_otsu.png}}
     \caption{Otsuho metóda}
     \label{fig:otsu}
@@ -906,17 +1023,21 @@ Na obr. \ref{fig:otsu} je zobrazená globálna prahovacia funkcia popísaná v s
 Izočiara na obr. \ref{fig:otsu_sdf} vyznačujúca výsledok segmentácie s počiatočnou podmienkou znamienkovej funkcie vzdialenosti. Môžeme si všimnúť, že niektoré časti makrofágu odtrhnuté aplikáciou prahovacej metódy, sa segmentáciou spätne spojili. 
 
 \begin{figure}[H]  
- \subfloat[cropT2]   
-   {\includegraphics[scale=0.21]{pics/cropT2_otsu_sdf.png}}
+ %\subfloat[cropT2]  
+   \subfloat[]  
+   {\includegraphics[scale=0.155]{pics/cropT2_otsu_sdf.png}}
     \hspace{5px}
-     \subfloat[cropT7] 
-    {\includegraphics[scale=0.21]{pics/cropT7_otsu_sdf.png}}
+  %   \subfloat[cropT7] 
+  \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT7_otsu_sdf.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
-    {\includegraphics[scale=0.21]{pics/cropT27_otsu_sdf.png}}
+  %   \subfloat[cropT27] 
+    \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_otsu_sdf.png}}
     \hspace{5px}
-     \subfloat[cropT45] 
-    {\includegraphics[scale=0.21]{pics/cropT45_otsu_sdf.png}}
+  %   \subfloat[cropT45] 
+    \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT45_otsu_sdf.png}}
     \caption{Výsledok segmentácie. Použitá Otsuho metóda a znamienková funkcia vzdialenosti.}
     \label{fig:otsu_sdf}
 \end{figure}
@@ -924,34 +1045,38 @@ Izočiara na obr. \ref{fig:otsu_sdf} vyznačujúca výsledok segmentácie s poč
 Na obr. \ref{fig:otsu_tf} vidíme výsledok segmentačnej metódy s počiatočnou podmienkou vytvorenej z prahovacej metódy. Tato počiatočná podmienka nevylepšila výsledok, výsledky sú takmer totožné s s výsledkom prahovacej metódy. 
 
 \begin{figure}[H]  
- \subfloat[cropT2]   
-   {\includegraphics[scale=0.21]{pics/cropT2_otsu_tf.png}}
+ %\subfloat[cropT2]
+   \subfloat[]    
+   {\includegraphics[scale=0.155]{pics/cropT2_otsu_tf.png}}
     \hspace{5px}
-     \subfloat[cropT7] 
-    {\includegraphics[scale=0.21]{pics/cropT7_otsu_tf.png}}
+  %  \subfloat[cropT7] 
+    \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT7_otsu_tf.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
-    {\includegraphics[scale=0.21]{pics/tst.png}}
+   %  \subfloat[cropT27] 
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_otsu_tf.png}}
     \hspace{5px}
-     \subfloat[cropT45] 
-    {\includegraphics[scale=0.21]{pics/cropT45_otsu_tf1.png}}
+    %\subfloat[cropT45] 
+      \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT45_otsu_tf.png}}
     \caption{Výsledok segmentácie. Použitá Otsuho metóda a prahovacia funkcia.}
     \label{fig:otsu_tf}
 \end{figure}
 
-Ďalšou globálnou prahovacou metódou popísanoou v sekcii \ref{kapurM}, je metóda získavájúca prah pomocou maximálnej entropie zobrazená na obr. \ref{fig:kapur}. Môžeme si všimnúť, že prah tejto metódy bol určený o niečo vhodnejšie(vyšší) ako predošlá metóda, napríklad v prípade \ref{fig:kapur}c. Avšak pri tomto type prahovacej metódy sa môže stať,že makrofág bude obsahovať aj časti, ktoré pôvodne nemal.
+Ďalšou globálnou prahovacou metódou popísanoou v sekcii \ref{kapurM}, je metóda získavajúca prah pomocou maximálnej entropie zobrazená na obr. \ref{fig:kapur}. Môžeme si všimnúť, že prah tejto metódy bol určený o niečo vhodnejšie(nižšie) ako predošlá metóda, napríklad v prípade \ref{fig:kapur}c. Avšak pri tomto type prahovacej metódy sa môže stať,že makrofág bude obsahovať aj časti, ktoré pôvodne nemal. Z výsledku prahovania obr. \ref{fig:kapur}c si môžeme všimnúť, že makrofág má pomerne jednoduchý tvar a prahovacia metóda zachytila jeho tvar takmer dokonale.  
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
+\subfloat[$prah = 75$]   
    {\includegraphics[scale=0.21]{pics/cropT2_kapur.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
+    \subfloat[$prah = 80$] 
    {\includegraphics[scale=0.21]{pics/cropT7_kapur.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
+     \subfloat[$prah = 54$] 
     {\includegraphics[scale=0.21]{pics/cropT27_kapur.png}}
     \hspace{5px}
-    \subfloat[cropT45: prah = 73] 
+    \subfloat[$prah = 73$] 
    {\includegraphics[scale=0.21]{pics/cropT45_kapur.png}}
     \caption{Prahovanie pomocou maximálnej entropie.}
     \label{fig:kapur}
@@ -962,17 +1087,17 @@ Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie 
 %Vo výsledkoch \ref{fig:kapur_res} vidieť, že objekty obsahujú niektoré časti, ktoré sa na pôvodných dátach nenachádzajú a v niektorých prípadoch neobsahujú všetky časti. 
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
-   {\includegraphics[scale=0.21]{pics/cropT2_kapur_sdf.png}}
+\subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT2_kapur_sdf.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
-   {\includegraphics[scale=0.21]{pics/cropT7_kapur_sdf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT7_kapur_sdf.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
-    {\includegraphics[scale=0.21]{pics/cropT27_kapur_sdf.png}}
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_kapur_sdf.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
-   {\includegraphics[scale=0.21]{pics/cropT45_kapur_sdf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT45_kapur_sdf.png}}
     \caption{Výsledok segmentácie. Použité prahovanie pomocou maximálnej entropie a znamienková funkcia vzdialenosti.}
     \label{fig:kapur_sdf}
 \end{figure}
@@ -980,17 +1105,17 @@ Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie 
 Výsledky segmentačnej metódy s počiatočnou podmienkou prahovacej funkcie obr. \ref{fig:kapur_tf}.
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
-   {\includegraphics[scale=0.21]{pics/cropT2_kapur_tf.png}}
+\subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT2_kapur_tf.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
-   {\includegraphics[scale=0.21]{pics/cropT7_kapur_tf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT7_kapur_tf.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
-    {\includegraphics[scale=0.21]{pics/cropT27_kapur_tf.png}}
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_kapur_tf.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
-   {\includegraphics[scale=0.21]{pics/cropT45_kapur_tf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT45_kapur_tf.png}}
     \caption{Výsledok segmentácie. Použité prahovanie pomocou maximálnej entropie a prahovacia funkcia.}
     \label{fig:kapur_tf}
 \end{figure}
@@ -999,40 +1124,59 @@ Lepšie výsledky získane z aplikácii globálnych prahovacích metód na dáta
 
 V prípade lokálnych adaptívnych prahovacích metód je prah vyhodnotený pre každý pixel osobitne na nejakom fixne danom okolí, teda sme predpokladali, že výsledky týchto metód budú viac vyhovovať pri segmentácii makrofágov. Avšak tieto metódy závisia minimálne od veľkosti masky $m$, na ktorej sa počíta hodnota prahu pre zvolený pixel. A v niektorých prípadoch sa približne počíta priemer intenzít a smerodajná odchýlka pomocou jedného kroku rovnice vedenia, teda ďalším prametrom je veľkosť časového kroku $\sigma$. 
 
-Prvou lokálnou adaptívnou metódou bola Niblackovej prahovacia metóda popísaná v sekcii \ref{niblack}.  S veľkosťou časového kroku $\sigma = 50.0,$ a veľkosťou masky $m = 3$, výsledky sú zobrazené na obr. \ref{fig:niblack}. 
+Prvou lokálnou adaptívnou metódou bola Niblackovej prahovacia metóda popísaná v sekcii \ref{niblack}.  S veľkosťou časového kroku $\sigma = 50.0$ a veľkosťou masky $m = 3$, výsledky sú zobrazené na obr. \ref{fig:niblack}. Výsledok tohoto prahovania použijeme ako vstupné dáta do počiatočnej podmienky.
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
+\subfloat[]   
    {\includegraphics[scale=0.21]{pics/cropT2_niblack.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
+    \subfloat[] 
    {\includegraphics[scale=0.21]{pics/cropT7_niblack.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
+     \subfloat[] 
     {\includegraphics[scale=0.21]{pics/cropT27_niblack.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
+    \subfloat[] 
    {\includegraphics[scale=0.21]{pics/cropT45_niblack.png}}
-    \caption{Niblackova segmentačná metóda.}
+    \caption{Niblackova segmentačná metóda, pre  $\sigma = 50.0$ a $m = 3$.}
     \label{fig:niblack}
 \end{figure}
 
+Na pôvodné dáta aplikujeme Niblackovu prahovaciu metódu ešte raz s menším časovým krokom ako v predošlom prípade  $\sigma = 5.0$ obr \ref{fig:niblack1}. Z výsledku tohoto prahovania sa bude počítať hranový detektor a slúži na vylepšenie vektorového poľa.
+
+ \begin{figure}[H]  
+\subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT2_niblack1.png}}
+    \hspace{5px}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT7_niblack1.png}}
+    \hspace{5px}
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_niblack1.png}}
+    \hspace{5px}
+    \subfloat[] 
+   {\includegraphics[scale=0.155500]{pics/cropT45_niblack1.png}}
+    \caption{Niblackova segmentačná metóda, pre  $\sigma = 5.0$ a $m = 3$.}
+    \label{fig:niblack1}
+\end{figure}
+
+V oboch prípadoch si môžeme všimnúť, že výsledky prahovacích metód výrazne lepšie zachytávajú tvar makrofágov aj na miestach s nižšou intenzitou narozdiel od globálnych prahovacích metód. 
 Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie vzdialenosti obr. \ref{fig:niblack_sdf}.
 
 %Na obr. \ref{fig:niblack_sdf} sú zobrazené výsledky, kde boli na vstup ako okrajová podmienka uvažované dáta z Niblackovej prahovacej metódy.
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
-   {\includegraphics[scale=0.21]{pics/cropT2_niblack_sdf.png}}
+\subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT2_niblack_sdf.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
-   {\includegraphics[scale=0.21]{pics/cropT7_niblack_sdf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT7_niblack_sdf.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
-    {\includegraphics[scale=0.21]{pics/cropT27_niblack_sdf.png}}
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_niblack_sdf.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
-   {\includegraphics[scale=0.21]{pics/cropT45_niblack_sdf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT45_niblack_sdf.png}}
     \caption{Výsledok segmentácie. Použitá Niblacková metóda a znamienková funkcia vzdialenosti.}
     \label{fig:niblack_sdf}
 \end{figure}
@@ -1040,34 +1184,36 @@ Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie 
 Výsledky segmentačnej metódy s počiatočnou podmienkou prahovacej funkcie obr. \ref{fig:niblack_tf}.
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
-   {\includegraphics[scale=0.21]{pics/cropT2_niblack_tf.png}}
+\subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT2_niblack_tf.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
-   {\includegraphics[scale=0.21]{pics/cropT7_niblack_tf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT7_niblack_tf.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
-    {\includegraphics[scale=0.21]{pics/cropT27_niblack_tf.png}}
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_niblack_tf.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
-   {\includegraphics[scale=0.21]{pics/cropT45_niblack_tf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT45_niblack_tf.png}}
     \caption{Výsledok segmentácie. Použitá Niblacková metóda a prahovacia funkcia.}
     \label{fig:niblack_tf}
 \end{figure}
 
+Z výsledkov segmentácie vidieť, že táto metóda veľmi dobre popisuje tvar makrofágov, aj keď obsahujú   slabšiu intenzitu, o šum priamo za objektom alebo majú zložitý tvar.  
+
 Bernsenova prahovacia funkcia popísaná v sekcii \ref{bernsenM}, pre veľkosť masky $m = 2$, je zobrazená na \ref{fig:bernsen}.
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
+\subfloat[]   
    {\includegraphics[scale=0.21]{pics/cropT2_bernsen.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
+    \subfloat[] 
    {\includegraphics[scale=0.21]{pics/cropT7_bernsen.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
+     \subfloat[] 
     {\includegraphics[scale=0.21]{pics/cropT27_bernsen.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
+    \subfloat[] 
    {\includegraphics[scale=0.21]{pics/cropT45_bernsen.png}}
     \caption{Bernsenova metóda.}
     \label{fig:bernsen}
@@ -1078,17 +1224,17 @@ Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie 
 %Výsledky segmentačnej metódy, s kde na vstup sme brali Bernsenove prahovanie na obr. \ref{fig:bernsen_res}.
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
-   {\includegraphics[scale=0.21]{pics/cropT2_bernsen_sdf.png}}
+\subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT2_bernsen_sdf.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
-   {\includegraphics[scale=0.21]{pics/cropT7_bernsen_sdf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT7_bernsen_sdf.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
-    {\includegraphics[scale=0.21]{pics/cropT27_bernsen_sdf.png}}
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_bernsen_sdf.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
-   {\includegraphics[scale=0.21]{pics/cropT45_bernsen_sdf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT45_bernsen_sdf.png}}
     \caption{Výsledok segmentácie. Použitá Bernsenova metóda a znamienková funkcia vzdialenosti.}
     \label{fig:bernsen_sdf}
 \end{figure}
@@ -1096,53 +1242,73 @@ Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie 
 Výsledky segmentačnej metódy s počiatočnou podmienkou prahovacej funkcie obr. \ref{fig:bernsen_tf}.
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
-   {\includegraphics[scale=0.21]{pics/cropT2_bernsen_tf.png}}
+\subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT2_bernsen_tf.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
-   {\includegraphics[scale=0.21]{pics/cropT7_bernsen_tf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT7_bernsen_tf.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
-    {\includegraphics[scale=0.21]{pics/cropT27_bernsen_tf.png}}
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_bernsen_tf.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
-   {\includegraphics[scale=0.21]{pics/cropT45_bernsen_tf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT45_bernsen_tf.png}}
     \caption{Výsledok segmentácie. Použitá Bernsenova metóda a prahovacia funkcia.}
     \label{fig:bernsen_tf}
 \end{figure}
 
-Sauvolova prahovacia metóda bola upravená z Niblackovej a používa sa primárne primárne používa na prahovanie textových obrazových dát ale keďže makrofágy sú malé a majú nepravidelné tvary, tak sme predpokladali, že aj v našom prípade by mohla dávať uspokojivé výsledky. Na obr. \ref{fig:sauvola} s parametrami $\sigma = 50.0$ a $m = 3$.
+Z výsledkov vidieť, že táto prahovacia metóda nezachytí užšie časti s nižšiou intenzitou hoci niektoré časti boli doplnené po aplikácii segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie vzdialenosti. 
+
+Sauvolova prahovacia metóda bola upravená z Niblackovej a používa sa primárne na prahovanie textových obrazových dát ale keďže makrofágy sú malé a majú nepravidelné tvary, tak sme predpokladali, že aj v našom prípade by mohla dávať uspokojivé výsledky. Na obr. \ref{fig:sauvola} s parametrami $\sigma = 50.0$ a $m = 3$. Výsledok tohoto prahovania použijeme ako vstupné dáta do počiatočnej podmienky.
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
+\subfloat[]   
    {\includegraphics[scale=0.21]{pics/cropT2_sauvola.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
+    \subfloat[] 
    {\includegraphics[scale=0.21]{pics/cropT7_sauvola.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
+     \subfloat[] 
     {\includegraphics[scale=0.21]{pics/cropT27_sauvola.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
+    \subfloat[] 
    {\includegraphics[scale=0.21]{pics/cropT45_sauvola.png}}
-    \caption{Sauvolova metóda.}
+    \caption{Sauvolova metóda, pre $\sigma = 50.0$, $m = 3$.}
+    \label{fig:sauvola} 
+\end{figure}
+
+Druhé prahovanie pomocou tejto metódy s parametrami $\sigma = 5.0$, $m = 3$, ktoré použijeme v sgmentačnej metóde na výpočet hranového detektora.
+
+\begin{figure}[H]  
+\subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT2_sauvola1.png}}
+    \hspace{5px}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT7_sauvola1.png}}
+    \hspace{5px}
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_sauvola1.png}}
+    \hspace{5px}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT45_sauvola1.png}}
+    \caption{Sauvolova metóda, pre  $\sigma = 5.0$ a $m = 3$.}
     \label{fig:sauvola}
 \end{figure}
 
 Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie vzdialenosti obr. \ref{fig:sauvola_sdf}.
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
-   {\includegraphics[scale=0.21]{pics/cropT2_sauvola_sdf.png}}
+\subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT2_sauvola_sdf.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
-   {\includegraphics[scale=0.21]{pics/cropT7_sauvola_sdf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT7_sauvola_sdf.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
-    {\includegraphics[scale=0.21]{pics/cropT27_sauvola_sdf.png}}
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_sauvola_sdf.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
-   {\includegraphics[scale=0.21]{pics/cropT45_sauvola_sdf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT45_sauvola_sdf.png}}
     \caption{Výsledok segmentácie. Použitá Sauvolova metóda a znamienková funkcia vzdialenosti.}
     \label{fig:sauvola_sdf}
 \end{figure}
@@ -1150,55 +1316,74 @@ Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie 
 Výsledky segmentačnej metódy s počiatočnou podmienkou prahovacej funkcie obr. \ref{fig:sauvola_tf}.
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
-   {\includegraphics[scale=0.21]{pics/cropT2_sauvola_tf.png}}
+\subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT2_sauvola_tf.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
-   {\includegraphics[scale=0.21]{pics/cropT7_sauvola_tf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT7_sauvola_tf.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
-    {\includegraphics[scale=0.21]{pics/cropT27_sauvola_tf.png}}
+     \subfloat[] 
+    {\includegraphics[scale=0.1551]{pics/cropT27_sauvola_tf.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
-   {\includegraphics[scale=0.21]{pics/cropT45_sauvola_tf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT45_sauvola_tf.png}}
     \caption{Výsledok segmentácie. Použitá Sauvolova metóda a prahovacia funkcia.}
     \label{fig:sauvola_tf}
 \end{figure}
 
+Na výsledkoch tejto segmentácii konkrétne na obr. \ref{fig:sauvola_sdf}a a obr. \ref{fig:sauvola_tf}a vidieť, že hoci sa prahovacia metóda nikde neroztrhla ale zachytila aj časť šumu nachádzajúci sa na dátach.
+
 Poslednými dvomi lokálnymi adaptívnymi metódami sú hybridné metódy používajúce princípy z predchádzajúcich metód. 
- 
-Prvá hybridná metóda vznikla kombináciou Bernsenovej a Nicblackovej metódy na obr. \ref{fig:hybrid1}  sú zobrazené výsledky s parametrami $\sigma = 50.0$ a $m = 3$.
+Prvá hybridná metóda vznikla kombináciou Bernsenovej a Nicblackovej metódy na obr. \ref{fig:hybrid1}  sú zobrazené výsledky s parametrami $\sigma = 50.0$ a $m = 3$. Výsledok tejto metódy použijeme ako vstup do počitočnej podmienky.
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
+\subfloat[]   
    {\includegraphics[scale=0.21]{pics/cropT2_hybrid_nb.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
+    \subfloat[] 
    {\includegraphics[scale=0.21]{pics/cropT7_hybrid_nb.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
+     \subfloat[] 
     {\includegraphics[scale=0.21]{pics/cropT27_hybrid_nb.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
+    \subfloat[] 
    {\includegraphics[scale=0.21]{pics/cropT45_hybrid_nb.png}}
-    \caption{Hybridná Bernsenova a Niblackova metóda.}
+    \caption{Hybridná Bernsenova a Niblackova metóda, pre $\sigma = 50.0$, $m = 3$.}
     \label{fig:hybrid1}
+\end{figure}
+
+Následne spravíme ešte jedno prahovanie obr. \ref{fig:hybrid11} s parametrami $\sigma = 5.0$, $m = 3$, bude použité pri výpočte hranového detektora a vylepší vektorové pole pri samotnej segmentácii.
+
+ \begin{figure}[H]  
+\subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT2_hybrid_nb1.png}}
+    \hspace{5px}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT7_hybrid_nb1.png}}
+    \hspace{5px}
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_hybrid_nb1.png}}
+    \hspace{5px}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT45_hybrid_nb1.png}}
+    \caption{Hybridná Bernsenova a Niblackova metóda, pre $\sigma = 5.0$, $m = 3$.}
+    \label{fig:hybrid11}
 \end{figure}
 
 Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie vzdialenosti obr. \ref{fig:hybrid1_sdf}.
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
-   {\includegraphics[scale=0.21]{pics/cropT2_hybrid_nb_sdf.png}}
+\subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT2_hybrid_nb_sdf.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
-   {\includegraphics[scale=0.21]{pics/cropT7_hybrid_nb_sdf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT7_hybrid_nb_sdf.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
-    {\includegraphics[scale=0.21]{pics/cropT27_hybrid_nb_sdf.png}}
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_hybrid_nb_sdf.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
-   {\includegraphics[scale=0.21]{pics/cropT45_hybrid_nb_sdf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT45_hybrid_nb_sdf.png}}
     \caption{Výsledok segmentácie. Použitá prvá hybridná prahovacia metóda a znamienková funkcia vzdialenosti.}
     \label{fig:hybrid1_sdf}
 \end{figure}
@@ -1206,53 +1391,73 @@ Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie 
 Výsledky segmentačnej metódy s počiatočnou podmienkou prahovacej funkcie obr. \ref{fig:hybrid1_tf}.
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
-   {\includegraphics[scale=0.21]{pics/cropT2_hybrid_nb_tf.png}}
+\subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT2_hybrid_nb_tf.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
-   {\includegraphics[scale=0.21]{pics/cropT7_hybrid_nb_tf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT7_hybrid_nb_tf.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
-    {\includegraphics[scale=0.21]{pics/cropT27_hybrid_nb_tf.png}}
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_hybrid_nb_tf.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
-   {\includegraphics[scale=0.21]{pics/cropT45_hybrid_nb_tf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT45_hybrid_nb_tf.png}}
     \caption{Výsledok segmentácie. Použitá prvá hybridná metóda a prahovacia funkcia.}
     \label{fig:hybrid1_tf}
 \end{figure}
 
-Druhá hybridná metóda vznikla kombináciou Bernsenovej a Sauvolovej metódy na obr. \ref{fig:hybrid2}  sú zobrazené výsledky s parametrami $\sigma = 50.0$ a $m = 3$.
+Výsledky tejto segmentácie veľmi dobre popisujú skutočný tvar makrofágov.
+
+Druhá hybridná metóda vznikla kombináciou Bernsenovej a Sauvolovej metódy na obr. \ref{fig:hybrid2}  sú zobrazené výsledky s parametrami $\sigma = 50.0$ a $m = 3$. Výsledok tohoto prahovania sme použili ako vstup na výpočet počiatočnej podmienky. 
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
+\subfloat[]   
    {\includegraphics[scale=0.21]{pics/cropT2_hybrid_sb.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
+    \subfloat[] 
    {\includegraphics[scale=0.21]{pics/cropT7_hybrid_sb.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
+     \subfloat[] 
     {\includegraphics[scale=0.21]{pics/cropT27_hybrid_sb.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
+    \subfloat[] 
    {\includegraphics[scale=0.21]{pics/cropT45_hybrid_sb.png}}
-    \caption{Hybridná Bernsenova a Sauvolova metóda.}
+    \caption{Hybridná Bernsenova a Sauvolova metóda, pre $\sigma = 5.0$, $m = 3$.}
     \label{fig:hybrid2}
+\end{figure}
+
+Tu sme opäť použili dve rôzne prahovania, druhé malo parametre $\sigma = 5.0$, $m = 3$ vstupovalo na výpočet hranového detektota. Výsledok tohoto prahovania je zobrazený na obr. \ref{fig:hybrid22}
+
+\begin{figure}[H]  
+\subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT2_hybrid_sb1.png}}
+    \hspace{5px}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT7_hybrid_sb1.png}}
+    \hspace{5px}
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_hybrid_sb1.png}}
+    \hspace{5px}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT45_hybrid_sb1.png}}
+    \caption{Hybridná Bernsenova a Sauvolova metóda, pre $\sigma = 5.0$ a $m = 3$.}
+    \label{fig:hybrid22}
 \end{figure}
 
 Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie vzdialenosti obr. \ref{fig:hybrid2_sdf}.
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
-   {\includegraphics[scale=0.21]{pics/cropT2_hybrid_sb_sdf.png}}
+\subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT2_hybrid_sb_sdf.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
-   {\includegraphics[scale=0.21]{pics/cropT7_hybrid_sb_sdf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT7_hybrid_sb_sdf.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
-    {\includegraphics[scale=0.21]{pics/cropT27_hybrid_sb_sdf.png}}
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_hybrid_sb_sdf.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
-   {\includegraphics[scale=0.21]{pics/cropT45_hybrid_sb_sdf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT45_hybrid_sb_sdf.png}}
     \caption{Výsledok segmentácie. Použitá druhá hybridná prahovacia metóda a znamienková funkcia vzdialenosti.}
     \label{fig:hybrid2_sdf}
 \end{figure}
@@ -1260,31 +1465,87 @@ Výsledky segmentačnej metódy s počiatočnou podmienkou znamienkovej funkcie 
 Výsledky segmentačnej metódy s počiatočnou podmienkou prahovacej funkcie obr. \ref{fig:hybrid2_tf}.
 
 \begin{figure}[H]  
-\subfloat[cropT2]   
-   {\includegraphics[scale=0.21]{pics/cropT2_hybrid_sb_tf.png}}
+\subfloat[]   
+   {\includegraphics[scale=0.155]{pics/cropT2_hybrid_sb_tf.png}}
     \hspace{5px}
-    \subfloat[cropT7] 
-   {\includegraphics[scale=0.21]{pics/cropT7_hybrid_sb_tf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT7_hybrid_sb_tf.png}}
     \hspace{5px}
-     \subfloat[cropT27] 
-    {\includegraphics[scale=0.21]{pics/cropT27_hybrid_sb_tf.png}}
+     \subfloat[] 
+    {\includegraphics[scale=0.155]{pics/cropT27_hybrid_sb_tf.png}}
     \hspace{5px}
-    \subfloat[cropT45] 
-   {\includegraphics[scale=0.21]{pics/cropT45_hybrid_sb_tf.png}}
+    \subfloat[] 
+   {\includegraphics[scale=0.155]{pics/cropT45_hybrid_sb_tf.png}}
     \caption{Výsledok segmentácie. Použitá druhá hybridná metóda a prahovacia funkcia.}
     \label{fig:hybrid2_tf}
 \end{figure}
 
+Výsledky tejto segmentácie sú podobné Sauvolovej metóde a nachádza sa okolo dát zostatkový šum.
+
 %Z výsledkov na obrázkoch \ref{fig:otsu_res}, \ref{fig:kapur_res}, \ref{fig:niblack_res} a \ref{fig:bernsen_res}  vidieť, že vhodnejšími prahovacími metódami vstupujúcimi do segmentácie ako okrajová podmienka sú lokálne adaptívne prahovacie metódy. A Niblackova prahovacia metóda obr. obr \ref{fig:niblack} najlepšie popisuje skutočný tvar makrofágu.
 
-Zo zobrazených výsledkov si môžeme všimnúť že výrazne lepšie výsledky získame pri použití niektorých z lokálnych adaptívnych prahovacích metód, ale napr. pri Sauvolovej prahovaciej funkcii je zachytený aj šum patriaci pozadiu. Najlepšie výsledky sme dostali použitím počiatočnej podmienky z hybridnej Bernsenovej a Niblackovej prahovej funkcie. 
+Zo zobrazených výsledkov si môžeme všimnúť že výrazne lepšie výsledky získame pri použití niektorých z lokálnych adaptívnych prahovacích metód, ale napr. pri Sauvolovej prahovaciej funkcii je zachytený aj šum patriaci pozadiu. Najlepšie výsledky sme dostali použitím počiatočnej podmienky z hybridnej Bernsenovej a Niblackovej prahovej metódy ale aj Niblackova prahovacia metóda mala veľmi dobré výsledky. 
+
+Hoci sme primárne pracovali s dátami o veľkosti $80x80$, tak naimplementovaný program sa dá použiť aj pre všeobecnejšie dáta. Z pôvodných obrazových dát získaných mikroskopom, sme spravili výsek o veľkosti $350x150$ obr. \ref{fig:vysek}.
+
+\begin{figure}[H]
+ \begin{center} 
+ \includegraphics[scale=0.50]{pics/vysekoD.png}
+\caption{Výsek viacerých makrofágov z pôvodných dát veľkosti $350x150$.}
+\label{fig:vysek}
+\end{center} 
+\end{figure}
+
+Na dáta na obr. \ref{fig:vysek} sme aplikovali segmentačnú metódu s najlepšiu globálnu a najlepšiu lokálnu adaptívnu prahovaciu metódu aby sme videli, či tieto metódy fungujú aj pre všeobecné prípady a vyhodnotili výsledky. 
+
+Z globálnych prahovacích metód sme zvolili, prahovanie pomocou maximálnej entropie obr. \ref{fig:vysek_kapur}. Na výsledkoch z tohoto prahovania si môžeme všimnúť, že makrofágy nemajú zachovaný tvar a niektoré, so slabšou intenzitou neboli vôbec zachytené. 
+
+\begin{figure}[H]
+ \begin{center} 
+ \includegraphics[scale=0.50]{pics/vysek_kapur.png}
+\caption{Výsledok prahovania pomocou maximálnej entropie.}
+\label{fig:vysek_kapur}
+\end{center} 
+\end{figure}
+
+Ako lokálnu adaptívnu metódu sme zvolili hybridnú Bernsenovu a Niblackovu metódu s parametrami $\sigma = 50.0$, $m = 5$ na vstup do počiatočnej podmienky (obr. \ref{fig:vysek_nb}) a $\sigma = 5.0$, $m = 5$ ako vstup pri výpočte hranového detektora. Z výsledku vidieť že zachytené boli takmer všetky makrofágy až na veľmi malé so slabou intenzitou a táto metóda aj veľmi dobre zachytáva aj ich tvary. 
+
+\begin{figure}[H]
+ \begin{center} 
+ \includegraphics[scale=0.50]{pics/vysek_hybrid_nb.png}
+\caption{Výsledok prahovania hybridnej Bernsenovej a Niblackovej metódy, pre $\sigma = 50.0$.}
+\label{fig:vysek_nb}
+\end{center} 
+\end{figure}
+
+Pri samotnej segmentačnej metóde SUBSURF sme použili paramtre: $t = 10$, $\sigma = 0.5$, $\tau = 1.0$, $k = 100$, hranový detektor \ref{eq:hdet2} a počiatočnú podmienku znamienkovej funkcie vzdialenosti.
+
+\begin{figure}[H]
+ \begin{center} 
+ \includegraphics[scale=0.50]{pics/vysek_kapur_res.png}
+\caption{Výsledok segmentácie. Použité prahovanie pomocou maximálnej entropie a znamienková funkcia vzdialenosti.}
+\label{fig:vysek_nb}
+\end{center} 
+\end{figure}
+
+\begin{figure}[H]
+ \begin{center} 
+ \includegraphics[scale=0.50]{pics/vysek_hybrid_nb_res.png}
+\caption{Výsledok segmentácie. Použitá hybridná Bernsenova a Niblackova metóda a znamienková funkcia vzdialenosti.}
+\label{fig:vysek_nb}
+\end{center} 
+\end{figure}
+
+Z výsledkov segmentácie jednoznačne vidieť, že lokálna adaptívna metóda obr. \ref{fig:vysek_nb} je vhodnejšia pri segmentácii makrofágov. Takmer presne zachytáva ich tvar aj na miestach s nižšou intenzitou. V prípade použitia prahovania pomocou maximálnej entropie si môžeme všimnúť, že sú zachytené len makrofágy alebo časti makrofágov len s vyššou intenzitou.
 
 \newpage
 \section{Záver}
 
 Cieľom tejto práce, bolo vytvoriť užívateľské prostredie s viacerými implementovanými segmentačnými metódami slúžiacimi na skúmanie tvarov a správania biologických dát - makrofágov. Pri implementácií bol použitý objektovo orientovaný jazyk C++, spolu s Qt knižnicami pomocou, ktorých bolo vytvorené užívateľské prostredie a VTK knižnicami ktoré zabezpečili zobrazenie a manipuláciu s dátami.
 
+Implementovaných bolo niekoľko prahovacích metód, ktoré slúžia na zachytenie tvarov makrofágov a odstránenie šumu. K najlepším výsledkom, sme dospeli pri použití lokálnych adaptívnych prahovacích metód a to buď pri Niblackovej alebo hybridnej Bernsenovej a Niblackovej prahovacej metóde. Tieto prahovacie metódy zachytili tvar makrofágov veľmi dobre v prípadoch že sa na skúmaných dátach nachádzal výrazný šum, mali komplikovaný tvar ale aj v prípadoch keď sa vrámci jedného makrofágu výrazne menila intenzita. Tieto výsledky by sme mohli považovať za vylepšenie metód použitých v práci \cite{sora}. Tieto prahovacie metódy slúžili pri výpočte hranového detektou alebo mohli slúžiť ako počiatočná podmienka segmentačnej metóty SUBSURF. 
 
+Do budúcnosti by sa mohla funkcionalita naimplementovaného softvéru viac zoptimalizovať. V prípade, ak by sa mal softvér využívať aj na dáta väčších rozmerov, tak by ho bolo kvôli výpočtovej náročnosti segmentačnej metódy vhodné sparalelniť napríklad použitím \texttt{openMP}. Tiež by sa dali pridať aj iné prahovacie metódy.
 
 \newpage
 \begin{thebibliography}{50}
@@ -1316,6 +1577,10 @@ Anna Korzynska, Lukasz Roszkowiak,Carlos Lopez, Ramon Bosch, Lukasz Witkowski1, 
 \bibitem{otsu} 
 Nobuyuki Otsu, \textbf{A Threshold Selection Method from Gray-Level Histograms}, 
 
+\bibitem{kapur}
+J.N.Kapur, P.K.Sahoo, A.K.C.Wong
+\textbf{A new method for gray-level picture thresholding using the entropy of the histogram},
+\url{https://doi.org/10.1016/0734-189X(85)90125-2}
 \end{thebibliography}
 
 \end{document}

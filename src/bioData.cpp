@@ -49,6 +49,7 @@ bioData::bioData(QWidget *parent)
 	sauvolaButton = new QPushButton;
 	hybSaBernButton = new QPushButton;
 	deleteWinButton = new QPushButton;
+	zlepsiVectorFieldButton = new QPushButton;
 
 	// axes
 	useOData = new QCheckBox;
@@ -85,7 +86,7 @@ bioData::bioData(QWidget *parent)
 
 	axesCB->setChecked(false);
 	useOData->setChecked(true);
-	useOData->setDisabled(true);
+	// useOData->setDisabled(true);
 
 	connect(this->otsuButton, SIGNAL(clicked()), this, SLOT(otsuClicked()));
 	connect(this->kapuraButton, SIGNAL(clicked()), this, SLOT(kapuraClicked()));
@@ -121,17 +122,19 @@ bioData::bioData(QWidget *parent)
 	connect(this->sauvolaButton, SIGNAL(clicked()), this, SLOT(sauvolaClicked()));
 	connect(this->hybSaBernButton, SIGNAL(clicked()), this, SLOT(hybSaBernClicked()));
 	connect(this->deleteWinButton, SIGNAL(clicked()), this, SLOT(deleteWinClicked()));
+	connect(this->zlepsiVectorFieldButton, SIGNAL(clicked()), this, SLOT(zlepsiVectorFieldClicked()));
+	connect(this->openWinButton, SIGNAL(clicked()), this, SLOT(openWinClicked()));
 
 	connect(this->testingButton, SIGNAL(clicked()), this, SLOT(testClicked()));
 	connect(this->winListView, SIGNAL(currentRowChanged(int)), this, SLOT(listIndexChanged(int)));
 	connect(this->dataTree, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(treeIndexChanged(QTreeWidgetItem *, int)));
-
+	
 	// space for the display area
 	mdiArea = new QMdiArea(this); 
+	// connect(this->mdiArea, SIGNAL(subWindowActivated(QMdiSubWindow *)), this, SLOT(subWinActivated(QMdiSubWindow*)));
 	// configure scrollbars
 	mdiArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	mdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	// mdiArea->setTabsClosable(false);
 	// Set Mdi Area as the central widget
 	setCentralWidget(mdiArea);
 
@@ -144,6 +147,7 @@ bioData::bioData(QWidget *parent)
 	createOptions3DDock();
 	createHistoryLogDock();
 	createWindowsDock();
+	createHelpDock();
 	QMainWindow::tabifyDockWidget(filter2DDock, options2DDock);
 	QMainWindow::tabifyDockWidget(filter2DDock, subsurfDock);
 	QMainWindow::tabifyDockWidget(filter2DDock, options3DDock);
@@ -207,7 +211,8 @@ void bioData::actionClose() {
 }
 
 void bioData::actionOpenFile() {
-	QStringList filePaths = QFileDialog::getOpenFileNames(this, tr("Open File"), "", tr("Portable Graymap (*.pgm)"));
+	// QStringList filePaths = QFileDialog::getOpenFileNames(this, tr("Open File"), "", tr("Portable Graymap (*.pgm)"));
+	QStringList filePaths = QFileDialog::getOpenFileNames(this, tr("Open File"), "", tr("All files(*.*);; Portable Graymap(*.pgm);; TIFF(*.tif)"));
 
 	if (filePaths.isEmpty())
 		return;
@@ -229,7 +234,14 @@ void bioData::initWin(QString path) {
 	source *tmpFile = new source();
 	_file.resize(_file.size() + 1);
 	_file.replace(_file.size() - 1, tmpFile);
-	_file.at(_file.size() - 1)->load(path);
+	if(path.contains(".pgm"))
+		_file.at(_file.size() - 1)->load(path);
+	else if (path.contains(".tif"))
+		_file.at(_file.size() - 1)->readTifFile(path);
+	else {
+
+		return;
+	}
 	QStringList list = path.split('/');
 	fName = list[list.length() - 1].split('.')[0];
 
@@ -244,9 +256,7 @@ void bioData::initWin(QString path) {
 	historyText->appendPlainText("Width: " + QString::number(tmpFile->getWidth()) + " Height: " + QString::number(tmpFile->getHeight()));
 
 	QMdiSubWindow *subWTmp = new QMdiSubWindow();
-	std::cout << _subW.size() << endl;
 	_subW.resize(_subW.size() + 1);
-
 	QWidget *widget = new QWidget();
 	gridLayout = new QGridLayout(widget);
 	dataTree->clear();
@@ -284,6 +294,7 @@ void bioData::initWin(QString path) {
 		windowsDock->show();
 	filter2DDock->raise();
 	_subW.at(currentWin)->showMaximized();
+	// _subW.at(currentWin)->setDisabled(true);
 }
 
 void bioData::addSubItem(QTreeWidgetItem *parent, QString name) {
@@ -579,7 +590,7 @@ void bioData::createListDock() {
 	twoDButton->setCheckable(true);
 	threeDButton->setText("3D");
 	threeDButton->setCheckable(true);
-	openWinButton->setDisabled(true);
+	// openWinButton->setDisabled(true);
 	QHBoxLayout *tmplayout = new QHBoxLayout();
 	tmplayout->addWidget(twoDButton);
 	tmplayout->addWidget(threeDButton);
@@ -614,11 +625,11 @@ void bioData::createFilter2DDock() {
 	
 	createGlobThrshldGB();
 	createLocThrshldGB();
-	// createtestGB();
+	//createtestGB();
 
 	filterLayout->addWidget(globThreshGroupBox);
 	filterLayout->addWidget(locThreshGroupBox);
-	// filterLayout->addWidget(testGroupBox);
+	//filterLayout->addWidget(testGroupBox);
 	   	 
 	multiWidget->setLayout(filterLayout);
 	filter2DDock->setWidget(VerticalScrollArea);
@@ -649,6 +660,8 @@ void bioData::createFilter3DDock() {
 void bioData::otsuClicked() {
 	ui->statusbar->showMessage("Computing...");
 	qApp->processEvents();
+	// int i = dataTree->currentIndex().row();
+	// if (useOData->isChecked()) i = 0;			
 	filters filter(_file.at(currentWin)->getWidth(), _file.at(currentWin)->getHeight(), _file.at(currentWin)->getOrigData());
 	int otsuThr = filter.otsuFilter();
 	_file.at(currentWin)->addFiltData(filter.createNewData(_file.at(currentWin)->getOrigData(), otsuThr));
@@ -737,6 +750,8 @@ void bioData::subsurfClicked() {
 		ui->statusbar->showMessage("Computing...");
 		qApp->processEvents();
 		filters filter(_file.at(currentWin)->getWidth(), _file.at(currentWin)->getHeight(), _file.at(currentWin)->getOrigData());
+		if (indexOfVect == -1) indexOfVect = dataTree->currentIndex().row();
+		std::cout << "index dat na zlepsenie vect pola: " << indexOfVect << endl;
 		_winParam.at(currentWin)->changeSubsurfParam(timeStepsSubsurf->value(), sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());
 		QVector<double> tmp;
 		if (initialCBox->currentIndex() == 0) {
@@ -744,14 +759,14 @@ void bioData::subsurfClicked() {
 				filter.distFunctSign(
 						filter.dataToDouble(_file.at(currentWin)->getFiltData(dataTree->currentIndex().row()))),
 				filter.changeRangeOfData(
-					filter.dataToInt((_file.at(currentWin)->getFiltData(dataTree->currentIndex().row())))),
+					filter.dataToInt((_file.at(currentWin)->getFiltData(indexOfVect)))),
 				timeStepsSubsurf->value() ,sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());
 
 		} else if (initialCBox->currentIndex() == 1) {
 			tmp = filter.subSurf(
 				filter.thresholdFunction(_file.at(currentWin)->getFiltData(dataTree->currentIndex().row())),
 				filter.changeRangeOfData(
-					filter.dataToInt(filter.dataDifference(_file.at(currentWin)->getFiltData(dataTree->currentIndex().row())))),
+					filter.dataToInt(filter.dataDifference(_file.at(currentWin)->getFiltData(indexOfVect)))),
 				timeStepsSubsurf->value(), sigmaSubsurf->value(), tauSubsurf->value(), kSubsurf->value());
 		}
 		_file.at(currentWin)->add3DData(tmp);
@@ -770,6 +785,7 @@ void bioData::subsurfClicked() {
 		addSubItem(parent3D, txt + "_subsurf");
 		_winParam.at(currentWin)->add3DData(txt + "_subsurf");
 		_winParam.at(currentWin)->addHistInfo(historyText->toPlainText());
+		indexOfVect = -1;
 		ui->statusbar->clearMessage();
 	}
 	else 
@@ -845,6 +861,7 @@ void bioData::createSubsurfGB() {
 	QLabel *kLabel = new QLabel(tr("Sensitivity coeficient:"));
 	QLabel *initConLabel = new QLabel(tr("Initial condition:"));
 	QLabel *howManyLab = new QLabel(tr("Number of time steps:"));
+	QLabel *improveLab = new QLabel(tr("Improve vector field: "));
 
 	initialCBox->addItems(QStringList() << "Sign distance function"  << "Result of threshold function");
 	colorCBox->addItems(QStringList() << "Black & White" << "Rainbow");
@@ -859,9 +876,11 @@ void bioData::createSubsurfGB() {
 	subsurfLayout->addWidget(tauSubsurf, 3, 1);
 	subsurfLayout->addWidget(kLabel, 4, 0);
 	subsurfLayout->addWidget(kSubsurf, 4, 1);
-
+	subsurfLayout->addWidget(improveLab, 5, 0);
+	zlepsiVectorFieldButton->setText("Apply");
+	subsurfLayout->addWidget(zlepsiVectorFieldButton, 5, 1);
 	subsurfButton->setText("Apply");
-	subsurfLayout->addWidget(subsurfButton, 5, 1);
+	subsurfLayout->addWidget(subsurfButton, 6, 1);
 
 	subsurfGroupBox->setLayout(subsurfLayout);
 }
@@ -933,7 +952,10 @@ void bioData::deleteClicked() {
 	}
 	else if (parent2D == dataTree->currentItem()->parent()) {
 		if (dataTree->currentIndex().row() == 0 && parent3D->childCount() == 0 && parent2D->childCount() == 1) {
-			actionCloseFiles();
+			if (winListView->count() == 1)
+				actionCloseFiles();
+			else
+				deleteWinClicked();
 		}
 		else if (dataTree->currentIndex().row() == 0) {
 			errorMessages(4);
@@ -949,10 +971,6 @@ void bioData::deleteClicked() {
 }
 
 void bioData::resetViewClicked () {
-	if (dataTree->selectedItems().size() == 0) {
-		errorMessages(0);
-		return;
-	}
 	_vWidget.at(currentWin)->resetCam();
 }
 
@@ -977,10 +995,6 @@ void bioData::actionCloseFiles() {
 }
 
 void bioData::twoDClicked() {
-	if (dataTree->selectedItems().size() == 0) {
-		errorMessages(0);
-		return;
-	}
 	twoDButton->setChecked(true);
 	threeDButton->setChecked(false);
 	_vWidget.at(currentWin)->set2DView();
@@ -988,10 +1002,6 @@ void bioData::twoDClicked() {
 }
 
 void bioData::threeDClicked() {
-	if (dataTree->selectedItems().size() == 0) {
-		errorMessages(0);
-		return;
-	}
 	threeDButton->setChecked(true);
 	twoDButton->setChecked(false);
 	_vWidget.at(currentWin)->set3DView();
@@ -1185,14 +1195,18 @@ void bioData::createOptions2DDock() {
 		QDockWidget::DockWidgetVerticalTitleBar);
 	QWidget* multiWidget = new QWidget();
 	QGridLayout *layout = new QGridLayout; 
-	QLabel *differenceLab = new QLabel(tr("Aritmetic mean:"));
+	QLabel *differenceLab = new QLabel(tr("Aritmetic mean: "));
+	QLabel *useODataLab = new QLabel(tr("Use original data: "));
 	QLabel *heLab = new QLabel(tr("One step of Heat Equation:"));
 	QLabel *originalDataLab = new QLabel(tr("Process original data:"));
 	differenceLab->setToolTip("Creates new boundary condition for the segmentation.\n Takes 1/2 of the selected thresholded data and 1/2 and makes mean.");
 	differenceButton->setText("Apply");
 	createcontour2DGB();
 	createHeatEqGB();
-
+	useOData->setToolTip("Means using first data in list.");
+	useOData->setChecked(true);
+	//layout->addWidget(useODataLab, 0, 0);
+	//layout->addWidget(useOData, 0, 1);
 	layout->addWidget(differenceLab, 1, 0);
 	layout->addWidget(differenceButton, 1, 1);
 	layout->addWidget(HeatEqGroupBox,2,0,1,2);
@@ -1757,21 +1771,7 @@ void bioData::deleteWinClicked() {
 }
 
 void bioData::actionHelp() {
-	QMessageBox helpBox;
-	helpBox.setIcon(QMessageBox::Information);
-	helpBox.setWindowTitle("Help");
-
-	QString help = "Controls: \n";
-	help += "LMB + movement: \t rotate \n";
-	help += "MMB + movement: \t pan \n";
-	help += "RMB + movement: \t zoom in/out \n";
-	help += "MW: \t\t\t zoom in/out \n";
-	help += "Press W: \t\t show wireframe \n";
-	help += "Press S: \t\t\t show surface \n";
-	help += "Press R: \t\t\t reset camera \n";
-
-	helpBox.setText(help);
-	helpBox.exec();
+	helpDock->show();
 }
 
 void bioData::actionAbout() {
@@ -1779,7 +1779,7 @@ void bioData::actionAbout() {
 	aboutBox.setWindowTitle("About");
 
 	QString about = "KMaDG\n";
-	about += "Version:  1.0   (2019) \n\n";
+	about += "Version:  1.0   (2020) \n\n";
 	about += "Author: Maria Somorovska";
 
 	aboutBox.setText(about);
@@ -1804,6 +1804,127 @@ void bioData::errorMessages(int i) {
 	case 4:
 		errorMessage.setText("You can't delete original data while having more items in the list!");
 		break;
+	case 5:
+		errorMessage.setText("Wrong file type choosen!");
+		break;
 	}
 	errorMessage.exec();
+}
+
+/*void bioData::subWinActivated(QMdiSubWindow* subW) {
+	QMessageBox mbox;
+	mbox.setText("tu som");
+	mbox.exec();
+}*/
+
+void bioData::createHelpDock() {
+	helpDock = new QDockWidget(tr("Help"), this);
+	historyDock->setAllowedAreas(Qt::LeftDockWidgetArea |
+		Qt::RightDockWidgetArea |
+		Qt::BottomDockWidgetArea);
+	historyDock->setFeatures(QDockWidget::DockWidgetClosable |
+		QDockWidget::DockWidgetMovable);
+
+	std::cout << QApplication::applicationFilePath().toStdString() << endl;
+	QHelpEngine* helpEngine = new QHelpEngine(
+		"C:/Users/maria/Desktop/mpm/zs2.roc_ing/diplomovka/biodata/src/documentation/biodataHelp.qhc");
+	helpEngine->setupData();
+
+	QTabWidget* tWidget = new QTabWidget;
+	tWidget->setMaximumWidth(200);
+	// tWidget->addTab(helpEngine->contentWidget(), "Contents");
+	tWidget->addTab(helpEngine->indexWidget(), "Index");
+
+	Help *textViewer = new Help(helpEngine);
+	 textViewer->setSource(
+	 	QUrl("qthelp://biodata.qt.help/doc/index.html"));
+
+	connect(helpEngine->indexWidget(),
+		SIGNAL(linkActivated(QUrl, QString)),
+		textViewer, SLOT(setSource(QUrl)));
+
+	QSplitter *horizSplitter = new QSplitter(Qt::Horizontal);
+	horizSplitter->insertWidget(0, tWidget);
+	horizSplitter->insertWidget(1, textViewer);
+	horizSplitter->hide();
+
+	helpDock->setWidget(horizSplitter);
+	helpDock->hide();
+	addDockWidget(Qt::BottomDockWidgetArea, helpDock);
+}
+
+void bioData::zlepsiVectorFieldClicked() {
+	if (parent2D == dataTree->currentItem()->parent()) {
+		indexOfVect = dataTree->currentIndex().row();
+		std::cout << "index dat na zlepsenie vect pola: " << indexOfVect << endl;
+	}
+	else
+		errorMessages(1);
+}
+
+void bioData::openWinClicked() {
+	return;
+	/*if (parent2D == dataTree->currentItem()->parent()) {
+		fName = dataTree->currentItem()->text(dataTree->currentColumn());
+		int i = dataTree->currentIndex().row();
+
+		source *tmpFile = new source();
+		_file.resize(_file.size() + 1);
+		_file.replace(_file.size() - 1, tmpFile);
+
+		viewerWidget *VWTmp = new viewerWidget();
+		_vWidget.resize(_vWidget.size() + 1);
+		_vWidget.replace(_vWidget.size() - 1, VWTmp);
+		_vWidget.at(_vWidget.size() - 1)->setScrollArea();
+
+		historyText->clear();
+		historyText->appendPlainText("Data opened in new window.");
+		historyText->appendPlainText("File name: " + fName);
+		historyText->appendPlainText("File path: unknown");
+		historyText->appendPlainText("Width: " + QString::number(tmpFile->getWidth()) + " Height: " + QString::number(tmpFile->getHeight()));
+
+		QMdiSubWindow *subWTmp = new QMdiSubWindow();
+		_subW.resize(_subW.size() + 1);
+		QWidget *widget = new QWidget();
+		gridLayout = new QGridLayout(widget);
+		dataTree->clear();
+		parent2D = new QTreeWidgetItem();
+		parent2D->setText(0, "2D");
+		parent3D = new QTreeWidgetItem();
+		parent3D->setText(0, "3D");
+		dataTree->addTopLevelItem(parent2D);
+		dataTree->addTopLevelItem(parent3D);
+		parent3D->setHidden(true);
+		_subW.replace(_subW.size() - 1, mdiArea->addSubWindow(widget));
+		options3DDock->hide();
+		options2DDock->hide();
+		setDefaultValues();
+		twoDButton->setChecked(true);
+		_file.at(_file.size() - 1)->setPoints(_file.at(currentWin)->getFiltData(i));
+		gridLayout->addWidget(_vWidget.at(_vWidget.size() - 1)->getScrollArea());
+		_vWidget.at(_vWidget.size() - 1)->setViewerWidget2D(tmpFile->getImageData(), tmpFile->getFileName(fName));
+
+		enableMenuOpt();
+		subWin *winTmp = new subWin(fName);
+		_winParam.resize(_winParam.size() + 1);
+		_winParam.replace(_winParam.size() - 1, winTmp);
+		_winParam.at(_winParam.size() - 1)->add2DData(fName);
+		_winParam.at(_winParam.size() - 1)->addHistInfo(historyText->toPlainText());
+		winListView->addItem(fName);
+		subWinAdded = true;
+		winListView->setCurrentRow(winListView->count() - 1);
+		_subW.at(currentWin)->setWindowTitle(fName);
+		addSubItem(parent2D, fName);
+		showAllDocks();
+		if (winListView->count() == 1)
+			windowsDock->hide();
+		else
+			windowsDock->show();
+		filter2DDock->raise();
+		_subW.at(currentWin)->showMaximized();
+		// _subW.at(currentWin)->setDisabled(true);
+	}
+	else
+		errorMessages(1);*/
+
 }

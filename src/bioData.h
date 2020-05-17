@@ -7,9 +7,13 @@
 #include "source.h"
 #include "subWin.h"
 #include "filters.h"
+#include "help.h"
 #include <filesystem>
-#include <QKeyEvent>
-#include <QDockWidget>
+#include <QHelpEngine>
+#include <QHelpContentWidget>
+#include <QHelpIndexWidget>
+#include <QHelpSearchQueryWidget>
+
 
 class bioData : public QMainWindow
 {
@@ -54,6 +58,7 @@ public:
 	void createOptions3DDock();
 	void createHistoryLogDock();
 	void createWindowsDock();
+	void createHelpDock();
 
 public slots:
 	virtual void slotExit();
@@ -61,6 +66,7 @@ public slots:
 	void listIndexChanged(int i);
 	void treeIndexChanged(QTreeWidgetItem *itm, int i);
 	void colorIndexChanged(int i);
+	// void subWinActivated(QMdiSubWindow* subW);
 
 	// upper menu actions
 	void actionHistLog();
@@ -112,6 +118,8 @@ public slots:
 	void sauvolaClicked();
 	void hybSaBernClicked();
 	void deleteWinClicked();
+	void zlepsiVectorFieldClicked();
+	void openWinClicked();
 
 	// others
 	void AxesChange(bool checked);
@@ -135,6 +143,7 @@ private:
 	QDockWidget *subsurfDock;
 	QDockWidget *historyDock;
 	QDockWidget *windowsDock;
+	QDockWidget *helpDock;
 
 	// groupboxes
 	QGroupBox *subsurfGroupBox;
@@ -198,6 +207,7 @@ private:
 	QPushButton *sauvolaButton;
 	QPushButton *hybSaBernButton;
 	QPushButton *deleteWinButton;
+	QPushButton *zlepsiVectorFieldButton;
 
 	// comboboxes
 	QComboBox *dataCBox;
@@ -233,6 +243,7 @@ private:
 	QProgressBar *progBar;
 	// garbage
 	int currentWin = 0;
+	int indexOfVect = -1;
 	int winSize = 0;
 	bool subWinAdded = false;
 	QListWidget *winListView;

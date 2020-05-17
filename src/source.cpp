@@ -7,6 +7,10 @@ source::source() {
 	colors = vtkSmartPointer<vtkUnsignedCharArray>::New();
 	colorLookupTable = vtkSmartPointer<vtkLookupTable>::New();
 	polydata2D = vtkSmartPointer<vtkPolyData>::New();
+
+	// test
+	imageDataGeometryFilter =
+		vtkSmartPointer<vtkImageDataGeometryFilter>::New();
 }
 
 source::~source() {
@@ -218,8 +222,8 @@ void source::save_ascii(QString fileName, int index) {
 	stream << width << " " << height << endl;
 	stream << maxCol << endl;
 
-	for (int j = 0; j < width; j++) {
-		for (int i = 0; i < height; i++) {
+	for (int j = 0; j < height; j++) {
+		for (int i = 0; i < width; i++) {
 			stream << dataFilt.at(index).at(j * width + i) <<  " ";
 		}
 		stream << endl;
@@ -381,4 +385,44 @@ void source::saveHistOutput(QString text, QString fileName) {
 	QTextStream stream(&outputFile);
 	stream << text;
 	outputFile.close();
+}
+
+void source::readTifFile(QString path) {
+	vtkSmartPointer<vtkTIFFReader> reader =
+		vtkSmartPointer<vtkTIFFReader>::New();
+	QByteArray ba = path.toLocal8Bit();
+	const char *cstr = ba.data();
+	reader->SetNumberOfScalarComponents(1);
+	reader->SetFileName(cstr);
+	reader->Update();
+	int bounds[6];
+	reader->GetOutput()->GetExtent(bounds);
+	imageDataGeometryFilter->SetInputConnection(reader->GetOutputPort());
+	imageDataGeometryFilter->Update();
+
+	vtkSmartPointer<vtkPolyData> tmppoly = 
+		vtkSmartPointer<vtkPolyData>::New();
+
+	tmppoly = imageDataGeometryFilter->GetOutput();
+	tmppoly->Modified();
+	
+	width = bounds[1] + 1;
+	height = bounds[3] + 1;
+	vtkSmartPointer<vtkDataArray> array = vtkSmartPointer<vtkUnsignedCharArray>::New();
+	array = tmppoly->GetPointData()->GetScalars();
+
+	QVector<unsigned char> data;
+	data.resize(tmppoly->GetNumberOfPoints());
+	for (int j = 0; j < height; j++)
+		for (int i = 0; i < width; i++) {
+			data[j*width + i] = (int)(array->GetTuple(j*width + i)[1]);
+		}
+	addFiltData(data);
+}
+
+void source::setNewDataWin(QVector<unsigned char> data, int h, int w) {
+	height = h;
+	width = w;
+
+	addFiltData(data);
 }

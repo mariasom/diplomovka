@@ -27,6 +27,7 @@ void viewerWidget::setViewerWidget2D(vtkSmartPointer<vtkPolyData> image, QString
 	qW->SetRenderWindow(renderWindow);
 
 	image->GetBounds(bounds);
+	std::cout << image->GetNumberOfPoints() << endl;
 	vtkSmartPointer<vtkPolyDataMapper> mapper =
 		vtkSmartPointer<vtkPolyDataMapper>::New();
 	mapper->ClearColorArrays();
@@ -331,7 +332,7 @@ void viewerWidget::cut1Contour(vtkSmartPointer<vtkPolyData> polydata, double zVa
 
 void viewerWidget::optContourOnID(double zValue) {
 	renderer->GetViewProps()->RemoveAllItems();
-	cutterActor->GetProperty()->SetLineWidth(3);
+	cutterActor->GetProperty()->SetLineWidth(5);
 	cutterActor->SetPosition(0, 0, abs(zValue));
 	renderer->AddActor(actor2D);
 	renderer->AddActor(cutterActor);
