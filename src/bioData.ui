@@ -295,22 +295,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionFileInfo</sender>
-   <signal>changed()</signal>
-   <receiver>bioData</receiver>
-   <slot>actionFileInfo()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>299</x>
-     <y>193</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>actionData</sender>
    <signal>changed()</signal>
    <receiver>bioData</receiver>

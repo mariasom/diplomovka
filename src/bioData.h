@@ -50,7 +50,6 @@ public:
 	void createCutDataAtGB();
 
 	// docks
-	void createFileDock(QString name, QString path, int width, int height);
 	void createListDock();
 	void createFilter2DDock();
 	void createFilter3DDock();
@@ -66,12 +65,10 @@ public slots:
 	void listIndexChanged(int i);
 	void treeIndexChanged(QTreeWidgetItem *itm, int i);
 	void colorIndexChanged(int i);
-	// void subWinActivated(QMdiSubWindow* subW);
 
 	// upper menu actions
 	void actionHistLog();
 	void actionAll();
-	void actionFileInfo();
 	void actionData();
 	void actionOpenFile();
 	void actionClose();
@@ -82,7 +79,6 @@ public slots:
 	void action2Dvtkascii();
 	void action2DFilters();
 	void action3DFilters();
-	void actionAdvanced();
 	void actionCloseFiles();
 	void actionHelp();
 	void actionAbout();
@@ -131,6 +127,9 @@ private:
 	Ui::bioData *ui;
 	QMdiArea *mdiArea; 
 	QVector<QMdiSubWindow*> _subW;
+	QVector<source*> _file;
+	QVector<viewerWidget*> _vWidget;
+	QVector<subWin*> _winParam;
 	QGridLayout *gridLayout;
 
 	// docks
@@ -164,7 +163,8 @@ private:
 	QGroupBox *manOptContourGB;
 	QGroupBox *cutDataAtGB;
 
-	// treewidget + its items
+	// treewidget, listView + its items
+	QListWidget *winListView;
 	QTreeWidget *dataTree;
 	QTreeWidgetItem *parent2D = nullptr;
 	QTreeWidgetItem *parent3D = nullptr;
@@ -213,6 +213,7 @@ private:
 	QComboBox *dataCBox;
 	QComboBox *initialCBox;
 	QComboBox *colorCBox;
+	QComboBox *gradTypeCBox;
 
 	// spinboxes
 	QDoubleSpinBox *sigmaSubsurf;
@@ -241,24 +242,14 @@ private:
 	QLabel *rangeLab;
 	QPlainTextEdit *historyText;
 	QProgressBar *progBar;
+
 	// garbage
 	int currentWin = 0;
 	int indexOfVect = -1;
 	int winSize = 0;
 	bool subWinAdded = false;
-	QListWidget *winListView;
-	QTabWidget *innerTabs;
-	QSpinBox *backgroundSB;
-	QSpinBox *foregroundSB;;
-	QListWidget *dataListView;
-	int _index = 0;
-	QVector<source*> _file;
-	source *fTmp;
-	QVector<viewerWidget*> _vWidget;
-	QVector<subWin*> _winParam;
-	viewerWidget* w;
+
 	QString fName;
 	QString filePath;
-	bool advanced = false;
 	filters filt;
 };

@@ -11,7 +11,7 @@
 \contentsline {subsection}{\numberline {2.3}Met\IeC {\'o}da subjekt\IeC {\'\i }vnych pl\IeC {\^o}ch (SUBSURF)}{7}{subsection.2.3}% 
 \contentsline {subsubsection}{\numberline {2.3.1}Modifik\IeC {\'a}cia met\IeC {\'o}dy}{8}{subsubsection.2.3.1}% 
 \contentsline {section}{\numberline {3}Numerick\IeC {\'e} sch\IeC {\'e}my}{9}{section.3}% 
-\contentsline {subsection}{\numberline {3.1}Implicitn\IeC {\'a} met\IeC {\'o}da pre rovnicu vedenia tepla}{9}{subsection.3.1}% 
+\contentsline {subsection}{\numberline {3.1}Implicitn\IeC {\'a} sch\IeC {\'e}ma pre rovnicu vedenia tepla}{9}{subsection.3.1}% 
 \contentsline {subsection}{\numberline {3.2}Numerick\IeC {\'a} sch\IeC {\'e}ma pre SUBSURF}{10}{subsection.3.2}% 
 \contentsline {section}{\numberline {4}Softv\IeC {\'e}r}{12}{section.4}% 
 \contentsline {subsection}{\numberline {4.1}Qt}{12}{subsection.4.1}% 

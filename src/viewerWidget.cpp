@@ -169,7 +169,7 @@ void viewerWidget::contours2D(vtkSmartPointer<vtkPolyData> image, bool backgroun
 }
 
 void viewerWidget::resetCam() {
-	renderer->GetActiveCamera()->SetPosition((bounds[1] - bounds[0])/2.0, (bounds[3] - bounds[2]), (bounds[1] - bounds[0])*(bounds[3] - bounds[2]));
+	renderer->GetActiveCamera()->SetPosition(0, 0, bounds[1]*bounds[3]);
 	renderer->GetActiveCamera()->SetViewUp(0, 1, 0);
 	renderer->ResetCamera();
 	renderWindow->Render();
@@ -204,7 +204,6 @@ void viewerWidget::cutContour(vtkSmartPointer<vtkPolyData> polydata, int numOfCo
 	qW->SetRenderWindow(renderWindow);
 	polydata->GetBounds(bounds);
 
-	// mozno upravit ak zvysi cas
 	vtkSmartPointer<vtkPlane> plane =
 		vtkSmartPointer<vtkPlane>::New();
 	plane->SetOrigin((bounds[1] + bounds[0]) / 2.0,
@@ -317,9 +316,9 @@ void viewerWidget::cut1Contour(vtkSmartPointer<vtkPolyData> polydata, double zVa
 	cutterMapper->ScalarVisibilityOff();
 	
 	cutterActor->SetPosition(0, 0, 0);
-	cutterActor->GetProperty()->SetLineWidth(2);
+	cutterActor->GetProperty()->SetLineWidth(3);
 	cutterActor->SetMapper(cutterMapper);
-	cutterActor->GetProperty()->SetColor(1, 0, 0);
+	cutterActor->GetProperty()->SetColor(155./255., 239/255., 5/255.);
 
 	renderer->GetViewProps()->RemoveAllItems();
 	renderer->AddActor(actor3D);
@@ -332,7 +331,8 @@ void viewerWidget::cut1Contour(vtkSmartPointer<vtkPolyData> polydata, double zVa
 
 void viewerWidget::optContourOnID(double zValue) {
 	renderer->GetViewProps()->RemoveAllItems();
-	cutterActor->GetProperty()->SetLineWidth(5);
+	cutterActor->GetProperty()->SetLineWidth(3);
+	cutterActor->GetProperty()->SetColor(1, 0, 0);
 	cutterActor->SetPosition(0, 0, abs(zValue));
 	renderer->AddActor(actor2D);
 	renderer->AddActor(cutterActor);

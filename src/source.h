@@ -18,7 +18,6 @@
 #include <vtkLookupTable.h>
 #include <vtkTriangle.h>
 #include <vtkLookupTable.h>
-#include <vtkPNGReader.h>
 #include <vtkNamedColors.h>
 #include <vtkVertexGlyphFilter.h>
 #include <vtkDoubleArray.h>
@@ -33,7 +32,6 @@
 #include <vtkImageDataGeometryFilter.h>
 #include <vtkImageData.h>
 #include <vtkImageCanvasSource2D.h>
-//#include <vtkTIFFReaderInternal.h>
 #include <vtkDataArray.h>
 
 class source {
@@ -44,6 +42,7 @@ protected:
 	QVector<double> zMin;
 	QVector<double> zMax;
 	QString fileName = " ";
+	double bounds[6];
 	int width = 0;
 	int height = 0;
 	int maxCol;
@@ -51,6 +50,7 @@ protected:
 	qint64 sLength = 0;
 	int sSize = 0;
 	QStringList file;
+	QString info;
 	vtkSmartPointer<vtkPoints> points2D;
 	vtkSmartPointer<vtkPoints> points3D;
 	vtkSmartPointer<vtkPolyData> polydata;
@@ -61,41 +61,48 @@ protected:
 	void setCol(vtkSmartPointer<vtkColorTransferFunction> color, int colorIndex);
 	vtkSmartPointer<vtkImageDataGeometryFilter> imageDataGeometryFilter;
 
+	void setText(QString text);
+	void addZMinandMax();
+
 public:
 	source();
 	~source();
-	void load(QString path);
-	void readAscii(QString path);
-	void readBinary(QString path);
-	QString getFileName(QString path);
-	void setPoints(QVector<unsigned char> &setData, int p = 0);
-	QVector<unsigned char> getOrigData() {  return  dataFilt.at(0); };
+	vtkSmartPointer<vtkPolyData> getPolydata() { return polydata; };
+	QVector<unsigned char> getOrigData() { return  dataFilt.at(0); };
 	QVector<unsigned char> getFiltData(int i) { return dataFilt.at(i); };
 	QVector<double> get3DData(int i) { return data3DFilt.at(i); };
 	vtkSmartPointer<vtkPolyData> getImageData() { return polydata2D; };
+	vtkSmartPointer<vtkImageDataGeometryFilter> getTIFFPolydata() { return imageDataGeometryFilter; };
+	int getSizeFiltData() { return dataFilt.size(); };
+	int getSize3DData() { return data3DFilt.size(); };
 	int getWidth() { return width; };
 	int getHeight() { return height; };
-	vtkSmartPointer<vtkPolyData> getPolydata() { return polydata; };
-	void removeFiltData(int i) { dataFilt.remove(i); };
-	int getSizeFiltData() { return dataFilt.size(); };
-	void remove3DData(int i) { data3DFilt.remove(i); };
-	int getSize3DData() { return data3DFilt.size(); };
-	void create3Ddata(QVector<double> z);
 	double getZMin(int i) { return zMin.at(i); };
 	double getZMax(int i) { return zMax.at(i); };
+	QString getText() { return info; };
+	QString getFileName(QString path);
+
+	// file load
+	void load(QString path);
+	void readTifFile(QString path);
+	void readAscii(QString path);
+	void readBinary(QString path);
+	
+	//create polydata 
+	void setPoints(QVector<unsigned char> &setData, int p = 0);
+	void create3Ddata(QVector<double> z);
+	void colorPolyData(int colorIndex);
+	void setNewDataWin(QVector<unsigned char> dataToSet, int h, int w);
+
+	//data maniulation
 	void remove2DFiltData(int i) { dataFilt.remove(i); };
 	void remove3DFiltData(int i) { data3DFilt.remove(i); };
-	vtkSmartPointer<vtkImageDataGeometryFilter> getTIFFPolydata() { return imageDataGeometryFilter; };
-
-
 	void addFiltData(QVector<unsigned char> &addData);
 	void add3DData(QVector<double> &addData);
+
+	// save to file
 	void save_ascii(QString fileName, int index);
 	void saveVtk3D(QString fileName, int index, bool binary);
 	void saveVtk2D(QString fileName, int index, bool binary);
-	void colorPolyData(int colorIndex);
-	void addZMinandMax();
 	void saveHistOutput(QString text, QString fileName);
-	void readTifFile(QString path);
-	void source::setNewDataWin(QVector<unsigned char> dataToSet, int h, int w);
 };

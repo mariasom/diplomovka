@@ -49,7 +49,7 @@ void source::load(QString path) {
 	tmpstring = line + "\n";
 	sLength += tmpstring.length();
 	sSize += line.size();
-	std::cout << line.toStdString() << endl;
+	
 	if (line.contains('#')) {	//line is comment
 		line = line = stream.readLine();
 		tmpstring = line + "\n";
@@ -58,13 +58,11 @@ void source::load(QString path) {
 	QStringList sList = line.split(' ', QString::SkipEmptyParts);
 	width = sList[0].toInt();
 	height = sList[1].toInt();
-	std::cout << "sirka: " << width << "vyska: " << height << endl;
+	
 	line = stream.readLine();
 	tmpstring = line + "\n";
 	sLength += tmpstring.length();
-	// sLength += line.length();
 	sSize += line.size();
-	std::cout << line.toStdString() << endl;
 	if (!line.contains(".pgm", Qt::CaseSensitive)) {
 		fileName = getFileName(path);
 		maxCol = line.toInt();	
@@ -79,14 +77,13 @@ void source::load(QString path) {
 	}
 	inputFile.close();
 
-	//data.resize(file.length());
 	// urcime typ pgm a podla toho priradim hodnoty
 	if (fileType.contains("P2", Qt::CaseSensitive)) {
-		std::cout << "ascii file loading..." << std::endl;
+		setText("ascii portable graymap (.pgm)");
 		readAscii(path);
 	}
 	else if (fileType.contains("P5", Qt::CaseSensitive)) {
-		cout << "binary file loading..." << endl;
+		setText("binary portable graymap  (.pgm)");
 		binary = true;
 		readBinary(path);
 	}
@@ -116,14 +113,12 @@ void source::readAscii(QString path) {
 		data[i] = (unsigned char)splt[i].toInt();
 	}
 	file.close();
-	// addFiltData(data);
 }
 
 void source::readBinary(QString path) {
 	QFile file(path);
 	file.open(QIODevice::ReadOnly);
-	if (!file.isOpen())
-	{
+	if (!file.isOpen()) {
 		return;
 	}
 	QTextStream input(&file);
@@ -137,7 +132,6 @@ void source::readBinary(QString path) {
 	data = u;
 
 	file.close();
-	// addFiltData(u);
 }
 
 QString source::getFileName(QString path) {
@@ -242,25 +236,6 @@ void source::create3Ddata(QVector<double> z) {
 			points3D->SetPoint(j * width + i, i, j, z[width * j + i]);
 		}
 
-	/*vtkSmartPointer<vtkCellArray> triangles = 
-		vtkSmartPointer<vtkCellArray>::New();
-	vtkSmartPointer<vtkTriangle> triangle = 
-		vtkSmartPointer<vtkTriangle>::New();
-
-	for (int j = 0; j < height - 1; j++)
-		for (int i = 0; i < width - 1 ; i++)
-		{
-			triangle->GetPointIds()->SetId(0, j * width + i);
-			triangle->GetPointIds()->SetId(1, (j + 1) * width + i);
-			triangle->GetPointIds()->SetId(2, (j + 1) * width + (i + 1));
-			triangles->InsertNextCell(triangle);
-
-			triangle->GetPointIds()->SetId(0, j * width + i);
-			triangle->GetPointIds()->SetId(1, (j + 1) * width + (i + 1));
-			triangle->GetPointIds()->SetId(2, (j)* width + (i + 1));
-			triangles->InsertNextCell(triangle);
-		}*/
-
 	vtkSmartPointer<vtkCellArray> polygons =
 		vtkSmartPointer<vtkCellArray>::New();
 	vtkSmartPointer<vtkPolygon> polygon =
@@ -278,7 +253,7 @@ void source::create3Ddata(QVector<double> z) {
 
 	polydata->SetPoints(points3D);
 	polydata->SetPolys(polygons);
-	//polydata->SetStrips(triangles);
+	addZMinandMax();
 }
 
 void source::setCol(vtkSmartPointer<vtkColorTransferFunction> transferF,int colorIndex) {
@@ -301,7 +276,6 @@ void source::colorPolyData(int colorIndex) {
 	colors->SetNumberOfComponents(3);
 	colors->SetName("Colors");
 	colors->SetNumberOfTuples(polydata->GetNumberOfPoints());
-	double bounds[6];
 	polydata->GetBounds(bounds);
 	colorLookupTable->SetTableRange(bounds[4], bounds[5]);
 	colorLookupTable->Build();
@@ -368,12 +342,12 @@ void source::saveVtk2D(QString fileName, int index, bool binary) {
 }
 
 void source::addZMinandMax() {
-	double bounds[6];
 	polydata->GetBounds(bounds);
-	zMax.resize(zMax.size() + 1);\
+	zMax.resize(zMax.size() + 1);
 	zMin.resize(zMin.size() + 1);
 	zMax[zMax.size() - 1] = bounds[5];
 	zMin[zMin.size() - 1] = bounds[4];
+	setText("Z min: " + QString::number(bounds[4]) + " Z max: " + QString::number(bounds[5]));
 }
 
 void source::saveHistOutput(QString text, QString fileName) {
@@ -395,8 +369,9 @@ void source::readTifFile(QString path) {
 	reader->SetNumberOfScalarComponents(1);
 	reader->SetFileName(cstr);
 	reader->Update();
-	int bounds[6];
-	reader->GetOutput()->GetExtent(bounds);
+	std::cout << reader->GetNumberOfOutputPorts();
+	int bound[6];
+	reader->GetOutput()->GetExtent(bound);
 	imageDataGeometryFilter->SetInputConnection(reader->GetOutputPort());
 	imageDataGeometryFilter->Update();
 
@@ -406,8 +381,8 @@ void source::readTifFile(QString path) {
 	tmppoly = imageDataGeometryFilter->GetOutput();
 	tmppoly->Modified();
 	
-	width = bounds[1] + 1;
-	height = bounds[3] + 1;
+	width = bound[1] + 1;
+	height = bound[3] + 1;
 	vtkSmartPointer<vtkDataArray> array = vtkSmartPointer<vtkUnsignedCharArray>::New();
 	array = tmppoly->GetPointData()->GetScalars();
 
@@ -417,6 +392,8 @@ void source::readTifFile(QString path) {
 		for (int i = 0; i < width; i++) {
 			data[j*width + i] = (int)(array->GetTuple(j*width + i)[1]);
 		}
+
+	setText("Tagged Image File Format (.tif)");
 	addFiltData(data);
 }
 
@@ -425,4 +402,8 @@ void source::setNewDataWin(QVector<unsigned char> data, int h, int w) {
 	width = w;
 
 	addFiltData(data);
+}
+
+void source::setText(QString text) {
+	info = text;
 }
