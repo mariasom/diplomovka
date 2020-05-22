@@ -1664,10 +1664,14 @@ void bioData::deleteWinClicked() {
 		_subW.at(currentWin)->close();
 		_subW.remove(currentWin);
 		winListView->model()->removeRow(currentWin);
-		if (currentWin == 0)
+		if (currentWin == 0) {
 			winListView->setCurrentRow(currentWin + 1);
-		else 
+			currentWin = currentWin + 1;
+		}
+		else {
 			winListView->setCurrentRow(currentWin - 1);
+			currentWin = currentWin - 1;
+		}
 	}
 	else if (_subW.size() == 1) {
 		actionCloseFiles();
@@ -1751,7 +1755,7 @@ void bioData::createHelpDock() {
 
 	helpDock->setWidget(horizSplitter);
 	helpDock->hide();
-	addDockWidget(Qt::RightDockWidgetArea, helpDock);
+	addDockWidget(Qt::BottomDockWidgetArea, helpDock);
 }
 
 void bioData::zlepsiVectorFieldClicked() {

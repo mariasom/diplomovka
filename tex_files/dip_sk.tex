@@ -166,7 +166,7 @@ Na tomto mieste by som chcela poďakovať vedúcej práce, doc. RNDr. Zuzane Kri
 %abstrakt
 \section*{Abstrakt}
 
-Práca je zameraná na spracovanie biologických dát - makrofágov, ktoré môžu mať zložité tvary, šum a časti makrofágov môžu mať slabšiu intenzitu. Popisuje viacero globálnych a lokálnych adaptívnych prahovacích metód a ich využitie v segmentačnej metóde SUBSURF, založenej na parciálnej diferenciálnej rovnici. Práca je rozdelená do niekoľkých častí, teoretickú, ktorá popisuje využité segmentačné algoritmy z matematického hľadiska, praktickú, popisujúcu softvér slúžiaci na zobrazenie a spracovanie biologických dát. Na implementáciu segmentačných metód bol zvolený objektovo-orientovaný prístup jazyka \texttt{C++}, spolu s \texttt{Qt} knižnicami slúžiacimi na vytvorenie užívateľského prostredia a s \texttt{VTK} knižnice boli využité pri~vizualizácií. Práca obsahuje aj demonštráciu získaných výsledkov.
+Práca je zameraná na spracovanie biologických dát - makrofágov, ktoré môžu mať zložité tvary, šum a časti makrofágov môžu mať slabšiu intenzitu. Popisuje viacero globálnych a lokálnych adaptívnych prahovacích metód a ich využitie v segmentačnej metóde SUBSURF, založenej na parciálnej diferenciálnej rovnici. Práca je rozdelená do niekoľkých častí, teoretickú, ktorá popisuje využité segmentačné algoritmy z matematického hľadiska, praktickú, popisujúcu softvér slúžiaci na zobrazenie a spracovanie biologických dát. Na implementáciu segmentačných metód bol zvolený objektovo-orientovaný prístup jazyka \texttt{C++}, spolu s \texttt{Qt} knižnicami slúžiacimi na vytvorenie užívateľského prostredia a \texttt{VTK} knižnice boli využité pri~vizualizácií. Práca obsahuje aj demonštráciu získaných výsledkov.
 
 %Práca je zameraná na implementáciu segmentačných metód pre biologické dáta makrofágov, ktoré môžu mať zložité tvary, šum a časti makrofágov môžu mať slabšiu intenzitu. Popisuje viacero globálnych a lokálnych adaptívnych prahovacích metód a ich využitie v segmentačnej metóde SUBSURF, založenej na parciálnej diferenciálnej rovnici.
 
@@ -497,7 +497,7 @@ kde $d \geq 0$. V našom prípade, sme parameter $\kappa$ nastavili na $\kappa =
 
 %\subsubsection{Sauvolova metóda}
 
-Sauvolova prahovacia metóda je vylepšením Niblackovej metóody. Prah $Q(u,v))$ je definovaný v tvare
+Sauvolova prahovacia metóda\cite{skripta1} je vylepšením Niblackovej metóody. Prah $Q(u,v))$ je definovaný v tvare
 
 \begin{equation}  \label{eq:sav}
 Q(u,v) = \mu_R(u,v) \left[1 + \kappa\left(\frac{\sigma_R(u,v)}{\sigma_{max}} - 1\right)\right],
