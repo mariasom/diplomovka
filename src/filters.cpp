@@ -271,7 +271,7 @@ QVector<double> filters::antireflection(QVector<double> data) {
 	return antiref;
 }
 
-double filters::M(QVector<double> u, int i, int j, int p, int q) {
+double filters::M(QVector<double> &u, int i, int j, int p, int q) {
 	double tmp = u.at((j + q) * (widthR) + (i + p)) - u.at(j * (widthR) + i);
 	if (tmp < 0)
 		return tmp * tmp;
@@ -294,7 +294,6 @@ QVector<double> filters::distFunct(QVector<double> edge) {
 	un.resize(widthR * heightR);
 	un.fill(0);
 	up = un;
-	vysl.fill(0);
 	ue = reflection(edge);
 	int tol = 1;
 	double mass = pow(10,6);
@@ -313,13 +312,11 @@ QVector<double> filters::distFunct(QVector<double> edge) {
 						sqrt(findmax(M(up, i, j, -1, 0), M(up, i, j, 1, 0)) +
 							findmax(M(up, i, j, 0, -1), M(up, i, j, 0, 1))));
 				}
+				mass += (un[j * widthR + i] - up[j * widthR + i]) * (un[j * widthR + i] - up[j * widthR + i]);
 			}
 		}
-		for (int j = 0; j < heightR; j++)
-			for (int i = 0; i < widthR; i++)
-				mass += (un[j * widthR + i] - up[j * widthR + i]) * (un[j * widthR + i] - up[j * widthR + i]);
 		mass = sqrt(mass);
-		// std::cout << "l: " << l << " rezidua: " << mass << std::endl;
+		std::cout << "l: " << l << " rezidua: " << mass << std::endl;
 
 		un = updateReflection(un);
 		up.resize(un.size());

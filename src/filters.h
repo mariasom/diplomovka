@@ -18,7 +18,7 @@ private:
 	QVector<unsigned char> charData;
 	QVector<double> qepm, qwpm, qspm, qnpm, qe, qw, qs, qn;
 	void grad(QVector<double> data, double h, double k, double epsilon);
-	double M(QVector<double> u,int i, int j, int p, int q);
+	double M(QVector<double> &u,int i, int j, int p, int q);
 	double findmax(double m1, double m2);
 	QVector<double> updateReflection(QVector<double> data);
 	QVector<double> pow2(QVector<double> data);
