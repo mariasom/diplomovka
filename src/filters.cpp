@@ -568,8 +568,8 @@ QVector<double> filters::subSurf(QVector<double> data, QVector<double> tData, in
 	double epsilon = pow(10,-6);
 	double w = 1.15;
 
-	if(gradType) grad3(tData, k, sigma);
-	else if (!gradType) grad2(tData, k, sigma);
+	if(!gradType) grad3(tData, k, sigma);
+	else if (gradType) grad2(tData, k, sigma);
 
 	for (int t = 0; t < steps; t++) {
 		double rez = pow(10,6);

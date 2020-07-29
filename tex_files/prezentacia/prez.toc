@@ -1,0 +1,9 @@
+\beamer@sectionintoc {1}{Skúmané dáta}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{Makrofág}{3}{0}{1}
+\beamer@subsectionintoc {1}{2}{Dáta}{4}{0}{1}
+\beamer@sectionintoc {2}{Prahovacie metódy}{5}{0}{2}
+\beamer@subsectionintoc {2}{1}{Globálne prahovanie}{6}{0}{2}
+\beamer@subsectionintoc {2}{2}{Lokálne adaptívne prahovanie}{9}{0}{2}
+\beamer@sectionintoc {3}{Segmentačná metóda}{12}{0}{3}
+\beamer@sectionintoc {4}{Výsledky}{14}{0}{4}
+\beamer@sectionintoc {5}{Software}{19}{0}{5}
