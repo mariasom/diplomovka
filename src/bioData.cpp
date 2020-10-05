@@ -9,7 +9,7 @@ bioData::bioData(QWidget *parent)
 	progBar = new QProgressBar;
 	winListView = new QListWidget;
 
-	// new buttons
+	// new buttons for GUI
 	otsuButton = new QPushButton;
 	kapuraButton = new QPushButton;
 	niblackButton = new QPushButton;

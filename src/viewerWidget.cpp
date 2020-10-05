@@ -24,7 +24,7 @@ void viewerWidget::setScrollArea() {
 }
 
 void viewerWidget::setViewerWidget2D(vtkSmartPointer<vtkPolyData> image, QString fName) {
-	qW->SetRenderWindow(renderWindow);
+	qW->setRenderWindow(renderWindow);
 
 	image->GetBounds(bounds);
 	std::cout << image->GetNumberOfPoints() << endl;
@@ -42,8 +42,8 @@ void viewerWidget::setViewerWidget2D(vtkSmartPointer<vtkPolyData> image, QString
 	renderer->SetBackground(1,1, 1);
 	renderer->ResetCamera();
 
-	qW->GetRenderWindow()->AddRenderer(renderer);
-	qW->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle2D);
+	qW->renderWindow()->AddRenderer(renderer);
+	qW->renderWindow()->GetInteractor()->SetInteractorStyle(imageStyle2D);
 }
 
 void viewerWidget::updateViewerWidget2D() {
@@ -63,7 +63,7 @@ void viewerWidget::updateViewerWidget3D() {
 }
 
 void viewerWidget::setViewerWidget3D(vtkSmartPointer<vtkPolyData> polydata) {
-	qW->SetRenderWindow(renderWindow);
+	qW->setRenderWindow(renderWindow);
 
 	polydata->GetBounds(bounds);
 	vtkSmartPointer<vtkPolyDataMapper> mapper =
@@ -80,13 +80,13 @@ void viewerWidget::setViewerWidget3D(vtkSmartPointer<vtkPolyData> polydata) {
 		addAxes(polydata);
 	renderer->ResetCamera();
 
-	qW->GetRenderWindow()->AddRenderer(renderer);
+	qW->renderWindow()->AddRenderer(renderer);
 	renderWindow->Render();
-	qW->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle3D);
+	qW->renderWindow()->GetInteractor()->SetInteractorStyle(imageStyle3D);
 }
 
 void viewerWidget::contours3D(vtkSmartPointer<vtkPolyData> polydata, int numOfCont, bool background) {
-	qW->SetRenderWindow(renderWindow);
+	qW->setRenderWindow(renderWindow);
 
 	vtkSmartPointer<vtkContourFilter> contour = 
 		vtkSmartPointer<vtkContourFilter>::New();
@@ -119,12 +119,12 @@ void viewerWidget::contours3D(vtkSmartPointer<vtkPolyData> polydata, int numOfCo
 		addAxes(polydata);
 	renderer->ResetCamera();
 
-	qW->GetRenderWindow()->AddRenderer(renderer);
-	qW->GetRenderWindow()->Render();
+	qW->renderWindow()->AddRenderer(renderer);
+	qW->renderWindow()->Render();
 }
 
 void viewerWidget::contours2D(vtkSmartPointer<vtkPolyData> image, bool background) {
-	qW->SetRenderWindow(renderWindow);
+	qW->setRenderWindow(renderWindow);
 
 	vtkSmartPointer<vtkContourFilter> contourFilter =
 		vtkSmartPointer<vtkContourFilter>::New();
@@ -159,13 +159,13 @@ void viewerWidget::contours2D(vtkSmartPointer<vtkPolyData> image, bool backgroun
 	renderer->GetViewProps()->RemoveAllItems();
 	if(background) 
 		renderer->AddActor(actor2D);
-	else
-		renderer->AddActor(outlineActor);
+	//else
+		//renderer->AddActor(outlineActor);
 	renderer->AddActor(contourActor);
     renderWindow->Render();
 	renderer->ResetCamera();
 
-	qW->GetRenderWindow()->AddRenderer(renderer);
+	qW->renderWindow()->AddRenderer(renderer);
 }
 
 void viewerWidget::resetCam() {
@@ -176,13 +176,13 @@ void viewerWidget::resetCam() {
 }
 
 void viewerWidget::set2DView() {
-		qW->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle2D);
+		qW->renderWindow()->GetInteractor()->SetInteractorStyle(imageStyle2D);
 		renderWindow->Render();
 }
 
 void viewerWidget::set3DView() {
 		renderWindow->Render();
-		qW->GetRenderWindow()->GetInteractor()->SetInteractorStyle(imageStyle3D);
+		qW->renderWindow()->GetInteractor()->SetInteractorStyle(imageStyle3D);
 }
 
 void viewerWidget::saveScreenShot(QString fileName) {
@@ -201,7 +201,7 @@ void viewerWidget::saveScreenShot(QString fileName) {
 }
 
 void viewerWidget::cutContour(vtkSmartPointer<vtkPolyData> polydata, int numOfCont, bool background) {
-	qW->SetRenderWindow(renderWindow);
+	qW->setRenderWindow(renderWindow);
 	polydata->GetBounds(bounds);
 
 	vtkSmartPointer<vtkPlane> plane =
@@ -251,8 +251,8 @@ void viewerWidget::cutContour(vtkSmartPointer<vtkPolyData> polydata, int numOfCo
 	renderer->AddActor(cutterActor);
 	renderer->SetBackground(.1, .2, .3);
 
-	qW->GetRenderWindow()->AddRenderer(renderer);
-	qW->GetRenderWindow()->Render();
+	qW->renderWindow()->AddRenderer(renderer);
+	qW->renderWindow()->Render();
 }
 
 void viewerWidget::addAxes(vtkSmartPointer<vtkPolyData> polydata) {
@@ -296,7 +296,7 @@ void viewerWidget::removeAxes() {
 }
 
 void viewerWidget::cut1Contour(vtkSmartPointer<vtkPolyData> polydata, double zValue, bool onOgdata) {
-	qW->SetRenderWindow(renderWindow);
+	qW->setRenderWindow(renderWindow);
 
 	polydata->GetBounds(bounds);
 	vtkSmartPointer<vtkPlane> plane =
@@ -325,8 +325,8 @@ void viewerWidget::cut1Contour(vtkSmartPointer<vtkPolyData> polydata, double zVa
 	renderer->AddActor(cutterActor);
 	renderer->SetBackground(.1, .2, .3);
 
-	qW->GetRenderWindow()->AddRenderer(renderer);
-	qW->GetRenderWindow()->Render();
+	qW->renderWindow()->AddRenderer(renderer);
+	qW->renderWindow()->Render();
 }
 
 void viewerWidget::optContourOnID(double zValue) {

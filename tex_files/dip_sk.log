@@ -1,11 +1,8 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdfcslatex 2020.5.20)  21 MAY 2020 11:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.27)  28 MAY 2020 16:58
 entering extended mode
 **./dip_sk.tex
 (dip_sk.tex
-***** WARNING ******** CSLaTeX is obsolete, don't use it please *****
-***** You can use ``normal'' LaTeX+Babel or XeLaTeX+polyglossia *****
-Loading CZ hyphenation patterns: Pavel Sevecek, v3, 1995
-Loading SK hyphenation patterns: Jana Chlebikova, 1992
+LaTeX2e <2019-10-01> patch level 1
 ("C:\Program Files\MiKTeX 2.9\tex/latex/base\article.cls"
 Document Class: article 2019/08/27 v1.4j Standard LaTeX document class
 ("C:\Program Files\MiKTeX 2.9\tex/latex/base\size11.clo"
@@ -28,7 +25,7 @@ Package: geometry 2018/04/16 v5.8 Page Geometry
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\keyval.sty"
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
-\KV@toks@=\toks16
+\KV@toks@=\toks14
 )
 ("C:\Program Files\MiKTeX 2.9\tex/generic/oberdiek\ifpdf.sty"
 Package: ifpdf 2018/09/07 v3.3 Provides the ifpdf switch
@@ -51,7 +48,7 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutheight=\dimen108
 \Gm@layouthoffset=\dimen109
 \Gm@layoutvoffset=\dimen110
-\Gm@dimlist=\toks17
+\Gm@dimlist=\toks15
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/geometry\geometry.cfg"))
 ("C:\Program Files\MiKTeX 2.9\tex/generic/babel\babel.sty"
@@ -72,31 +69,22 @@ Language: slovak 2008/07/06 v3.1a Slovak support from the babel system
 
 ("C:\Program Files\MiKTeX 2.9\tex/generic/babel\babel.def"
 File: babel.def 2019/10/15 3.35 Babel common definitions
-
-(C:\ProgramData\MiKTeX\2.9\tex/generic/config\language.def)
 \babel@savecnt=\count91
 \U@D=\dimen111
 
 ("C:\Program Files\MiKTeX 2.9\tex/generic/babel\txtbabel.def")
 \bbl@dirlevel=\count92
 )
-
-Package babel Warning: No hyphenation patterns were preloaded for
-(babel)                the language `Slovak' into the format.
-(babel)                Please, configure your TeX system to add them and
-(babel)                rebuild the format. Now I will use the patterns
-(babel)                preloaded for \language=0 instead on input line 56.
-
-\l@slovak = a dialect from \language0
 Package babel Info: Making ^ an active character on input line 123.
 Package babel Info: Making " an active character on input line 126.
 Package babel Info: Making ' an active character on input line 129.
 \cs@wordlen=\count93
 Package babel Info: Making - an active character on input line 294.
-)) ("C:\Program Files\MiKTeX 2.9\tex/latex/base\inputenc.sty"
+))
+("C:\Program Files\MiKTeX 2.9\tex/latex/base\inputenc.sty"
 Package: inputenc 2018/08/11 v1.3c Input encoding file
-\inpenc@prehook=\toks18
-\inpenc@posthook=\toks19
+\inpenc@prehook=\toks16
+\inpenc@posthook=\toks17
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/ucs\utf8x.def"
 File: utf8x.def 2004/10/17 UCS: Input encoding UTF-8
@@ -108,9 +96,9 @@ Package: ucs 2013/05/11 v2.2 UCS: Unicode input support
 File: uni-global.def 2013/05/13 UCS: Unicode global data
 )
 \uc@secondtry=\count94
-\uc@combtoks=\toks20
-\uc@combtoksb=\toks21
-\uc@temptokena=\toks22
+\uc@combtoks=\toks18
+\uc@combtoksb=\toks19
+\uc@temptokena=\toks20
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/caption\caption.sty"
 Package: caption 2020/01/03 v3.4h Customizing captions (AR)
@@ -135,7 +123,7 @@ Package caption Info: Standard document class detected.
 \WF@size=\dimen120
 \c@WF@wrappedlines=\count97
 \WF@box=\box27
-\WF@everypar=\toks23
+\WF@everypar=\toks21
 Package: wrapfig 2003/01/31  v 3.6
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\color.sty"
@@ -197,9 +185,9 @@ Package epstopdf Warning: No graphics package `graphic{s,x}' loaded.
 )) ("C:\Program Files\MiKTeX 2.9\tex/latex/float\float.sty"
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count98
-\float@exts=\toks24
+\float@exts=\toks22
 \float@box=\box28
-\@float@everytoks=\toks25
+\@float@everytoks=\toks23
 \@floatcapt=\box29
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\graphicx.sty"
@@ -243,12 +231,12 @@ Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
 \col@sep=\dimen124
 \ar@mcellbox=\box30
 \extrarowheight=\dimen125
-\NC@list=\toks26
+\NC@list=\toks24
 \extratabsurround=\skip48
 \backup@length=\skip49
 \ar@cellbox=\box31
 )
-\everycr=\toks27
+\everycr=\toks25
 \minrowclearance=\skip50
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/graphics\rotating.sty"
@@ -261,14 +249,14 @@ Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 \rotFPtop=\skip51
 \rotFPbot=\skip52
 \rot@float@box=\box32
-\rot@mess@toks=\toks28
+\rot@mess@toks=\toks26
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/tools\indentfirst.sty"
 Package: indentfirst 1995/11/23 v1.03 Indent first paragraph (DPC)
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\amsfonts.sty"
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
-\@emptytoks=\toks29
+\@emptytoks=\toks27
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
@@ -285,7 +273,7 @@ Package: amstext 2000/06/29 v2.01 AMS text
 
 ("C:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsgen.sty"
 File: amsgen.sty 1999/11/30 v2.0 generic functions
-\@emptytoks=\toks30
+\@emptytoks=\toks28
 \ex@=\dimen126
 ))
 ("C:\Program Files\MiKTeX 2.9\tex/latex/amsmath\amsbsy.sty"
@@ -315,21 +303,21 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 734.
 \dotsspace@=\muskip10
 \c@parentequation=\count114
 \dspbrk@lvl=\count115
-\tag@help=\toks31
+\tag@help=\toks29
 \row@=\count116
 \column@=\count117
 \maxfields@=\count118
-\andhelp@=\toks32
+\andhelp@=\toks30
 \eqnshift@=\dimen129
 \alignsep@=\dimen130
 \tagshift@=\dimen131
 \tagwidth@=\dimen132
 \totwidth@=\dimen133
 \lineht@=\dimen134
-\@envbody=\toks33
+\@envbody=\toks31
 \multlinegap=\skip54
 \multlinetaggap=\skip55
-\mathdisplay@stack=\toks34
+\mathdisplay@stack=\toks32
 LaTeX Info: Redefining \[ on input line 2855.
 LaTeX Info: Redefining \] on input line 2856.
 )
@@ -338,8 +326,8 @@ Package: amssymb 2013/01/14 v3.01 AMS font symbols
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/tools\verbatim.sty"
 Package: verbatim 2014/10/28 v1.5q LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks35
-\verbatim@line=\toks36
+\every@verbatim=\toks33
+\verbatim@line=\toks34
 \verbatim@in@stream=\read1
 )
 ("C:\Program Files\MiKTeX 2.9\tex/latex/eurosym\eurosym.sty"
@@ -379,9 +367,9 @@ Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
 File: pppdftex.def 2020/01/28 v0.5q Pdfpages driver for pdfTeX (AM)
 )
 \AM@pagebox=\box36
-\AM@global@opts=\toks37
+\AM@global@opts=\toks35
 \AM@pagecnt=\count122
-\AM@toc@title=\toks38
+\AM@toc@title=\toks36
 \c@AM@survey=\count123
 \AM@templatesizebox=\box37
 )
@@ -573,8 +561,6 @@ LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 104.
 LaTeX Font Info:    ... okay on input line 104.
 LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 104.
 LaTeX Font Info:    ... okay on input line 104.
-LaTeX Font Info:    Checking defaults for IL2/cmr/m/n on input line 104.
-LaTeX Font Info:    ... okay on input line 104.
 LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 104.
 LaTeX Font Info:    ... okay on input line 104.
 LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 104.
@@ -636,12 +622,12 @@ Package caption Info: End \AtBeginDocument code.
 \scratchbox=\box48
 \nofMPsegments=\count146
 \nofMParguments=\count147
-\everyMPshowfont=\toks39
+\everyMPshowfont=\toks37
 \MPscratchCnt=\count148
 \MPscratchDim=\dimen150
 \MPnumerator=\count149
 \makeMPintoPDFobject=\count150
-\everyMPtoPDFconversion=\toks40
+\everyMPtoPDFconversion=\toks38
 )
 \AtBeginShipoutBox=\box49
  ("C:\Program Files\MiKTeX 2.9\tex/latex/oberdiek\pdflscape.sty"
@@ -724,20 +710,14 @@ File: file.pdf Graphic file (type pdf)
 <use file.pdf, page 1>
 Package pdftex.def Info: file.pdf , page1 used on input line 139.
 (pdftex.def)             Requested size: 597.53821pt x 845.08372pt.
- [2 <./file.pdf>]
-Overfull \hbox (1.57532pt too wide) in paragraph at lines 147--148
-[][]\OT1/cmr/m/n/10.95 Cestne vyh-la-su-jem, ^^Tze diplomo^^Su pr^^Sacu som vyp
-ra-co-v-ala samostatne, na z^^Saklade konzult^^Saci^^S^^P
- []
-
-[3] [4] [5] (dip_sk.toc)
+ [2 <./file.pdf>] [3] [4] [5] (dip_sk.toc)
 \tf@toc=\write4
 \openout4 = `dip_sk.toc'.
 
  [6]
 Overfull \hbox (10.27463pt too wide) in paragraph at lines 216--217
-[]\OT1/cmr/m/n/10.95 Na^^Tsou sna-hou bolo vytvorit[] softv^^Ser, ktor^^Sy by m
-al byt[] in-tuit^^S^^Pvny, a teda ur^^Tcen^^Sy aj u^^Tz^^S^^Pvatel[]om,
+[]\OT1/cmr/m/n/10.95 Nasou sna-hou bolo vy-tvo-rit[] softver, ktory by mal b
+yt[] in-tuitvny, a teda urceny aj uzvatel[]om,
  []
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
@@ -750,12 +730,6 @@ l.236 \newpage
 Package hyperref Warning: Composite letter `\textasciicaron+c'
 (hyperref)                not defined in PD1 encoding,
 (hyperref)                removing `\textasciicaron' on input line 238.
-
-
-Overfull \hbox (13.225pt too wide) in paragraph at lines 240--241
-[]\OT1/cmr/m/n/10.95 Mikroskopov^^Se d^^Sata makrof^^Sagov, s ktor^^Symi pracu-
-jeme v tejto pr^^Saci, s^^Su makrof^^Sagy priesvitn^^Seho
- []
 
 LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 2
 64.
@@ -793,13 +767,13 @@ e.3}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.330 P
-       riemery tried sa daj^^c3^^ba jednoducho vypo^^c4^^8d^^c3^^adta^^c5^^a...
+       riemery tried sa dajú jednoducho vypočítať z normalizovaného his...
 [3 <./pics/cropT8_od.png (PNG copy)> <./pics/otsuteoria1.jpg> <./pics/cropT8_ot
 su.png (PNG copy)>]
 Overfull \hbox (11.41666pt too wide) in paragraph at lines 370--371
-[]\OT1/cmr/m/n/10.95 Na hl[]adania maxim^^Salnej hod-noty en-tropie potre-bu-je
-me defi-no-vat[] en-tropie $\OML/cmm/m/it/10.95 H[]$ \OT1/cmr/m/n/10.95 a $\OML
-/cmm/m/it/10.95 H[]$ \OT1/cmr/m/n/10.95 pre ka^^Tzd^^Su
+[]\OT1/cmr/m/n/10.95 Na hl[]adania ma-ximalnej hod-noty en-tro-pie po-tre-bu-j
+eme de-fi-no-vat[] en-tro-pie $\OML/cmm/m/it/10.95 H[]$ \OT1/cmr/m/n/10.95 a $\
+OML/cmm/m/it/10.95 H[]$ \OT1/cmr/m/n/10.95 pre kazdu
  []
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.4}) has 
@@ -809,10 +783,10 @@ been already used, duplicate ignored
 l.376 \end{equation}
                      [4]
 Overfull \hbox (2.20128pt too wide) in paragraph at lines 386--390
-\OT1/cmr/m/n/10.95 kde $\OML/cmm/m/it/10.95 P[]$ \OT1/cmr/m/n/10.95 pred-stavuj
-e ku-mu-lat^^S^^Pvnu pravde-podob-nost[] a $\OML/cmm/m/it/10.95 S[]$\OT1/cmr/m/
-n/10.95 , $\OML/cmm/m/it/10.95 S[]$ \OT1/cmr/m/n/10.95 (uve-den^^Se d[]alej) s^
-^Su vo-pred vyr^^Satan^^Se
+\OT1/cmr/m/n/10.95 kde $\OML/cmm/m/it/10.95 P[]$ \OT1/cmr/m/n/10.95 pred-sta-vu
+je ku-mu-latvnu prav-de-po-dob-nost[] a $\OML/cmm/m/it/10.95 S[]$\OT1/cmr/m/n
+/10.95 , $\OML/cmm/m/it/10.95 S[]$ \OT1/cmr/m/n/10.95 (uve-dene d[]alej) su v
+o-pred vyratane
  []
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.5}) has 
@@ -828,105 +802,51 @@ File: uni-34.def 2013/05/13 UCS: Unicode data U+2200..U+22FF
 <to be read again> 
                    \relax 
 l.490 
-       [6]
-Overfull \hbox (2.43048pt too wide) in paragraph at lines 513--514
-\OT1/cmr/m/n/10.95 defi-no-van^^Sy v Bernsen-ovej met^^Sode v sekcii [][]2.2.1[
-][] a na v^^Sypo^^Tcet lok^^Salneho prahu $\OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10
-.95 (\OML/cmm/m/it/10.95 u; v\OT1/cmr/m/n/10.95 )$ pou^^Tzijeme
- []
+       [6] [7] [8]
 
-
-Overfull \hbox (16.39294pt too wide) in paragraph at lines 515--517
-\OT1/cmr/m/n/10.95 z Bernsen-ovej met^^Sody a na v^^Sypo^^Tcet lok^^Salneho pra
-hu $\OML/cmm/m/it/10.95 Q\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 u; v\OT1/cmr/m
-/n/10.95 )$ pou^^Tzijeme rovnicu ([][]29[][]), zo Sauvolovej
- []
-
-
-Overfull \hbox (9.02904pt too wide) in paragraph at lines 520--521
-\OT1/cmr/m/n/10.95 kvalita v^^Sysledku seg-ment^^Sacie z^^Savis^^S^^P od vol[]b
-y po^^Tciato^^Tcnej pod-mienky. Ked[]^^Tze v[]a^^Tc^^Tsina makrof^^Sagov
- []
-
-[7] [8]
-
-pdfTeX warning: pdfcslatex (file ./pics/hrany1.pdf): PDF inclusion: found PDF v
-ersion <1.7>, but at most version <1.5> allowed
+pdfTeX warning: pdflatex (file ./pics/hrany1.pdf): PDF inclusion: found PDF ver
+sion <1.7>, but at most version <1.5> allowed
 <pics/hrany1.pdf, id=275, 378.91562pt x 378.91562pt>
 File: pics/hrany1.pdf Graphic file (type pdf)
 <use pics/hrany1.pdf>
 Package pdftex.def Info: pics/hrany1.pdf  used on input line 580.
 (pdftex.def)             Requested size: 151.56355pt x 151.56355pt.
-[9 <./pics/hrany1.pdf>] [10]
-Overfull \hbox (8.94885pt too wide) in paragraph at lines 670--671
-\OT1/cmr/m/n/10.95 difer-en-ciou hod-no-tami, ktor^^Se reprezen-tuj^^Su hod-not
-y na hran^^Sach kone^^Tcn^^Seho ob-jemu $\OML/cmm/m/it/10.95 p$\OT1/cmr/m/n/10.
-95 . Dostaneme 
- []
-
-
-Overfull \hbox (2.31497pt too wide) in paragraph at lines 704--705
-\OT1/cmr/m/n/10.95 novom ^^Tcasovom kroku $\OML/cmm/m/it/10.95 u[]$\OT1/cmr/m/n
-/10.95 . V na^^Tsom pr^^S^^Ppade boli na z^^S^^Pskanie hra-nov^^Seho de-tek-tor
-a $\OML/cmm/m/it/10.95 g[]$ \OT1/cmr/m/n/10.95 uva^^Tzovan^^Se
- []
-
-[11]
+[9 <./pics/hrany1.pdf>] [10] [11]
 Overfull \hbox (7.6451pt too wide) in paragraph at lines 720--721
-[]\OT1/cmr/m/n/10.95 U^^Tz^^S^^Pvatel[]sk^^Se rozhranie je vytvoren^^Se po-mo-c
-ou \OT1/cmtt/m/n/10.95 Qt \OT1/cmr/m/n/10.95 kni^^Tzn^^S^^Pc, ktor^^Se s^^Su je
-dn^^Sym z na-jpou^^Tz^^S^^Pvanej^^Ts^^S^^Pch
+[]\OT1/cmr/m/n/10.95 Uzvatel[]ske ro-z-hra-nie je vy-tvo-rene po-mo-cou \O
+T1/cmtt/m/n/10.95 Qt \OT1/cmr/m/n/10.95 kniznc, ktore su jednym z naj-pou
+zvanejsch
  []
 
 
 Overfull \hbox (17.7307pt too wide) in paragraph at lines 736--738
-\OT1/cmr/m/n/10.95 D^^Sata, ^^Tci u^^Tz p^ovodn^^Se, vypra-ho-van^^Se alebo vy-
-seg-men-to-van^^Se po-mo-cou pro-gramu, sa nach^^Sadzaj^^Su
- []
-
-
-Overfull \hbox (9.77615pt too wide) in paragraph at lines 745--747
-\OT1/cmr/m/n/10.95 Pomocou tejto triedy bol im-ple-men-to-van^^Sy po-mocn^^S^^P
-k vytvoren^^S^^Pm niekol[]k^^Sych jednoduch^^Sych
+\OT1/cmr/m/n/10.95 Data, ci uz p^ovodne, vy-pra-ho-vane alebo vy-seg-men-t
+o-vane po-mo-cou prog-ramu, sa nachadzaju
  []
 
 [12]
 Overfull \hbox (12.38513pt too wide) in paragraph at lines 761--763
-\OT1/cmr/m/n/10.95 Je triedou reprezen-tuj^^Sucou zosku-pe-nie troj^^S^^Pc $(\O
-ML/cmm/m/it/10.95 x; y; z\OT1/cmr/m/n/10.95 )$ 3D bodov a ma-nipul^^Saciou s ul
-o^^Tzen^^Symi
+\OT1/cmr/m/n/10.95 Je trie-dou re-pre-zen-tujucou zo-sku-pe-nie trojc $(\OML
+/cmm/m/it/10.95 x; y; z\OT1/cmr/m/n/10.95 )$ 3D bo-dov a ma-ni-pulaciou s ulo
+zenymi
  []
 
 
 Overfull \hbox (0.77083pt too wide) in paragraph at lines 770--772
-\OT1/cmr/m/n/10.95 reprezen-to-van^^Sa celo^^Tc^^S^^Pseln^^Sym pol[]om so ^^Tst
-rukt^^Surou v tvare: $(\OML/cmm/m/it/10.95 n; id[]; id[]; [] ; id[]; n; id[]; i
-d[]; [] 
- []
-
-
-Overfull \hbox (6.68433pt too wide) in paragraph at lines 770--772
-[] \OML/cmm/m/it/10.95 ; id[]; [] \OT1/cmr/m/n/10.95 )$, kde $\OML/cmm/m/it/10.
-95 n$ \OT1/cmr/m/n/10.95 je po^^Tcet bodov, nach^^Sadzaj^^Sucich sa v bunke a $
-\OML/cmm/m/it/10.95 id$ \OT1/cmr/m/n/10.95 je in-dex z pridru^^Tzen^^Seho
+\OT1/cmr/m/n/10.95 re-pre-zen-to-vana celocselnym pol[]om so strukturou 
+v tvare: $(\OML/cmm/m/it/10.95 n; id[]; id[]; [] ; id[]; n; id[]; id[]; [] 
  []
 
 [13]
 Overfull \hbox (4.79623pt too wide) in paragraph at lines 785--787
-\OT1/cmr/m/n/10.95 Trieda zabezpe^^Tcuj^^Suca samotn^^Se vykresl[]ovanie d^^Sat
-. Star^^Sa sa o pre-vod ge-ome-trie, ^^Tspecifikuje
- []
-
-
-Overfull \hbox (0.65834pt too wide) in paragraph at lines 788--790
-\OT1/cmr/m/n/10.95 vykresl[]ovanie, vi-acer^^Sych alebo jedn^^Seho rezu cez tro
--jdi-men-zion^^Salne d^^Sata. Vo VTK rezanie
+\OT1/cmr/m/n/10.95 Trieda za-bezpecujuca sa-motne vy-kresl[]ovanie dat. Sta
+ra sa o pre-vod geomet-rie, specifikuje
  []
 
 
 Overfull \hbox (11.21698pt too wide) in paragraph at lines 808--809
-[]\OT1/cmr/bx/n/10.95 viewerWidget \OT1/cmr/m/n/10.95 zabezpe^^Tcuje vytvore-ni
-e plochy na vykresl[]ovanie, vykresl[]ovanie samotn^^Sych
+[]\OT1/cmr/bx/n/10.95 viewerWidget \OT1/cmr/m/n/10.95 za-bezpecuje vy-tvo-re-n
+ie plo-chy na vy-kresl[]ovanie, vy-kresl[]ovanie sa-motnych
  []
 
 
@@ -942,8 +862,8 @@ Package pdftex.def Info: pics/ui1.jpg  used on input line 821.
 (pdftex.def)             Requested size: 328.97826pt x 272.14105pt.
  [15 <./pics/ui1.jpg>]
 Overfull \hbox (3.36188pt too wide) in paragraph at lines 837--838
-[]\OT1/cmtt/m/n/10.95 SET DEFAULT VALUES \OT1/cmr/m/n/10.95 - prestav^^S^^P hod
--noty v^^Tsetk^^Sych vo-li-tel[]n^^Sych hodn^ot nasp[]at[] na p^ovodn^^Se
+[]\OT1/cmtt/m/n/10.95 SET DEFAULT VALUES \OT1/cmr/m/n/10.95 - pre-stav hod-no
+ty vsetkych vo-li-tel[]nych hodn^ot nasp[]at[] na p^ovodne
  []
 
 <pics/uidata1.jpg, id=355, 301.125pt x 198.7425pt>
@@ -956,12 +876,6 @@ File: pics/uithr1.jpg Graphic file (type jpg)
 <use pics/uithr1.jpg>
 Package pdftex.def Info: pics/uithr1.jpg  used on input line 846.
 (pdftex.def)             Requested size: 166.8614pt x 148.22923pt.
-
-Overfull \hbox (6.40712pt too wide) in paragraph at lines 856--857
-[]\OT1/cmr/m/n/10.95 Vol[]ba po^^Tciato^^Tcnej pod-mienky, bud[] ako znamienkov
-^^Sa funk-cia vz-di-alenosti alebo vytvoren^^Sa
- []
-
 [16 <./pics/uidata1.jpg> <./pics/uithr1.jpg>]
 <pics/ui2Dopt.jpg, id=368, 281.55188pt x 279.29344pt>
 File: pics/ui2Dopt.jpg Graphic file (type jpg)
@@ -986,8 +900,8 @@ Package pdftex.def Info: pics/uihist.jpg  used on input line 880.
  [17 <./pics/ui2Dopt.jpg> <./pics/ui3Dfilt.jpg> <./pics/ui3Dopt.jpg> <./pics/ui
 hist.jpg>]
 Overfull \hbox (17.42845pt too wide) in paragraph at lines 887--888
-[]\OT1/cmr/m/n/10.95 Na obr. [][]7[][]a s^^Su zo-brazen^^Se d^^Sata s makrof^^S
-agom, na ktor^^Se bol ap-liko-van^^Sy SUB-SURF, za po^^Tciato^^Tcn^^Su
+[]\OT1/cmr/m/n/10.95 Na obr. [][]7[][]a su zo-bra-zene data s mak-rofagom, 
+na ktore bol ap-li-ko-vany SUB-SURF, za pociatocnu
  []
 
 <pics/subsurf.jpg, id=384, 657.95813pt x 544.28343pt>
@@ -996,8 +910,8 @@ File: pics/subsurf.jpg Graphic file (type jpg)
 Package pdftex.def Info: pics/subsurf.jpg  used on input line 891.
 (pdftex.def)             Requested size: 197.38896pt x 163.28629pt.
 
-Underfull \hbox (badness 8132) in paragraph at lines 891--891
-[]\OT1/cmr/m/n/9 (a) |Grafick^^Se rozhranie pro-gramu zo-
+Underfull \hbox (badness 1009) in paragraph at lines 891--891
+[]\OT1/cmr/m/n/9 (a) |Gra-ficke ro-z-hra-nie prog-ramu zo-bra-
  []
 
 <pics/result.jpg, id=385, 657.95813pt x 544.28343pt>
@@ -1006,8 +920,8 @@ File: pics/result.jpg Graphic file (type jpg)
 Package pdftex.def Info: pics/result.jpg  used on input line 893.
 (pdftex.def)             Requested size: 197.38896pt x 163.28629pt.
 
-Underfull \hbox (badness 7667) in paragraph at lines 893--893
-[]\OT1/cmr/m/n/9 (b) |Grafick^^Se rozhranie pro-gramu zo-
+Underfull \hbox (badness 1365) in paragraph at lines 893--893
+\OT1/cmr/m/n/9 zujuce vyslednu izociaru na p^ovodnych
  []
 
 [18 <./pics/subsurf.jpg> <./pics/result.jpg>]
@@ -1033,8 +947,8 @@ Package pdftex.def Info: pics/pp_tf1.png  used on input line 928.
 (pdftex.def)             Requested size: 161.25368pt x 152.67155pt.
 
 Overfull \hbox (3.2166pt too wide) in paragraph at lines 933--934
-[]\OT1/cmr/m/n/10.95 Typ po^^Tciato^^Tcnej pod-mienky aj hra-nov^^Seho de-tek-t
-oru, vs-tupuj^^Sucich do seg-menta^^Tcnej met^^Sody
+[]\OT1/cmr/m/n/10.95 Typ pociatocnej pod-mienky aj hra-noveho de-tek-toru, v
+stu-pujucich do seg-mentacnej metody
  []
 
 [19 <./pics/pr_nb50.png (PNG copy)> <./pics/pr_nb5.png (PNG copy)> <./pics/pp_s
@@ -1046,7 +960,7 @@ Package pdftex.def Info: pics/pr_subsurf.png  used on input line 937.
 (pdftex.def)             Requested size: 197.49854pt x 198.85358pt.
 
 Underfull \hbox (badness 2035) in paragraph at lines 937--937
-[]\OT1/cmr/m/n/9 (a) |V^^Sysledok seg-menta^^Tcnej met^^Sody pri
+[]\OT1/cmr/m/n/9 (a) |Vysledok seg-mentacnej metody pri
  []
 
 <pics/pr_subsurf2.png, id=426, 660.4675pt x 659.46375pt>
@@ -1056,7 +970,7 @@ Package pdftex.def Info: pics/pr_subsurf2.png  used on input line 939.
 (pdftex.def)             Requested size: 198.14177pt x 197.84064pt.
 
 Underfull \hbox (badness 2080) in paragraph at lines 939--939
-[]\OT1/cmr/m/n/9 (b) |V^^Sysledok seg-menta^^Tcnej met^^Sody pri
+[]\OT1/cmr/m/n/9 (b) |Vysledok seg-mentacnej metody pri
  []
 
 <pics/pr_subsurf_cut.png, id=430, 646.415pt x 646.415pt>
@@ -1070,8 +984,8 @@ File: pics/pr_iso_res1.png Graphic file (type png)
 Package pdftex.def Info: pics/pr_iso_res1.png  used on input line 958.
 (pdftex.def)             Requested size: 179.9547pt x 175.34743pt.
 
-Underfull \hbox (badness 2600) in paragraph at lines 958--958
-[]\OT1/cmr/m/n/9 (a) |V^^Sysledok seg-menta^^Tcnej met^^Sody
+Underfull \hbox (badness 1342) in paragraph at lines 958--958
+\OT1/cmr/m/n/9 pouzit zna-mien-ko-vej fun-kcie vzdia-
  []
 
 <pics/pr_iso_res2.png, id=434, 660.4675pt x 601.24625pt>
@@ -1081,38 +995,33 @@ Package pdftex.def Info: pics/pr_iso_res2.png  used on input line 960.
 (pdftex.def)             Requested size: 191.53067pt x 174.35693pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 960--960
-[]\OT1/cmr/m/n/9 (b) |V^^Sysledok seg-menta^^Tcnej met^^Sody
+[]\OT1/cmr/m/n/9 (b) |Vysledok seg-mentacnej metody
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 960--960
-\OT1/cmr/m/n/9 pri pou^^Tzit^^S^^P pra-ho-vacej funkcie ako
+\OT1/cmr/m/n/9 pri pouzit pra-ho-va-cej fun-kcie ako
  []
 
 
 Underfull \hbox (badness 1308) in paragraph at lines 960--960
-\OT1/cmr/m/n/9 po^^Tciato^^Tcnej pod-mienky s izo^^Tciarou na
+\OT1/cmr/m/n/9 pociatocnej pod-mienky s izociarou na
  []
 
 [20 <./pics/pr_subsurf.png> <./pics/pr_subsurf2.png (PNG copy)> <./pics/pr_subs
 urf_cut.png (PNG copy)>]
-<pics/og_iso1.png, id=445, 664.4825pt x 663.47874pt>
+<pics/og_iso1.png, id=446, 664.4825pt x 663.47874pt>
 File: pics/og_iso1.png Graphic file (type png)
 <use pics/og_iso1.png>
 Package pdftex.def Info: pics/og_iso1.png  used on input line 969.
 (pdftex.def)             Requested size: 199.34628pt x 199.04515pt.
-<pics/og_iso2.png, id=446, 664.4825pt x 663.47874pt>
+<pics/og_iso2.png, id=447, 664.4825pt x 663.47874pt>
 File: pics/og_iso2.png Graphic file (type png)
 <use pics/og_iso2.png>
 Package pdftex.def Info: pics/og_iso2.png  used on input line 971.
 (pdftex.def)             Requested size: 199.34628pt x 199.04515pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 971--971
-\OT1/cmr/m/n/9 pre po^^Tciato^^Tcn^^Su pod-mienku pra-ho-vacej
- []
-
-[21 <./pics/pr_iso_res1.png (PNG copy)> <./pics/pr_iso_res2.png (PNG copy)> <./
-pics/og_iso1.png (PNG copy)> <./pics/og_iso2.png (PNG copy)>]
+ [21 <./pics/pr_iso_res1.png (PNG copy)> <./pics/pr_iso_res2.png (PNG copy)> <.
+/pics/og_iso1.png (PNG copy)> <./pics/og_iso2.png (PNG copy)>]
 <pics/cropT2.png, id=462, 60.225pt x 60.225pt>
 File: pics/cropT2.png Graphic file (type png)
 <use pics/cropT2.png>
@@ -1153,12 +1062,6 @@ File: pics/cropT45_otsu.png Graphic file (type png)
 <use pics/cropT45_otsu.png>
 Package pdftex.def Info: pics/cropT45_otsu.png  used on input line 1018.
 (pdftex.def)             Requested size: 103.3943pt x 103.3943pt.
-
-Overfull \hbox (20.0126pt too wide) in paragraph at lines 1023--1024
-[]\OT1/cmr/m/n/10.95 Izo^^Tciara na obr. [][]16[][] vyzna^^Tcuj^^Suca v^^Sysled
-ok seg-ment^^Sacie s po^^Tciato^^Tcnou pod-mienkou znamienkovej
- []
-
 <pics/cropT2_otsu_sdf.png, id=475, 664.4825pt x 663.47874pt>
 File: pics/cropT2_otsu_sdf.png Graphic file (type png)
 <use pics/cropT2_otsu_sdf.png>
@@ -1179,9 +1082,9 @@ File: pics/cropT45_otsu_sdf.png Graphic file (type png)
 <use pics/cropT45_otsu_sdf.png>
 Package pdftex.def Info: pics/cropT45_otsu_sdf.png  used on input line 1040.
 (pdftex.def)             Requested size: 102.99371pt x 102.83813pt.
-[22 <./pics/cropT2.png> <./pics/cropT7.png> <./pics/cropT27.png> <./pics/cropT4
-5.png> <./pics/cropT2_otsu.png> <./pics/cropT7_otsu.png> <./pics/cropT27_otsu.p
-ng> <./pics/cropT45_otsu.png>]
+ [22 <./pics/cropT2.png> <./pics/cropT7.png> <./pics/cropT27.png> <./pics/cropT
+45.png> <./pics/cropT2_otsu.png> <./pics/cropT7_otsu.png> <./pics/cropT27_otsu.
+png> <./pics/cropT45_otsu.png>]
 <pics/cropT2_otsu_tf.png, id=502, 664.4825pt x 663.47874pt>
 File: pics/cropT2_otsu_tf.png Graphic file (type png)
 <use pics/cropT2_otsu_tf.png>
@@ -1242,18 +1145,12 @@ File: pics/cropT45_kapur_sdf.png Graphic file (type png)
 <use pics/cropT45_kapur_sdf.png>
 Package pdftex.def Info: pics/cropT45_kapur_sdf.png  used on input line 1100.
 (pdftex.def)             Requested size: 102.99371pt x 102.83813pt.
-
-Underfull \hbox (badness 2689) in paragraph at lines 1101--1101
-[]\OT1/cmr/m/n/10 Obr. 19: |V^^Sysledok seg-ment^^Sacie. Pou^^Tzit^^Se pra-ho-v
-anie po-mo-cou maxim^^Salnej en-tropie a
- []
-
-[23 <./pics/cropT2_otsu_sdf.png (PNG copy)> <./pics/cropT7_otsu_sdf.png (PNG co
-py)> <./pics/cropT27_otsu_sdf.png (PNG copy)> <./pics/cropT45_otsu_sdf.png (PNG
- copy)> <./pics/cropT2_otsu_tf.png (PNG copy)> <./pics/cropT7_otsu_tf.png (PNG 
-copy)> <./pics/cropT27_otsu_tf.png (PNG copy)> <./pics/cropT45_otsu_tf.png (PNG
- copy)> <./pics/cropT2_kapur.png> <./pics/cropT7_kapur.png> <./pics/cropT27_kap
-ur.png> <./pics/cropT45_kapur.png>]
+ [23 <./pics/cropT2_otsu_sdf.png (PNG copy)> <./pics/cropT7_otsu_sdf.png (PNG c
+opy)> <./pics/cropT27_otsu_sdf.png (PNG copy)> <./pics/cropT45_otsu_sdf.png (PN
+G copy)> <./pics/cropT2_otsu_tf.png (PNG copy)> <./pics/cropT7_otsu_tf.png (PNG
+ copy)> <./pics/cropT27_otsu_tf.png (PNG copy)> <./pics/cropT45_otsu_tf.png (PN
+G copy)> <./pics/cropT2_kapur.png> <./pics/cropT7_kapur.png> <./pics/cropT27_ka
+pur.png> <./pics/cropT45_kapur.png>]
 <pics/cropT2_kapur_tf.png, id=542, 664.4825pt x 663.47874pt>
 File: pics/cropT2_kapur_tf.png Graphic file (type png)
 <use pics/cropT2_kapur_tf.png>
@@ -1294,11 +1191,12 @@ File: pics/cropT45_niblack.png Graphic file (type png)
 <use pics/cropT45_niblack.png>
 Package pdftex.def Info: pics/cropT45_niblack.png  used on input line 1140.
 (pdftex.def)             Requested size: 103.7105pt x 103.7105pt.
- [24 <./pics/cropT2_kapur_sdf.png (PNG copy)> <./pics/cropT7_kapur_sdf.png (PNG
- copy)> <./pics/cropT27_kapur_sdf.png (PNG copy)> <./pics/cropT45_kapur_sdf.png
- (PNG copy)> <./pics/cropT2_kapur_tf.png (PNG copy)> <./pics/cropT7_kapur_tf.pn
-g (PNG copy)> <./pics/cropT27_kapur_tf.png (PNG copy)> <./pics/cropT45_kapur_tf
-.png (PNG copy)>]
+
+[24 <./pics/cropT2_kapur_sdf.png (PNG copy)> <./pics/cropT7_kapur_sdf.png (PNG 
+copy)> <./pics/cropT27_kapur_sdf.png (PNG copy)> <./pics/cropT45_kapur_sdf.png 
+(PNG copy)> <./pics/cropT2_kapur_tf.png (PNG copy)> <./pics/cropT7_kapur_tf.png
+ (PNG copy)> <./pics/cropT27_kapur_tf.png (PNG copy)> <./pics/cropT45_kapur_tf.
+png (PNG copy)>]
 <pics/cropT2_niblack1.png, id=567, 664.4825pt x 663.47874pt>
 File: pics/cropT2_niblack1.png Graphic file (type png)
 <use pics/cropT2_niblack1.png>
@@ -1429,12 +1327,13 @@ File: pics/cropT45_bernsen_tf.png Graphic file (type png)
 <use pics/cropT45_bernsen_tf.png>
 Package pdftex.def Info: pics/cropT45_bernsen_tf.png  used on input line 1255.
 (pdftex.def)             Requested size: 102.99371pt x 102.83813pt.
- [26 <./pics/cropT2_niblack_tf.png (PNG copy)> <./pics/cropT7_niblack_tf.png (P
-NG copy)> <./pics/cropT27_niblack_tf.png (PNG copy)> <./pics/cropT45_niblack_tf
-.png (PNG copy)> <./pics/cropT2_bernsen.png> <./pics/cropT7_bernsen.png> <./pic
-s/cropT27_bernsen.png> <./pics/cropT45_bernsen.png> <./pics/cropT2_bernsen_sdf.
-png (PNG copy)> <./pics/cropT7_bernsen_sdf.png (PNG copy)> <./pics/cropT27_bern
-sen_sdf.png (PNG copy)> <./pics/cropT45_bernsen_sdf.png (PNG copy)>]
+
+[26 <./pics/cropT2_niblack_tf.png (PNG copy)> <./pics/cropT7_niblack_tf.png (PN
+G copy)> <./pics/cropT27_niblack_tf.png (PNG copy)> <./pics/cropT45_niblack_tf.
+png (PNG copy)> <./pics/cropT2_bernsen.png> <./pics/cropT7_bernsen.png> <./pics
+/cropT27_bernsen.png> <./pics/cropT45_bernsen.png> <./pics/cropT2_bernsen_sdf.p
+ng (PNG copy)> <./pics/cropT7_bernsen_sdf.png (PNG copy)> <./pics/cropT27_berns
+en_sdf.png (PNG copy)> <./pics/cropT45_bernsen_sdf.png (PNG copy)>]
 <pics/cropT2_sauvola.png, id=645, 497.60907pt x 497.60907pt>
 File: pics/cropT2_sauvola.png Graphic file (type png)
 <use pics/cropT2_sauvola.png>
@@ -1563,13 +1462,12 @@ File: pics/cropT45_hybrid_nb1.png Graphic file (type png)
 <use pics/cropT45_hybrid_nb1.png>
 Package pdftex.def Info: pics/cropT45_hybrid_nb1.png  used on input line 1368.
 (pdftex.def)             Requested size: 102.99371pt x 102.83813pt.
-
-[28 <./pics/cropT2_sauvola_sdf.png (PNG copy)> <./pics/cropT7_sauvola_sdf.png (
-PNG copy)> <./pics/cropT27_sauvola_sdf.png (PNG copy)> <./pics/cropT45_sauvola_
-sdf.png (PNG copy)> <./pics/cropT2_sauvola_tf.png (PNG copy)> <./pics/cropT7_sa
-uvola_tf.png (PNG copy)> <./pics/cropT27_sauvola_tf.png (PNG copy)> <./pics/cro
-pT45_sauvola_tf.png (PNG copy)> <./pics/cropT2_hybrid_nb.png> <./pics/cropT7_hy
-brid_nb.png> <./pics/cropT27_hybrid_nb.png> <./pics/cropT45_hybrid_nb.png>]
+ [28 <./pics/cropT2_sauvola_sdf.png (PNG copy)> <./pics/cropT7_sauvola_sdf.png 
+(PNG copy)> <./pics/cropT27_sauvola_sdf.png (PNG copy)> <./pics/cropT45_sauvola
+_sdf.png (PNG copy)> <./pics/cropT2_sauvola_tf.png (PNG copy)> <./pics/cropT7_s
+auvola_tf.png (PNG copy)> <./pics/cropT27_sauvola_tf.png (PNG copy)> <./pics/cr
+opT45_sauvola_tf.png (PNG copy)> <./pics/cropT2_hybrid_nb.png> <./pics/cropT7_h
+ybrid_nb.png> <./pics/cropT27_hybrid_nb.png> <./pics/cropT45_hybrid_nb.png>]
 <pics/cropT2_hybrid_nb_sdf.png, id=722, 664.4825pt x 663.47874pt>
 File: pics/cropT2_hybrid_nb_sdf.png Graphic file (type png)
 <use pics/cropT2_hybrid_nb_sdf.png>
@@ -1638,14 +1536,13 @@ File: pics/cropT45_hybrid_sb.png Graphic file (type png)
 <use pics/cropT45_hybrid_sb.png>
 Package pdftex.def Info: pics/cropT45_hybrid_sb.png  used on input line 1424.
 (pdftex.def)             Requested size: 104.50098pt x 104.50098pt.
-
-[29 <./pics/cropT2_hybrid_nb1.png (PNG copy)> <./pics/cropT7_hybrid_nb1.png (PN
-G copy)> <./pics/cropT27_hybrid_nb1.png (PNG copy)> <./pics/cropT45_hybrid_nb1.
-png (PNG copy)> <./pics/cropT2_hybrid_nb_sdf.png (PNG copy)> <./pics/cropT7_hyb
-rid_nb_sdf.png (PNG copy)> <./pics/cropT27_hybrid_nb_sdf.png (PNG copy)> <./pic
-s/cropT45_hybrid_nb_sdf.png (PNG copy)> <./pics/cropT2_hybrid_nb_tf.png (PNG co
-py)> <./pics/cropT7_hybrid_nb_tf.png (PNG copy)> <./pics/cropT27_hybrid_nb_tf.p
-ng (PNG copy)> <./pics/cropT45_hybrid_nb_tf.png (PNG copy)>]
+ [29 <./pics/cropT2_hybrid_nb1.png (PNG copy)> <./pics/cropT7_hybrid_nb1.png (P
+NG copy)> <./pics/cropT27_hybrid_nb1.png (PNG copy)> <./pics/cropT45_hybrid_nb1
+.png (PNG copy)> <./pics/cropT2_hybrid_nb_sdf.png (PNG copy)> <./pics/cropT7_hy
+brid_nb_sdf.png (PNG copy)> <./pics/cropT27_hybrid_nb_sdf.png (PNG copy)> <./pi
+cs/cropT45_hybrid_nb_sdf.png (PNG copy)> <./pics/cropT2_hybrid_nb_tf.png (PNG c
+opy)> <./pics/cropT7_hybrid_nb_tf.png (PNG copy)> <./pics/cropT27_hybrid_nb_tf.
+png (PNG copy)> <./pics/cropT45_hybrid_nb_tf.png (PNG copy)>]
 <pics/cropT2_hybrid_sb1.png, id=756, 664.4825pt x 663.47874pt>
 File: pics/cropT2_hybrid_sb1.png Graphic file (type png)
 <use pics/cropT2_hybrid_sb1.png>
@@ -1726,20 +1623,14 @@ File: pics/vysekoD.png Graphic file (type png)
 <use pics/vysekoD.png>
 Package pdftex.def Info: pics/vysekoD.png  used on input line 1493.
 (pdftex.def)             Requested size: 431.61145pt x 184.68954pt.
-
-Overfull \hbox (2.33867pt too wide) in paragraph at lines 1499--1500
-\OT1/cmr/m/n/10.95 lok^^Salnu adapt^^S^^Pvnu pra-ho-vaciu met^^Sodu, aby sme vi
-deli, ^^Tci ti-eto met^^Sody fun-guj^^Su aj pre v^^Tseobecn^^Se
- []
-
 <pics/vysek_kapur.png, id=797, 863.225pt x 369.38pt>
 File: pics/vysek_kapur.png Graphic file (type png)
 <use pics/vysek_kapur.png>
 Package pdftex.def Info: pics/vysek_kapur.png  used on input line 1505.
 (pdftex.def)             Requested size: 431.61145pt x 184.68954pt.
-[31 <./pics/cropT2_hybrid_sb_tf.png (PNG copy)> <./pics/cropT7_hybrid_sb_tf.png
- (PNG copy)> <./pics/cropT27_hybrid_sb_tf.png (PNG copy)> <./pics/cropT45_hybri
-d_sb_tf.png (PNG copy)> <./pics/vysekoD.png (PNG copy)>]
+ [31 <./pics/cropT2_hybrid_sb_tf.png (PNG copy)> <./pics/cropT7_hybrid_sb_tf.pn
+g (PNG copy)> <./pics/cropT27_hybrid_sb_tf.png (PNG copy)> <./pics/cropT45_hybr
+id_sb_tf.png (PNG copy)> <./pics/vysekoD.png (PNG copy)>]
 <pics/vysek_hybrid_nb.png, id=810, 863.225pt x 369.38pt>
 File: pics/vysek_hybrid_nb.png Graphic file (type png)
 <use pics/vysek_hybrid_nb.png>
@@ -1750,28 +1641,16 @@ File: pics/vysek_kapur_res.png Graphic file (type png)
 <use pics/vysek_kapur_res.png>
 Package pdftex.def Info: pics/vysek_kapur_res.png  used on input line 1525.
 (pdftex.def)             Requested size: 431.61145pt x 184.68954pt.
-
-Underfull \hbox (badness 2689) in paragraph at lines 1526--1526
-[]\OT1/cmr/m/n/10 Obr. 43: |V^^Sysledok seg-ment^^Sacie. Pou^^Tzit^^Se pra-ho-v
-anie po-mo-cou maxim^^Salnej en-tropie a
- []
-
-[32 <./pics/vysek_kapur.png (PNG copy)> <./pics/vysek_hybrid_nb.png (PNG copy)>
-]
+ [32 <./pics/vysek_kapur.png (PNG copy)> <./pics/vysek_hybrid_nb.png (PNG copy)
+>]
 <pics/vysek_hybrid_nb_res.png, id=819, 863.225pt x 369.38pt>
 File: pics/vysek_hybrid_nb_res.png Graphic file (type png)
 <use pics/vysek_hybrid_nb_res.png>
 Package pdftex.def Info: pics/vysek_hybrid_nb_res.png  used on input line 1533.
 
 (pdftex.def)             Requested size: 431.61145pt x 184.68954pt.
-
-Underfull \hbox (badness 1472) in paragraph at lines 1534--1534
-[]\OT1/cmr/m/n/10 Obr. 44: |V^^Sysledok seg-ment^^Sacie. Pou^^Tzit^^Sa hy-bridn
-^^Sa Bernsen-ova a Niblack-ova met^^Soda a
- []
-
-[33 <./pics/vysek_kapur_res.png (PNG copy)> <./pics/vysek_hybrid_nb_res.png (PN
-G copy)>] [34]
+ [33 <./pics/vysek_kapur_res.png (PNG copy)> <./pics/vysek_hybrid_nb_res.png (P
+NG copy)>] [34]
 Underfull \hbox (badness 10000) in paragraph at lines 1562--1564
 [][]$\OT1/cmtt/m/n/10.95 https : / / www . researchgate . net / publication / 3
 37755994 _ Macrophage _ image _
@@ -1780,34 +1659,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 1562--1564
 ("C:\Program Files\MiKTeX 2.9\tex/latex/ucs\uni-32.def"
 File: uni-32.def 2013/05/13 UCS: Unicode data U+2000..U+20FF
 )
-Underfull \hbox (badness 10000) in paragraph at lines 1574--1576
-[]\OT1/cmr/m/n/10.95 Anna Ko-rzyn-ska, Lukasz Roszkowiak,Carlos Lopez, Ra-mon B
-osch, Lukasz
+Underfull \hbox (badness 1577) in paragraph at lines 1574--1576
+[]\OT1/cmr/m/n/10.95 Anna Kor-zyn-ska, Lu-kasz Rosz-ko-wiak,Carlos Lo-pez, Ra-m
+on Bosch, Lu-kasz Wit-
  []
 
 
-Underfull \hbox (badness 7814) in paragraph at lines 1574--1576
-\OT1/cmr/m/n/10.95 Witkowski1, Mary-lene Leje-une \OT1/cmr/bx/n/10.95 Val-i-da-
-tion of var-i-ous adap-tive thresh-
+Underfull \hbox (badness 2384) in paragraph at lines 1574--1576
+\OT1/cmr/m/n/10.95 ko-wski1, Ma-ry-lene Le-je-une \OT1/cmr/bx/n/10.95 Va-li-da-
+tion of va-ri-ous adap-tive th-res-hold-met-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1574--1576
-\OT1/cmr/bx/n/10.95 old-meth-ods of seg-men-ta-tion ap-plied to fol-lic-u-lar-l
-ym-phoma dig-i-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1574--1576
-\OT1/cmr/bx/n/10.95 tal im-ages stained with3,3'-Diaminobenzidine$\OT1/cmr/m/n/
-10.95 &$\OT1/cmr/bx/n/10.95 Haematoxylin\OT1/cmr/m/n/10.95 : [][]$\OT1/cmtt/m/n
-/10.95 https :
- []
-
-
-Underfull \hbox (badness 1389) in paragraph at lines 1581--1584
-[]\OT1/cmr/m/n/10.95 J.N.Kapur, P.K.Sahoo, A.K.C.Wong \OT1/cmr/bx/n/10.95 A new
- method for gray-level pic-ture
+Underfull \hbox (badness 2726) in paragraph at lines 1574--1576
+\OT1/cmr/bx/n/10.95 ned with3,3'-Diaminobenzidine$\OT1/cmr/m/n/10.95 &$\OT1/cmr
+/bx/n/10.95 Haematoxylin\OT1/cmr/m/n/10.95 : [][]$\OT1/cmtt/m/n/10.95 https : /
+ / www . ncbi . nlm . nih .
  []
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1586.
@@ -1826,12 +1693,12 @@ LaTeX Warning: There were multiply-defined labels.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1586.
  ) 
 Here is how much of TeX's memory you used:
- 14648 strings out of 494295
- 220761 string characters out of 3173090
- 314777 words of memory out of 3000000
- 18168 multiletter control sequences out of 15000+200000
+ 14468 strings out of 492453
+ 218243 string characters out of 3129819
+ 315603 words of memory out of 3000000
+ 18167 multiletter control sequences out of 15000+200000
  14430 words of font info for 56 fonts, out of 3000000 for 9000
- 24 hyphenation exceptions out of 8191
+ 1141 hyphenation exceptions out of 8191
  48i,18n,49p,1215b,541s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Pr
 ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Fi
@@ -1852,7 +1719,7 @@ msy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy9.pfb>
 <C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Prog
 ram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Program File
 s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on dip_sk.pdf (41 pages, 9293339 bytes).
+Output written on dip_sk.pdf (41 pages, 9293473 bytes).
 PDF statistics:
  974 PDF objects out of 1000 (max. 8388607)
  294 named destinations out of 1000 (max. 500000)

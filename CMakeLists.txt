@@ -23,7 +23,11 @@ find_package(VTK COMPONENTS
   vtkRenderingOpenGL2
   vtkGUISupportQt
   vtkIOLegacy
-  vtkCommonDataModel
+  vtkIOXML
+  vtkIOImage
+  vtkFiltersGeometry
+  vtkImagingSources
+  vtkFiltersModeling
   QUIET
 )
 
